@@ -1,7 +1,7 @@
 FROM debian:buster
 
 ENV GO_VERSION 1.12.12
-ENV YARN_VERSION 1.17.3-1
+ENV YARN_VERSION 1.19.1-1
 
 RUN apt-get update -y && apt-get install --no-install-recommends -y -q \
                          curl \
