@@ -9,8 +9,6 @@
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
 COPY . ./
-RUN make static-dist
+RUN cd ui && yarn run build
+RUN make static-assets
 
-ENTRYPOINT /bin/bash
-
-CMD go build -v -o vault-built
