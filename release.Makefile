@@ -77,6 +77,30 @@ BUILD_STATIC := $(MAKEDIR)/$(BUILD_STATIC_REPO)_$(BUILD_STATIC_TAG)
 # building the static image.
 SOURCE_ARCHIVE := $(MAKEDIR)/source.tar.gz
 
+# Non-source build inputs (override these to produce alternate binaries).
+GOOS ?= $(shell go env GOOS)
+GOARCH ?= $(shell go env GOARCH)
+CC ?=
+CGO_ENABLED ?= 0
+BUILD_VERSION ?= 0.0.0-dev
+GO_BUILD_TAGS ?= vault
+EDITION :=
+
+# Package parematers.
+BINARY_NAME := vault
+PACKAGE_NAME := vault_$(BUILD_VERSION)_$(GOOS)_$(GOARCH)
+OUT_DIR:= dist/$(PACKAGE_NAME)
+PACKAGE := $(OUT_DIR)/$(PACKAGE_NAME).zip
+
+# Calculated build inputs.
+BUILD_ENV := GO111MODULE=off GOOS=$(GOOS) GOARCH=$(GOARCH) CC=$(CC) CGO_ENABLED=$(CGO_ENABLED)
+LDFLAGS := -X github.com/hashicorp/vault/sdk/version.GitCommit='$(COMMIT)'
+BUILD_COMMAND := $(BUILD_ENV) go build -v -tags '$(GO_BUILD_TAGS)' -o /$(OUT_DIR)/$(BINARY_NAME)
+ARCHIVE_COMMAND := zip /$(PACKAGE) /$(OUT_DIR)/$(BINARY_NAME)
+DOCKER_SHELL := /bin/bash -euo pipefail -c
+DOCKER_RUN_FLAGS := --rm -v $(CURDIR)/$(OUT_DIR):/$(OUT_DIR)
+DOCKER_RUN_COMMAND := 'docker run $(DOCKER_RUN_FLAGS) $(BUILD_STATIC_IMAGE) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"'
+
 ## Phonies section (these allow running individual jobs without knowing
 ## the source ID etc).
 
@@ -158,27 +182,6 @@ $(BUILD_STATIC): build/build-static.Dockerfile $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS
 		-t $(BUILD_STATIC_IMAGE) \
 		- < $(SOURCE_ARCHIVE)
 	echo $(BUILD_STATIC_IMAGE) > $@
-
-GOOS ?= $(shell go env GOOS)
-GOARCH ?= $(shell go env GOARCH)
-CC ?=
-CGO_ENABLED ?= 0
-BUILD_VERSION ?= 0.0.0-dev
-GO_BUILD_TAGS ?= vault
-EDITION :=
-
-BINARY_NAME := vault
-PACKAGE_NAME := vault_$(BUILD_VERSION)_$(GOOS)_$(GOARCH)
-OUT_DIR:= dist/$(PACKAGE_NAME)
-PACKAGE := $(OUT_DIR)/$(PACKAGE_NAME).zip
-
-BUILD_ENV := GO111MODULE=off GOOS=$(GOOS) GOARCH=$(GOARCH) CC=$(CC) CGO_ENABLED=$(CGO_ENABLED)
-LDFLAGS := -X github.com/hashicorp/vault/sdk/version.GitCommit='$(COMMIT)'
-BUILD_COMMAND := $(BUILD_ENV) go build -v -tags '$(GO_BUILD_TAGS)' -o /$(OUT_DIR)/$(BINARY_NAME)
-ARCHIVE_COMMAND := zip /$(PACKAGE) /$(OUT_DIR)/$(BINARY_NAME)
-DOCKER_SHELL := /bin/bash -euo pipefail -c
-DOCKER_RUN_FLAGS := --rm -v $(CURDIR)/$(OUT_DIR):/$(OUT_DIR)
-DOCKER_RUN_COMMAND := 'docker run $(DOCKER_RUN_FLAGS) $(BUILD_STATIC_IMAGE) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"'
 
 $(PACKAGE): $(BUILD_STATIC)
 	@echo "==> Building package: $@"
