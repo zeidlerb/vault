@@ -31,12 +31,14 @@ RUN apt-get update -y && apt-get install -y -q nodejs yarn=${YARN_VERSION}
 RUN rm -rf /var/lib/apt/lists/*
 
 
-RUN mkdir /goroot && mkdir /gopath
-RUN curl https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz \
-           | tar xvzf - -C /goroot --strip-components=1
-
 ENV GOPATH /gopath
 ENV GOROOT /goroot
+
+RUN mkdir $GOROOT && mkdir $GOPATH
+
+RUN curl https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz \
+           | tar xvzf - -C $GOROOT --strip-components=1
+
 ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH
 
 RUN go get golang.org/x/tools/cmd/goimports
@@ -46,9 +48,9 @@ RUN go get github.com/hashicorp/go-bindata/go-bindata
 RUN go get github.com/elazarl/go-bindata-assetfs
 RUN go get github.com/elazarl/go-bindata-assetfs/go-bindata-assetfs
 
-RUN mkdir -p /gopath/src/github.com/hashicorp/vault
-WORKDIR /gopath/src/github.com/hashicorp/vault
+ENV REPO=github.com/hashicorp/vault
+ENV DIR=$GOPATH/src/$REPO
 
-ENTRYPOINT /bin/bash
+RUN mkdir -p $DIR
 
-CMD make ember-dist && make static-dist && go build -o ${OUTPUT}
+WORKDIR $DIR

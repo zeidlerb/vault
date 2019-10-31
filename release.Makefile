@@ -41,7 +41,7 @@ $(shell mkdir -p $(MAKEDIR))
 # SOURCE_LIST is a file containing the list of files in SOURCE.
 # We write this to a file as it is too long a list to pass around as CLI args.
 SOURCE_LIST := $(MAKEDIR)/source-list
-$(shell { git ls-files; git ls-files -o --exclude-standard; } > $(SOURCE_LIST))
+$(shell { git ls-files; git ls-files -o --exclude-standard; } | grep -vF release.Makefile > $(SOURCE_LIST))
 # Source includes every file tracked by Git, as well as every new file not in .gitignore.
 SOURCE := $(shell cat $(SOURCE_LIST))
 
@@ -102,7 +102,7 @@ ui-deps: $(BUILD_UI_DEPS)
 static: $(BUILD_STATIC)
 	@cat $<
 
-build: $(PACKAGE)
+package: $(PACKAGE)
 	@cat $<
 
 ui-deps-source-archive: $(UI_DEPS_SOURCE_ARCHIVE)
@@ -111,7 +111,7 @@ ui-deps-source-archive: $(UI_DEPS_SOURCE_ARCHIVE)
 source-archive: $(SOURCE_ARCHIVE)
 	@echo $<
 
-.PHONY: default help base static build source-archive
+.PHONY: default help base static package source-archive ui-deps-source-archive
 
 ## End phonies, targets below are real files.
 #
@@ -153,7 +153,7 @@ $(BUILD_UI_DEPS): $(BUILD_BASE) $(UI_DEPS_SOURCE_ARCHIVE)
 $(BUILD_STATIC): build/build-static.Dockerfile $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
 	@echo "==> Building static builder image (this may take some time)"
 	docker build \
-		--build-arg BASE_IMAGE=$(BUILD_UI_DEPS) \
+		--build-arg BASE_IMAGE=$(BUILD_UI_DEPS_IMAGE) \
 		-f build/build-static.Dockerfile \
 		-t $(BUILD_STATIC_IMAGE) \
 		- < $(SOURCE_ARCHIVE)
@@ -177,12 +177,12 @@ LDFLAGS := -X github.com/hashicorp/vault/sdk/version.GitCommit='$(COMMIT)'
 BUILD_COMMAND := $(BUILD_ENV) go build -v -tags '$(GO_BUILD_TAGS)' -o /$(OUT_DIR)/$(BINARY_NAME)
 ARCHIVE_COMMAND := zip /$(PACKAGE) /$(OUT_DIR)/$(BINARY_NAME)
 DOCKER_SHELL := /bin/bash -euo pipefail -c
-DOCKER_RUN_FLAGS := --rm -v ./$(OUT_DIR):/$(OUT_DIR)
+DOCKER_RUN_FLAGS := --rm -v $(CURDIR)/$(OUT_DIR):/$(OUT_DIR)
 DOCKER_RUN_COMMAND := 'docker run $(DOCKER_RUN_FLAGS) $(BUILD_STATIC_IMAGE) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"'
 
 $(PACKAGE): $(BUILD_STATIC)
 	@echo "==> Building package: $@"
-	@rm -f ./$(OUT_DIR)
+	@rm -rf ./$(OUT_DIR)
 	@mkdir -p ./$(OUT_DIR)
 	$(DOCKER_RUN_COMMAND)
 
