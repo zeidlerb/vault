@@ -1,3 +1,9 @@
+# Base
+#
+# This image contains only third party dependencies and no Vault source code.
+#
+# It should be built with no Docker context.
+#
 FROM debian:buster
 
 ENV GO_VERSION 1.12.12
