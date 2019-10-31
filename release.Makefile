@@ -53,6 +53,7 @@ BUILD_BASE_IMAGE := $(BUILD_BASE_REPO):$(BUILD_BASE_TAG)
 # We use .make not MAKEDIR here, as the base image changes only
 # when the base Dockerfile is updated.
 BUILD_BASE := .make/$(BUILD_BASE_REPO)_$(BUILD_BASE_TAG)
+BUILD_BASE_ARCHIVE := $(BUILD_BASE).tar.gz
 
 # UI_DEPS_SOURCE are the files which dictate the UI dependencies.
 UI_DEPS_SOURCE := ui/yarn.lock ui/package.json build/build-ui-deps.Dockerfile
@@ -67,11 +68,13 @@ BUILD_UI_DEPS_REPO := vault-builder-ui-deps
 BUILD_UI_DEPS_TAG := $(BUILD_UI_DEPS_SUM)
 BUILD_UI_DEPS_IMAGE := $(BUILD_UI_DEPS_REPO):$(BUILD_UI_DEPS_TAG)
 BUILD_UI_DEPS := .make/$(BUILD_UI_DEPS_REPO)_$(BUILD_UI_DEPS_TAG)
+BUILD_UI_DEPS_ARCHIVE := $(BUILD_UI_DEPS).tar.gz
 
 BUILD_STATIC_REPO := vault-builder-static
 BUILD_STATIC_TAG := $(SOURCE_ID)
 BUILD_STATIC_IMAGE := $(BUILD_STATIC_REPO):$(BUILD_STATIC_TAG)
 BUILD_STATIC := $(MAKEDIR)/$(BUILD_STATIC_REPO)_$(BUILD_STATIC_TAG)
+BUILD_STATIC_ARCHIVE := $(BUILD_STATIC).tar.gz
 
 # SOURCE_ARCHIVE is the name of the file we use as Docker context when
 # building the static image.
@@ -86,7 +89,7 @@ BUILD_VERSION ?= 0.0.0-dev
 GO_BUILD_TAGS ?= vault
 EDITION :=
 
-# Package parematers.
+# Package parameters.
 BINARY_NAME := vault
 PACKAGE_NAME := vault_$(BUILD_VERSION)_$(GOOS)_$(GOARCH)
 OUT_DIR:= dist/$(PACKAGE_NAME)
@@ -120,11 +123,29 @@ help:
 base: $(BUILD_BASE)
 	@cat $<
 
+base-archive: $(BUILD_BASE_ARCHIVE)
+	@echo -n "$< " && SIZE=$$(stat -f %z $<) && { \
+		numfmt --to=iec-i --suffix=B --format="%.3f" $$SIZE 2>/dev/null || \
+		echo $$SIZE bytes;\
+	}
+
 ui-deps: $(BUILD_UI_DEPS)
 	@cat $<
 
+ui-deps-archive: $(BUILD_UI_DEPS_ARCHIVE)
+	@echo -n "$< " && SIZE=$$(stat -f %z $<) && { \
+		numfmt --to=iec-i --suffix=B --format="%.3f" $$SIZE 2>/dev/null || \
+		echo $$SIZE bytes;\
+	}
+
 static: $(BUILD_STATIC)
 	@cat $<
+
+static-archive: $(BUILD_STATIC_ARCHIVE)
+	@echo -n "$< " && SIZE=$$(stat -f %z $<) && { \
+		numfmt --to=iec-i --suffix=B --format="%.3f" $$SIZE 2>/dev/null || \
+		echo $$SIZE bytes;\
+	}
 
 package: $(PACKAGE)
 	@cat $<
@@ -144,7 +165,7 @@ source-archive: $(SOURCE_ARCHIVE)
 # Note that we do not use 'git archive' because we want to include uncommitted modifications
 # during development ('git archive' only includes what's committed). Ensuring that we are building
 # from a clean tree in CI will be enforced elsewhere.
-$(SOURCE_ARCHIVE): $(SOURCE_LIST)
+$(SOURCE_ARCHIVE): | $(SOURCE_LIST)
 	tar -czf $@ -T - < $(SOURCE_LIST)
 
 $(UI_DEPS_SOURCE_ARCHIVE): $(UI_DEPS_SOURCE)
@@ -158,8 +179,8 @@ $(BUILD_BASE): build/build-base.Dockerfile
 	docker build -t $(BUILD_BASE_IMAGE) - < $<
 	echo $(BUILD_BASE_IMAGE) > $@
 
-$(SOURCE_LIST): $(SOURCE)
-	echo $(SOURCE) > $@
+$(BUILD_BASE_ARCHIVE): $(BUILD_BASE)
+	docker save -o $@ $(BUILD_BASE_IMAGE)
 
 # BUILD_UI_DEPS is the base image plus all external UI dependencies.
 $(BUILD_UI_DEPS): $(BUILD_BASE) $(UI_DEPS_SOURCE_ARCHIVE)
@@ -171,10 +192,14 @@ $(BUILD_UI_DEPS): $(BUILD_BASE) $(UI_DEPS_SOURCE_ARCHIVE)
 		- < $(UI_DEPS_SOURCE_ARCHIVE)
 	echo $(BUILD_UI_DEPS_IMAGE) > $@
 
+$(BUILD_UI_DEPS_ARCHIVE): $(BUILD_UI_DEPS)
+	docker save -o $@ $(BUILD_UI_DEPS_IMAGE)
+
 # BUILD_STATIC is the base docker image, plus source code, with all static files built.
 # Static files are code and UI assets that do not differ between platforms.
 # We pass SOURCE_ARCHIVE as the context here.
 $(BUILD_STATIC): build/build-static.Dockerfile $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
+	
 	@echo "==> Building static builder image (this may take some time)"
 	docker build \
 		--build-arg BASE_IMAGE=$(BUILD_UI_DEPS_IMAGE) \
@@ -182,6 +207,9 @@ $(BUILD_STATIC): build/build-static.Dockerfile $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS
 		-t $(BUILD_STATIC_IMAGE) \
 		- < $(SOURCE_ARCHIVE)
 	echo $(BUILD_STATIC_IMAGE) > $@
+
+$(BUILD_STATIC_ARCHIVE): $(BUILD_STATIC)
+	docker save -o $@ $(BUILD_STATIC_IMAGE)
 
 $(PACKAGE): $(BUILD_STATIC)
 	@echo "==> Building package: $@"
