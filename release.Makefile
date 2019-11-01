@@ -113,7 +113,7 @@ BUILD_COMMAND := $(BUILD_ENV) go build -v -tags '$(GO_BUILD_TAGS)' -o /$(OUT_DIR
 ARCHIVE_COMMAND := zip /$(PACKAGE) /$(OUT_DIR)/$(BINARY_NAME)
 DOCKER_SHELL := /bin/bash -euo pipefail -c
 DOCKER_RUN_FLAGS := --rm -v $(CURDIR)/$(OUT_DIR):/$(OUT_DIR)
-DOCKER_RUN_COMMAND := 'docker run $(DOCKER_RUN_FLAGS) $(BUILD_STATIC_IMAGE) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"'
+DOCKER_RUN_COMMAND := docker run $(DOCKER_RUN_FLAGS) $(BUILD_STATIC_IMAGE) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"
 
 ## Phonies section (these allow running individual jobs without knowing
 ## the source ID etc).
@@ -159,7 +159,7 @@ static-archive: $(BUILD_STATIC_ARCHIVE)
 	}
 
 package: $(PACKAGE)
-	@cat $<
+	@echo $<
 
 ui-deps-source-archive: $(UI_DEPS_SOURCE_ARCHIVE)
 	@echo $<
