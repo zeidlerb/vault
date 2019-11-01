@@ -4,12 +4,12 @@
 # ============
 # We first build a base image containing external libraries etc. This image is expected
 # to change only when we update the version of Go, or one of the other third party
-# dependencies it installs. See build/build-base.Dockerfile.
+# dependencies it installs. See build/base.Dockerfile.
 #
 # Based on that base image, every release cycle, we build another base image called the
 # static image. This image additionally contains a snapshot of the source code we are
 # building, as well as generated static assets, which do not change per target platform.
-# (This means the full compiled UI.) See build/build-static.Dockerfile.
+# (This means the full compiled UI.) See build/static.Dockerfile.
 # 
 # Using this static base image, we can now build the per-platform binaries.
 #
@@ -32,10 +32,10 @@ COMMIT := $(shell git rev-parse HEAD)
 BASE_BASE_IMAGE := debian:buster
 
 # BASE_SOURCE are the files that dictate the base image.
-BASE_SOURCE := build/build-base.Dockerfile
+BASE_SOURCE := build/base.Dockerfile
 
 # UI_DEPS_SOURCE are the files which dictate the UI dependencies.
-UI_DEPS_SOURCE := ui/yarn.lock ui/package.json build/build-ui-deps.Dockerfile
+UI_DEPS_SOURCE := ui/yarn.lock ui/package.json build/ui-deps.Dockerfile
 
 # SOURCE_ID identifies an exact instance of the contents of all files in SOURCE.
 # To efficiently calculate this, we take the shasum of COMMIT plus the output of 'git diff'.
@@ -66,7 +66,7 @@ BUILD_BASE_ARCHIVE := $(BUILD_BASE).tar.gz
 
 
 # BUILD_UI_DEPS_SUM represents a unique combination of UI_DEPS_SOURCE and the relevant dockerfile.
-BUILD_UI_DEPS_SUM := $(shell sha256sum <(cat $(UI_DEPS_SOURCE) build/build-ui-deps.Dockerfile) | cut -d' ' -f1)
+BUILD_UI_DEPS_SUM := $(shell sha256sum <(cat $(UI_DEPS_SOURCE) build/ui-deps.Dockerfile) | cut -d' ' -f1)
 
 BUILD_UI_DEPS_REPO := vault-builder-ui-deps
 BUILD_UI_DEPS_TAG := $(BUILD_UI_DEPS_SUM)
@@ -206,15 +206,15 @@ endef
 # BUILD_BASE is the base docker image, minus any source code.
 # Note that we invoke docker build by piping in the Dockerfile,
 # in order to avoid having context, which we are explicitly avoiding here.
-$(BUILD_BASE): build/build-base.Dockerfile | $(BASE_SOURCE_ARCHIVE)
-	$(call BUILD_IMAGE,$(BUILD_BASE_IMAGE),$(BASE_BASE_IMAGE),build/build-base.Dockerfile,$(BASE_SOURCE_ARCHIVE))
+$(BUILD_BASE): build/base.Dockerfile | $(BASE_SOURCE_ARCHIVE)
+	$(call BUILD_IMAGE,$(BUILD_BASE_IMAGE),$(BASE_BASE_IMAGE),build/base.Dockerfile,$(BASE_SOURCE_ARCHIVE))
 
 $(BUILD_BASE_ARCHIVE): | $(BUILD_BASE)
 	docker save -o $@ $(BUILD_BASE_IMAGE)
 
 # BUILD_UI_DEPS is the base image plus all external UI dependencies.
 $(BUILD_UI_DEPS): | $(UI_DEPS_SOURCE_ARCHIVE) $(BUILD_BASE)
-	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/build-ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE))
+	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE))
 
 $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
 	docker save -o $@ $(BUILD_UI_DEPS_IMAGE)
@@ -222,8 +222,8 @@ $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
 # BUILD_STATIC is the base docker image, plus source code, with all static files built.
 # Static files are code and UI assets that do not differ between platforms.
 # We pass SOURCE_ARCHIVE as the context here.
-$(BUILD_STATIC): build/build-static.Dockerfile | $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
-	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/build-static.Dockerfile,$(SOURCE_ARCHIVE))
+$(BUILD_STATIC): build/static.Dockerfile | $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
+	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE))
 
 $(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
 	docker save -o $@ $(BUILD_STATIC_IMAGE)
