@@ -43,8 +43,8 @@ COMMIT := $(shell git rev-parse HEAD)
 ### per package.
 
 ## Standard Go env vars.
-GOOS ?= $(shell go env GOOS)
-GOARCH ?= $(shell go env GOARCH)
+GOOS ?= $(shell go env GOOS || echo linux)
+GOARCH ?= $(shell go env GOARCH || echo amd64)
 CC ?= gcc
 CGO_ENABLED ?= 0
 GO111MODULE ?= off
