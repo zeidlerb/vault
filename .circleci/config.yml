@@ -31,6 +31,7 @@ jobs:
     - GOARCH: amd64
     - GOOS: darwin
     steps:
+    - setup_remote_docker
     - checkout
     - run:
         command: |
@@ -196,6 +197,7 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - setup_remote_docker
     - checkout
     - run:
         command: |
@@ -826,6 +828,7 @@ workflows:
 #       GOOS: darwin
 #     executor: releaser
 #     steps:
+#     - setup_remote_docker
 #     - checkout
 #     - build-static-restore
 #     - run: make -f release.Makefile package
@@ -864,6 +867,7 @@ workflows:
 #   make-static-builder:
 #     executor: releaser
 #     steps:
+#     - setup_remote_docker
 #     - checkout
 #     - build-base-restore
 #     - build-ui-deps-restore
