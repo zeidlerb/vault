@@ -4,35 +4,6 @@
 ### ***
 version: 2
 jobs:
-  pre-flight-checks:
-    docker:
-    - image: circleci/buildpack-deps
-    environment:
-    - CCI_VERSION: 0.1.5691
-    shell: /usr/bin/env bash -euo pipefail
-    steps:
-    - checkout
-    - run:
-        command: |
-          export CCI_PATH=/tmp/circleci-cli/$CCI_VERSION
-          mkdir -p $CCI_PATH
-          NAME=circleci-cli_${CCI_VERSION}_${ARCH}
-          URL=$BASE/v${CCI_VERSION}/${NAME}.tar.gz
-          curl -sSL $URL \
-            | tar --overwrite --strip-components=1 -xz -C $CCI_PATH "${NAME}/circleci"
-          # Add circleci to the path for subsequent steps.
-          echo "export PATH=$CCI_PATH:\$PATH" >> $BASH_ENV
-          # Done, print some debug info.
-          set -x
-          . $BASH_ENV
-          which circleci
-          circleci version
-        environment:
-          ARCH: linux_amd64
-          BASE: https://github.com/CircleCI-Public/circleci-cli/releases/download
-        name: Install CircleCI CLI
-    - run:
-        command: make ci-verify
   install-ui-dependencies:
     docker:
     - image: node:10-buster
@@ -52,52 +23,6 @@ jobs:
         key: yarn-lock-v1-{{ checksum "ui/yarn.lock" }}
         paths:
         - ui/node_modules
-  go-mod-download:
-    docker:
-    - image: golang:1.12.12-buster
-    shell: /usr/bin/env bash -euo pipefail -c
-    working_directory: /src
-    steps:
-    - add_ssh_keys:
-        fingerprints:
-        - c6:96:98:82:dc:04:6c:39:dd:ac:83:05:e3:15:1c:98
-    - checkout
-    - restore_cache:
-        key: go-sum-v1-{{ checksum "go.sum" }}
-    - run:
-        command: go mod download
-        name: Download Go modules
-    - run:
-        command: go mod verify
-        name: Verify checksums of Go modules
-    - save_cache:
-        key: go-sum-v1-{{ checksum "go.sum" }}
-        paths:
-        - /go/pkg/mod
-  build-go-dev:
-    docker:
-    - image: golang:1.12.12-buster
-    shell: /usr/bin/env bash -euo pipefail -c
-    working_directory: /src
-    steps:
-    - checkout
-    - restore_cache:
-        key: go-sum-v1-{{ checksum "go.sum" }}
-    - attach_workspace:
-        at: .
-    - run:
-        command: |
-          # Move dev UI assets to expected location
-          rm -rf ./pkg
-          mkdir ./pkg
-
-          # Build dev binary
-          make bootstrap dev
-        name: Build dev binary
-    - persist_to_workspace:
-        paths:
-        - bin
-        root: .
   test-ui:
     docker:
     - image: node:10-buster
@@ -154,6 +79,150 @@ jobs:
           export PATH="${PWD}"/bin:${PATH}
           make test-ui-browserstack
         name: Run Browserstack Tests
+  build-go-dev:
+    docker:
+    - image: golang:1.12.12-buster
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: /src
+    steps:
+    - checkout
+    - restore_cache:
+        key: go-sum-v1-{{ checksum "go.sum" }}
+    - attach_workspace:
+        at: .
+    - run:
+        command: |
+          # Move dev UI assets to expected location
+          rm -rf ./pkg
+          mkdir ./pkg
+
+          # Build dev binary
+          make bootstrap dev
+        name: Build dev binary
+    - persist_to_workspace:
+        paths:
+        - bin
+        root: .
+  test-go-race:
+    machine: true
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: ~/src
+    steps:
+    - checkout
+    - run:
+        command: |
+          sudo mkdir /go
+          sudo chown -R circleci:circleci /go
+        name: Allow circleci user to restore Go modules cache
+    - restore_cache:
+        key: go-sum-v1-{{ checksum "go.sum" }}
+    - run:
+        command: |
+          set -x
+
+          # Install Go
+          curl -sSLO "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
+          sudo rm -rf /usr/local/go
+          sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
+          rm -f "go${GO_VERSION}.linux-amd64.tar.gz"
+          export GOPATH=/go
+          export PATH="${PATH}:${GOPATH}/bin:/usr/local/go/bin"
+
+          # Install CircleCI CLI
+          curl -sSL \
+              "https://github.com/CircleCI-Public/circleci-cli/releases/download/v${CIRCLECI_CLI_VERSION}/circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz \
+              -C /usr/local/bin \
+              "circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64/circleci"
+
+          # Split Go tests by prior test times
+          package_names=$(go list \
+              -tags "${GO_TAGS}" \
+              ./... \
+            | grep -v /integ \
+            | grep -v /vendor/ \
+            | sort \
+            | circleci tests split --split-by=timings --timings-type=classname)
+
+          # Install gotestsum
+          curl -sSL "https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz -C /usr/local/bin gotestsum
+
+          # Run tests
+          make prep
+          mkdir -p test-results/go-test
+          CGO_ENABLED= \
+            VAULT_ADDR= \
+            VAULT_TOKEN= \
+            VAULT_DEV_ROOT_TOKEN_ID= \
+            VAULT_ACC= \
+            gotestsum --format=short-verbose --junitfile test-results/go-test/results.xml -- \
+              -tags "${GO_TAGS}" \
+              -timeout=60m \
+              -parallel=20 \
+              -race \
+              ${package_names}
+        name: Run Go tests
+        no_output_timeout: 20m
+    - store_artifacts:
+        path: test-results
+    - store_test_results:
+        path: test-results
+    environment:
+    - CIRCLECI_CLI_VERSION: 0.1.5546
+    - GO_TAGS: null
+    - GO_VERSION: 1.12.12
+    - GOTESTSUM_VERSION: 0.3.3
+  make-static-builder:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    steps:
+    - run:
+        command: make base-archive-name > /tmp/base-cache-key
+        name: Generate base image cache key.
+    - restore_cache:
+        key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+    - run:
+        command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+        name: Generate ui-deps image cache key.
+    - restore_cache:
+        key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+    - run:
+        command: make static-archive-name > /tmp/static-cache-key
+        name: Generate static image cache key.
+    - restore_cache:
+        key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+    - run:
+        command: make -f release.Makefile base-archive
+    - run:
+        command: make -f release.Makefile ui-deps-archive
+    - run:
+        command: make -f release.Makefile static-archive
+    - run:
+        command: make base-archive-name > /tmp/base-cache-key
+        name: Generate base image cache key.
+    - save_cache:
+        key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+        paths:
+        - /build-cache/base
+    - run:
+        command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+        name: Generate ui-deps image cache key.
+    - save_cache:
+        key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+        paths:
+        - /build-cache/ui-deps
+    - run:
+        command: make static-archive-name > /tmp/static-cache-key
+        name: Generate static image cache key.
+    - save_cache:
+        key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+        paths:
+        - /build-cache/static
+    environment:
+    - BUILD_CACHE_DIR: /build-cache
+    - PACKAGE_OUT_ROOT: /dist
   test-go:
     machine: true
     shell: /usr/bin/env bash -euo pipefail -c
@@ -225,77 +294,61 @@ jobs:
     - GO_TAGS: null
     - GO_VERSION: 1.12.12
     - GOTESTSUM_VERSION: 0.3.3
-  test-go-race:
-    machine: true
-    shell: /usr/bin/env bash -euo pipefail -c
-    working_directory: ~/src
+  pre-flight-checks:
+    docker:
+    - image: circleci/buildpack-deps
+    environment:
+    - CCI_VERSION: 0.1.5691
+    shell: /usr/bin/env bash -euo pipefail
     steps:
     - checkout
     - run:
         command: |
-          sudo mkdir /go
-          sudo chown -R circleci:circleci /go
-        name: Allow circleci user to restore Go modules cache
+          export CCI_PATH=/tmp/circleci-cli/$CCI_VERSION
+          mkdir -p $CCI_PATH
+          NAME=circleci-cli_${CCI_VERSION}_${ARCH}
+          URL=$BASE/v${CCI_VERSION}/${NAME}.tar.gz
+          curl -sSL $URL \
+            | tar --overwrite --strip-components=1 -xz -C $CCI_PATH "${NAME}/circleci"
+          # Add circleci to the path for subsequent steps.
+          echo "export PATH=$CCI_PATH:\$PATH" >> $BASH_ENV
+          # Done, print some debug info.
+          set -x
+          . $BASH_ENV
+          which circleci
+          circleci version
+        environment:
+          ARCH: linux_amd64
+          BASE: https://github.com/CircleCI-Public/circleci-cli/releases/download
+        name: Install CircleCI CLI
+    - run:
+        command: make ci-verify
+  go-mod-download:
+    docker:
+    - image: golang:1.12.12-buster
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: /src
+    steps:
+    - add_ssh_keys:
+        fingerprints:
+        - c6:96:98:82:dc:04:6c:39:dd:ac:83:05:e3:15:1c:98
+    - checkout
     - restore_cache:
         key: go-sum-v1-{{ checksum "go.sum" }}
     - run:
-        command: |
-          set -x
-
-          # Install Go
-          curl -sSLO "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
-          sudo rm -rf /usr/local/go
-          sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
-          rm -f "go${GO_VERSION}.linux-amd64.tar.gz"
-          export GOPATH=/go
-          export PATH="${PATH}:${GOPATH}/bin:/usr/local/go/bin"
-
-          # Install CircleCI CLI
-          curl -sSL \
-              "https://github.com/CircleCI-Public/circleci-cli/releases/download/v${CIRCLECI_CLI_VERSION}/circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64.tar.gz" \
-            | sudo tar --overwrite -xz \
-              -C /usr/local/bin \
-              "circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64/circleci"
-
-          # Split Go tests by prior test times
-          package_names=$(go list \
-              -tags "${GO_TAGS}" \
-              ./... \
-            | grep -v /integ \
-            | grep -v /vendor/ \
-            | sort \
-            | circleci tests split --split-by=timings --timings-type=classname)
-
-          # Install gotestsum
-          curl -sSL "https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz" \
-            | sudo tar --overwrite -xz -C /usr/local/bin gotestsum
-
-          # Run tests
-          make prep
-          mkdir -p test-results/go-test
-          CGO_ENABLED= \
-            VAULT_ADDR= \
-            VAULT_TOKEN= \
-            VAULT_DEV_ROOT_TOKEN_ID= \
-            VAULT_ACC= \
-            gotestsum --format=short-verbose --junitfile test-results/go-test/results.xml -- \
-              -tags "${GO_TAGS}" \
-              -timeout=60m \
-              -parallel=20 \
-              -race \
-              ${package_names}
-        name: Run Go tests
-        no_output_timeout: 20m
-    - store_artifacts:
-        path: test-results
-    - store_test_results:
-        path: test-results
-    environment:
-    - CIRCLECI_CLI_VERSION: 0.1.5546
-    - GO_TAGS: null
-    - GO_VERSION: 1.12.12
-    - GOTESTSUM_VERSION: 0.3.3
+        command: go mod download
+        name: Download Go modules
+    - run:
+        command: go mod verify
+        name: Verify checksums of Go modules
+    - save_cache:
+        key: go-sum-v1-{{ checksum "go.sum" }}
+        paths:
+        - /go/pkg/mod
 workflows:
+  build-release:
+    jobs:
+    - make-static-builder
   ci:
     jobs:
     - pre-flight-checks
@@ -329,6 +382,42 @@ workflows:
 
 # Original config.yml file:
 # commands:
+#   build-base-restore:
+#     steps:
+#     - write-base-cache-key
+#     - restore_cache:
+#         key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+#   build-base-save:
+#     steps:
+#     - write-base-cache-key
+#     - save_cache:
+#         key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+#         paths:
+#         - /build-cache/base
+#   build-static-restore:
+#     steps:
+#     - write-static-cache-key
+#     - restore_cache:
+#         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+#   build-static-save:
+#     steps:
+#     - write-static-cache-key
+#     - save_cache:
+#         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+#         paths:
+#         - /build-cache/static
+#   build-ui-deps-restore:
+#     steps:
+#     - write-ui-deps-cache-key
+#     - restore_cache:
+#         key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+#   build-ui-deps-save:
+#     steps:
+#     - write-ui-deps-cache-key
+#     - save_cache:
+#         key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+#         paths:
+#         - /build-cache/ui-deps
 #   go_test:
 #     description: run go tests
 #     parameters:
@@ -404,6 +493,21 @@ workflows:
 #         key: yarn-lock-v1-{{ checksum \"ui/yarn.lock\" }}
 #         paths:
 #         - ui/node_modules
+#   write-base-cache-key:
+#     steps:
+#     - run:
+#         command: make base-archive-name > /tmp/base-cache-key
+#         name: Generate base image cache key.
+#   write-static-cache-key:
+#     steps:
+#     - run:
+#         command: make static-archive-name > /tmp/static-cache-key
+#         name: Generate static image cache key.
+#   write-ui-deps-cache-key:
+#     steps:
+#     - run:
+#         command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+#         name: Generate ui-deps image cache key.
 # executors:
 #   go:
 #     docker:
@@ -424,7 +528,22 @@ workflows:
 #     - image: node:10-buster
 #     shell: /usr/bin/env bash -euo pipefail -c
 #     working_directory: /src
+#   releaser:
+#     docker:
+#     - image: circleci/buildpack-deps
+#     environment:
+#       BUILD_CACHE_DIR: /build-cache
+#       PACKAGE_OUT_ROOT: /dist
+#     shell: /usr/bin/env bash -euo pipefail -c
 # jobs:
+#   build-darwin-amd64:
+#     environment:
+#       GOARCH: amd64
+#       GOOS: darwin
+#     executor: releaser
+#     steps:
+#     - build-static-restore
+#     - run: make -f release.Makefile package
 #   build-go-dev:
 #     executor: go
 #     steps:
@@ -472,6 +591,18 @@ workflows:
 #           npm rebuild node-sass
 #         name: Install UI dependencies
 #     - save_yarn_cache
+#   make-static-builder:
+#     executor: releaser
+#     steps:
+#     - build-base-restore
+#     - build-ui-deps-restore
+#     - build-static-restore
+#     - run: make -f release.Makefile base-archive
+#     - run: make -f release.Makefile ui-deps-archive
+#     - run: make -f release.Makefile static-archive
+#     - build-base-save
+#     - build-ui-deps-save
+#     - build-static-save
 #   pre-flight-checks:
 #     description: Ensures nothing obvious is broken for faster failures.
 #     docker:
@@ -590,6 +721,9 @@ workflows:
 #     node: node:10-buster
 # version: 2.1
 # workflows:
+#   build-release:
+#     jobs:
+#     - make-static-builder
 #   ci:
 #     jobs:
 #     - pre-flight-checks

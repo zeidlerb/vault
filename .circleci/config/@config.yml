@@ -34,6 +34,13 @@ commands:
             - /go/pkg/mod
 
 executors:
+  releaser:
+    docker:
+      - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+      BUILD_CACHE_DIR: /build-cache
+      PACKAGE_OUT_ROOT: /dist
   go:
     docker:
       - image: *GOLANG_IMAGE
