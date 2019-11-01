@@ -198,10 +198,7 @@ base-archive-name:
 	@echo $(BUILD_BASE_ARCHIVE)
 
 base-archive: $(BUILD_BASE_ARCHIVE)
-	@echo -n "$< " && SIZE=$$(stat -f %z $<) && { \
-		numfmt --to=iec-i --suffix=B --format="%.3f" $$SIZE 2>/dev/null || \
-		echo $$SIZE bytes;\
-	}
+	@echo $<
 
 ui-deps: $(BUILD_UI_DEPS)
 	@cat $<
@@ -210,10 +207,7 @@ ui-deps-archive-name:
 	@echo $(UI_DEPS_ARCHIVE)
 
 ui-deps-archive: $(BUILD_UI_DEPS_ARCHIVE)
-	@echo -n "$< " && SIZE=$$(stat -f %z $<) && { \
-		numfmt --to=iec-i --suffix=B --format="%.3f" $$SIZE 2>/dev/null || \
-		echo $$SIZE bytes;\
-	}
+	@echo $<
 
 static: $(BUILD_STATIC)
 	@cat $<
@@ -222,10 +216,7 @@ static-archive-name:
 	@echo $(STATIC_ARCHIVE)
 
 static-archive: $(BUILD_STATIC_ARCHIVE)
-	@echo -n "$< " && SIZE=$$(stat -f %z $<) && { \
-		numfmt --to=iec-i --suffix=B --format="%.3f" $$SIZE 2>/dev/null || \
-		echo $$SIZE bytes;\
-	}
+	@echo $<
 
 package: $(PACKAGE)
 	@echo $<
