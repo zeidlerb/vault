@@ -3,8 +3,9 @@
 # This image contains only third party dependencies and no Vault source code.
 #
 # It should be built with no Docker context.
-#
-FROM debian:buster
+
+ARG BASE_IMAGE
+FROM $BASE_IMAGE
 
 ENV GO_VERSION 1.12.12
 ENV YARN_VERSION 1.19.1-1

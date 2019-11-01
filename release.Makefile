@@ -28,9 +28,18 @@ SHELL := /usr/bin/env bash -euo pipefail -c
 # COMMIT is the Git commit SHA
 COMMIT := $(shell git rev-parse HEAD)
 
+# BASE_BASE_IMAGE is the underlying image on which everything else is built.
+BASE_BASE_IMAGE := debian:buster
+
+# BASE_SOURCE are the files that dictate the base image.
+BASE_SOURCE := build/build-base.Dockerfile
+
+# UI_DEPS_SOURCE are the files which dictate the UI dependencies.
+UI_DEPS_SOURCE := ui/yarn.lock ui/package.json build/build-ui-deps.Dockerfile
+
 # SOURCE_ID identifies an exact instance of the contents of all files in SOURCE.
 # To efficiently calculate this, we take the shasum of COMMIT plus the output of 'git diff'.
-SOURCE_ID := $(shell { echo $(COMMIT); git diff; } | sha256sum | cut -d' ' -f1)
+SOURCE_ID := $(shell { echo $(COMMIT); git diff -- . ':(exclude)release.Makefile'; } | sha256sum | cut -d' ' -f1)
 
 MAKEDIR := .make/$(SOURCE_ID)
 
@@ -46,7 +55,7 @@ $(shell { git ls-files; git ls-files -o --exclude-standard; } | grep -vF release
 SOURCE := $(shell cat $(SOURCE_LIST))
 
 # BUILD_BASE_SUM is the ID of the build base dockerfile.
-BUILD_BASE_SUM := $(shell sha256sum < build/build-base.Dockerfile | cut -d' ' -f1)
+BUILD_BASE_SUM := $(shell { cat $(BASE_SOURCE); echo $(BASE_BASE_IMAGE); } | sha256sum | cut -d' ' -f1)
 BUILD_BASE_REPO := vault-builder
 BUILD_BASE_TAG := $(BUILD_BASE_SUM)
 BUILD_BASE_IMAGE := $(BUILD_BASE_REPO):$(BUILD_BASE_TAG)
@@ -55,14 +64,9 @@ BUILD_BASE_IMAGE := $(BUILD_BASE_REPO):$(BUILD_BASE_TAG)
 BUILD_BASE := .make/$(BUILD_BASE_REPO)_$(BUILD_BASE_TAG)
 BUILD_BASE_ARCHIVE := $(BUILD_BASE).tar.gz
 
-# UI_DEPS_SOURCE are the files which dictate the UI dependencies.
-UI_DEPS_SOURCE := ui/yarn.lock ui/package.json build/build-ui-deps.Dockerfile
 
 # BUILD_UI_DEPS_SUM represents a unique combination of UI_DEPS_SOURCE and the relevant dockerfile.
 BUILD_UI_DEPS_SUM := $(shell sha256sum <(cat $(UI_DEPS_SOURCE) build/build-ui-deps.Dockerfile) | cut -d' ' -f1)
-
-# UI_DEPS_SOURCE_ARCHIVE is the archive containing files that dictate the UI dependencies.
-UI_DEPS_SOURCE_ARCHIVE := .make/ui-deps-source_$(BUILD_UI_DEPS_SUM).tar.gz
 
 BUILD_UI_DEPS_REPO := vault-builder-ui-deps
 BUILD_UI_DEPS_TAG := $(BUILD_UI_DEPS_SUM)
@@ -74,11 +78,18 @@ BUILD_STATIC_REPO := vault-builder-static
 BUILD_STATIC_TAG := $(SOURCE_ID)
 BUILD_STATIC_IMAGE := $(BUILD_STATIC_REPO):$(BUILD_STATIC_TAG)
 BUILD_STATIC := $(MAKEDIR)/$(BUILD_STATIC_REPO)_$(BUILD_STATIC_TAG)
-BUILD_STATIC_ARCHIVE := $(BUILD_STATIC).tar.gz
+BUILD_STATIC_ARCHIVE := $(BUILD_STATIC)\.tar\.gz
 
 # SOURCE_ARCHIVE is the name of the file we use as Docker context when
 # building the static image.
 SOURCE_ARCHIVE := $(MAKEDIR)/source.tar.gz
+
+# UI_DEPS_SOURCE_ARCHIVE is the archive containing files that dictate the UI dependencies.
+UI_DEPS_SOURCE_ARCHIVE := .make/ui-deps-source_$(BUILD_UI_DEPS_SUM).tar.gz
+
+# BASE_SOURCE_ARCHIVE is the archive containing files needed to build the base image.
+BASE_SOURCE_ARCHIVE := .make/base-source_$(BUILD_BASE_SUM)
+
 
 # Non-source build inputs (override these to produce alternate binaries).
 GOOS ?= $(shell go env GOOS)
@@ -165,53 +176,59 @@ source-archive: $(SOURCE_ARCHIVE)
 # Note that we do not use 'git archive' because we want to include uncommitted modifications
 # during development ('git archive' only includes what's committed). Ensuring that we are building
 # from a clean tree in CI will be enforced elsewhere.
-$(SOURCE_ARCHIVE): | $(SOURCE_LIST)
-	tar -czf $@ -T - < $(SOURCE_LIST)
+$(SOURCE_ARCHIVE): | $(SOURCE_LIST) # order-only dep since we always regenerate SOURCE_LIST
+	@echo "==> Refreshing source archive."
+	@tar czf $@ -T - < $(SOURCE_LIST)
 
+# UI_DEPS_SOURCE_ARCHIVE contains only the files that dictate UI dependencies.
 $(UI_DEPS_SOURCE_ARCHIVE): $(UI_DEPS_SOURCE)
-	tar -czf $@ $(UI_DEPS_SOURCE)
+	@echo "==> Refreshing ui deps source archive."
+	@tar czf $@ $(UI_DEPS_SOURCE)
+
+$(BASE_SOURCE_ARCHIVE): $(BASE_SOURCE)
+	@echo "==> Refreshing base source archive."
+	@tar czf $@ $<
+
+# 	1: Image name
+# 	2: Base image name
+# 	3: Dockerfile path
+# 	4: Source archive path (for context).
+define BUILD_IMAGE
+	@echo '==> Building image (this may take some time): $(1)'
+	@docker build \
+		--build-arg BASE_IMAGE=$(2) \
+		-f $(3) \
+		-t $(1) \
+		- < $(4)
+	@echo $(1) > $@
+endef
 
 # BUILD_BASE is the base docker image, minus any source code.
 # Note that we invoke docker build by piping in the Dockerfile,
 # in order to avoid having context, which we are explicitly avoiding here.
-$(BUILD_BASE): build/build-base.Dockerfile
-	@echo "==> Building base image (this may take some time)"
-	docker build -t $(BUILD_BASE_IMAGE) - < $<
-	echo $(BUILD_BASE_IMAGE) > $@
+$(BUILD_BASE): build/build-base.Dockerfile | $(BASE_SOURCE_ARCHIVE)
+	$(call BUILD_IMAGE,$(BUILD_BASE_IMAGE),$(BASE_BASE_IMAGE),build/build-base.Dockerfile,$(BASE_SOURCE_ARCHIVE))
 
-$(BUILD_BASE_ARCHIVE): $(BUILD_BASE)
+$(BUILD_BASE_ARCHIVE): | $(BUILD_BASE)
 	docker save -o $@ $(BUILD_BASE_IMAGE)
 
 # BUILD_UI_DEPS is the base image plus all external UI dependencies.
-$(BUILD_UI_DEPS): $(BUILD_BASE) $(UI_DEPS_SOURCE_ARCHIVE)
-	@echo "==> Downloading all UI dependencies"
-	docker build \
-		--build-arg BASE_IMAGE=$(BUILD_BASE_IMAGE) \
-		-f build/build-ui-deps.Dockerfile \
-		-t $(BUILD_UI_DEPS_IMAGE) \
-		- < $(UI_DEPS_SOURCE_ARCHIVE)
-	echo $(BUILD_UI_DEPS_IMAGE) > $@
+$(BUILD_UI_DEPS): | $(UI_DEPS_SOURCE_ARCHIVE) $(BUILD_BASE)
+	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/build-ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE))
 
-$(BUILD_UI_DEPS_ARCHIVE): $(BUILD_UI_DEPS)
+$(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
 	docker save -o $@ $(BUILD_UI_DEPS_IMAGE)
 
 # BUILD_STATIC is the base docker image, plus source code, with all static files built.
 # Static files are code and UI assets that do not differ between platforms.
 # We pass SOURCE_ARCHIVE as the context here.
-$(BUILD_STATIC): build/build-static.Dockerfile $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
-	
-	@echo "==> Building static builder image (this may take some time)"
-	docker build \
-		--build-arg BASE_IMAGE=$(BUILD_UI_DEPS_IMAGE) \
-		-f build/build-static.Dockerfile \
-		-t $(BUILD_STATIC_IMAGE) \
-		- < $(SOURCE_ARCHIVE)
-	echo $(BUILD_STATIC_IMAGE) > $@
+$(BUILD_STATIC): build/build-static.Dockerfile | $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
+	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/build-static.Dockerfile,$(SOURCE_ARCHIVE))
 
-$(BUILD_STATIC_ARCHIVE): $(BUILD_STATIC)
+$(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
 	docker save -o $@ $(BUILD_STATIC_IMAGE)
 
-$(PACKAGE): $(BUILD_STATIC)
+$(PACKAGE): | $(BUILD_STATIC)
 	@echo "==> Building package: $@"
 	@rm -rf ./$(OUT_DIR)
 	@mkdir -p ./$(OUT_DIR)
