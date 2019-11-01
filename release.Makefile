@@ -161,7 +161,7 @@ BUILD_STATIC_REPO := vault-builder-static
 BUILD_STATIC_TAG := $(SOURCE_ID)
 BUILD_STATIC_IMAGE := $(BUILD_STATIC_REPO):$(BUILD_STATIC_TAG)
 BUILD_STATIC := $(STATIC_CACHE_DIR)/$(BUILD_STATIC_REPO)_$(BUILD_STATIC_TAG)
-BUILD_STATIC_ARCHIVE := $(BUILD_STATIC)\.tar\.gz
+BUILD_STATIC_ARCHIVE := $(BUILD_STATIC).tar.gz
 
 # SOURCE_ARCHIVE is the name of the file we use as Docker context when
 # building the static image.
@@ -200,6 +200,10 @@ base-archive-name:
 base-archive: $(BUILD_BASE_ARCHIVE)
 	@echo $<
 
+base-restore:
+	@echo "==> Restoring image from archive: $(BUILD_BASE_IMAGE)"
+	@docker load -i $(BUILD_BASE_ARCHIVE)
+
 ui-deps: $(BUILD_UI_DEPS)
 	@cat $<
 
@@ -209,6 +213,10 @@ ui-deps-archive-name:
 ui-deps-archive: $(BUILD_UI_DEPS_ARCHIVE)
 	@echo $<
 
+ui-deps-restore:
+	@echo "==> Restoring image from archive: $(BUILD_UI_DEPS_IMAGE)"
+	@docker load -i $(BUILD_UI_DEPS_ARCHIVE)
+
 static: $(BUILD_STATIC)
 	@cat $<
 
@@ -217,6 +225,10 @@ static-archive-name:
 
 static-archive: $(BUILD_STATIC_ARCHIVE)
 	@echo $<
+
+static-restore:
+	@echo "==> Restoring image from archive: $(BUILD_STATIC_IMAGE)"
+	@docker load -i $(BUILD_STATIC_ARCHIVE)
 
 package: $(PACKAGE)
 	@echo $<
@@ -266,27 +278,37 @@ $(BASE_SOURCE_ARCHIVE): $(BASE_SOURCE)
 	@echo "==> Refreshing base source archive."
 	@tar czf $@ $<
 
-# BUILD_IMAGE builds a builder base image.
+# BUILD_IMAGE builds a builder base image if necessary.
+# First it checks if the image already exists, of if there is an archived
+# image available to load. If not, it performs the build itself.
 # Parameters:
 # 	1: Image name
 # 	2: Base image name
 # 	3: Dockerfile path
-# 	4: Source archive path (for context).
+# 	4: Source archive path (for context)
+# 	5: Image archive path (to restore image from)
 define BUILD_IMAGE
-	@echo '==> Building image (this may take some time): $(1)'
-	@docker build \
-		--build-arg BASE_IMAGE=$(2) \
-		-f $(3) \
-		-t $(1) \
-		- < $(4)
-	@echo $(1) > $@
+	@if docker inspect $(1) > /dev/null 2>&1; then \
+		echo "==> Image already exists, setting marker file: $(1)"; \
+	elif [ -f $(5) ]; then \
+		echo "==> Restoring image from archive: $(1)"; \
+		docker load -i $(5); \
+	else \
+		echo "==> Building image (this may take some time): $(1)"; \
+		docker build --build-arg BASE_IMAGE=$(2) -f $(3) -t $(1) - < $(4); \
+	fi; \
+	echo $(1) > $@ # Write the image name to the marker file.
 endef
 
+# Clean up any docker image marker files whose image is no longer present.
+# This is important for reliability.
+$(shell if [ -f $(BUILD_BASE) ] && ! docker inspect $$(cat $(BUILD_BASE)) > /dev/null 2>&1; then rm $(BUILD_BASE); fi)
+$(shell if [ -f $(BUILD_UI_DEPS) ] && ! docker inspect $$(cat $(BUILD_UI_DEPS)) > /dev/null 2>&1; then rm $(BUILD_UI_DEPS); fi)
+$(shell if [ -f $(BUILD_STATIC) ] && ! docker inspect $$(cat $(BUILD_STATIC)) > /dev/null 2>&1; then rm $(BUILD_STATIC); fi)
+
 # BUILD_BASE is the base docker image, minus any source code.
-# Note that we invoke docker build by piping in the Dockerfile,
-# in order to avoid having context, which we are explicitly avoiding here.
 $(BUILD_BASE): build/base.Dockerfile | $(BASE_SOURCE_ARCHIVE)
-	$(call BUILD_IMAGE,$(BUILD_BASE_IMAGE),$(BASE_BASE_IMAGE),build/base.Dockerfile,$(BASE_SOURCE_ARCHIVE))
+	$(call BUILD_IMAGE,$(BUILD_BASE_IMAGE),$(BASE_BASE_IMAGE),build/base.Dockerfile,$(BASE_SOURCE_ARCHIVE),$(BUILD_BASE_ARCHIVE))
 
 $(BUILD_BASE_ARCHIVE): | $(BUILD_BASE)
 	@mkdir -p $$(dirname $@)
@@ -294,7 +316,7 @@ $(BUILD_BASE_ARCHIVE): | $(BUILD_BASE)
 
 # BUILD_UI_DEPS is the base image plus all external UI dependencies.
 $(BUILD_UI_DEPS): | $(UI_DEPS_SOURCE_ARCHIVE) $(BUILD_BASE)
-	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE))
+	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE),$(BUILD_UI_DEPS_ARCHIVE))
 
 $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
 	@mkdir -p $$(dirname $@)
@@ -304,7 +326,7 @@ $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
 # Static files are code and UI assets that do not differ between platforms.
 # We pass SOURCE_ARCHIVE as the context here.
 $(BUILD_STATIC): build/static.Dockerfile | $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
-	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE))
+	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE),$(BUILD_STATIC_ARCHIVE))
 
 $(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
 	@mkdir -p $$(dirname $@)
