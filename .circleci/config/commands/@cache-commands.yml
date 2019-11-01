@@ -10,6 +10,7 @@ build-base-restore:
     - write-base-cache-key
     - restore_cache:
         key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run: make -f release.Makefile base-restore
 build-base-save:
   steps:
     - write-base-cache-key
@@ -29,6 +30,7 @@ build-ui-deps-restore:
     - write-ui-deps-cache-key
     - restore_cache:
         key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+    - run: make -f release.Makefile ui-deps-restore
 build-ui-deps-save:
   steps:
     - write-ui-deps-cache-key
@@ -48,6 +50,7 @@ build-static-restore:
     - write-static-cache-key
     - restore_cache:
         key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - run: make -f release.Makefile static-restore
 build-static-save:
   steps:
     - write-static-cache-key
