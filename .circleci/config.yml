@@ -28,8 +28,6 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_CACHE_DIR: /build-cache
-    - PACKAGE_OUT_ROOT: /dist
     - GOARCH: amd64
     - GOOS: darwin
     steps:
@@ -239,9 +237,6 @@ jobs:
         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
         paths:
         - /build-cache/static
-    environment:
-    - BUILD_CACHE_DIR: /build-cache
-    - PACKAGE_OUT_ROOT: /dist
   test-go:
     machine: true
     shell: /usr/bin/env bash -euo pipefail -c
@@ -553,9 +548,6 @@ workflows:
 #   releaser:
 #     docker:
 #     - image: circleci/buildpack-deps
-#     environment:
-#       BUILD_CACHE_DIR: /build-cache
-#       PACKAGE_OUT_ROOT: /dist
 #     shell: /usr/bin/env bash -euo pipefail -c
 # jobs:
 #   build-darwin-amd64:
