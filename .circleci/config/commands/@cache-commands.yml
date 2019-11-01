@@ -2,7 +2,8 @@ write-base-cache-key:
   steps:
     - run:
         name: Generate base image cache key.
-        command:
+        command: |
+          mkdir -p .buildcache
           make -f release.Makefile base-archive-name > .buildcache/base-cache-key
 build-base-restore:
   steps:
@@ -15,12 +16,13 @@ build-base-save:
     - save_cache:
         key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
         paths:
-          - /build-cache/base
+          - .buildcache/base
 write-ui-deps-cache-key:
   steps:
     - run:
         name: Generate ui-deps image cache key.
-        command:
+        command: |
+          mkdir -p .buildcache
           make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
 build-ui-deps-restore:
   steps:
@@ -33,12 +35,13 @@ build-ui-deps-save:
     - save_cache:
         key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
         paths:
-          - /build-cache/ui-deps
+          - .buildcache/ui-deps
 write-static-cache-key:
   steps:
     - run:
         name: Generate static image cache key.
-        command:
+        command: |
+          mkdir -p .buildcache
           make -f release.Makefile static-archive-name > .buildcache/static-cache-key
 build-static-restore:
   steps:
@@ -51,4 +54,4 @@ build-static-save:
     - save_cache:
         key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
         paths:
-          - /build-cache/static
+          - .buildcache/static

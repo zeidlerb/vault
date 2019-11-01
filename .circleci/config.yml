@@ -33,7 +33,9 @@ jobs:
     steps:
     - checkout
     - run:
-        command: make -f release.Makefile static-archive-name > .buildcache/static-cache-key
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile static-archive-name > .buildcache/static-cache-key
         name: Generate static image cache key.
     - restore_cache:
         key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
@@ -196,17 +198,23 @@ jobs:
     steps:
     - checkout
     - run:
-        command: make -f release.Makefile base-archive-name > .buildcache/base-cache-key
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile base-archive-name > .buildcache/base-cache-key
         name: Generate base image cache key.
     - restore_cache:
         key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
     - run:
-        command: make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
         name: Generate ui-deps image cache key.
     - restore_cache:
         key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
     - run:
-        command: make -f release.Makefile static-archive-name > .buildcache/static-cache-key
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile static-archive-name > .buildcache/static-cache-key
         name: Generate static image cache key.
     - restore_cache:
         key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
@@ -217,26 +225,32 @@ jobs:
     - run:
         command: make -f release.Makefile static-archive
     - run:
-        command: make -f release.Makefile base-archive-name > .buildcache/base-cache-key
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile base-archive-name > .buildcache/base-cache-key
         name: Generate base image cache key.
     - save_cache:
         key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
         paths:
-        - /build-cache/base
+        - .buildcache/base
     - run:
-        command: make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
         name: Generate ui-deps image cache key.
     - save_cache:
         key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
         paths:
-        - /build-cache/ui-deps
+        - .buildcache/ui-deps
     - run:
-        command: make -f release.Makefile static-archive-name > .buildcache/static-cache-key
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile static-archive-name > .buildcache/static-cache-key
         name: Generate static image cache key.
     - save_cache:
         key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
         paths:
-        - /build-cache/static
+        - .buildcache/static
   test-go:
     machine: true
     shell: /usr/bin/env bash -euo pipefail -c
@@ -651,7 +665,7 @@ workflows:
 #     - save_cache:
 #         key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
 #         paths:
-#         - /build-cache/base
+#         - .buildcache/base
 #   build-static-restore:
 #     steps:
 #     - write-static-cache-key
@@ -663,7 +677,7 @@ workflows:
 #     - save_cache:
 #         key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
 #         paths:
-#         - /build-cache/static
+#         - .buildcache/static
 #   build-ui-deps-restore:
 #     steps:
 #     - write-ui-deps-cache-key
@@ -675,7 +689,7 @@ workflows:
 #     - save_cache:
 #         key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
 #         paths:
-#         - /build-cache/ui-deps
+#         - .buildcache/ui-deps
 #   go_test:
 #     description: run go tests
 #     parameters:
@@ -757,17 +771,23 @@ workflows:
 #   write-base-cache-key:
 #     steps:
 #     - run:
-#         command: make -f release.Makefile base-archive-name > .buildcache/base-cache-key
+#         command: |
+#           mkdir -p .buildcache
+#           make -f release.Makefile base-archive-name > .buildcache/base-cache-key
 #         name: Generate base image cache key.
 #   write-static-cache-key:
 #     steps:
 #     - run:
-#         command: make -f release.Makefile static-archive-name > .buildcache/static-cache-key
+#         command: |
+#           mkdir -p .buildcache
+#           make -f release.Makefile static-archive-name > .buildcache/static-cache-key
 #         name: Generate static image cache key.
 #   write-ui-deps-cache-key:
 #     steps:
 #     - run:
-#         command: make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
+#         command: |
+#           mkdir -p .buildcache
+#           make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
 #         name: Generate ui-deps image cache key.
 # executors:
 #   alpine:
