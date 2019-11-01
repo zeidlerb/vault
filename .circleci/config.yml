@@ -10,17 +10,17 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
     - run:
-        command: make base-archive-name > /tmp/base-cache-key
+        command: make -f release.Makefile base-archive-name > /tmp/base-cache-key
         name: Generate base image cache key.
     - restore_cache:
         key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
     - run:
-        command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+        command: make -f release.Makefile ui-deps-archive-name > /tmp/ui-deps-cache-key
         name: Generate ui-deps image cache key.
     - restore_cache:
         key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
     - run:
-        command: make static-archive-name > /tmp/static-cache-key
+        command: make -f release.Makefile static-archive-name > /tmp/static-cache-key
         name: Generate static image cache key.
     - restore_cache:
         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
@@ -31,21 +31,21 @@ jobs:
     - run:
         command: make -f release.Makefile static-archive
     - run:
-        command: make base-archive-name > /tmp/base-cache-key
+        command: make -f release.Makefile base-archive-name > /tmp/base-cache-key
         name: Generate base image cache key.
     - save_cache:
         key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
         paths:
         - /build-cache/base
     - run:
-        command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+        command: make -f release.Makefile ui-deps-archive-name > /tmp/ui-deps-cache-key
         name: Generate ui-deps image cache key.
     - save_cache:
         key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
         paths:
         - /build-cache/ui-deps
     - run:
-        command: make static-archive-name > /tmp/static-cache-key
+        command: make -f release.Makefile static-archive-name > /tmp/static-cache-key
         name: Generate static image cache key.
     - save_cache:
         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
@@ -500,17 +500,17 @@ workflows:
 #   write-base-cache-key:
 #     steps:
 #     - run:
-#         command: make base-archive-name > /tmp/base-cache-key
+#         command: make -f release.Makefile base-archive-name > /tmp/base-cache-key
 #         name: Generate base image cache key.
 #   write-static-cache-key:
 #     steps:
 #     - run:
-#         command: make static-archive-name > /tmp/static-cache-key
+#         command: make -f release.Makefile static-archive-name > /tmp/static-cache-key
 #         name: Generate static image cache key.
 #   write-ui-deps-cache-key:
 #     steps:
 #     - run:
-#         command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+#         command: make -f release.Makefile ui-deps-archive-name > /tmp/ui-deps-cache-key
 #         name: Generate ui-deps image cache key.
 # executors:
 #   alpine:
