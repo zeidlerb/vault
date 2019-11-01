@@ -11,6 +11,7 @@ jobs:
   make-static-builder:
     executor: releaser
     steps:
+      - setup_remote_docker
       - checkout
       - build-base-restore
       - build-ui-deps-restore
@@ -27,6 +28,7 @@ jobs:
       GOOS: darwin
       GOARCH: amd64
     steps:
+      - setup_remote_docker
       - checkout
       - build-static-restore
       - run: make -f release.Makefile package
