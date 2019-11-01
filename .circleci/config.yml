@@ -28,8 +28,6 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_CACHE_DIR: /build-cache
-    - PACKAGE_OUT_ROOT: /dist
     - GOARCH: amd64
     - GOOS: darwin
     steps:
@@ -239,9 +237,77 @@ jobs:
         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
         paths:
         - /build-cache/static
+  test-go:
+    machine: true
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: ~/src
+    parallelism: 2
+    steps:
+    - checkout
+    - run:
+        command: |
+          sudo mkdir /go
+          sudo chown -R circleci:circleci /go
+        name: Allow circleci user to restore Go modules cache
+    - restore_cache:
+        key: go-sum-v1-{{ checksum "go.sum" }}
+    - run:
+        command: |
+          set -x
+
+          # Install Go
+          curl -sSLO "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
+          sudo rm -rf /usr/local/go
+          sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
+          rm -f "go${GO_VERSION}.linux-amd64.tar.gz"
+          export GOPATH=/go
+          export PATH="${PATH}:${GOPATH}/bin:/usr/local/go/bin"
+
+          # Install CircleCI CLI
+          curl -sSL \
+              "https://github.com/CircleCI-Public/circleci-cli/releases/download/v${CIRCLECI_CLI_VERSION}/circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz \
+              -C /usr/local/bin \
+              "circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64/circleci"
+
+          # Split Go tests by prior test times
+          package_names=$(go list \
+              -tags "${GO_TAGS}" \
+              ./... \
+            | grep -v /integ \
+            | grep -v /vendor/ \
+            | sort \
+            | circleci tests split --split-by=timings --timings-type=classname)
+
+          # Install gotestsum
+          curl -sSL "https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz -C /usr/local/bin gotestsum
+
+          # Run tests
+          make prep
+          mkdir -p test-results/go-test
+          CGO_ENABLED= \
+            VAULT_ADDR= \
+            VAULT_TOKEN= \
+            VAULT_DEV_ROOT_TOKEN_ID= \
+            VAULT_ACC= \
+            gotestsum --format=short-verbose --junitfile test-results/go-test/results.xml -- \
+              -tags "${GO_TAGS}" \
+              -timeout=60m \
+              -parallel=20 \
+               \
+              ${package_names}
+        name: Run Go tests
+        no_output_timeout: 20m
+    - store_artifacts:
+        path: test-results
+    - store_test_results:
+        path: test-results
     environment:
-    - BUILD_CACHE_DIR: /build-cache
-    - PACKAGE_OUT_ROOT: /dist
+    - CIRCLECI_CLI_VERSION: 0.1.5546
+    - GO_TAGS: null
+    - GO_VERSION: 1.12.12
+    - GOTESTSUM_VERSION: 0.3.3
   pre-flight-checks:
     docker:
     - image: circleci/buildpack-deps
@@ -732,9 +798,6 @@ workflows:
 #   releaser:
 #     docker:
 #     - image: circleci/buildpack-deps
-#     environment:
-#       BUILD_CACHE_DIR: /build-cache
-#       PACKAGE_OUT_ROOT: /dist
 #     shell: /usr/bin/env bash -euo pipefail -c
 # jobs:
 #   build-darwin-amd64:
