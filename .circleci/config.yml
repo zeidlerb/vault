@@ -41,6 +41,8 @@ jobs:
     - restore_cache:
         key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
+        command: tree .buildcache
+    - run:
         command: make -f release.Makefile static-restore
     - run:
         command: make -f release.Makefile package
@@ -209,6 +211,8 @@ jobs:
     - restore_cache:
         key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
     - run:
+        command: tree .buildcache
+    - run:
         command: make -f release.Makefile base-restore
     - run:
         command: |
@@ -218,6 +222,8 @@ jobs:
     - restore_cache:
         key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
     - run:
+        command: tree .buildcache
+    - run:
         command: make -f release.Makefile ui-deps-restore
     - run:
         command: |
@@ -226,6 +232,8 @@ jobs:
         name: Generate static image cache key.
     - restore_cache:
         key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: tree .buildcache
     - run:
         command: make -f release.Makefile static-restore
     - run:
@@ -669,6 +677,7 @@ workflows:
 #     - write-base-cache-key
 #     - restore_cache:
 #         key: base-archive-v1-{{ checksum \".buildcache/base-cache-key\" }}
+#     - run: tree .buildcache
 #     - run: make -f release.Makefile base-restore
 #   build-base-save:
 #     steps:
@@ -682,6 +691,7 @@ workflows:
 #     - write-static-cache-key
 #     - restore_cache:
 #         key: static-archive-v1-{{ checksum \".buildcache/static-cache-key\" }}
+#     - run: tree .buildcache
 #     - run: make -f release.Makefile static-restore
 #   build-static-save:
 #     steps:
@@ -695,6 +705,7 @@ workflows:
 #     - write-ui-deps-cache-key
 #     - restore_cache:
 #         key: ui-deps-archive-v1-{{ checksum \".buildcache/ui-deps-cache-key\" }}
+#     - run: tree .buildcache
 #     - run: make -f release.Makefile ui-deps-restore
 #   build-ui-deps-save:
 #     steps:
