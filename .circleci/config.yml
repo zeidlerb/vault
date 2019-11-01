@@ -9,6 +9,7 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - checkout
     - run:
         command: make -f release.Makefile base-archive-name > /tmp/base-cache-key
         name: Generate base image cache key.
@@ -552,6 +553,7 @@ workflows:
 #       GOOS: darwin
 #     executor: releaser
 #     steps:
+#     - checkout
 #     - build-static-restore
 #     - run: make -f release.Makefile package
 #   build-go-dev:
@@ -589,6 +591,7 @@ workflows:
 #   make-static-builder:
 #     executor: releaser
 #     steps:
+#     - checkout
 #     - build-base-restore
 #     - build-ui-deps-restore
 #     - build-static-restore
