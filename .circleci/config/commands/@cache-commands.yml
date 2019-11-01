@@ -3,7 +3,7 @@ write-base-cache-key:
     - run:
         name: Generate base image cache key.
         command:
-          make base-archive-name > /tmp/base-cache-key
+          make -f release.Makefile base-archive-name > /tmp/base-cache-key
 build-base-restore:
   steps:
     - write-base-cache-key
@@ -21,7 +21,7 @@ write-ui-deps-cache-key:
     - run:
         name: Generate ui-deps image cache key.
         command:
-          make ui-deps-archive-name > /tmp/ui-deps-cache-key
+          make -f release.Makefile ui-deps-archive-name > /tmp/ui-deps-cache-key
 build-ui-deps-restore:
   steps:
     - write-ui-deps-cache-key
@@ -39,7 +39,7 @@ write-static-cache-key:
     - run:
         name: Generate static image cache key.
         command:
-          make static-archive-name > /tmp/static-cache-key
+          make -f release.Makefile static-archive-name > /tmp/static-cache-key
 build-static-restore:
   steps:
     - write-static-cache-key
