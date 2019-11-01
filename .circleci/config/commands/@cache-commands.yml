@@ -9,12 +9,12 @@ build-base-restore:
   steps:
     - write-base-cache-key
     - restore_cache:
-        key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
+        key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
 build-base-save:
   steps:
     - write-base-cache-key
     - save_cache:
-        key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
+        key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
         paths:
           - .buildcache/base
 write-ui-deps-cache-key:
@@ -28,12 +28,12 @@ build-ui-deps-restore:
   steps:
     - write-ui-deps-cache-key
     - restore_cache:
-        key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
+        key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
 build-ui-deps-save:
   steps:
     - write-ui-deps-cache-key
     - save_cache:
-        key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
+        key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
         paths:
           - .buildcache/ui-deps
 write-static-cache-key:
@@ -47,11 +47,11 @@ build-static-restore:
   steps:
     - write-static-cache-key
     - restore_cache:
-        key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
+        key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
 build-static-save:
   steps:
     - write-static-cache-key
     - save_cache:
-        key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
+        key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
           - .buildcache/static
