@@ -4,6 +4,56 @@
 ### ***
 version: 2
 jobs:
+  make-static-builder:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    steps:
+    - run:
+        command: make base-archive-name > /tmp/base-cache-key
+        name: Generate base image cache key.
+    - restore_cache:
+        key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+    - run:
+        command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+        name: Generate ui-deps image cache key.
+    - restore_cache:
+        key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+    - run:
+        command: make static-archive-name > /tmp/static-cache-key
+        name: Generate static image cache key.
+    - restore_cache:
+        key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+    - run:
+        command: make -f release.Makefile base-archive
+    - run:
+        command: make -f release.Makefile ui-deps-archive
+    - run:
+        command: make -f release.Makefile static-archive
+    - run:
+        command: make base-archive-name > /tmp/base-cache-key
+        name: Generate base image cache key.
+    - save_cache:
+        key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+        paths:
+        - /build-cache/base
+    - run:
+        command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+        name: Generate ui-deps image cache key.
+    - save_cache:
+        key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+        paths:
+        - /build-cache/ui-deps
+    - run:
+        command: make static-archive-name > /tmp/static-cache-key
+        name: Generate static image cache key.
+    - save_cache:
+        key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+        paths:
+        - /build-cache/static
+    environment:
+    - BUILD_CACHE_DIR: /build-cache
+    - PACKAGE_OUT_ROOT: /dist
   pre-flight-checks:
     docker:
     - image: circleci/buildpack-deps
@@ -339,6 +389,9 @@ jobs:
           docker push hashicorp/vault-website
         name: Build Docker Image if Necessary
 workflows:
+  build-release:
+    jobs:
+    - make-static-builder
   ci:
     jobs:
     - pre-flight-checks
@@ -371,6 +424,42 @@ workflows:
 
 # Original config.yml file:
 # commands:
+#   build-base-restore:
+#     steps:
+#     - write-base-cache-key
+#     - restore_cache:
+#         key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+#   build-base-save:
+#     steps:
+#     - write-base-cache-key
+#     - save_cache:
+#         key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+#         paths:
+#         - /build-cache/base
+#   build-static-restore:
+#     steps:
+#     - write-static-cache-key
+#     - restore_cache:
+#         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+#   build-static-save:
+#     steps:
+#     - write-static-cache-key
+#     - save_cache:
+#         key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+#         paths:
+#         - /build-cache/static
+#   build-ui-deps-restore:
+#     steps:
+#     - write-ui-deps-cache-key
+#     - restore_cache:
+#         key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+#   build-ui-deps-save:
+#     steps:
+#     - write-ui-deps-cache-key
+#     - save_cache:
+#         key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+#         paths:
+#         - /build-cache/ui-deps
 #   go_test:
 #     description: run go tests
 #     parameters:
@@ -449,6 +538,21 @@ workflows:
 #           go version
 #         name: Setup Go
 #         working_directory: ~/
+#   write-base-cache-key:
+#     steps:
+#     - run:
+#         command: make base-archive-name > /tmp/base-cache-key
+#         name: Generate base image cache key.
+#   write-static-cache-key:
+#     steps:
+#     - run:
+#         command: make static-archive-name > /tmp/static-cache-key
+#         name: Generate static image cache key.
+#   write-ui-deps-cache-key:
+#     steps:
+#     - run:
+#         command: make ui-deps-archive-name > /tmp/ui-deps-cache-key
+#         name: Generate ui-deps image cache key.
 # executors:
 #   alpine:
 #     docker:
@@ -477,7 +581,22 @@ workflows:
 #     - image: python:3-alpine
 #     shell: /usr/bin/env bash -euo pipefail -c
 #     working_directory: /go/src/github.com/hashicorp/vault
+#   releaser:
+#     docker:
+#     - image: circleci/buildpack-deps
+#     environment:
+#       BUILD_CACHE_DIR: /build-cache
+#       PACKAGE_OUT_ROOT: /dist
+#     shell: /usr/bin/env bash -euo pipefail -c
 # jobs:
+#   build-darwin-amd64:
+#     environment:
+#       GOARCH: amd64
+#       GOOS: darwin
+#     executor: releaser
+#     steps:
+#     - build-static-restore
+#     - run: make -f release.Makefile package
 #   build-go-dev:
 #     executor: go-machine
 #     steps:
@@ -510,6 +629,18 @@ workflows:
 #           npm rebuild node-sass
 #         name: Install UI dependencies
 #     - save_yarn_cache
+#   make-static-builder:
+#     executor: releaser
+#     steps:
+#     - build-base-restore
+#     - build-ui-deps-restore
+#     - build-static-restore
+#     - run: make -f release.Makefile base-archive
+#     - run: make -f release.Makefile ui-deps-archive
+#     - run: make -f release.Makefile static-archive
+#     - build-base-save
+#     - build-ui-deps-save
+#     - build-static-save
 #   pre-flight-checks:
 #     description: Ensures nothing obvious is broken for faster failures.
 #     docker:
@@ -650,6 +781,9 @@ workflows:
 #     node: node:10-buster
 # version: 2.1
 # workflows:
+#   build-release:
+#     jobs:
+#     - make-static-builder
 #   ci:
 #     jobs:
 #     - pre-flight-checks
