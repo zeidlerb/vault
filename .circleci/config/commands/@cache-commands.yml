@@ -3,17 +3,17 @@ write-base-cache-key:
     - run:
         name: Generate base image cache key.
         command:
-          make -f release.Makefile base-archive-name > /tmp/base-cache-key
+          make -f release.Makefile base-archive-name > .buildcache/base-cache-key
 build-base-restore:
   steps:
     - write-base-cache-key
     - restore_cache:
-        key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+        key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
 build-base-save:
   steps:
     - write-base-cache-key
     - save_cache:
-        key: base-archive-v1-{{ checksum /tmp/base-cache-key }}
+        key: base-archive-v1-{{ checksum .buildcache/base-cache-key }}
         paths:
           - /build-cache/base
 write-ui-deps-cache-key:
@@ -21,17 +21,17 @@ write-ui-deps-cache-key:
     - run:
         name: Generate ui-deps image cache key.
         command:
-          make -f release.Makefile ui-deps-archive-name > /tmp/ui-deps-cache-key
+          make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
 build-ui-deps-restore:
   steps:
     - write-ui-deps-cache-key
     - restore_cache:
-        key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+        key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
 build-ui-deps-save:
   steps:
     - write-ui-deps-cache-key
     - save_cache:
-        key: ui-deps-archive-v1-{{ checksum /tmp/ui-deps-cache-key }}
+        key: ui-deps-archive-v1-{{ checksum .buildcache/ui-deps-cache-key }}
         paths:
           - /build-cache/ui-deps
 write-static-cache-key:
@@ -39,16 +39,16 @@ write-static-cache-key:
     - run:
         name: Generate static image cache key.
         command:
-          make -f release.Makefile static-archive-name > /tmp/static-cache-key
+          make -f release.Makefile static-archive-name > .buildcache/static-cache-key
 build-static-restore:
   steps:
     - write-static-cache-key
     - restore_cache:
-        key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+        key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
 build-static-save:
   steps:
     - write-static-cache-key
     - save_cache:
-        key: static-archive-v1-{{ checksum /tmp/static-cache-key }}
+        key: static-archive-v1-{{ checksum .buildcache/static-cache-key }}
         paths:
           - /build-cache/static
