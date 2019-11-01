@@ -41,6 +41,8 @@ jobs:
     - restore_cache:
         key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
+        command: make -f release.Makefile static-restore
+    - run:
         command: make -f release.Makefile package
   test-ui:
     docker:
@@ -207,6 +209,8 @@ jobs:
     - restore_cache:
         key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
     - run:
+        command: make -f release.Makefile base-restore
+    - run:
         command: |
           mkdir -p .buildcache
           make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
@@ -214,12 +218,16 @@ jobs:
     - restore_cache:
         key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
     - run:
+        command: make -f release.Makefile ui-deps-restore
+    - run:
         command: |
           mkdir -p .buildcache
           make -f release.Makefile static-archive-name > .buildcache/static-cache-key
         name: Generate static image cache key.
     - restore_cache:
         key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: make -f release.Makefile static-restore
     - run:
         command: make -f release.Makefile base-archive
     - run:
@@ -702,6 +710,7 @@ workflows:
 #     - write-base-cache-key
 #     - restore_cache:
 #         key: base-archive-v1-{{ checksum \".buildcache/base-cache-key\" }}
+#     - run: make -f release.Makefile base-restore
 #   build-base-save:
 #     steps:
 #     - write-base-cache-key
@@ -714,6 +723,7 @@ workflows:
 #     - write-static-cache-key
 #     - restore_cache:
 #         key: static-archive-v1-{{ checksum \".buildcache/static-cache-key\" }}
+#     - run: make -f release.Makefile static-restore
 #   build-static-save:
 #     steps:
 #     - write-static-cache-key
@@ -726,6 +736,7 @@ workflows:
 #     - write-ui-deps-cache-key
 #     - restore_cache:
 #         key: ui-deps-archive-v1-{{ checksum \".buildcache/ui-deps-cache-key\" }}
+#     - run: make -f release.Makefile ui-deps-restore
 #   build-ui-deps-save:
 #     steps:
 #     - write-ui-deps-cache-key
