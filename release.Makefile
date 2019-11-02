@@ -311,16 +311,20 @@ $(BUILD_BASE): build/base.Dockerfile | $(BASE_SOURCE_ARCHIVE)
 	$(call BUILD_IMAGE,$(BUILD_BASE_IMAGE),$(BASE_BASE_IMAGE),build/base.Dockerfile,$(BASE_SOURCE_ARCHIVE),$(BUILD_BASE_ARCHIVE))
 
 $(BUILD_BASE_ARCHIVE): | $(BUILD_BASE)
-	@mkdir -p $$(dirname $@)
-	docker save -o $@ $(BUILD_BASE_IMAGE)
+	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
+		mkdir -p $$(dirname $@); \
+		echo "==> Exporting docker image archive (this may take some time): $@"; \
+		docker save -o $@ $(BUILD_BASE_IMAGE);
 
 # BUILD_UI_DEPS is the base image plus all external UI dependencies.
 $(BUILD_UI_DEPS): | $(UI_DEPS_SOURCE_ARCHIVE) $(BUILD_BASE)
 	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE),$(BUILD_UI_DEPS_ARCHIVE))
 
 $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
-	@mkdir -p $$(dirname $@)
-	docker save -o $@ $(BUILD_UI_DEPS_IMAGE)
+	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
+		mkdir -p $$(dirname $@); \
+		echo "==> Exporting docker image archive (this may take some time): $@"; \
+		docker save -o $@ $(BUILD_UI_DEPS_IMAGE)
 
 # BUILD_STATIC is the base docker image, plus source code, with all static files built.
 # Static files are code and UI assets that do not differ between platforms.
@@ -329,8 +333,10 @@ $(BUILD_STATIC): build/static.Dockerfile | $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
 	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE),$(BUILD_STATIC_ARCHIVE))
 
 $(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
-	@mkdir -p $$(dirname $@)
-	docker save -o $@ $(BUILD_STATIC_IMAGE)
+	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
+		mkdir -p $$(dirname $@); \
+		echo "==> Exporting docker image archive (this may take some time): $@"; \
+		docker save -o $@ $(BUILD_STATIC_IMAGE)
 
 $(PACKAGE): | $(BUILD_STATIC)
 	@mkdir -p $$(dirname $@)
