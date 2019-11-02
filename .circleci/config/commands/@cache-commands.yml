@@ -30,14 +30,11 @@ restore-each-builder-cache:
     - write-cache-key:
         layer-name: base
     - restore_cache:
-        keys:
-          - &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        key: &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
     - restore_cache:
-        keys:
-          - &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+        key: &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
     - restore_cache:
-        keys:
-          - &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        key: &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
 
 restore-builder-cache:
   description: >
@@ -52,9 +49,9 @@ restore-builder-cache:
         layer-name: base
     - restore_cache:
         keys:
-          - &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-          - &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
-          - &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+          - *BASE_CACHE_KEY
+          - *UI_DEPS_CACHE_KEY
+          - *STATIC_CACHE_KEY
 
 save-builder-cache:
   steps:
