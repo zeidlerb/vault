@@ -43,7 +43,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache
     - run:
-        command: make -f release.Makefile static-restore
+        command: make -f release.Makefile static-restore || echo "Unable to restore docker image, will rebuild."
     - run:
         command: make -f release.Makefile package
   test-ui:
@@ -213,7 +213,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache
     - run:
-        command: make -f release.Makefile base-restore
+        command: make -f release.Makefile base-restore || echo "Unable to restore docker image, will rebuild."
     - run:
         command: |
           mkdir -p .buildcache
@@ -224,7 +224,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache
     - run:
-        command: make -f release.Makefile ui-deps-restore
+        command: make -f release.Makefile ui-deps-restore || echo "Unable to restore docker image, will rebuild."
     - run:
         command: |
           mkdir -p .buildcache
@@ -235,7 +235,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache
     - run:
-        command: make -f release.Makefile static-restore
+        command: make -f release.Makefile static-restore || echo "Unable to restore docker image, will rebuild."
     - run:
         command: make -f release.Makefile base-archive
     - run:
