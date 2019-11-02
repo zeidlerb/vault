@@ -1,63 +1,60 @@
-write-base-cache-key:
+ensure-builder-image-cache:
+  description: >
+    Ensure all intermediate build images are cached appropriately.
+    Use this in an earlier job than ensure-static-builder to make sure
+    all builder caches are up to date. Because we specifically build
+    each image archive here, we can be sure they are restorable.
   steps:
-    - run:
-        name: Generate base image cache key.
-        command: |
-          mkdir -p .buildcache
-          make -f release.Makefile base-archive-name > .buildcache/base-cache-key
-build-base-restore:
+    - restore-builder-cache
+    - run: make -f release.Makefile base-archive
+    - run: make -f release.Makefile ui-deps-archive
+    - run: make -f release.Makefile static-archive
+    - save-builder-cache
+
+ensure-static-builder:
+  description: >
+    Ensures the static builder image is available (prefers cache but will rebuild it if necessary).
+    Use this to prepare the builder for building final packages.
   steps:
-    - write-base-cache-key
+    - restore-builder-cache
+    - run: make -f release.Makefile static
+
+restore-builder-cache:
+  steps:
+    - write-cache-key:
+        layer-name: static
+    - write-cache-key:
+        layer-name: ui-deps
+    - write-cache-key:
+        layer-name: base
     - restore_cache:
-        key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run: ls -lahR .buildcache
-    - run: make -f release.Makefile base-restore || echo "Unable to restore docker image, will rebuild."
-build-base-save:
+        keys:
+          - &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+          - &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+          - &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+
+save-builder-cache:
   steps:
-    - write-base-cache-key
     - save_cache:
-        key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        key: *BASE_CACHE_KEY
         paths:
           - .buildcache/base
-write-ui-deps-cache-key:
-  steps:
-    - run:
-        name: Generate ui-deps image cache key.
-        command: |
-          mkdir -p .buildcache
-          make -f release.Makefile ui-deps-archive-name > .buildcache/ui-deps-cache-key
-build-ui-deps-restore:
-  steps:
-    - write-ui-deps-cache-key
-    - restore_cache:
-        key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
-    - run: ls -lahR .buildcache
-    - run: make -f release.Makefile ui-deps-restore || echo "Unable to restore docker image, will rebuild."
-build-ui-deps-save:
-  steps:
-    - write-ui-deps-cache-key
     - save_cache:
-        key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+        key: *UI_DEPS_CACHE_KEY
         paths:
           - .buildcache/ui-deps
-write-static-cache-key:
-  steps:
-    - run:
-        name: Generate static image cache key.
-        command: |
-          mkdir -p .buildcache
-          make -f release.Makefile static-archive-name > .buildcache/static-cache-key
-build-static-restore:
-  steps:
-    - write-static-cache-key
-    - restore_cache:
-        key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-    - run: ls -lahR .buildcache
-    - run: make -f release.Makefile static-restore || echo "Unable to restore docker image, will rebuild."
-build-static-save:
-  steps:
-    - write-static-cache-key
     - save_cache:
-        key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        key: *STATIC_CACHE_KEY
         paths:
           - .buildcache/static
+
+write-cache-key:
+  parameters:
+    layer-name:
+      type: string
+  steps:
+    - run:
+        name: Generate <<parameters.layer-name>> image cache key.
+        command: |
+          mkdir -p .buildcache
+          make -f release.Makefile <<parameters.layer-name>>-archive-name > .buildcache/<<parameters.layer-name>>-cache-key
