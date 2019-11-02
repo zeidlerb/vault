@@ -23,23 +23,36 @@ restore-each-builder-cache:
   description: >
     Restore each separate cached archive so we can just update those layers that need it.
   steps:
-    - write-cache-key:
-        layer-name: static
-    - write-cache-key:
-        layer-name: ui-deps
-    - write-cache-key:
-        layer-name: base
+    - write-builder-cache-keys
     - restore_cache:
         key: &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
     - restore_cache:
         key: &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
     - restore_cache:
         key: &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - info-print-buildcache
 
 restore-builder-cache:
   description: >
     Just restore the most specific cache that exists, not intermediate caches.
     This is what you need to build packages.
+  steps:
+    - write-builder-cache-keys
+    - restore_cache:
+        keys:
+          - *STATIC_CACHE_KEY
+          - *UI_DEPS_CACHE_KEY
+          - *BASE_CACHE_KEY
+    - info-print-buildcache
+    - run:
+        name: Restore static builder image (or best available).
+        command: |
+          make -f release.Makefile static-restore || \
+          make -f release.Makefile ui-deps-restore || \
+          make -f release.Makefile base-restore || \
+          echo "Unable to restore an builder images, rebuilding from scratch."
+
+write-builder-cache-keys:
   steps:
     - write-cache-key:
         layer-name: static
@@ -47,14 +60,11 @@ restore-builder-cache:
         layer-name: ui-deps
     - write-cache-key:
         layer-name: base
-    - restore_cache:
-        keys:
-          - *STATIC_CACHE_KEY
-          - *UI_DEPS_CACHE_KEY
-          - *BASE_CACHE_KEY
 
 save-builder-cache:
   steps:
+    - write-builder-cache-keys
+    - info-print-buildcache
     - save_cache:
         key: *BASE_CACHE_KEY
         paths:
@@ -67,6 +77,13 @@ save-builder-cache:
         key: *STATIC_CACHE_KEY
         paths:
           - .buildcache/static
+
+info-print-buildcache:
+  steps:
+    - run:
+        name: Info - list files in .buildcache/
+        command: |
+          ls -lahR .buildcache
 
 write-cache-key:
   parameters:
@@ -81,4 +98,4 @@ write-cache-key:
           mkdir -p .buildcache
           FILE=.buildcache/$NAME-cache-key
           make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer $NAME is $(cat $FILE); written to $FILE"
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
