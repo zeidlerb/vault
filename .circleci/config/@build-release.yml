@@ -2,26 +2,18 @@
 workflows:
   build-release:
     jobs:
-      - make-static-builder
+      - cache-builder-images
       - build-darwin-amd64:
           requires:
-            - make-static-builder
+            - cache-builder-images
 
 jobs:
-  make-static-builder:
+  cache-builder-images:
     executor: releaser
     steps:
       - setup_remote_docker
       - checkout
-      - build-base-restore
-      - build-ui-deps-restore
-      - build-static-restore
-      - run: make -f release.Makefile base-archive
-      - run: make -f release.Makefile ui-deps-archive
-      - run: make -f release.Makefile static-archive
-      - build-base-save
-      - build-ui-deps-save
-      - build-static-save
+      - ensure-builder-image-cache
   build-darwin-amd64:
     executor: releaser
     environment:
@@ -30,6 +22,5 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - build-static-restore
+      - ensure-static-builder
       - run: make -f release.Makefile package
-
