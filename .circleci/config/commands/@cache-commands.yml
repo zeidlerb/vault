@@ -49,9 +49,9 @@ restore-builder-cache:
         layer-name: base
     - restore_cache:
         keys:
-          - *BASE_CACHE_KEY
-          - *UI_DEPS_CACHE_KEY
           - *STATIC_CACHE_KEY
+          - *UI_DEPS_CACHE_KEY
+          - *BASE_CACHE_KEY
 
 save-builder-cache:
   steps:
@@ -75,6 +75,10 @@ write-cache-key:
   steps:
     - run:
         name: Generate <<parameters.layer-name>> image cache key.
+        environment:
+          NAME: <<parameters.layer-name>>
         command: |
           mkdir -p .buildcache
-          make -f release.Makefile <<parameters.layer-name>>-archive-name > .buildcache/<<parameters.layer-name>>-cache-key
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer $NAME is $(cat $FILE); written to $FILE"
