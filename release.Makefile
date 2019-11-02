@@ -208,7 +208,7 @@ ui-deps: $(BUILD_UI_DEPS)
 	@cat $<
 
 ui-deps-archive-name:
-	@echo $(UI_DEPS_ARCHIVE)
+	@echo $(BUILD_UI_DEPS_ARCHIVE)
 
 ui-deps-archive: $(BUILD_UI_DEPS_ARCHIVE)
 	@echo $<
@@ -221,7 +221,7 @@ static: $(BUILD_STATIC)
 	@cat $<
 
 static-archive-name:
-	@echo $(STATIC_ARCHIVE)
+	@echo $(BUILD_STATIC_ARCHIVE)
 
 static-archive: $(BUILD_STATIC_ARCHIVE)
 	@echo $<
