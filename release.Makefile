@@ -203,6 +203,7 @@ base-archive: $(BUILD_BASE_ARCHIVE)
 base-restore:
 	@echo "==> Restoring image from archive: $(BUILD_BASE_IMAGE)"
 	@docker load -i $(BUILD_BASE_ARCHIVE)
+	@echo $(BUILD_BASE_IMAGE) > $(BUILD_BASE)
 
 ui-deps: $(BUILD_UI_DEPS)
 	@cat $<
@@ -216,6 +217,7 @@ ui-deps-archive: $(BUILD_UI_DEPS_ARCHIVE)
 ui-deps-restore:
 	@echo "==> Restoring image from archive: $(BUILD_UI_DEPS_IMAGE)"
 	@docker load -i $(BUILD_UI_DEPS_ARCHIVE)
+	@echo $(BUILD_UI_DEPS_IMAGE) > $(BUILD_UI_DEPS)
 
 static: $(BUILD_STATIC)
 	@cat $<
@@ -229,6 +231,7 @@ static-archive: $(BUILD_STATIC_ARCHIVE)
 static-restore:
 	@echo "==> Restoring image from archive: $(BUILD_STATIC_IMAGE)"
 	@docker load -i $(BUILD_STATIC_ARCHIVE)
+	@echo $(BUILD_STATIC_IMAGE) > $(BUILD_STATIC)
 
 package: $(PACKAGE)
 	@echo $<
