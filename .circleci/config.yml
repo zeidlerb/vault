@@ -351,7 +351,11 @@ jobs:
     - restore_cache:
         keys:
         - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - restore_cache:
+        keys:
         - ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+    - restore_cache:
+        keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: make -f release.Makefile base-archive
@@ -412,7 +416,7 @@ workflows:
 #     description: |
 #       Ensure all intermediate build images are cached appropriately. Use this in an earlier job than ensure-static-builder to make sure all builder caches are up to date. Because we specifically build each image archive here, we can be sure they are restorable.
 #     steps:
-#     - restore-builder-cache
+#     - restore-each-builder-cache
 #     - run: make -f release.Makefile base-archive
 #     - run: make -f release.Makefile ui-deps-archive
 #     - run: make -f release.Makefile static-archive
@@ -479,6 +483,8 @@ workflows:
 #         name: Run Go tests
 #         no_output_timeout: 20m
 #   restore-builder-cache:
+#     description: |
+#       Just restore the most specific cache that exists, not intermediate caches. This is what you need to build packages.
 #     steps:
 #     - write-cache-key:
 #         layer-name: static
@@ -490,6 +496,25 @@ workflows:
 #         keys:
 #         - base-archive-v1-{{ checksum \".buildcache/base-cache-key\" }}
 #         - ui-deps-archive-v1-{{ checksum \".buildcache/ui-deps-cache-key\" }}
+#         - static-archive-v1-{{ checksum \".buildcache/static-cache-key\" }}
+#   restore-each-builder-cache:
+#     description: |
+#       Restore each separate cached archive so we can just update those layers that need it.
+#     steps:
+#     - write-cache-key:
+#         layer-name: static
+#     - write-cache-key:
+#         layer-name: ui-deps
+#     - write-cache-key:
+#         layer-name: base
+#     - restore_cache:
+#         keys:
+#         - base-archive-v1-{{ checksum \".buildcache/base-cache-key\" }}
+#     - restore_cache:
+#         keys:
+#         - ui-deps-archive-v1-{{ checksum \".buildcache/ui-deps-cache-key\" }}
+#     - restore_cache:
+#         keys:
 #         - static-archive-v1-{{ checksum \".buildcache/static-cache-key\" }}
 #   restore_go_cache:
 #     steps:

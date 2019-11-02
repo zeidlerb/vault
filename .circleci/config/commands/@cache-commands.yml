@@ -5,7 +5,7 @@ ensure-builder-image-cache:
     all builder caches are up to date. Because we specifically build
     each image archive here, we can be sure they are restorable.
   steps:
-    - restore-builder-cache
+    - restore-each-builder-cache
     - run: make -f release.Makefile base-archive
     - run: make -f release.Makefile ui-deps-archive
     - run: make -f release.Makefile static-archive
@@ -19,7 +19,30 @@ ensure-static-builder:
     - restore-builder-cache
     - run: make -f release.Makefile static
 
+restore-each-builder-cache:
+  description: >
+    Restore each separate cached archive so we can just update those layers that need it.
+  steps:
+    - write-cache-key:
+        layer-name: static
+    - write-cache-key:
+        layer-name: ui-deps
+    - write-cache-key:
+        layer-name: base
+    - restore_cache:
+        keys:
+          - &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - restore_cache:
+        keys:
+          - &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+    - restore_cache:
+        keys:
+          - &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+
 restore-builder-cache:
+  description: >
+    Just restore the most specific cache that exists, not intermediate caches.
+    This is what you need to build packages.
   steps:
     - write-cache-key:
         layer-name: static
