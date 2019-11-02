@@ -351,14 +351,11 @@ jobs:
           make -f release.Makefile base-archive-name > .buildcache/base-cache-key
         name: Generate base image cache key.
     - restore_cache:
-        keys:
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
     - restore_cache:
-        keys:
-        - ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+        key: ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
     - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: make -f release.Makefile base-archive
     - run:
@@ -512,14 +509,11 @@ workflows:
 #     - write-cache-key:
 #         layer-name: base
 #     - restore_cache:
-#         keys:
-#         - base-archive-v1-{{ checksum \".buildcache/base-cache-key\" }}
+#         key: base-archive-v1-{{ checksum \".buildcache/base-cache-key\" }}
 #     - restore_cache:
-#         keys:
-#         - ui-deps-archive-v1-{{ checksum \".buildcache/ui-deps-cache-key\" }}
+#         key: ui-deps-archive-v1-{{ checksum \".buildcache/ui-deps-cache-key\" }}
 #     - restore_cache:
-#         keys:
-#         - static-archive-v1-{{ checksum \".buildcache/static-cache-key\" }}
+#         key: static-archive-v1-{{ checksum \".buildcache/static-cache-key\" }}
 #   restore_go_cache:
 #     steps:
 #     - restore_cache:
