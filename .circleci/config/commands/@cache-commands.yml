@@ -8,6 +8,7 @@ ensure-builder-image-cache:
     - restore-each-builder-cache
     - run: make -f release.Makefile base-archive
     - run: make -f release.Makefile ui-deps-archive
+    - run: make -f release.Makefile ui-archive
     - run: make -f release.Makefile static-archive
     - save-builder-cache
 
@@ -28,6 +29,8 @@ restore-each-builder-cache:
     - restore_cache:
         key: &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
     - restore_cache:
+        key: &UI_CACHE_KEY ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+    - restore_cache:
         key: &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
     - info-print-buildcache
 
@@ -40,6 +43,7 @@ restore-builder-cache:
     - restore_cache:
         keys:
           - *STATIC_CACHE_KEY
+          - *UI_CACHE_KEY
           - *UI_DEPS_CACHE_KEY
           - *BASE_CACHE_KEY
     - info-print-buildcache
@@ -47,14 +51,17 @@ restore-builder-cache:
         name: Restore static builder image (or best available).
         command: |
           make -f release.Makefile static-restore || \
+          make -f release.Makefile ui-restore || \
           make -f release.Makefile ui-deps-restore || \
           make -f release.Makefile base-restore || \
-          echo "Unable to restore an builder images, rebuilding from scratch."
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
 
 write-builder-cache-keys:
   steps:
     - write-cache-key:
         layer-name: static
+    - write-cache-key:
+        layer-name: ui
     - write-cache-key:
         layer-name: ui-deps
     - write-cache-key:
