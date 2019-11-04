@@ -8,6 +8,6 @@
 
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
-COPY . ./
-RUN make static-assets
+COPY ui ./ui
+RUN cd ui && yarn run build
 
