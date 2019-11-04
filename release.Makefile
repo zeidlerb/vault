@@ -370,8 +370,7 @@ $(BUILD_BASE): build/base.Dockerfile | $(BASE_SOURCE_ARCHIVE)
 	$(call BUILD_IMAGE,$(BUILD_BASE_IMAGE),$(BASE_BASE_IMAGE),build/base.Dockerfile,$(BASE_SOURCE_ARCHIVE),$(BUILD_BASE_ARCHIVE))
 
 $(BUILD_BASE_ARCHIVE): | $(BUILD_BASE)
-	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
-		mkdir -p $$(dirname $@); \
+	@mkdir -p $$(dirname $@); \
 		echo "==> Exporting docker image archive (this may take some time): $@"; \
 		docker save -o $@ $(BUILD_BASE_IMAGE);
 
@@ -380,8 +379,7 @@ $(BUILD_UI_DEPS): $(BUILD_BASE) | $(UI_DEPS_SOURCE_ARCHIVE)
 	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE),$(BUILD_UI_DEPS_ARCHIVE))
 
 $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
-	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
-		mkdir -p $$(dirname $@); \
+	@mkdir -p $$(dirname $@); \
 		echo "==> Exporting docker image archive (this may take some time): $@"; \
 		docker save -o $@ $(BUILD_UI_DEPS_IMAGE)
 
@@ -390,8 +388,7 @@ $(BUILD_UI): $(BUILD_UI_DEPS) | $(UI_SOURCE_ARCHIVE)
 	$(call BUILD_IMAGE,$(BUILD_UI_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/ui.Dockerfile,$(UI_SOURCE_ARCHIVE),$(BUILD_UI_ARCHIVE))
 
 $(BUILD_UI_ARCHIVE): | $(BUILD_UI)
-	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
-		mkdir -p $$(dirname $@); \
+	@mkdir -p $$(dirname $@); \
 		echo "==> Exporting docker image archive (this may take some time): $@"; \
 		docker save -o $@ $(BUILD_UI_IMAGE)
 
@@ -402,11 +399,13 @@ $(BUILD_STATIC): build/static.Dockerfile $(BUILD_UI) | $(SOURCE_ARCHIVE)
 	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE),$(BUILD_STATIC_ARCHIVE))
 
 $(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
-	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
-		mkdir -p $$(dirname $@); \
+	@mkdir -p $$(dirname $@); \
 		echo "==> Exporting docker image archive (this may take some time): $@"; \
 		docker save -o $@ $(BUILD_STATIC_IMAGE)
 
+# PACKAGE assumes 'make static' has already been run.
+# It does not depend on the static image, as this simplifies cached later re-use
+# on circleci.
 $(PACKAGE): 
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
@@ -414,6 +413,7 @@ $(PACKAGE):
 	@mkdir -p ./$(OUT_DIR)
 	$(DOCKER_RUN_COMMAND)
 
+# On a top-level make invocation, ensure all image marker files are up to date.
 ifndef SUBMAKE
 SUBMAKE := YES
 export SUBMAKE
