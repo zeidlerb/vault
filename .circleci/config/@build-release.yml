@@ -3,9 +3,10 @@ workflows:
   build-release:
     jobs:
       - cache-builder-images
-      - build-darwin-amd64:
-          requires:
-            - cache-builder-images
+      - build-darwin-amd64: { requires: [ cache-builder-images ] }
+      - build-linux-386: { requires: [ cache-builder-images ] }
+      - build-darwin-amd64: { requires: [ cache-builder-images ] }
+      - build-darwin-386: { requires: [ cache-builder-images ] }
 
 jobs:
   cache-builder-images:
@@ -14,13 +15,3 @@ jobs:
       - setup_remote_docker
       - checkout
       - ensure-builder-image-cache
-  build-darwin-amd64:
-    executor: releaser
-    environment:
-      GOOS: darwin
-      GOARCH: amd64
-    steps:
-      - setup_remote_docker
-      - checkout
-      - ensure-static-builder
-      - run: make -f release.Makefile package
