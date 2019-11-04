@@ -98,3 +98,33 @@ write-cache-key:
           FILE=.buildcache/$NAME-cache-key
           make -f release.Makefile $NAME-archive-name > $FILE
           echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+
+build-package:
+  parameters:
+    GOOS:
+      type: string
+    GOARCH:
+      type: string
+    EDITION:
+      type: string
+      default: ""
+  steps:
+    - setup_remote_docker
+    - checkout
+    - ensure-static-builder
+    - run:
+        name: Compile package
+        environment:
+          GOOS: "<<parameters.GOOS>>"
+          GOARCH: "<<parameters.GOARCH>>"
+          EDITION: "<<parameters.EDITION>>"
+        command: |
+          make -f release.Makefile package
+    - store_artifacts:
+        path: dest/
+        destination: dest
+    - write-builder-cache-keys
+    - save_cache:
+        key: package-<<parameters.EDITION>>_<<parameters.GOOS>>_<<parameters.GOARCH>>-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+          - dist/
