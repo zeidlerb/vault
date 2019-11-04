@@ -25,9 +25,13 @@
 # Strict mode shell - See https://fieldnotes.tech/how-to-shell-for-compatible-makefiles
 SHELL := /usr/bin/env bash -euo pipefail -c
 
+_ := $(call ENSURE_IMAGE,$(BUILD_BASE_IMAGE),$(BUILD_BASE_ARCHIVE),$(BUILD_BASE))
+_ := $(call ENSURE_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_UI_DEPS_ARCHIVE),$(BUILD_UI_DEPS))
+_ := $(call ENSURE_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_STATIC_ARCHIVE),$(BUILD_STATIC))
+
 # BUILD_CACHE_DIR contains references to intermediate docker images, as well as
-# archives created with 'docker save'. In CI, you should share this directory between
-# jobs, in this case, it is best to set it to an absolute path.
+# archives created with 'docker save'. In CI, you should share the contents of 
+# this directory between jobs.
 BUILD_CACHE_DIR ?= .buildcache
 # PACKAGE_OUT_ROOT is the root directory where the final packages will be written to.
 PACKAGE_OUT_ROOT ?= dist
@@ -37,6 +41,7 @@ BASE_BASE_IMAGE := debian:buster
 
 # COMMIT is the Git commit SHA
 COMMIT := $(shell git rev-parse HEAD)
+
 
 ### Non-source build inputs (override these when invoking make to produce alternate binaries).
 ### See build/package-list.txt and build/package-list.lock, which override these
@@ -124,25 +129,25 @@ UI_DEPS_SOURCE := ui/yarn.lock ui/package.json build/ui-deps.Dockerfile
 
 # SOURCE_ID identifies an exact instance of the contents of all files in SOURCE.
 # To efficiently calculate this, we take the shasum of COMMIT plus the output of 'git diff'.
-SOURCE_ID := $(shell { echo $(COMMIT); git diff -- . ':(exclude)release.Makefile'; } | sha256sum | cut -d' ' -f1)
+SOURCE_ID := $(shell { echo $(COMMIT); git diff -- . ':(exclude)release.Makefile' ':(exclude).circleci'; } | sha256sum | cut -d' ' -f1)
 
 BASE_CACHE_DIR = $(BUILD_CACHE_DIR)/base/$(BUILD_BASE_SUM)
 UI_DEPS_CACHE_DIR = $(BUILD_CACHE_DIR)/ui-deps/$(UI_DEPS_SUM)
 STATIC_CACHE_DIR = $(BUILD_CACHE_DIR)/static/$(SOURCE_ID)
 
 # Ensure the image cache dirs exist.
-$(shell mkdir -p $(BASE_CACHE_DIR) $(UI_DEPS_CACHE_DIR) $(STATIC_CACHE_DIR))
+_ := $(shell mkdir -p $(BASE_CACHE_DIR) $(UI_DEPS_CACHE_DIR) $(STATIC_CACHE_DIR))
 
 # SOURCE_LIST is a file containing the list of files in SOURCE.
 # We write this to a file as it is too long a list to pass around as CLI args.
 SOURCE_LIST := $(STATIC_CACHE_DIR)/source-list
-$(shell { git ls-files; git ls-files -o --exclude-standard; } | grep -vF release.Makefile > $(SOURCE_LIST))
+_ := $(shell { git ls-files; git ls-files -o --exclude-standard; } | grep -vF release.Makefile | grep -vF .circleci/ > $(SOURCE_LIST))
 # Source includes every file tracked by Git, as well as every new file not in .gitignore.
 SOURCE := $(shell cat $(SOURCE_LIST))
 
 # BUILD_BASE_SUM is the ID of the build base dockerfile.
 BUILD_BASE_SUM := $(shell { cat $(BASE_SOURCE); echo $(BASE_BASE_IMAGE); } | sha256sum | cut -d' ' -f1)
-BUILD_BASE_REPO := vault-builder
+BUILD_BASE_REPO := vault-builder-base
 BUILD_BASE_TAG := $(BUILD_BASE_SUM)
 BUILD_BASE_IMAGE := $(BUILD_BASE_REPO):$(BUILD_BASE_TAG)
 BUILD_BASE := $(BASE_CACHE_DIR)/$(BUILD_BASE_REPO)_$(BUILD_BASE_TAG)
@@ -303,11 +308,19 @@ define BUILD_IMAGE
 	echo $(1) > $@ # Write the image name to the marker file.
 endef
 
-# Clean up any docker image marker files whose image is no longer present.
-# This is important for reliability.
-$(shell if [ -f $(BUILD_BASE) ] && ! docker inspect $$(cat $(BUILD_BASE)) > /dev/null 2>&1; then rm $(BUILD_BASE); fi)
-$(shell if [ -f $(BUILD_UI_DEPS) ] && ! docker inspect $$(cat $(BUILD_UI_DEPS)) > /dev/null 2>&1; then rm $(BUILD_UI_DEPS); fi)
-$(shell if [ -f $(BUILD_STATIC) ] && ! docker inspect $$(cat $(BUILD_STATIC)) > /dev/null 2>&1; then rm $(BUILD_STATIC); fi)
+define ENSURE_IMAGE
+	if { docker inspect $(1) > /dev/null 2>&1; }; then \
+		echo "==> Image already exists, setting marker file: $(1)"; \
+		echo $(1) > $(3); \
+	elif [ -f $(2) ]; then \
+		echo "==> Restoring image from archive: $(1)"; \
+		docker load -i $(2); \
+		echo $(1) > $(3); \
+	elif [ -f $(3) ]; then \
+		echo "==> Docker image no longer exists, removing marker file: $(1)"; \
+		rm -f $(3); \
+	fi
+endef
 
 # BUILD_BASE is the base docker image, minus any source code.
 $(BUILD_BASE): build/base.Dockerfile | $(BASE_SOURCE_ARCHIVE)
