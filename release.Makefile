@@ -130,12 +130,15 @@ BASE_SOURCE := build/base.Dockerfile
 # UI_DEPS_SOURCE are the files which dictate the UI dependencies.
 UI_DEPS_SOURCE := ui/yarn.lock ui/package.json build/ui-deps.Dockerfile
 
+UI_SOURCE := $(shell git ls-files ui/) build/ui.Dockerfile
+
 # SOURCE_ID identifies an exact instance of the contents of all files in SOURCE.
 # To efficiently calculate this, we take the shasum of COMMIT plus the output of 'git diff'.
 SOURCE_ID := $(shell { echo $(COMMIT); git diff -- . ':(exclude)release.Makefile' ':(exclude).circleci'; } | sha256sum | cut -d' ' -f1)
 
 BASE_CACHE_DIR = $(BUILD_CACHE_DIR)/base/$(BUILD_BASE_SUM)
 UI_DEPS_CACHE_DIR = $(BUILD_CACHE_DIR)/ui-deps/$(UI_DEPS_SUM)
+UI_CACHE_DIR = $(BUILD_CACHE_DIR)/ui/$(UI_SUM)
 STATIC_CACHE_DIR = $(BUILD_CACHE_DIR)/static/$(SOURCE_ID)
 
 # Ensure the image cache dirs exist.
@@ -158,12 +161,19 @@ BUILD_BASE_ARCHIVE := $(BUILD_BASE).tar.gz
 
 # BUILD_UI_DEPS_SUM represents a unique combination of UI_DEPS_SOURCE and the relevant dockerfile.
 BUILD_UI_DEPS_SUM := $(shell sha256sum <(cat $(UI_DEPS_SOURCE) build/ui-deps.Dockerfile) | cut -d' ' -f1)
-
 BUILD_UI_DEPS_REPO := vault-builder-ui-deps
 BUILD_UI_DEPS_TAG := $(BUILD_UI_DEPS_SUM)
 BUILD_UI_DEPS_IMAGE := $(BUILD_UI_DEPS_REPO):$(BUILD_UI_DEPS_TAG)
 BUILD_UI_DEPS := $(UI_DEPS_CACHE_DIR)/$(BUILD_UI_DEPS_REPO)_$(BUILD_UI_DEPS_TAG)
 BUILD_UI_DEPS_ARCHIVE := $(BUILD_UI_DEPS).tar.gz
+
+# BUILD_UI_SUM represents a unique combination of UI_SOURCE and the relevant dockerfile.
+BUILD_UI_SUM := $(shell sha256sum <(cat build/ui-deps.Dockerfile; git log -n1 --format='%H' HEAD '--' ui/; git diff ui/) | cut -d' ' -f1)
+BUILD_UI_REPO := vault-builder-ui
+BUILD_UI_TAG := $(BUILD_UI_SUM)
+BUILD_UI_IMAGE := $(BUILD_UI_REPO):$(BUILD_UI_TAG)
+BUILD_UI := $(UI_CACHE_DIR)/$(BUILD_UI_REPO)_$(BUILD_UI_TAG)
+BUILD_UI_ARCHIVE := $(BUILD_UI).tar.gz
 
 BUILD_STATIC_REPO := vault-builder-static
 BUILD_STATIC_TAG := $(SOURCE_ID)
@@ -171,15 +181,18 @@ BUILD_STATIC_IMAGE := $(BUILD_STATIC_REPO):$(BUILD_STATIC_TAG)
 BUILD_STATIC := $(STATIC_CACHE_DIR)/$(BUILD_STATIC_REPO)_$(BUILD_STATIC_TAG)
 BUILD_STATIC_ARCHIVE := $(BUILD_STATIC).tar.gz
 
-# SOURCE_ARCHIVE is the name of the file we use as Docker context when
-# building the static image.
-SOURCE_ARCHIVE := $(STATIC_CACHE_DIR)/source.tar.gz
+# BASE_SOURCE_ARCHIVE is the archive containing files needed to build the base image.
+BASE_SOURCE_ARCHIVE := $(BASE_CACHE_DIR)/base-source_$(BUILD_BASE_SUM)
 
 # UI_DEPS_SOURCE_ARCHIVE is the archive containing files that dictate the UI dependencies.
 UI_DEPS_SOURCE_ARCHIVE := $(UI_DEPS_CACHE_DIR)/ui-deps-source_$(BUILD_UI_DEPS_SUM).tar.gz
 
-# BASE_SOURCE_ARCHIVE is the archive containing files needed to build the base image.
-BASE_SOURCE_ARCHIVE := $(BASE_CACHE_DIR)/base-source_$(BUILD_BASE_SUM)
+# UI_DEPS_SOURCE_ARCHIVE is the archive containing files that dictate the UI dependencies.
+UI_SOURCE_ARCHIVE := $(UI_CACHE_DIR)/ui-source_$(BUILD_UI_SUM).tar.gz
+
+# SOURCE_ARCHIVE is the name of the file we use as Docker context when
+# building the static image.
+SOURCE_ARCHIVE := $(STATIC_CACHE_DIR)/source.tar.gz
 
 ### Phonies section (these allow running individual jobs without knowing the source ID etc).
 
@@ -227,6 +240,20 @@ ui-deps-restore:
 	@docker load -i $(BUILD_UI_DEPS_ARCHIVE)
 	@echo $(BUILD_UI_DEPS_IMAGE) > $(BUILD_UI_DEPS)
 
+ui: $(BUILD_UI)
+	@cat $<
+
+ui-archive-name:
+	@echo $(BUILD_UI_ARCHIVE)
+
+ui-archive: $(BUILD_UI_ARCHIVE)
+	@echo $<
+
+ui-restore:
+	@echo "==> Restoring image from archive: $(BUILD_UI_IMAGE)"
+	@docker load -i $(BUILD_UI_ARCHIVE)
+	@echo $(BUILD_UI_IMAGE) > $(BUILD_UI)
+
 static: $(BUILD_STATIC)
 	@cat $<
 
@@ -245,6 +272,9 @@ package: $(PACKAGE)
 	@echo $<
 
 ui-deps-source-archive: $(UI_DEPS_SOURCE_ARCHIVE)
+	@echo $<
+
+ui-source-archive: $(UI_SOURCE_ARCHIVE)
 	@echo $<
 
 source-archive: $(SOURCE_ARCHIVE)
@@ -283,6 +313,12 @@ $(UI_DEPS_SOURCE_ARCHIVE): $(UI_DEPS_SOURCE)
 	@mkdir -p $$(dirname $@)
 	@echo "==> Refreshing ui deps source archive."
 	@tar czf $@ $(UI_DEPS_SOURCE)
+
+# UI_SOURCE_ARCHIVE contains only the files that dictate UI dependencies.
+$(UI_SOURCE_ARCHIVE): $(UI_SOURCE)
+	@mkdir -p $$(dirname $@)
+	@echo "==> Refreshing ui source archive."
+	@tar czf $@ $(UI_SOURCE)
 
 $(BASE_SOURCE_ARCHIVE): $(BASE_SOURCE)
 	@mkdir -p $$(dirname $@)
@@ -349,11 +385,21 @@ $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
 		echo "==> Exporting docker image archive (this may take some time): $@"; \
 		docker save -o $@ $(BUILD_UI_DEPS_IMAGE)
 
+# BUILD_UI is the base image plus the compiled UI.
+$(BUILD_UI): $(BUILD_UI_DEPS) | $(UI_SOURCE_ARCHIVE)
+	$(call BUILD_IMAGE,$(BUILD_UI_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/ui.Dockerfile,$(UI_SOURCE_ARCHIVE),$(BUILD_UI_ARCHIVE))
+
+$(BUILD_UI_ARCHIVE): | $(BUILD_UI)
+	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
+		mkdir -p $$(dirname $@); \
+		echo "==> Exporting docker image archive (this may take some time): $@"; \
+		docker save -o $@ $(BUILD_UI_IMAGE)
+
 # BUILD_STATIC is the base docker image, plus source code, with all static files built.
 # Static files are code and UI assets that do not differ between platforms.
 # We pass SOURCE_ARCHIVE as the context here.
-$(BUILD_STATIC): build/static.Dockerfile $(BUILD_UI_DEPS) | $(SOURCE_ARCHIVE) 
-	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE),$(BUILD_STATIC_ARCHIVE))
+$(BUILD_STATIC): build/static.Dockerfile $(BUILD_UI) | $(SOURCE_ARCHIVE) 
+	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE),$(BUILD_STATIC_ARCHIVE))
 
 $(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
 	@if [ -f $@ ]; then echo "==> Image archive already exists: $@"; exit 0; fi; \
@@ -373,6 +419,6 @@ SUBMAKE := YES
 export SUBMAKE
 _ := $(shell $(call ENSURE_IMAGE,$(BUILD_BASE_IMAGE),$(BUILD_BASE_ARCHIVE),$(BUILD_BASE)))
 _ := $(shell $(call ENSURE_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_UI_DEPS_ARCHIVE),$(BUILD_UI_DEPS)))
+_ := $(shell $(call ENSURE_IMAGE,$(BUILD_UI_IMAGE),$(BUILD_UI_ARCHIVE),$(BUILD_UI)))
 _ := $(shell $(call ENSURE_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_STATIC_ARCHIVE),$(BUILD_STATIC)))
 endif
-
