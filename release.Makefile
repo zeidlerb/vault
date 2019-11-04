@@ -81,7 +81,7 @@ FULL_VERSION := $(BUILD_VERSION)$(BUILD_PRERELEASE)
 # BUNDLE_NAME is the name of the release bundle.
 BUNDLE_NAME ?= $(PRODUCT_NAME)$(EDITION)
 # PACKAGE_NAME is the unique name of a specific build of this product.
-PACKAGE_NAME = $(BUNDLE_NAME)_$(BUILD_VERSION)_$(GOOS)_$(GOARCH)
+PACKAGE_NAME = $(BUNDLE_NAME)_$(FULL_VERSION)_$(GOOS)_$(GOARCH)
 # PACKAGE is the zip file containing a specific binary.
 PACKAGE := $(PACKAGE_OUT_ROOT)/$(PACKAGE_NAME).zip
 
@@ -361,15 +361,18 @@ $(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
 		echo "==> Exporting docker image archive (this may take some time): $@"; \
 		docker save -o $@ $(BUILD_STATIC_IMAGE)
 
-$(PACKAGE): | $(BUILD_STATIC)
+$(PACKAGE): 
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
 	@rm -rf ./$(OUT_DIR)
 	@mkdir -p ./$(OUT_DIR)
 	$(DOCKER_RUN_COMMAND)
 
+ifndef SUBMAKE
+SUBMAKE := YES
+export SUBMAKE
 _ := $(shell $(call ENSURE_IMAGE,$(BUILD_BASE_IMAGE),$(BUILD_BASE_ARCHIVE),$(BUILD_BASE)))
 _ := $(shell $(call ENSURE_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_UI_DEPS_ARCHIVE),$(BUILD_UI_DEPS)))
 _ := $(shell $(call ENSURE_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_STATIC_ARCHIVE),$(BUILD_STATIC)))
-
+endif
 
