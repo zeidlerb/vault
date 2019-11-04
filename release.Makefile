@@ -25,9 +25,12 @@
 # Strict mode shell - See https://fieldnotes.tech/how-to-shell-for-compatible-makefiles
 SHELL := /usr/bin/env bash -euo pipefail -c
 
-_ := $(call ENSURE_IMAGE,$(BUILD_BASE_IMAGE),$(BUILD_BASE_ARCHIVE),$(BUILD_BASE))
-_ := $(call ENSURE_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_UI_DEPS_ARCHIVE),$(BUILD_UI_DEPS))
-_ := $(call ENSURE_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_STATIC_ARCHIVE),$(BUILD_STATIC))
+TOUCH := touch
+DATE := date
+ifeq ($(shell uname),Darwin)
+TOUCH := gtouch
+DATE := gdate
+endif
 
 # BUILD_CACHE_DIR contains references to intermediate docker images, as well as
 # archives created with 'docker save'. In CI, you should share the contents of 
@@ -305,17 +308,21 @@ define BUILD_IMAGE
 		echo "==> Building image (this may take some time): $(1)"; \
 		docker build --build-arg BASE_IMAGE=$(2) -f $(3) -t $(1) - < $(4); \
 	fi; \
-	echo $(1) > $@ # Write the image name to the marker file.
+	docker inspect -f '{{.Created}}' $(1) > $(@).timestamp 2>/dev/null; \
+	$(TOUCH) -m -d $$(cat $(1).timestamp) $(@);
 endef
 
 define ENSURE_IMAGE
-	if { docker inspect $(1) > /dev/null 2>&1; }; then \
-		echo "==> Image already exists, setting marker file: $(1)"; \
+	mkdir -p $$(dirname $(3)); \
+	if { docker inspect -f '{{.Created}}' $(1) > $(3).timestamp 2>/dev/null; }; then \
+		echo "==> Image already exists (built on $$(cat $(3).timestamp)), setting marker file: $(1)"; \
 		echo $(1) > $(3); \
+		$(TOUCH) -m -d $$(cat $(3).timestamp) $(3); \
 	elif [ -f $(2) ]; then \
 		echo "==> Restoring image from archive: $(1)"; \
 		docker load -i $(2); \
-		echo $(1) > $(3); \
+		docker inspect -f '{{.Created}}' $(1) > $(3).timestamp 2>/dev/null; \
+		$(TOUCH) -m -d $$(cat $(3).timestamp) $(3); \
 	elif [ -f $(3) ]; then \
 		echo "==> Docker image no longer exists, removing marker file: $(1)"; \
 		rm -f $(3); \
@@ -333,7 +340,7 @@ $(BUILD_BASE_ARCHIVE): | $(BUILD_BASE)
 		docker save -o $@ $(BUILD_BASE_IMAGE);
 
 # BUILD_UI_DEPS is the base image plus all external UI dependencies.
-$(BUILD_UI_DEPS): | $(UI_DEPS_SOURCE_ARCHIVE) $(BUILD_BASE)
+$(BUILD_UI_DEPS): $(BUILD_BASE) | $(UI_DEPS_SOURCE_ARCHIVE)
 	$(call BUILD_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_BASE_IMAGE),build/ui-deps.Dockerfile,$(UI_DEPS_SOURCE_ARCHIVE),$(BUILD_UI_DEPS_ARCHIVE))
 
 $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
@@ -345,7 +352,7 @@ $(BUILD_UI_DEPS_ARCHIVE): | $(BUILD_UI_DEPS)
 # BUILD_STATIC is the base docker image, plus source code, with all static files built.
 # Static files are code and UI assets that do not differ between platforms.
 # We pass SOURCE_ARCHIVE as the context here.
-$(BUILD_STATIC): build/static.Dockerfile | $(SOURCE_ARCHIVE) $(BUILD_UI_DEPS)
+$(BUILD_STATIC): build/static.Dockerfile $(BUILD_UI_DEPS) | $(SOURCE_ARCHIVE) 
 	$(call BUILD_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_UI_DEPS_IMAGE),build/static.Dockerfile,$(SOURCE_ARCHIVE),$(BUILD_STATIC_ARCHIVE))
 
 $(BUILD_STATIC_ARCHIVE): | $(BUILD_STATIC)
@@ -360,4 +367,9 @@ $(PACKAGE): | $(BUILD_STATIC)
 	@rm -rf ./$(OUT_DIR)
 	@mkdir -p ./$(OUT_DIR)
 	$(DOCKER_RUN_COMMAND)
+
+_ := $(shell $(call ENSURE_IMAGE,$(BUILD_BASE_IMAGE),$(BUILD_BASE_ARCHIVE),$(BUILD_BASE)))
+_ := $(shell $(call ENSURE_IMAGE,$(BUILD_UI_DEPS_IMAGE),$(BUILD_UI_DEPS_ARCHIVE),$(BUILD_UI_DEPS)))
+_ := $(shell $(call ENSURE_IMAGE,$(BUILD_STATIC_IMAGE),$(BUILD_STATIC_ARCHIVE),$(BUILD_STATIC)))
+
 
