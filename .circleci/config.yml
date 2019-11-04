@@ -156,6 +156,8 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - setup_remote_docker
+    - checkout
     - run:
         command: |
           mkdir -p .buildcache
@@ -183,8 +185,6 @@ jobs:
         environment:
           NAME: base
         name: Generate base image cache key.
-    - setup_remote_docker
-    - checkout
     - run:
         command: |
           mkdir -p .buildcache
@@ -250,6 +250,8 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - setup_remote_docker
+    - checkout
     - run:
         command: |
           mkdir -p .buildcache
@@ -277,8 +279,6 @@ jobs:
         environment:
           NAME: base
         name: Generate base image cache key.
-    - setup_remote_docker
-    - checkout
     - run:
         command: |
           mkdir -p .buildcache
@@ -565,6 +565,8 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - setup_remote_docker
+    - checkout
     - run:
         command: |
           mkdir -p .buildcache
@@ -592,8 +594,6 @@ jobs:
         environment:
           NAME: base
         name: Generate base image cache key.
-    - setup_remote_docker
-    - checkout
     - run:
         command: |
           mkdir -p .buildcache
@@ -659,6 +659,8 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - setup_remote_docker
+    - checkout
     - run:
         command: |
           mkdir -p .buildcache
@@ -686,8 +688,6 @@ jobs:
         environment:
           NAME: base
         name: Generate base image cache key.
-    - setup_remote_docker
-    - checkout
     - run:
         command: |
           mkdir -p .buildcache
