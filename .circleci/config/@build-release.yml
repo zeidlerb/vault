@@ -27,4 +27,4 @@ jobs:
     steps:
       - checkout
       - load-packages
-      - run: ls -lahR dest/
+      - run: ls -lahR dist/
