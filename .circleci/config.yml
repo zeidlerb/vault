@@ -49,125 +49,14 @@ jobs:
         name: Generate base image cache key.
     - restore_cache:
         key: package-_linux_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui-deps
-        name: Generate ui-deps image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
     - restore_cache:
         key: package-_linux_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui-deps
-        name: Generate ui-deps image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
     - restore_cache:
         key: package-_darwin_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui-deps
-        name: Generate ui-deps image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
     - restore_cache:
         key: package-_darwin_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
-        command: ls -lahR dest/
+        command: ls -lahR dist/
   install-ui-dependencies:
     docker:
     - image: node:10-buster
@@ -295,8 +184,8 @@ jobs:
           GOOS: darwin
         name: Compile package
     - store_artifacts:
-        destination: dest
-        path: dest/
+        destination: dist/
+        path: dist/
     - save_cache:
         key: package-_darwin_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
@@ -409,8 +298,8 @@ jobs:
           GOOS: darwin
         name: Compile package
     - store_artifacts:
-        destination: dest
-        path: dest/
+        destination: dist/
+        path: dist/
     - save_cache:
         key: package-_darwin_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
@@ -744,8 +633,8 @@ jobs:
           GOOS: linux
         name: Compile package
     - store_artifacts:
-        destination: dest
-        path: dest/
+        destination: dist/
+        path: dist/
     - save_cache:
         key: package-_linux_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
@@ -858,8 +747,8 @@ jobs:
           GOOS: linux
         name: Compile package
     - store_artifacts:
-        destination: dest
-        path: dest/
+        destination: dist/
+        path: dist/
     - save_cache:
         key: package-_linux_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:

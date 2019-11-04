@@ -135,8 +135,8 @@ build-package:
         command: |
           make -f release.Makefile package
     - store_artifacts:
-        path: dest/
-        destination: dest
+        path: dist/
+        destination: dist/
     - save_cache:
         key: *PACKAGE_CACHE_KEY
         paths:
@@ -152,13 +152,13 @@ load-package:
       type: string
       default: ""
   steps:
-    - checkout
-    - write-builder-cache-keys
     - restore_cache:
         key: *PACKAGE_CACHE_KEY
 
 load-packages:
   steps:
+    - checkout
+    - write-builder-cache-keys
     - load-package:
         GOOS: linux
         GOARCH: amd64
