@@ -109,9 +109,9 @@ build-package:
       type: string
       default: ""
   steps:
-    - write-builder-cache-keys
     - setup_remote_docker
     - checkout
+    - write-builder-cache-keys
     - ensure-static-builder
     - restore_cache:
         key: &PACKAGE_CACHE_KEY package-<<parameters.EDITION>>_<<parameters.GOOS>>_<<parameters.GOARCH>>-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
