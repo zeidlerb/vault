@@ -309,7 +309,7 @@ define BUILD_IMAGE
 		docker build --build-arg BASE_IMAGE=$(2) -f $(3) -t $(1) - < $(4); \
 	fi; \
 	docker inspect -f '{{.Created}}' $(1) > $(@).timestamp 2>/dev/null; \
-	$(TOUCH) -m -d $$(cat $(1).timestamp) $(@);
+	$(TOUCH) -m -d $$(cat $(@).timestamp) $(@);
 endef
 
 define ENSURE_IMAGE
