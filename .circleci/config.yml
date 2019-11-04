@@ -10,6 +10,7 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
     - checkout
+    - checkout
     - run:
         command: |
           mkdir -p .buildcache
