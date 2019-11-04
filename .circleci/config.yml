@@ -77,8 +77,6 @@ jobs:
           echo "Unable to restore an builder images, rebuilding from scratch."
         name: Restore static builder image (or best available).
     - run:
-        command: make -f release.Makefile static
-    - run:
         command: make -f release.Makefile package
   test-ui:
     docker:

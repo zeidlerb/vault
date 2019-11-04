@@ -17,7 +17,6 @@ ensure-static-builder:
     Use this to prepare the builder for building final packages.
   steps:
     - restore-builder-cache
-    - run: make -f release.Makefile static
 
 restore-each-builder-cache:
   description: >
