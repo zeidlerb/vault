@@ -1026,6 +1026,10 @@ jobs:
         paths:
         - .buildcache/ui-deps
     - save_cache:
+        key: ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        paths:
+        - .buildcache/ui
+    - save_cache:
         key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - .buildcache/static

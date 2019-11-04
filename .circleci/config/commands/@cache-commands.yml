@@ -80,6 +80,10 @@ save-builder-cache:
         paths:
           - .buildcache/ui-deps
     - save_cache:
+        key: *UI_CACHE_KEY
+        paths:
+          - .buildcache/ui
+    - save_cache:
         key: *STATIC_CACHE_KEY
         paths:
           - .buildcache/static
