@@ -4,6 +4,133 @@
 ### ***
 version: 2
 jobs:
+  bundle-releases:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    steps:
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui-deps
+        name: Generate ui-deps image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        key: package-_linux_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui-deps
+        name: Generate ui-deps image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        key: package-_linux_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui-deps
+        name: Generate ui-deps image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        key: package-_darwin_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui-deps
+        name: Generate ui-deps image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        key: package-_darwin_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: ls -lahR dest/
   install-ui-dependencies:
     docker:
     - image: node:10-buster
@@ -28,6 +155,33 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui-deps
+        name: Generate ui-deps image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
     - setup_remote_docker
     - checkout
     - run:
@@ -73,6 +227,8 @@ jobs:
           make -f release.Makefile base-restore || \
           echo "Unable to restore an builder images, rebuilding from scratch."
         name: Restore static builder image (or best available).
+    - restore_cache:
+        key: package-_darwin_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -84,6 +240,15 @@ jobs:
     - store_artifacts:
         destination: dest
         path: dest/
+    - save_cache:
+        key: package-_darwin_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  build-darwin-386:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    steps:
     - run:
         command: |
           mkdir -p .buildcache
@@ -111,15 +276,6 @@ jobs:
         environment:
           NAME: base
         name: Generate base image cache key.
-    - save_cache:
-        key: package-_darwin_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
-  build-darwin-386:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    steps:
     - setup_remote_docker
     - checkout
     - run:
@@ -165,6 +321,8 @@ jobs:
           make -f release.Makefile base-restore || \
           echo "Unable to restore an builder images, rebuilding from scratch."
         name: Restore static builder image (or best available).
+    - restore_cache:
+        key: package-_darwin_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -176,33 +334,6 @@ jobs:
     - store_artifacts:
         destination: dest
         path: dest/
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui-deps
-        name: Generate ui-deps image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
     - save_cache:
         key: package-_darwin_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
@@ -433,6 +564,33 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui-deps
+        name: Generate ui-deps image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
     - setup_remote_docker
     - checkout
     - run:
@@ -478,6 +636,8 @@ jobs:
           make -f release.Makefile base-restore || \
           echo "Unable to restore an builder images, rebuilding from scratch."
         name: Restore static builder image (or best available).
+    - restore_cache:
+        key: package-_linux_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -489,6 +649,15 @@ jobs:
     - store_artifacts:
         destination: dest
         path: dest/
+    - save_cache:
+        key: package-_linux_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  build-linux-amd64:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    steps:
     - run:
         command: |
           mkdir -p .buildcache
@@ -516,8 +685,66 @@ jobs:
         environment:
           NAME: base
         name: Generate base image cache key.
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui-deps
+        name: Generate ui-deps image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-archive-name > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-restore || \
+          make -f release.Makefile ui-deps-restore || \
+          make -f release.Makefile base-restore || \
+          echo "Unable to restore an builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - restore_cache:
+        key: package-_linux_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        environment:
+          EDITION: ''
+          GOARCH: amd64
+          GOOS: linux
+        name: Compile package
+    - store_artifacts:
+        destination: dest
+        path: dest/
     - save_cache:
-        key: package-_linux_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-_linux_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   pre-flight-checks:
@@ -667,7 +894,7 @@ workflows:
   build-release:
     jobs:
     - cache-builder-images
-    - build-darwin-amd64:
+    - build-linux-amd64:
         requires:
         - cache-builder-images
     - build-linux-386:
@@ -679,6 +906,12 @@ workflows:
     - build-darwin-386:
         requires:
         - cache-builder-images
+    - bundle-releases:
+        requires:
+        - build-linux-amd64
+        - build-linux-386
+        - build-darwin-amd64
+        - build-darwin-386
   ci:
     jobs:
     - pre-flight-checks

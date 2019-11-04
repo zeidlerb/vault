@@ -22,3 +22,4 @@ build-darwin-386:
     - build-package:
         GOOS: darwin
         GOARCH: "386"
+
