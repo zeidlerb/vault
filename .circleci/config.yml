@@ -183,7 +183,7 @@ jobs:
         key: package-_darwin_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make --debug -f release.Makefile package
+          make -f release.Makefile package
         environment:
           EDITION: ''
           GOARCH: amd64
@@ -303,7 +303,7 @@ jobs:
         key: package-_darwin_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make --debug -f release.Makefile package
+          make -f release.Makefile package
         environment:
           EDITION: ''
           GOARCH: '386'
@@ -644,7 +644,7 @@ jobs:
         key: package-_linux_386-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make --debug -f release.Makefile package
+          make -f release.Makefile package
         environment:
           EDITION: ''
           GOARCH: '386'
@@ -764,7 +764,7 @@ jobs:
         key: package-_linux_amd64-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make --debug -f release.Makefile package
+          make -f release.Makefile package
         environment:
           EDITION: ''
           GOARCH: amd64
@@ -885,13 +885,29 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - run:
-        command: make -f release.Makefile base-save
+        command: |
+          make -f release.Makefile $NAME-load || make -f release.Makefile $NAME-save
+        environment:
+          NAME: base
+        name: Update base builder image layer
     - run:
-        command: make -f release.Makefile yarn-save
+        command: |
+          make -f release.Makefile $NAME-load || make -f release.Makefile $NAME-save
+        environment:
+          NAME: yarn
+        name: Update yarn builder image layer
     - run:
-        command: make -f release.Makefile ui-save
+        command: |
+          make -f release.Makefile $NAME-load || make -f release.Makefile $NAME-save
+        environment:
+          NAME: ui
+        name: Update ui builder image layer
     - run:
-        command: make -f release.Makefile static-save
+        command: |
+          make -f release.Makefile $NAME-load || make -f release.Makefile $NAME-save
+        environment:
+          NAME: static
+        name: Update static builder image layer
     - run:
         command: |
           mkdir -p .buildcache
