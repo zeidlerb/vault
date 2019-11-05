@@ -158,7 +158,7 @@ $$($(1)_SOURCE_ARCHIVE): $$($(1)_SOURCE)
 
 $$($(1)_IMAGE_ARCHIVE): | $$($(1)_IMAGE)
 	@echo "==> Saving $(1) image to $$@"
-	@docker save -o @$@ $$$$(cat $$<)
+	@docker save -o $$@ $$$$(cat $$($(1)_IMAGE))
 
 endef
 
