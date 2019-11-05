@@ -72,7 +72,7 @@ _ := $$(shell \
 
 $(1)_SOURCE := $$(shell cat $$($(1)_SOURCE_LIST))
 
-$(1)_PHONY_TARGET_NAMES := debug image save load
+$(1)_PHONY_TARGET_NAMES := debug id image save load
 
 $(1)_PHONY_TARGETS := $$(addprefix $$($(1)_NAME)-,$$($(1)_PHONY_TARGET_NAMES))
 
@@ -131,6 +131,9 @@ $(1)-debug:
 	@echo "$(1)_BASE_IMAGE            = $$($(1)_BASE_IMAGE)"
 	@cat $$($(1)_SOURCE_LIST) | wc -l
 	@echo
+
+$(1)-id:
+	@echo $(1)-$$($(1)_SOURCE_ID)
 
 $(1)-image: $$($(1)_IMAGE_LINK)
 	@cat $$<
