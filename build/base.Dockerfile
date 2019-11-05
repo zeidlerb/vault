@@ -4,8 +4,7 @@
 #
 # It should be built with no Docker context.
 
-ARG BASE_IMAGE
-FROM $BASE_IMAGE
+FROM debian:buster
 
 ENV GO_VERSION 1.12.12
 ENV YARN_VERSION 1.19.1-1
