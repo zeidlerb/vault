@@ -122,7 +122,7 @@ $(1)-load:
 ## END PHONY targets
 
 $$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
-	@echo "==> Linking $$($(1)_NAME) image as $$@"
+	@echo "==> Linking $$($(1)_NAME) cache dir as $$@"
 	ln -fhs $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
 
 $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
@@ -136,26 +136,25 @@ define $(1)_UPDATE_MARKER_FILE
 	export IMAGE_CREATED; \
 	if ! IMAGE_CREATED=$$$$(docker inspect -f '{{.Created}}' $$$$IMAGE 2>/dev/null); then \
 		if [ -f $$$$MARKER ]; then \
-			echo "==> Removing stale marker file for $$$$IMAGE"
+			echo "==> Removing stale marker file for $$$$IMAGE"; \
 			rm -f $$$$MARKER; \
 		fi; \
 		exit 0; \
 	fi; \
 	if [ ! -f $$$$MARKER ]; then \
 		echo "==> Writing marker file for $$$$IMAGE (created $$$$IMAGE_CREATED)"; \
-		echo $$$$IMAGE > $$$$MARKER; \
 	fi; \
+	echo $$$$IMAGE > $$$$MARKER; \
 	$(TOUCH) -m -d $$$$IMAGE_CREATED $$$$MARKER;
 endef
 
 $$($(1)_IMAGE): | $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
 	@echo "==> Building Docker image: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
 	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE)
-	$(call $(1)_UPDATE_MARKER_FILE)
-	ln -fhs $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
+	@$$(call $(1)_UPDATE_MARKER_FILE)
 
 $$($(1)_SOURCE_ARCHIVE): $$($(1)_SOURCE)
-	@echo "==> Building source archive: $$(NAME); $$($(1)_SOURCE_ID)"
+	@echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
 	tar czf $$@ -T - < $$($(1)_SOURCE_LIST)
 
 $$($(1)_IMAGE_ARCHIVE): | $$($(1)_IMAGE)
@@ -210,10 +209,10 @@ STATIC_SOURCE_INCLUDE := .
 STATIC_SOURCE_EXCLUDE := rel.Makefile release.Makefile .circleci/
 $(eval $(call LAYER,$(STATIC_NAME),$(STATIC_BASEIMAGE),$(STATIC_SOURCE_INCLUDE),$(STATIC_SOURCE_EXCLUDE)))
 
-base_UPDATED   := $(strip $(shell $(call base_UPDATE_MARKER_FILE))))
-yarn_UPDATED   := $(strip $(shell $(call yarn_UPDATE_MARKER_FILE))))
-ui_UPDATED     := $(strip $(shell $(call ui_UPDATE_MARKER_FILE))))
-static_UPDATED := $(strip $(shell $(call static_UPDATE_MARKER_FILE))))
+base_UPDATED   := $(strip $(shell $(call base_UPDATE_MARKER_FILE)))
+yarn_UPDATED   := $(strip $(shell $(call yarn_UPDATE_MARKER_FILE)))
+ui_UPDATED     := $(strip $(shell $(call ui_UPDATE_MARKER_FILE)))
+static_UPDATED := $(strip $(shell $(call static_UPDATE_MARKER_FILE)))
 
 ifneq ($(base_UPDATED),)
 $(info $(base_UPDATED))
