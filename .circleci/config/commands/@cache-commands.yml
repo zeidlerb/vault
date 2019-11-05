@@ -6,11 +6,23 @@ ensure-builder-image-cache:
     each image archive here, we can be sure they are restorable.
   steps:
     - restore-each-builder-cache
-    - run: make -f release.Makefile base-save
-    - run: make -f release.Makefile yarn-save
-    - run: make -f release.Makefile ui-save
-    - run: make -f release.Makefile static-save
+    - update-base-image: {layer-name: base}
+    - update-base-image: {layer-name: yarn}
+    - update-base-image: {layer-name: ui}
+    - update-base-image: {layer-name: static}
     - save-builder-cache
+
+update-base-image:
+  parameters:
+    layer-name:
+      type: string
+  steps:
+    - run:
+        name: Update <<parameters.layer-name>> builder image layer
+        environment:
+          NAME: <<parameters.layer-name>>
+        command: |
+          make -f release.Makefile $NAME-load || make -f release.Makefile $NAME-save
 
 ensure-static-builder:
   description: >
@@ -135,7 +147,7 @@ build-package:
           GOARCH: "<<parameters.GOARCH>>"
           EDITION: "<<parameters.EDITION>>"
         command: |
-          make --debug -f release.Makefile package
+          make -f release.Makefile package
     - store_artifacts:
         path: dist/
         destination: dist/
