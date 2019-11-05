@@ -9,23 +9,16 @@ SUM := sha1sum | cut -d' ' -f1
 
 QUOTE_LIST = $(addprefix ',$(addsuffix ',$(1)))
 
-define DO
-$(shell cat <<EOF > $(1)\
-$(2); \
-EOF \
-./$(1); \
-)
-endef
-
 define LAYER
 NAME           = $(1)
 BASE           = $(2)
 SOURCE_INCLUDE = $(3)
 SOURCE_EXCLUDE = $(4)
 
-CACHE = $(CACHE_ROOT)/$$(NAME)
+CACHE = $(CACHE_ROOT)/$$(NAME)/$$(SOURCE_ID)
 SOURCE_LIST = $$(CACHE)/source-list
 DOCKERFILE = build/$$(NAME).Dockerfile
+IMAGE_NAME = vault-builder-$$(NAME):$$(SOURCE_ID)
 
 SOURCE_GIT = $$(SOURCE_INCLUDE) $$(DOCKERFILE) $$(call QUOTE_LIST,$$(addprefix $$(GIT_EXCLUDE_PREFIX),$$(SOURCE_EXCLUDE)))
 SOURCE_CMD = { \
@@ -41,29 +34,46 @@ SOURCE_NEW          = $$(shell git ls-files -o --exclude-standard -- $$(SOURCE_G
 SOURCE_NEW_SUM      = $$(shell git ls-files -o --exclude-standard -- $$(SOURCE_GIT) | $(SUM))
 SOURCE_DIRTY        = $$(shell if [ $$(SOURCE_MODIFIED) == NO ] && [ -z "$$(SOURCE_NEW)" ]; then echo NO; else echo YES; fi)
 SOURCE_ID           = $$(shell if [ $$(SOURCE_MODIFIED) == NO ] && [ -z "$$(SOURCE_NEW)" ]; then \
-								   echo git_$$(SOURCE_COMMIT); \
+								   echo $$(SOURCE_COMMIT); \
 				      		   else \
 								   echo -n dirty_; echo $$(SOURCE_MODIFIED_SUM) $$(SOURCE_NEW_SUM) | $(SUM); \
 							   fi)
 
 _ = $$(shell mkdir -p $$(CACHE) && $$(SOURCE_CMD) > $$(SOURCE_LIST))
 
-debug-$$(NAME): NAME                := $$(NAME)
-debug-$$(NAME): BASE                := $$(BASE)
-debug-$$(NAME): SOURCE_GIT          := $$(SOURCE_GIT)
-debug-$$(NAME): SOURCE_CMD          := $$(SOURCE_CMD)
-debug-$$(NAME): SOURCE_GREP         := $$(SOURCE_GREP)
-debug-$$(NAME): SOURCE_COMMIT       := $$(SOURCE_COMMIT)
-debug-$$(NAME): SOURCE_MODIFIED     := $$(SOURCE_MODIFIED)
-debug-$$(NAME): SOURCE_MODIFIED_SUM := $$(SOURCE_MODIFIED_SUM)
-debug-$$(NAME): SOURCE_ID           := $$(SOURCE_ID)
-debug-$$(NAME): SOURCE_NEW          := $$(SOURCE_NEW)
-debug-$$(NAME): SOURCE_NEW_SUM      := $$(SOURCE_NEW_SUM)
-debug-$$(NAME): SOURCE_DIRTY        := $$(SOURCE_DIRTY)
+PHONY_TARGET_NAMES := debug build save load
+PHONY_TARGETS := $$(addprefix $$(NAME)-,$$(PHONY_TARGET_NAMES))
 
+.PHONY: $$(PHONY_TARGETS)
 
-debug-$$(NAME):
+# File targets.
+IMAGE             = $$(CACHE)/image.name
+IMAGE_TIMESTAMP   = $$(CACHE)/image.created_time
+IMAGE_ARCHIVE     = $$(CACHE)/image.tar.gz
+
+TARGETS = $$(PHONY_TARGETS)
+
+# Fix all variables for use in targets.
+$$(TARGETS): NAME                := $$(NAME)
+$$(TARGETS): BASE                := $$(BASE)
+$$(TARGETS): SOURCE_GIT          := $$(SOURCE_GIT)
+$$(TARGETS): SOURCE_CMD          := $$(SOURCE_CMD)
+$$(TARGETS): SOURCE_GREP         := $$(SOURCE_GREP)
+$$(TARGETS): SOURCE_COMMIT       := $$(SOURCE_COMMIT)
+$$(TARGETS): SOURCE_MODIFIED     := $$(SOURCE_MODIFIED)
+$$(TARGETS): SOURCE_MODIFIED_SUM := $$(SOURCE_MODIFIED_SUM)
+$$(TARGETS): SOURCE_ID           := $$(SOURCE_ID)
+$$(TARGETS): SOURCE_NEW          := $$(SOURCE_NEW)
+$$(TARGETS): SOURCE_NEW_SUM      := $$(SOURCE_NEW_SUM)
+$$(TARGETS): SOURCE_DIRTY        := $$(SOURCE_DIRTY)
+$$(TARGETS): IMAGE               := $$(IMAGE)
+$$(TARGETS): IMAGE_TIMESTAMP     := $$(IMAGE_TIMESTAMP)
+$$(TARGETS): IMAGE_ARCHIVE       := $$(IMAGE_ARCHIVE)
+$$(TARGETS): TARGETS             := $$(TARGETS)
+
+$$(NAME)-debug:
 	@echo "==> Debug info: $$(NAME) depends on $$(BASE)"
+	@echo "TARGETS         = $$(TARGETS)"
 	@echo "SOURCE_CMD      = $$(SOURCE_CMD)"
 	@echo "SOURCE_LIST     = $$(SOURCE_LIST)"
 	@echo "CACHE           = $$(CACHE)"
@@ -73,8 +83,15 @@ debug-$$(NAME):
 	@echo "SOURCE_MODIFIED = $$(SOURCE_MODIFIED)"
 	@echo "SOURCE_DIRTY    = $$(SOURCE_DIRTY)"
 	@echo "SOURCE_NEW      = $$(SOURCE_NEW)"
+	@echo "IMAGE           = $$(IMAGE)"
+	@echo "IMAGE_TIMESTAMP = $$(IMAGE_TIMESTAMP)"
+	@echo "IMAGE_ARCHIVE   = $$(IMAGE_ARCHIVE)"
 	@cat $$(SOURCE_LIST) | wc -l
 	@echo
+
+$$(NAME)-image:
+	@echo "==> Building image: $$(IMAGE)"
+
 endef
 
 BASE_NAME           := base
@@ -98,5 +115,5 @@ $(eval $(call LAYER,$(UI_NAME),$(UI_BASEIMAGE),$(UI_SOURCE_INCLUDE),$(UI_SOURCE_
 STATIC_NAME           := static
 STATIC_BASEIMAGE      := ui
 STATIC_SOURCE_INCLUDE := .
-STATIC_SOURCE_EXCLUDE := release.Makefile .circleci/
+STATIC_SOURCE_EXCLUDE := rel.Makefile release.Makefile .circleci/
 $(eval $(call LAYER,$(STATIC_NAME),$(STATIC_BASEIMAGE),$(STATIC_SOURCE_INCLUDE),$(STATIC_SOURCE_EXCLUDE)))
