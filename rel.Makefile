@@ -44,13 +44,12 @@ $(1)_CACHE = $(CACHE_ROOT)/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
 $(1)_SOURCE_LIST = $$($(1)_CACHE)/source.list
 $(1)_DOCKERFILE = build/$$($(1)_NAME).Dockerfile
 $(1)_IMAGE_NAME = vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
-$(1)_SOURCE_GIT = $$($(1)_SOURCE_INCLUDE) $$($(1)_DOCKERFILE) $$(call QUOTE_LIST,$$(addprefix $$($(1)_GIT_EXCLUDE_PREFIX),$$($(1)_SOURCE_EXCLUDE)))
+$(1)_SOURCE_GIT = $$($(1)_SOURCE_INCLUDE) $$($(1)_DOCKERFILE) $$(call QUOTE_LIST,$$(addprefix $(GIT_EXCLUDE_PREFIX),$$($(1)_SOURCE_EXCLUDE)))
 $(1)_SOURCE_CMD = { \
 					  echo $$($(1)_DOCKERFILE); \
 					  git ls-files HEAD -- $$($(1)_SOURCE_GIT); \
 			 		  git ls-files -m --exclude-standard HEAD -- $$($(1)_SOURCE_GIT); \
 			 	  } | sort | uniq
-
 	
 $(1)_SOURCE_COMMIT       = $$(shell git rev-list -n1 HEAD -- $$($(1)_SOURCE_GIT))
 $(1)_SOURCE_MODIFIED     = $$(shell if git diff -s --exit-code -- $$($(1)_SOURCE_GIT); then echo NO; else echo YES; fi)
@@ -92,21 +91,21 @@ $(1)_TARGETS = $$($(1)_PHONY_TARGETS)
 ## PHONY targets
 $(1)-debug:
 	@echo "==> Debug info: $$($(1)_NAME) depends on $$($(1)_BASE)"
-	@echo "$(1)_TARGETS         = $$($(1)_TARGETS)"
-	@echo "$(1)_SOURCE_CMD      = $$($(1)_SOURCE_CMD)"
-	@echo "$(1)_SOURCE_LIST     = $$($(1)_SOURCE_LIST)"
-	@echo "$(1)_CACHE           = $$($(1)_CACHE)"
-	@echo "$(1)_DOCKERFILE      = $$($(1)_DOCKERFILE)"
-	@echo "$(1)_SOURCE_COMMIT   = $$($(1)_SOURCE_COMMIT)"
-	@echo "$(1)_SOURCE_ID       = $$($(1)_SOURCE_ID)"
-	@echo "$(1)_SOURCE_MODIFIED = $$($(1)_SOURCE_MODIFIED)"
-	@echo "$(1)_SOURCE_DIRTY    = $$($(1)_SOURCE_DIRTY)"
-	@echo "$(1)_SOURCE_NEW      = $$($(1)_SOURCE_NEW)"
-	@echo "$(1)_IMAGE_LINK      = $$($(1)_IMAGE_LINK)"
-	@echo "$(1)_IMAGE           = $$($(1)_IMAGE)"
-	@echo "$(1)_IMAGE_TIMESTAMP = $$($(1)_IMAGE_TIMESTAMP)"
-	@echo "$(1)_IMAGE_ARCHIVE   = $$($(1)_IMAGE_ARCHIVE)"
-	@echo "$(1)_BASE_IMAGE      = $$($(1)_BASE_IMAGE)"
+	@echo "$(1)_TARGETS               = $$($(1)_TARGETS)"
+	@echo "$(1)_SOURCE_CMD            = $$($(1)_SOURCE_CMD)"
+	@echo "$(1)_SOURCE_LIST           = $$($(1)_SOURCE_LIST)"
+	@echo "$(1)_CACHE                 = $$($(1)_CACHE)"
+	@echo "$(1)_DOCKERFILE            = $$($(1)_DOCKERFILE)"
+	@echo "$(1)_SOURCE_COMMIT         = $$($(1)_SOURCE_COMMIT)"
+	@echo "$(1)_SOURCE_ID             = $$($(1)_SOURCE_ID)"
+	@echo "$(1)_SOURCE_MODIFIED       = $$($(1)_SOURCE_MODIFIED)"
+	@echo "$(1)_SOURCE_DIRTY          = $$($(1)_SOURCE_DIRTY)"
+	@echo "$(1)_SOURCE_NEW            = $$($(1)_SOURCE_NEW)"
+	@echo "$(1)_IMAGE_LINK            = $$($(1)_IMAGE_LINK)"
+	@echo "$(1)_IMAGE                 = $$($(1)_IMAGE)"
+	@echo "$(1)_IMAGE_TIMESTAMP       = $$($(1)_IMAGE_TIMESTAMP)"
+	@echo "$(1)_IMAGE_ARCHIVE         = $$($(1)_IMAGE_ARCHIVE)"
+	@echo "$(1)_BASE_IMAGE            = $$($(1)_BASE_IMAGE)"
 	@cat $$($(1)_SOURCE_LIST) | wc -l
 	@echo
 
