@@ -153,21 +153,27 @@ $(1)-load:
 
 ## END PHONY targets
 
+# Update the 'current' link to point to this container.
 $$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
 	@echo "==> Linking $$($(1)_NAME) cache dir as $$@"
 	@ln -fns $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
 
+# Set the BASE_IMAGE build arg to reference the appropriate base image,
+# unless there is no referenced base image.
 $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
 
+# Build the docker image.
 $$($(1)_IMAGE): | $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
 	@echo "==> Building Docker image: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
 	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE)
 	@$$(call $(1)_UPDATE_MARKER_FILE)
 
+# Build the source archive used as docker context for this image.
 $$($(1)_SOURCE_ARCHIVE): $$($(1)_SOURCE)
 	@echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
 	tar czf $$@ -T - < $$($(1)_SOURCE_LIST)
 
+# Save the docker image as a tar.gz.
 $$($(1)_IMAGE_ARCHIVE): | $$($(1)_IMAGE)
 	@echo "==> Saving $(1) image to $$@"
 	@docker save -o $$@ $$$$(cat $$($(1)_IMAGE))
@@ -220,6 +226,8 @@ STATIC_SOURCE_INCLUDE := .
 STATIC_SOURCE_EXCLUDE := release.Makefile .circleci/
 $(eval $(call LAYER,$(STATIC_NAME),$(STATIC_BASEIMAGE),$(STATIC_SOURCE_INCLUDE),$(STATIC_SOURCE_EXCLUDE)))
 
+### BEGIN Pre-processing to ensure marker files aren't lying.
+
 base_UPDATED   := $(strip $(shell $(call base_UPDATE_MARKER_FILE)))
 yarn_UPDATED   := $(strip $(shell $(call yarn_UPDATE_MARKER_FILE)))
 ui_UPDATED     := $(strip $(shell $(call ui_UPDATE_MARKER_FILE)))
@@ -240,6 +248,12 @@ endif
 ifneq ($(static_UPDATED),)
 $(info $(static_UPDATED))
 endif
+
+### END pre-processing.
+
+### BEGIN Package building rules.
+###
+### This section dictates how we invoke the builder conainer to build the output package.
 
 # PACKAGE_OUT_ROOT is the root directory where the final packages will be written to.
 PACKAGE_OUT_ROOT ?= dist
@@ -328,7 +342,12 @@ package: $(PACKAGE)
 # PACKAGE assumes 'make static-image' has already been run.
 # It does not depend on the static image, as this simplifies cached later re-use
 # on circleci.
-$(PACKAGE): $(static_IMAGE)
+$(PACKAGE):
+	@# Instead of depending on the static image, we just check for its marker file
+	@# here. This allows us to skip checking the whole dependency tree, which means
+	@# we can buiild the package with just the static image, not relying on any of
+	@# the other base images to be present.
+	@if [ ! -f $(static_IMAGE) ]; then $(MAKE) -f release.Makefile $(static_IMAGE); fi
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
 	@rm -rf ./$(OUT_DIR)
