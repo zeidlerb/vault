@@ -6,10 +6,10 @@ ensure-builder-image-cache:
     each image archive here, we can be sure they are restorable.
   steps:
     - restore-each-builder-cache
-    - run: make -f release.Makefile base-archive
-    - run: make -f release.Makefile ui-deps-archive
-    - run: make -f release.Makefile ui-archive
-    - run: make -f release.Makefile static-archive
+    - run: make -f release.Makefile base-save
+    - run: make -f release.Makefile yarn-save
+    - run: make -f release.Makefile ui-save
+    - run: make -f release.Makefile static-save
     - save-builder-cache
 
 ensure-static-builder:
@@ -27,7 +27,7 @@ restore-each-builder-cache:
     - restore_cache:
         key: &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
     - restore_cache:
-        key: &UI_DEPS_CACHE_KEY ui-deps-archive-v1-{{ checksum ".buildcache/ui-deps-cache-key" }}
+        key: &YARN_CACHE_KEY yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
     - restore_cache:
         key: &UI_CACHE_KEY ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
     - restore_cache:
@@ -44,16 +44,16 @@ restore-builder-cache:
         keys:
           - *STATIC_CACHE_KEY
           - *UI_CACHE_KEY
-          - *UI_DEPS_CACHE_KEY
+          - *YARN_CACHE_KEY
           - *BASE_CACHE_KEY
     - info-print-buildcache
     - run:
         name: Restore static builder image (or best available).
         command: |
-          make -f release.Makefile static-restore || \
-          make -f release.Makefile ui-restore || \
-          make -f release.Makefile ui-deps-restore || \
-          make -f release.Makefile base-restore || \
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
 
 write-builder-cache-keys:
@@ -63,7 +63,7 @@ write-builder-cache-keys:
     - write-cache-key:
         layer-name: ui
     - write-cache-key:
-        layer-name: ui-deps
+        layer-name: yarn
     - write-cache-key:
         layer-name: base
 
@@ -76,9 +76,9 @@ save-builder-cache:
         paths:
           - .buildcache/base
     - save_cache:
-        key: *UI_DEPS_CACHE_KEY
+        key: *YARN_CACHE_KEY
         paths:
-          - .buildcache/ui-deps
+          - .buildcache/yarn
     - save_cache:
         key: *UI_CACHE_KEY
         paths:
@@ -107,7 +107,7 @@ write-cache-key:
         command: |
           mkdir -p .buildcache
           FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-archive-name > $FILE
+          make -f release.Makefile $NAME-id > $FILE
           echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
 
 build-package:
