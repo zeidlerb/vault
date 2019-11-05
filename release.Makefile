@@ -155,7 +155,7 @@ $(1)-load:
 
 $$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
 	@echo "==> Linking $$($(1)_NAME) cache dir as $$@"
-	@ln -fhs $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
+	@ln -fns $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
 
 $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
 
