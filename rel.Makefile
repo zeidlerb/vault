@@ -10,7 +10,9 @@ GIT_EXCLUDE_PREFIX := :(exclude)
 # SUM generates the sha1sum of its input.
 SUM := sha1sum | cut -d' ' -f1
 # QUOTE_LIST wraps a list of space-separated strings in quotes.
-QUOTE_LIST = $(addprefix ',$(addsuffix ',$(1)))
+QUOTE := $(shell echo "'")
+QUOTE_LIST = $(addprefix $(QUOTE),$(addsuffix $(QUOTE),$(1)))
+
 # TOUCH is the GNU touch utility. On Darwin, you should 'brew install coreutils'
 # which will install gtouch. gtouch can parse standard date formats to update the
 # modified time of docker image marker files based on info from the docker daemon.
@@ -88,6 +90,27 @@ $(1)_BASE_IMAGE        := $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/$$
 
 $(1)_TARGETS = $$($(1)_PHONY_TARGETS)
 
+# UPDATE_MARKER_FILE ensures the image marker file has the same timestamp as the
+# docker image creation date it represents. This enables make to only rebuild it when
+# it has really changed, especially after loading the image from an archive.
+define $(1)_UPDATE_MARKER_FILE
+	export MARKER=$$($(1)_IMAGE); \
+	export IMAGE=$$($(1)_IMAGE_NAME); \
+	export IMAGE_CREATED; \
+	if ! IMAGE_CREATED=$$$$(docker inspect -f '{{.Created}}' $$$$IMAGE 2>/dev/null); then \
+		if [ -f $$$$MARKER ]; then \
+			echo "==> Removing stale marker file for $$$$IMAGE"; \
+			rm -f $$$$MARKER; \
+		fi; \
+		exit 0; \
+	fi; \
+	if [ ! -f $$$$MARKER ]; then \
+		echo "==> Writing marker file for $$$$IMAGE (created $$$$IMAGE_CREATED)"; \
+	fi; \
+	echo $$$$IMAGE > $$$$MARKER; \
+	$(TOUCH) -m -d $$$$IMAGE_CREATED $$$$MARKER;
+endef
+
 ## PHONY targets
 $(1)-debug:
 	@echo "==> Debug info: $$($(1)_NAME) depends on $$($(1)_BASE)"
@@ -116,36 +139,22 @@ $(1)-save: $$($(1)_IMAGE_ARCHIVE)
 	@echo $$<
 
 $(1)-load:
-	@echo "TODO"
+	@\
+		ARCHIVE=$$($(1)_IMAGE_ARCHIVE); \
+		IMAGE=$$($(1)_IMAGE_NAME); \
+		MARKER=$$($(1)_IMAGE); \
+		rm -f $$$$MARKER; \
+		echo "==> Loading $$$$IMAGE image from $$$$ARCHIVE"; \
+		docker load -i $$$$ARCHIVE
+	@$$(call $(1)_UPDATE_MARKER_FILE)
 
 ## END PHONY targets
 
 $$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
 	@echo "==> Linking $$($(1)_NAME) cache dir as $$@"
-	ln -fhs $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
+	@ln -fhs $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
 
 $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
-
-# UPDATE_MARKER_FILE ensures the image marker file has the same timestamp as the
-# docker image creation date it represents. This enables make to only rebuild it when
-# it has really changed, especially after loading the image from an archive.
-define $(1)_UPDATE_MARKER_FILE
-	export MARKER=$$($(1)_IMAGE); \
-	export IMAGE=$$($(1)_IMAGE_NAME); \
-	export IMAGE_CREATED; \
-	if ! IMAGE_CREATED=$$$$(docker inspect -f '{{.Created}}' $$$$IMAGE 2>/dev/null); then \
-		if [ -f $$$$MARKER ]; then \
-			echo "==> Removing stale marker file for $$$$IMAGE"; \
-			rm -f $$$$MARKER; \
-		fi; \
-		exit 0; \
-	fi; \
-	if [ ! -f $$$$MARKER ]; then \
-		echo "==> Writing marker file for $$$$IMAGE (created $$$$IMAGE_CREATED)"; \
-	fi; \
-	echo $$$$IMAGE > $$$$MARKER; \
-	$(TOUCH) -m -d $$$$IMAGE_CREATED $$$$MARKER;
-endef
 
 $$($(1)_IMAGE): | $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
 	@echo "==> Building Docker image: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
@@ -228,3 +237,4 @@ endif
 ifneq ($(static_UPDATED),)
 $(info $(static_UPDATED))
 endif
+
