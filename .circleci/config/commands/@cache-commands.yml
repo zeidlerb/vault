@@ -55,6 +55,7 @@ restore-builder-cache:
           make -f release.Makefile yarn-load || \
           make -f release.Makefile base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+    - info-print-buildcache
 
 write-builder-cache-keys:
   steps:
@@ -94,6 +95,7 @@ info-print-buildcache:
         name: Info - list files in .buildcache/
         command: |
           ls -lahR .buildcache
+          docker image ls --no-trunc
 
 write-cache-key:
   parameters:
@@ -133,7 +135,7 @@ build-package:
           GOARCH: "<<parameters.GOARCH>>"
           EDITION: "<<parameters.EDITION>>"
         command: |
-          make -f release.Makefile package
+          make --debug -f release.Makefile package
     - store_artifacts:
         path: dist/
         destination: dist/
