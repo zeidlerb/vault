@@ -238,3 +238,96 @@ ifneq ($(static_UPDATED),)
 $(info $(static_UPDATED))
 endif
 
+# PACKAGE_OUT_ROOT is the root directory where the final packages will be written to.
+PACKAGE_OUT_ROOT ?= dist
+
+### Non-source build inputs (override these when invoking make to produce alternate binaries).
+### See build/package-list.txt and build/package-list.lock, which override these
+### per package.
+
+## Standard Go env vars.
+GOOS ?= $(shell go env GOOS || echo linux)
+GOARCH ?= $(shell go env GOARCH || echo amd64)
+CC ?= gcc
+CGO_ENABLED ?= 0
+GO111MODULE ?= off
+
+# GO_BUILD_TAGS is a comma-separated list of Go build tags, passed to -tags flag of 'go build'.
+GO_BUILD_TAGS ?= vault
+
+### Package parameters.
+
+# BINARY_NAME is literally the name of the product's binary file.
+BINARY_NAME ?= vault
+# PRODUCT_NAME is the top-level name of all editions of this product.
+PRODUCT_NAME ?= vault
+# BUILD_VERSION is the major/minor/prerelease fields of the version.
+BUILD_VERSION ?= 0.0.0
+# BUILD_PRERELEASE is the prerelease field of the version. If nonempty, it must begin with a -.
+BUILD_PRERELEASE ?= -dev
+# EDITION is used to differentiate alternate builds of the same commit, which may differ in
+# terms of build tags or other build inputs. EDITION should always form part of the BUNDLE_NAME,
+# and if non-empty MUST begin with a +.
+EDITION ?=
+
+### Calculated package parameters.
+
+FULL_VERSION := $(BUILD_VERSION)$(BUILD_PRERELEASE)
+# BUNDLE_NAME is the name of the release bundle.
+BUNDLE_NAME ?= $(PRODUCT_NAME)$(EDITION)
+# PACKAGE_NAME is the unique name of a specific build of this product.
+PACKAGE_NAME = $(BUNDLE_NAME)_$(FULL_VERSION)_$(GOOS)_$(GOARCH)
+PACKAGE_FILENAME = $(PACKAGE_NAME).zip
+# PACKAGE is the zip file containing a specific binary.
+PACKAGE = $(OUT_DIR)/$(PACKAGE_FILENAME)
+
+### Calculated build inputs.
+
+# LDFLAGS: These linker commands inject build metadata into the binary.
+LDFLAGS += -X github.com/hashicorp/vault/sdk/version.GitCommit="$(static_SOURCE_ID)"
+LDFLAGS += -X github.com/hashicorp/vault/sdk/version.Version="$(BUILD_VERSION)"
+LDFLAGS += -X github.com/hashicorp/vault/sdk/version.VersionPrerelease="$(BUILD_PRERELEASE)"
+
+# OUT_DIR tells the Go toolchain where to place the binary.
+OUT_DIR := $(PACKAGE_OUT_ROOT)/$(PACKAGE_NAME)/$(static_SOURCE_ID)
+# BUILD_ENV is the list of env vars that are passed through to 'make package' and 'go build'.
+BUILD_ENV := \
+	GO111MODULE=$(GO111MODULE) \
+	GOOS=$(GOOS) \
+	GOARCH=$(GOARCH) \
+	CC=$(CC) \
+	CGO_ENABLED=$(CGO_ENABLED) \
+	BUILD_VERSION=$(BUILD_VERSION) \
+	BUILD_PRERELEASE=$(BUILD_PRERELEASE)
+
+# BUILD_COMMAND compiles the Go binary.
+BUILD_COMMAND := \
+	$(BUILD_ENV) go build -v \
+	-tags '$(GO_BUILD_TAGS)' \
+	-ldflags '$(LDFLAGS)' \
+	-o /$(OUT_DIR)/$(BINARY_NAME)
+
+# ARCHIVE_COMMAND creates the package archive from the binary.
+ARCHIVE_COMMAND := cd /$(OUT_DIR) && zip $(PACKAGE_FILENAME) $(BINARY_NAME)
+
+### Docker run command configuration.
+
+DOCKER_SHELL := /bin/bash -euo pipefail -c
+DOCKER_RUN_FLAGS := --rm -v $(CURDIR)/$(OUT_DIR):/$(OUT_DIR)
+# DOCKER_RUN_COMMAND ties everything together to build the final package as a
+# single docker run invocation.
+DOCKER_RUN_COMMAND = docker run $(DOCKER_RUN_FLAGS) $(static_IMAGE_NAME) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"
+
+.PHONY: package
+package: $(PACKAGE)
+	@echo $<
+
+# PACKAGE assumes 'make static-image' has already been run.
+# It does not depend on the static image, as this simplifies cached later re-use
+# on circleci.
+$(PACKAGE): $(static_IMAGE)
+	@mkdir -p $$(dirname $@)
+	@echo "==> Building package: $@"
+	@rm -rf ./$(OUT_DIR)
+	@mkdir -p ./$(OUT_DIR)
+	$(DOCKER_RUN_COMMAND)
