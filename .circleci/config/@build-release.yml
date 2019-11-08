@@ -48,5 +48,52 @@ jobs:
     executor: releaser
     steps:
       - checkout
-      - load-packages
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_darwin_386
+          PACKAGE_SPEC_ID: 031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_darwin_amd64
+          PACKAGE_SPEC_ID: 47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_freebsd_386
+          PACKAGE_SPEC_ID: 96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_freebsd_amd64
+          PACKAGE_SPEC_ID: e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_freebsd_arm
+          PACKAGE_SPEC_ID: 3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_linux_386
+          PACKAGE_SPEC_ID: 70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_linux_amd64
+          PACKAGE_SPEC_ID: 3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_linux_arm
+          PACKAGE_SPEC_ID: 21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_linux_arm64
+          PACKAGE_SPEC_ID: 3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_netbsd_386
+          PACKAGE_SPEC_ID: a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_netbsd_amd64
+          PACKAGE_SPEC_ID: ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_openbsd_386
+          PACKAGE_SPEC_ID: 04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_openbsd_amd64
+          PACKAGE_SPEC_ID: 2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_solaris_amd64
+          PACKAGE_SPEC_ID: 15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_windows_386
+          PACKAGE_SPEC_ID: 2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77
+      - load-package:
+          PACKAGE_NAME: vault_0.0.0-dev_windows_amd64
+          PACKAGE_SPEC_ID: 102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825
       - run: ls -lahR dist/

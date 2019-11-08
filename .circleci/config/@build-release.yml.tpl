@@ -20,5 +20,8 @@ jobs:
     executor: releaser
     steps:
       - checkout
-      - load-packages
+      {{- range $packages}}
+      - load-package:
+          PACKAGE_NAME: {{.PACKAGE_NAME}}
+          PACKAGE_SPEC_ID: {{.PACKAGE_SPEC_ID}}{{end}}
       - run: ls -lahR dist/
