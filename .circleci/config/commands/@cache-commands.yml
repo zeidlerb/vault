@@ -138,7 +138,7 @@ build-package:
     - write-builder-cache-keys
     - ensure-static-builder
     - restore_cache:
-        key: &PACKAGE_CACHE_KEY NEED TO FIX   # package-cache-v1-<<parameters.PACKAGE_SPEC_ID>>-{{ checksum ".buildcache/static-cache-key" }}
+        key: &PACKAGE_CACHE_KEY package-cache-v1-<<parameters.PACKAGE_SPEC_ID>>-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         name: Compile package
         command: |
@@ -153,30 +153,15 @@ build-package:
 
 load-package:
   parameters:
-    GOOS:
+    PACKAGE_NAME:
       type: string
-    GOARCH:
+      description: Name of the package identified by PACKAGE_SPEC_ID.
+    PACKAGE_SPEC_ID:
       type: string
-    EDITION:
-      type: string
-      default: ""
+      description: >
+        PACKAGE_SPEC_ID encompasses inputs to the build that may not be captured already in the
+        builder images. Combined with the builder image cache checksum, it uniquely identifies
+        a built package by its path.
   steps:
     - restore_cache:
         key: *PACKAGE_CACHE_KEY
-
-load-packages:
-  steps:
-    - checkout
-    - write-builder-cache-keys
-    - load-package:
-        GOOS: linux
-        GOARCH: amd64
-    - load-package:
-        GOOS: linux
-        GOARCH: "386"
-    - load-package:
-        GOOS: darwin
-        GOARCH: amd64
-    - load-package:
-        GOOS: darwin
-        GOARCH: "386"
