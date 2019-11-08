@@ -1,20 +1,42 @@
----
+
 workflows:
   build-release:
     jobs:
       - cache-builder-images
-      - build-linux-amd64: { requires: [ cache-builder-images ] }
-      - build-linux-386: { requires: [ cache-builder-images ] }
-      - build-darwin-amd64: { requires: [ cache-builder-images ] }
-      - build-darwin-386: { requires: [ cache-builder-images ] }
+      - build_darwin_386: { requires: [ cache-builder-images ] }
+      - build_darwin_amd64: { requires: [ cache-builder-images ] }
+      - build_freebsd_386: { requires: [ cache-builder-images ] }
+      - build_freebsd_amd64: { requires: [ cache-builder-images ] }
+      - build_freebsd_arm: { requires: [ cache-builder-images ] }
+      - build_linux_386: { requires: [ cache-builder-images ] }
+      - build_linux_amd64: { requires: [ cache-builder-images ] }
+      - build_linux_arm: { requires: [ cache-builder-images ] }
+      - build_linux_arm64: { requires: [ cache-builder-images ] }
+      - build_netbsd_386: { requires: [ cache-builder-images ] }
+      - build_netbsd_amd64: { requires: [ cache-builder-images ] }
+      - build_openbsd_386: { requires: [ cache-builder-images ] }
+      - build_openbsd_amd64: { requires: [ cache-builder-images ] }
+      - build_solaris_amd64: { requires: [ cache-builder-images ] }
+      - build_windows_386: { requires: [ cache-builder-images ] }
+      - build_windows_amd64: { requires: [ cache-builder-images ] }
       - bundle-releases:
           requires:
-            - build-linux-amd64
-            - build-linux-386
-            - build-darwin-amd64
-            - build-darwin-386
-
-
+            - build_darwin_386
+            - build_darwin_amd64
+            - build_freebsd_386
+            - build_freebsd_amd64
+            - build_freebsd_arm
+            - build_linux_386
+            - build_linux_amd64
+            - build_linux_arm
+            - build_linux_arm64
+            - build_netbsd_386
+            - build_netbsd_amd64
+            - build_openbsd_386
+            - build_openbsd_amd64
+            - build_solaris_amd64
+            - build_windows_386
+            - build_windows_amd64
 jobs:
   cache-builder-images:
     executor: releaser
