@@ -94,5 +94,5 @@ $(PACKAGES_DIR)/%.json: $(DEFAULTS_DIR)/%.json $(RENDERED_DIR)/%.json
 # and converts it to YAML. This list itself is the source of truth which packages
 # we intend to build. It is intended to be used to generate CI build pipelines.
 $(LIST): $(PACKAGES)
-	@jq -s . $$(find $(PACKAGES)) | yq -y . >$@
+	@jq -s '{ packages: . }' $$(find $(PACKAGES)) | yq -y . >$@
 
