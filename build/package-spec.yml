@@ -1,0 +1,48 @@
+# inputs are environment variables we set by running bash commands
+inputs:
+  SOURCE_ID: make -f release.Makefile source-id
+  EDITION_SUFFIX: 'if [ x$EDITION != x ]; then echo +$EDITION; fi'
+  FULL_VERSION: 'echo ${VERSION}${EDITION_SUFFIX}'
+  VERSION_MMP: 'echo $VERSION | cut -d"-" -f1'
+  VERSION_PRE: 'echo $VERSION | cut -d"-" -f2'
+
+defaults:
+  PRODUCT_NAME: vault
+  BUILD_TAGS: vault
+  GO_VERSION: 1.12.13
+  CGOENABLED: 0
+  EDITION: ""
+  FULL_VERSION: 0.0.0-dev
+
+# Each template is rendered after merging packages with defaults, and the result
+# appended to the package spec.
+templates:
+  VERSION: >-
+    {{with .FULL_VERSION | strings.SplitN "-" 2}}{{index . 0}}{{end}}
+  VERSION_PRE: >-
+    {{with .FULL_VERSION | strings.SplitN "-" 2}}{{if gt (len .) 1}}{{index . 1}}{{else}}"''"{{end}}{{end}}
+  BUNDLE_NAME: >-
+    {{.PRODUCT_NAME}}_{{.FULL_VERSION}}{{if .EDITION}}+{{.EDITION}}{{end}}
+  PACKAGE_NAME: >-
+    {{.PRODUCT_NAME}}_{{.FULL_VERSION}}{{if .EDITION}}+{{.EDITION}}{{end}}_{{.GOOS}}_{{.GOARCH}}
+  JOB_NAME: >-
+    build_{{if .EDITION}}{{.EDITION}}_{{end}}{{.GOOS}}_{{.GOARCH}}
+# defaults are environment variables we set for each package, they can
+# be overridden per-package
+packages:
+  - { GOOS: darwin, GOARCH: 386 }
+  - { GOOS: darwin, GOARCH: amd64 }
+  - { GOOS: freebsd, GOARCH: 386 }
+  - { GOOS: freebsd, GOARCH: amd64 }
+  - { GOOS: freebsd, GOARCH: arm }
+  - { GOOS: linux, GOARCH: 386 }
+  - { GOOS: linux, GOARCH: amd64 }
+  - { GOOS: linux, GOARCH: arm }
+  - { GOOS: linux, GOARCH: arm64 }
+  - { GOOS: netbsd, GOARCH: 386 }
+  - { GOOS: netbsd, GOARCH: amd64 }
+  - { GOOS: openbsd, GOARCH: 386 }
+  - { GOOS: openbsd, GOARCH: amd64 }
+  - { GOOS: solaris, GOARCH: amd64 }
+  - { GOOS: windows, GOARCH: 386 }
+  - { GOOS: windows, GOARCH: amd64, CGOENABLED: 1, EDITION: ent.hsm}
