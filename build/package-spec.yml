@@ -20,6 +20,7 @@ templates:
     {{.PRODUCT_NAME}}_{{.VERSION_FULL}}{{if .EDITION}}+{{.EDITION}}{{end}}_{{.GOOS}}_{{.GOARCH}}
   JOB_NAME: >-
     build_{{if .EDITION}}{{.EDITION}}_{{end}}{{.GOOS}}_{{.GOARCH}}
+
 # defaults are environment variables we set for each package, they can
 # be overridden per-package
 packages:
