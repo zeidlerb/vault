@@ -126,26 +126,21 @@ write-cache-key:
 
 build-package:
   parameters:
-    GOOS:
+    PACKAGE_SPEC_ID:
       type: string
-    GOARCH:
-      type: string
-    EDITION:
-      type: string
-      default: ""
+      description: >
+        PACKAGE_SPEC_ID encompasses inputs to the build that may not be captured already in the
+        builder images. Combined with the builder image cache checksum, it uniquely identifies
+        a built package by its path.
   steps:
     - setup_remote_docker
     - checkout
     - write-builder-cache-keys
     - ensure-static-builder
     - restore_cache:
-        key: &PACKAGE_CACHE_KEY package-<<parameters.EDITION>>_<<parameters.GOOS>>_<<parameters.GOARCH>>-cache-v1-{{ checksum ".buildcache/static-cache-key" }}
+        key: &PACKAGE_CACHE_KEY NEED TO FIX   # package-cache-v1-<<parameters.PACKAGE_SPEC_ID>>-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         name: Compile package
-        environment:
-          GOOS: "<<parameters.GOOS>>"
-          GOARCH: "<<parameters.GOARCH>>"
-          EDITION: "<<parameters.EDITION>>"
         command: |
           make -f release.Makefile package
     - store_artifacts:

@@ -8,7 +8,7 @@ TEMPLATES := .tmp/templates
 DEFAULTS_DIR := .tmp/defaults
 RENDERED_DIR := .tmp/rendered
 PACKAGES_DIR := .tmp/packages
-LIST := .tmp/packages-expanded
+LIST := .tmp/list.yml
 
 # Count the packages we intend to list.
 PKG_COUNT := $(shell yq '.packages | length' < $(SPEC))
