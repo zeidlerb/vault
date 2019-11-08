@@ -117,8 +117,28 @@ prep: fmtcheck
 	@[ ! -d .git/hooks ] || grep -l '^# husky$$' .git/hooks/* | xargs rm -f
 	@if [ -d .git/hooks ]; then cp .hooks/* .git/hooks/; fi
 
+CI_BUILD_JOBS_TPL   := .circleci/config/jobs/@build-jobs.yml.tpl
+CI_BUILD_JOBS       := .circleci/config/jobs/@build-jobs.yml
+CI_WORKFLOW_TPL     := .circleci/config/@build-release.yml.tpl
+CI_WORKFLOW         := .circleci/config/@build-release.yml
+PACKAGE_SPEC_SOURCE := build/* $(CI_BUILD_JOBS_TPL)
+PACKAGE_SPEC        := build/.tmp/list.yml
+
+.PHONY: update-package-spec $(CI_BUILD_JOBS) $(CI_WORKFLOW)
+ci-update-release-packages: $(CI_BUILD_JOBS) $(CI_WORKFLOW)
+	@echo $^
+
+$(CI_WORKFLOW): $(PACKAGE_SPEC)
+	@cat $< | gomplate -f $(CI_WORKFLOW_TPL) -d 'package-list=stdin://?type=application/yaml' > $@
+
+$(CI_BUILD_JOBS): $(PACKAGE_SPEC)
+	cat $< | gomplate -f $(CI_BUILD_JOBS_TPL) -d 'package-list=stdin://?type=application/yaml' > $@
+
+$(PACKAGE_SPEC): 
+	@make -C build .tmp/list.yml
+
 .PHONY: ci-config
-ci-config:
+ci-config: 
 	@$(MAKE) -C .circleci ci-config
 .PHONY: ci-verify
 ci-verify:
