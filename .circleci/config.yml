@@ -10,51 +10,38 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
     - checkout
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289-{{ checksum ".buildcache/static-cache-key" }}
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c-{{ checksum ".buildcache/static-cache-key" }}
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3-{{ checksum ".buildcache/static-cache-key" }}
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: ls -lahR dist/
   install-ui-dependencies:
@@ -182,7 +169,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -191,7 +178,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   test-ui:
@@ -356,7 +343,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -365,7 +352,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build-go-dev:
@@ -498,7 +485,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -507,7 +494,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   test-go-race:
@@ -686,7 +673,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -695,7 +682,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   test-go:
@@ -875,7 +862,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -884,7 +871,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_openbsd_386:
@@ -993,7 +980,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1002,7 +989,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_freebsd_amd64:
@@ -1111,7 +1098,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1120,7 +1107,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_solaris_amd64:
@@ -1229,7 +1216,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1238,7 +1225,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_windows_amd64:
@@ -1347,7 +1334,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1356,7 +1343,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_openbsd_amd64:
@@ -1465,7 +1452,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1474,7 +1461,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   pre-flight-checks:
@@ -1771,7 +1758,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1780,7 +1767,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_linux_arm64:
@@ -1889,7 +1876,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1898,7 +1885,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_freebsd_arm:
@@ -2007,7 +1994,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -2016,7 +2003,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_linux_amd64:
@@ -2125,7 +2112,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -2134,7 +2121,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_netbsd_amd64:
@@ -2243,7 +2230,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -2252,7 +2239,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build_darwin_amd64:
@@ -2361,7 +2348,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -2370,7 +2357,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: NEED TO FIX
+        key: package-cache-v1-47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
 workflows:
