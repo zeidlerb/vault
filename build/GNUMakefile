@@ -1,0 +1,10 @@
+SHELL := /usr/bin/env bash -euo pipefail -c
+
+.PHONY: package-spec package
+
+package-spec:
+	@$(MAKE) -f package-spec.Makefile package-spec.lock
+
+package:
+	@$(MAKE) -f package.Makefile -C ../ package
+
