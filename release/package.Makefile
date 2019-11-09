@@ -222,7 +222,7 @@ $(eval $(call LAYER,$(UI_NAME),$(UI_BASEIMAGE),$(UI_SOURCE_INCLUDE),$(UI_SOURCE_
 STATIC_NAME           := static
 STATIC_BASEIMAGE      := ui
 STATIC_SOURCE_INCLUDE := .
-STATIC_SOURCE_EXCLUDE := release.Makefile .circleci/
+STATIC_SOURCE_EXCLUDE := release/ .circleci/
 $(eval $(call LAYER,$(STATIC_NAME),$(STATIC_BASEIMAGE),$(STATIC_SOURCE_INCLUDE),$(STATIC_SOURCE_EXCLUDE)))
 
 ### BEGIN Pre-processing to ensure marker files aren't lying.
