@@ -2,7 +2,6 @@ SHELL := /usr/bin/env bash -euo pipefail
 
 ### Base configuration
 CACHE_ROOT := .buildcache
-ALL_SOURCE_LIST := $(CACHE_ROOT)/current-source
 ### End base configuration
 
 ### Utilities and constants
