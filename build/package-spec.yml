@@ -1,28 +1,90 @@
+# package-spec.yml
+#
+# package-spec.yml defines all the packages we are able to build for a single commit
+# in this repo. A package means a single zip file containing the executable binary,
+# and optionally other files if needed.
+#
+# package-spec.yml is a convenience file for the human management of large numbers of
+# alternate packages, allowing default and templated values. We generate another
+# file from this one, called package-spec.lock which contains the fully expanded set
+# of package specs. This fully expanded file is in turn used to generate CI config
+# to build specific sets of packages.
+#
+# Each package defined by this file is a set of environment variables that are
+# passed into the build command 'make package'. See GNUMakefile in this directory.
+#
+# Note that each package receives an additional entry named PACKAGE_SPEC_ID
+# which is the SHA256 sum of a yaml file containing just the entries for that
+# specific package. This can be used as part of a cache key for caching packages.
+# Note that is is not itself a complete cache key, as the whole source code must be
+# taken into consideration, as well as potentially other environmental factors.
+
+# defaults contains default values for each package.
+# These values may be overridden on a per-package basis in the packages section.
 defaults:
+  # PRODUCT_NAME is used as the name of the binary we compile. It should also
+  # be used in the PACKAGE_NAME template.
   PRODUCT_NAME: vault
-  BUILD_TAGS: vault
+  # PRODUCT_EDITION is an additional differentiator for a given package. It should
+  # be used in the PACKAGE_NAME template.
+  PRODUCT_EDITION: ""
+  # PRODUCT_VERSION is the version of this product. Usually, this should be left
+  # as 0.0.0-snapshot. When we build a release candidate, this is overridden in
+  # a one-off fashion to produce that build.
+  # This should be used in the PACKAGE_NAME template.
+  PRODUCT_VERSION: 0.0.0-snapshot
+
+  # GIT_REF is the reference to the git commit we should build. Usually this
+  # should be left as HEAD, meaning build the current commit. When we produce
+  # release builds, this can be overridden on a one-off basis.
+  GIT_REF: HEAD
+
+  # GO_VERSION is the version of the Go toolchain to use to compile this package.
   GO_VERSION: 1.12.13
+
+  # BUILD_TAGS are passed as-is to the -tag flag of 'go build'. It should be
+  # a comma or space separated list, depending on the GO_VERSION you are using.
+  BUILD_TAGS: vault
+
+  # CGOENABLED is a standard Go environment variable.
   CGOENABLED: 0
-  EDITION: ""
-  VERSION_FULL: 0.0.0-dev
 
-# Each template is rendered after merging packages with defaults, and the result
-# appended to the package spec. Templates may NOT refer to each other, only to
-# values listed in defaults and packages.
+# templates contain gomplate template strings. Each of these is rendered per package
+# using that packages values (including any default values), and then added to that
+# package. To find out more about gomplate, see https://docs.gomplate.ca/
+# Note that templates MAY NOT refer to each other.
 templates:
-  VERSION: >-
-    {{with .VERSION_FULL | strings.SplitN "-" 2}}{{index . 0}}{{end}}
+  # VERSION_MMP is just the major.minor.prerelease fields of the PRODUCT_VERSION.
+  # Think semantic versioning (semver), although we do not version our binaries
+  # using semver.
+  VERSION_MMP: >-
+    {{with .PRODUCT_VERSION | strings.SplitN "-" 2}}{{index . 0}}{{end}}
+  # VERSION_PRE is just the prerelease field of the product version (i.e. the bit
+  # after any -, if there is one.
   VERSION_PRE: >-
-    {{with .VERSION_FULL | strings.SplitN "-" 2}}{{if gt (len .) 1}}{{index . 1}}{{else}}"''"{{end}}{{end}}
+    {{with .PRODUCT_VERSION | strings.SplitN "-" 2}}{{if gt (len .) 1}}{{index . 1}}{{else}}"''"{{end}}{{end}}
+  # BUNDLE_NAME is the name of the release bundle this package belongs to.
+  # All packages with the same BUNDLE_NAME are considered part of the same release
+  # bundle, and are placed in the same directory on releases.hashicorp.com, as well
+  # as sharing a SHASUMS file.
   BUNDLE_NAME: >-
-    {{.PRODUCT_NAME}}_{{.VERSION_FULL}}{{if .EDITION}}+{{.EDITION}}{{end}}
+    {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end}}
+  # PACKAGE_NAME is the name of a specific package. Care must be taken to ensure this
+  # is unique per package. The final zip file we produce per package uses this name.
   PACKAGE_NAME: >-
-    {{.PRODUCT_NAME}}_{{.VERSION_FULL}}{{if .EDITION}}+{{.EDITION}}{{end}}_{{.GOOS}}_{{.GOARCH}}
-  JOB_NAME: >-
-    build_{{if .EDITION}}{{.EDITION}}_{{end}}{{.GOOS}}_{{.GOARCH}}
+    {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end}}_{{.GOOS}}_{{.GOARCH}}
+  # BUILD_JOB_NAME is the name of a job to build this package in CI. Care must be
+  # taken that it is both unique within this set of packages, as well as compatible
+  # with the CI system's naming conventions.
+  BUILD_JOB_NAME: >-
+    package_{{if .PRODUCT_EDITION}}{{.PRODUCT_EDITION}}_{{end}}{{.GOOS}}_{{.GOARCH}}
 
-# defaults are environment variables we set for each package, they can
-# be overridden per-package
+# packages is the full set of packages we are able to build based on a single commit
+# in this repo. Each package is a map where the keys are the names of environment
+# variables provided to each build (think 'go build' invocation). Each package is
+# expanded by first filling in any unspecified variables with those from defaults,
+# and then rendering each template and adding the result to the map.
+# Each package must result in a unique PACKAGE_NAME.
 packages:
   - { GOOS: darwin, GOARCH: 386 }
   - { GOOS: darwin, GOARCH: amd64 }
