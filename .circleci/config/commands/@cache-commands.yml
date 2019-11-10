@@ -22,7 +22,7 @@ update-base-image:
         environment:
           NAME: <<parameters.layer-name>>
         command: |
-          make -f release.Makefile $NAME-load || make -f release.Makefile $NAME-save
+          make -f release/package.Makefile $NAME-load || make -f release/package.Makefile $NAME-save
 
 ensure-static-builder:
   description: >
@@ -62,10 +62,10 @@ restore-builder-cache:
     - run:
         name: Restore static builder image (or best available).
         command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
+          make -f release/package.Makefile static-load || \
+          make -f release/package.Makefile ui-load || \
+          make -f release/package.Makefile yarn-load || \
+          make -f release/package.Makefile base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
     - info-print-buildcache
 
@@ -121,7 +121,7 @@ write-cache-key:
         command: |
           mkdir -p .buildcache
           FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
+          make -f release/package.Makefile $NAME-id > $FILE
           echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
 
 build-package:
@@ -142,7 +142,7 @@ build-package:
     - run:
         name: Compile package
         command: |
-          make -f release.Makefile package
+          make -f release/package.Makefile package
     - store_artifacts:
         path: dist/
         destination: dist/
