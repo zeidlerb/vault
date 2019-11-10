@@ -4,71 +4,26 @@
 ### ***
 version: 2
 jobs:
-  bundle-releases:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    steps:
-    - checkout
-    - restore_cache:
-        key: package-cache-v1-031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77-{{ checksum ".buildcache/static-cache-key" }}
-    - restore_cache:
-        key: package-cache-v1-102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: ls -lahR dist/
-  install-ui-dependencies:
-    docker:
-    - image: node:10-buster
-    shell: /usr/bin/env bash -euo pipefail -c
-    working_directory: /src
-    steps:
-    - checkout
-    - restore_cache:
-        key: yarn-lock-v1-{{ checksum "ui/yarn.lock" }}
-    - run:
-        command: |
-          cd ui
-          yarn install
-          npm rebuild node-sass
-        name: Install UI dependencies
-    - save_cache:
-        key: yarn-lock-v1-{{ checksum "ui/yarn.lock" }}
-        paths:
-        - ui/node_modules
-  build_windows_386:
+  package_darwin_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="386"- GOOS="windows"- GO_VERSION="1.12.13"- JOB_NAME="build_windows_386"- PACKAGE_NAME="vault_0.0.0-dev_windows_386"- PACKAGE_SPEC_ID="2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_darwin_386"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"386"'
+    - GOOS: '"darwin"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_darwin_386"'
+    - PACKAGE_SPEC_ID: '"37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -169,7 +124,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -178,7 +133,726 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-2c177b5b1980f04abddd51cb5fdb6ec5db61df3c04e07f4ee5758ed293dc2c77-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  bundle-releases:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    steps:
+    - checkout
+    - restore_cache:
+        key: package-cache-v1-37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-56c3749657425e9a5283d2dbbd33aac46b59c3335ae7d0d8237500b77f817f88-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-43755596c8d3db4ded062aa8ca57ae3d310888af4c16e9ee4e167f5a67d16a37-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-bce0b438cd955a4dd5b205298e2f5176d1b0473b71d1cd9e7aa70e1577bfb83a-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-f06749ddef3cd5569a79dce7317cd6a8bbf512cc4efefd26974ea2ab2e871d97-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-7cf9912f5f978ae28b274ac238b988b5a9aa66cf5c4ba70994184e8f1971d1cd-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-57614904d811c5a1a2b4b2c7663a8d750d96a347c233f8c64541ca95e3efc466-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-082eba720efcbfe070146d0f0243c0ab090e9ceb9a43ebf458a0b89364bb55a2-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-5dcc6b4e0cfd20e9d91c8c3888efb8cf4b16474ebca5742a61a12f2b41d30488-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-b8d589d76e07867c548eda5223ca54f188ee70e1a1b4c0987e6f3fdc32287ad9-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-c8c79ddda7a0a23f579caccbabdc032758ce7abeaa7ecba29b05c27369364bc9-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-7c8fc2db6a0c71ba9e8cd36b6250630b254b474403cb739d21022c565ea06894-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-6f73868ac4bb976921f6dbd7fd0a025ab7183ef8f3e4a65633b00369ee8c6f22-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-367fd69b87c369e84e3c84e21ebf18bf13383e2233741f61f47f2d04752fc1b3-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-c208d598c8c5e44bdeb6ba40f995510525561cd851de52337cdbcea8dad585ab-{{ checksum ".buildcache/static-cache-key" }}
+    - restore_cache:
+        key: package-cache-v1-2b2ae00062de1f76d8486b320c3e6d65982c1987c5e66198fa368d74381feb84-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: ls -lahR dist/
+  package_linux_arm64:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_linux_arm64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"arm64"'
+    - GOOS: '"linux"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_linux_arm64"'
+    - PACKAGE_SPEC_ID: '"5dcc6b4e0cfd20e9d91c8c3888efb8cf4b16474ebca5742a61a12f2b41d30488"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-5dcc6b4e0cfd20e9d91c8c3888efb8cf4b16474ebca5742a61a12f2b41d30488-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-5dcc6b4e0cfd20e9d91c8c3888efb8cf4b16474ebca5742a61a12f2b41d30488-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  package_windows_386:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_windows_386"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"386"'
+    - GOOS: '"windows"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_windows_386"'
+    - PACKAGE_SPEC_ID: '"c208d598c8c5e44bdeb6ba40f995510525561cd851de52337cdbcea8dad585ab"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-c208d598c8c5e44bdeb6ba40f995510525561cd851de52337cdbcea8dad585ab-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-c208d598c8c5e44bdeb6ba40f995510525561cd851de52337cdbcea8dad585ab-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  install-ui-dependencies:
+    docker:
+    - image: node:10-buster
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: /src
+    steps:
+    - checkout
+    - restore_cache:
+        key: yarn-lock-v1-{{ checksum "ui/yarn.lock" }}
+    - run:
+        command: |
+          cd ui
+          yarn install
+          npm rebuild node-sass
+        name: Install UI dependencies
+    - save_cache:
+        key: yarn-lock-v1-{{ checksum "ui/yarn.lock" }}
+        paths:
+        - ui/node_modules
+  package_netbsd_amd64:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_netbsd_amd64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"amd64"'
+    - GOOS: '"netbsd"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_netbsd_amd64"'
+    - PACKAGE_SPEC_ID: '"c8c79ddda7a0a23f579caccbabdc032758ce7abeaa7ecba29b05c27369364bc9"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-c8c79ddda7a0a23f579caccbabdc032758ce7abeaa7ecba29b05c27369364bc9-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-c8c79ddda7a0a23f579caccbabdc032758ce7abeaa7ecba29b05c27369364bc9-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  package_linux_arm:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_linux_arm"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"arm"'
+    - GOOS: '"linux"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_linux_arm"'
+    - PACKAGE_SPEC_ID: '"082eba720efcbfe070146d0f0243c0ab090e9ceb9a43ebf458a0b89364bb55a2"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-082eba720efcbfe070146d0f0243c0ab090e9ceb9a43ebf458a0b89364bb55a2-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-082eba720efcbfe070146d0f0243c0ab090e9ceb9a43ebf458a0b89364bb55a2-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  package_solaris_amd64:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_solaris_amd64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"amd64"'
+    - GOOS: '"solaris"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_solaris_amd64"'
+    - PACKAGE_SPEC_ID: '"367fd69b87c369e84e3c84e21ebf18bf13383e2233741f61f47f2d04752fc1b3"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-367fd69b87c369e84e3c84e21ebf18bf13383e2233741f61f47f2d04752fc1b3-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-367fd69b87c369e84e3c84e21ebf18bf13383e2233741f61f47f2d04752fc1b3-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   test-ui:
@@ -237,12 +911,26 @@ jobs:
           export PATH="${PWD}"/bin:${PATH}
           make test-ui-browserstack
         name: Run Browserstack Tests
-  build_darwin_386:
+  package_freebsd_arm:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="386"- GOOS="darwin"- GO_VERSION="1.12.13"- JOB_NAME="build_darwin_386"- PACKAGE_NAME="vault_0.0.0-dev_darwin_386"- PACKAGE_SPEC_ID="031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_freebsd_arm"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"arm"'
+    - GOOS: '"freebsd"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_freebsd_arm"'
+    - PACKAGE_SPEC_ID: '"f06749ddef3cd5569a79dce7317cd6a8bbf512cc4efefd26974ea2ab2e871d97"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -343,7 +1031,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-f06749ddef3cd5569a79dce7317cd6a8bbf512cc4efefd26974ea2ab2e871d97-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -352,7 +1040,7 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-031a10c189199b6772daa7f2889500bcbf85950a8a4e75a93436c34488331289-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-f06749ddef3cd5569a79dce7317cd6a8bbf512cc4efefd26974ea2ab2e871d97-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   build-go-dev:
@@ -379,124 +1067,6 @@ jobs:
         paths:
         - bin
         root: .
-  build_netbsd_386:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="386"- GOOS="netbsd"- GO_VERSION="1.12.13"- JOB_NAME="build_netbsd_386"- PACKAGE_NAME="vault_0.0.0-dev_netbsd_386"- PACKAGE_SPEC_ID="a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-a39f76f97a1afd030999ece1b03d7376384d4ebf5fbacbe67d6eed86484c3b51-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
   test-go-race:
     machine: true
     shell: /usr/bin/env bash -euo pipefail -c
@@ -567,124 +1137,6 @@ jobs:
     - GO_TAGS: null
     - GO_VERSION: 1.12.12
     - GOTESTSUM_VERSION: 0.3.3
-  build_linux_386:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="386"- GOOS="linux"- GO_VERSION="1.12.13"- JOB_NAME="build_linux_386"- PACKAGE_NAME="vault_0.0.0-dev_linux_386"- PACKAGE_SPEC_ID="70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-70127bb4766b454f476e3ce0bfb0f5d9b50d8bc5e964af218ce4f7bace03ae2a-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
   test-go:
     machine: true
     shell: /usr/bin/env bash -euo pipefail -c
@@ -756,12 +1208,26 @@ jobs:
     - GO_TAGS: null
     - GO_VERSION: 1.12.12
     - GOTESTSUM_VERSION: 0.3.3
-  build_linux_arm:
+  package_linux_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="arm"- GOOS="linux"- GO_VERSION="1.12.13"- JOB_NAME="build_linux_arm"- PACKAGE_NAME="vault_0.0.0-dev_linux_arm"- PACKAGE_SPEC_ID="21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_linux_amd64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"amd64"'
+    - GOOS: '"linux"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_linux_amd64"'
+    - PACKAGE_SPEC_ID: '"57614904d811c5a1a2b4b2c7663a8d750d96a347c233f8c64541ca95e3efc466"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -862,7 +1328,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-57614904d811c5a1a2b4b2c7663a8d750d96a347c233f8c64541ca95e3efc466-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -871,15 +1337,29 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-21f4563090ea04393489f63e5bf06501e0904d1a4660c6e8a75b43f98f446581-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-57614904d811c5a1a2b4b2c7663a8d750d96a347c233f8c64541ca95e3efc466-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
-  build_openbsd_386:
+  package_windows_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="386"- GOOS="openbsd"- GO_VERSION="1.12.13"- JOB_NAME="build_openbsd_386"- PACKAGE_NAME="vault_0.0.0-dev_openbsd_386"- PACKAGE_SPEC_ID="04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_windows_amd64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"amd64"'
+    - GOOS: '"windows"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_windows_amd64"'
+    - PACKAGE_SPEC_ID: '"2b2ae00062de1f76d8486b320c3e6d65982c1987c5e66198fa368d74381feb84"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -980,7 +1460,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-2b2ae00062de1f76d8486b320c3e6d65982c1987c5e66198fa368d74381feb84-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -989,15 +1469,29 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-04ebbd7a0e25c8eeb393233355d63b00cd46d02b29f3a7b3005571c681a28aef-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-2b2ae00062de1f76d8486b320c3e6d65982c1987c5e66198fa368d74381feb84-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
-  build_freebsd_amd64:
+  package_linux_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="amd64"- GOOS="freebsd"- GO_VERSION="1.12.13"- JOB_NAME="build_freebsd_amd64"- PACKAGE_NAME="vault_0.0.0-dev_freebsd_amd64"- PACKAGE_SPEC_ID="e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_linux_386"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"386"'
+    - GOOS: '"linux"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_linux_386"'
+    - PACKAGE_SPEC_ID: '"7cf9912f5f978ae28b274ac238b988b5a9aa66cf5c4ba70994184e8f1971d1cd"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -1098,7 +1592,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-7cf9912f5f978ae28b274ac238b988b5a9aa66cf5c4ba70994184e8f1971d1cd-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1107,15 +1601,29 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-e0e780e40fcca807b2209216987b5bd2ae5325fbc206c5d9982becda833d45f0-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-7cf9912f5f978ae28b274ac238b988b5a9aa66cf5c4ba70994184e8f1971d1cd-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
-  build_solaris_amd64:
+  package_freebsd_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="amd64"- GOOS="solaris"- GO_VERSION="1.12.13"- JOB_NAME="build_solaris_amd64"- PACKAGE_NAME="vault_0.0.0-dev_solaris_amd64"- PACKAGE_SPEC_ID="15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_freebsd_amd64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"amd64"'
+    - GOOS: '"freebsd"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_freebsd_amd64"'
+    - PACKAGE_SPEC_ID: '"bce0b438cd955a4dd5b205298e2f5176d1b0473b71d1cd9e7aa70e1577bfb83a"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -1216,7 +1724,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-bce0b438cd955a4dd5b205298e2f5176d1b0473b71d1cd9e7aa70e1577bfb83a-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1225,15 +1733,29 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-15267e4b880b93fdbc65b026161ff39e2c1ea9362b68ff09078014455f24165c-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-bce0b438cd955a4dd5b205298e2f5176d1b0473b71d1cd9e7aa70e1577bfb83a-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
-  build_windows_amd64:
+  package_openbsd_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="amd64"- GOOS="windows"- GO_VERSION="1.12.13"- JOB_NAME="build_windows_amd64"- PACKAGE_NAME="vault_0.0.0-dev_windows_amd64"- PACKAGE_SPEC_ID="102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_openbsd_386"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"386"'
+    - GOOS: '"openbsd"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_openbsd_386"'
+    - PACKAGE_SPEC_ID: '"7c8fc2db6a0c71ba9e8cd36b6250630b254b474403cb739d21022c565ea06894"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -1334,7 +1856,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-7c8fc2db6a0c71ba9e8cd36b6250630b254b474403cb739d21022c565ea06894-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1343,15 +1865,29 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-102a6965e3181da3d0a2484023a55666567acdf54ac15a3a6db44ccc29237825-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-7c8fc2db6a0c71ba9e8cd36b6250630b254b474403cb739d21022c565ea06894-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
-  build_openbsd_amd64:
+  package_openbsd_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="amd64"- GOOS="openbsd"- GO_VERSION="1.12.13"- JOB_NAME="build_openbsd_amd64"- PACKAGE_NAME="vault_0.0.0-dev_openbsd_amd64"- PACKAGE_SPEC_ID="2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
+    - BUILD_JOB_NAME: '"package_openbsd_amd64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"amd64"'
+    - GOOS: '"openbsd"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_openbsd_amd64"'
+    - PACKAGE_SPEC_ID: '"6f73868ac4bb976921f6dbd7fd0a025ab7183ef8f3e4a65633b00369ee8c6f22"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
     steps:
     - setup_remote_docker
     - checkout
@@ -1452,7 +1988,7 @@ jobs:
           docker image ls --no-trunc
         name: Info - list files in .buildcache/
     - restore_cache:
-        key: package-cache-v1-2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-6f73868ac4bb976921f6dbd7fd0a025ab7183ef8f3e4a65633b00369ee8c6f22-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
           make -f release.Makefile package
@@ -1461,7 +1997,403 @@ jobs:
         destination: dist/
         path: dist/
     - save_cache:
-        key: package-cache-v1-2818655db50bb28ab3e43f6a84f43751c7dc4cd1c8c3252507a27d43b428698c-{{ checksum ".buildcache/static-cache-key" }}
+        key: package-cache-v1-6f73868ac4bb976921f6dbd7fd0a025ab7183ef8f3e4a65633b00369ee8c6f22-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  package_netbsd_386:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_netbsd_386"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"386"'
+    - GOOS: '"netbsd"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_netbsd_386"'
+    - PACKAGE_SPEC_ID: '"b8d589d76e07867c548eda5223ca54f188ee70e1a1b4c0987e6f3fdc32287ad9"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-b8d589d76e07867c548eda5223ca54f188ee70e1a1b4c0987e6f3fdc32287ad9-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-b8d589d76e07867c548eda5223ca54f188ee70e1a1b4c0987e6f3fdc32287ad9-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  package_darwin_amd64:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_darwin_amd64"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"amd64"'
+    - GOOS: '"darwin"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_darwin_amd64"'
+    - PACKAGE_SPEC_ID: '"56c3749657425e9a5283d2dbbd33aac46b59c3335ae7d0d8237500b77f817f88"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-56c3749657425e9a5283d2dbbd33aac46b59c3335ae7d0d8237500b77f817f88-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-56c3749657425e9a5283d2dbbd33aac46b59c3335ae7d0d8237500b77f817f88-{{ checksum ".buildcache/static-cache-key" }}
+        paths:
+        - dist/
+  package_freebsd_386:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - BUILD_JOB_NAME: '"package_freebsd_386"'
+    - BUILD_TAGS: '"vault"'
+    - BUNDLE_NAME: '"vault_0.0.0-snapshot"'
+    - CGOENABLED: '"0"'
+    - GIT_REF: '"HEAD"'
+    - GOARCH: '"386"'
+    - GOOS: '"freebsd"'
+    - GO_VERSION: '"1.12.13"'
+    - PACKAGE_NAME: '"vault_0.0.0-snapshot_freebsd_386"'
+    - PACKAGE_SPEC_ID: '"43755596c8d3db4ded062aa8ca57ae3d310888af4c16e9ee4e167f5a67d16a37"'
+    - PRODUCT_EDITION: '""'
+    - PRODUCT_NAME: '"vault"'
+    - PRODUCT_VERSION: '"0.0.0-snapshot"'
+    - VERSION_MMP: '"0.0.0"'
+    - VERSION_PRE: '"snapshot"'
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: static
+        name: Generate static image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: ui
+        name: Generate ui image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: yarn
+        name: Generate yarn image cache key.
+    - run:
+        command: |
+          mkdir -p .buildcache
+          FILE=.buildcache/$NAME-cache-key
+          make -f release.Makefile $NAME-id > $FILE
+          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+        environment:
+          NAME: base
+        name: Generate base image cache key.
+    - restore_cache:
+        keys:
+        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
+        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
+        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - run:
+        command: |
+          make -f release.Makefile static-load || \
+          make -f release.Makefile ui-load || \
+          make -f release.Makefile yarn-load || \
+          make -f release.Makefile base-load || \
+          echo "==> Unable to restore any builder images, rebuilding from scratch."
+        name: Restore static builder image (or best available).
+    - run:
+        command: |
+          ls -lahR .buildcache
+          docker image ls --no-trunc
+        name: Info - list files in .buildcache/
+    - restore_cache:
+        key: package-cache-v1-43755596c8d3db4ded062aa8ca57ae3d310888af4c16e9ee4e167f5a67d16a37-{{ checksum ".buildcache/static-cache-key" }}
+    - run:
+        command: |
+          make -f release.Makefile package
+        name: Compile package
+    - store_artifacts:
+        destination: dist/
+        path: dist/
+    - save_cache:
+        key: package-cache-v1-43755596c8d3db4ded062aa8ca57ae3d310888af4c16e9ee4e167f5a67d16a37-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - dist/
   pre-flight-checks:
@@ -1649,784 +2581,76 @@ jobs:
         key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
         paths:
         - .buildcache/static
-  build_freebsd_386:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="386"- GOOS="freebsd"- GO_VERSION="1.12.13"- JOB_NAME="build_freebsd_386"- PACKAGE_NAME="vault_0.0.0-dev_freebsd_386"- PACKAGE_SPEC_ID="96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-96827b3ecebc8b9912e958980ee26b857c2e22e82ee2523721905c6facab0da3-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
-  build_linux_arm64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="arm64"- GOOS="linux"- GO_VERSION="1.12.13"- JOB_NAME="build_linux_arm64"- PACKAGE_NAME="vault_0.0.0-dev_linux_arm64"- PACKAGE_SPEC_ID="3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-3e92470734c786b0e38130c93327ee82d9d1090585cc5b95970859a41cca8825-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
-  build_freebsd_arm:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="arm"- GOOS="freebsd"- GO_VERSION="1.12.13"- JOB_NAME="build_freebsd_arm"- PACKAGE_NAME="vault_0.0.0-dev_freebsd_arm"- PACKAGE_SPEC_ID="3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-3b9dd3d72e82841a7082517886fe8fe94acbc220754234d46fb01b58923f1b8c-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
-  build_linux_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="amd64"- GOOS="linux"- GO_VERSION="1.12.13"- JOB_NAME="build_linux_amd64"- PACKAGE_NAME="vault_0.0.0-dev_linux_amd64"- PACKAGE_SPEC_ID="3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-3e673df2d2adae686eac00cd3d0d64e46766a1df81b46a3615b2bdc33c8bbbc4-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
-  build_netbsd_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="amd64"- GOOS="netbsd"- GO_VERSION="1.12.13"- JOB_NAME="build_netbsd_amd64"- PACKAGE_NAME="vault_0.0.0-dev_netbsd_amd64"- PACKAGE_SPEC_ID="ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-ea789be2b99349983da87310940d0b4cfc56b6dc3f3175c026553e1ec0c6aae9-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
-  build_darwin_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - BUILD_TAGS: '"vault"- BUNDLE_NAME="vault_0.0.0-dev"- CGOENABLED="0"- EDITION=""- GOARCH="amd64"- GOOS="darwin"- GO_VERSION="1.12.13"- JOB_NAME="build_darwin_amd64"- PACKAGE_NAME="vault_0.0.0-dev_darwin_amd64"- PACKAGE_SPEC_ID="47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c"- PRODUCT_NAME="vault"- VERSION="0.0.0"- VERSION_FULL="0.0.0-dev"- VERSION_PRE="dev"'
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - restore_cache:
-        keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          make -f release.Makefile static-load || \
-          make -f release.Makefile ui-load || \
-          make -f release.Makefile yarn-load || \
-          make -f release.Makefile base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v1-47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c-{{ checksum ".buildcache/static-cache-key" }}
-    - run:
-        command: |
-          make -f release.Makefile package
-        name: Compile package
-    - store_artifacts:
-        destination: dist/
-        path: dist/
-    - save_cache:
-        key: package-cache-v1-47f624dfc47f2ee496fc34336078116ee9c3526907b1a7a051476a173cdef69c-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - dist/
 workflows:
   build-release:
     jobs:
     - cache-builder-images
-    - build_darwin_386:
+    - package_darwin_386:
         requires:
         - cache-builder-images
-    - build_darwin_amd64:
+    - package_darwin_amd64:
         requires:
         - cache-builder-images
-    - build_freebsd_386:
+    - package_freebsd_386:
         requires:
         - cache-builder-images
-    - build_freebsd_amd64:
+    - package_freebsd_amd64:
         requires:
         - cache-builder-images
-    - build_freebsd_arm:
+    - package_freebsd_arm:
         requires:
         - cache-builder-images
-    - build_linux_386:
+    - package_linux_386:
         requires:
         - cache-builder-images
-    - build_linux_amd64:
+    - package_linux_amd64:
         requires:
         - cache-builder-images
-    - build_linux_arm:
+    - package_linux_arm:
         requires:
         - cache-builder-images
-    - build_linux_arm64:
+    - package_linux_arm64:
         requires:
         - cache-builder-images
-    - build_netbsd_386:
+    - package_netbsd_386:
         requires:
         - cache-builder-images
-    - build_netbsd_amd64:
+    - package_netbsd_amd64:
         requires:
         - cache-builder-images
-    - build_openbsd_386:
+    - package_openbsd_386:
         requires:
         - cache-builder-images
-    - build_openbsd_amd64:
+    - package_openbsd_amd64:
         requires:
         - cache-builder-images
-    - build_solaris_amd64:
+    - package_solaris_amd64:
         requires:
         - cache-builder-images
-    - build_windows_386:
+    - package_windows_386:
         requires:
         - cache-builder-images
-    - build_windows_amd64:
+    - package_windows_amd64:
         requires:
         - cache-builder-images
     - bundle-releases:
         requires:
-        - build_darwin_386
-        - build_darwin_amd64
-        - build_freebsd_386
-        - build_freebsd_amd64
-        - build_freebsd_arm
-        - build_linux_386
-        - build_linux_amd64
-        - build_linux_arm
-        - build_linux_arm64
-        - build_netbsd_386
-        - build_netbsd_amd64
-        - build_openbsd_386
-        - build_openbsd_amd64
-        - build_solaris_amd64
-        - build_windows_386
-        - build_windows_amd64
+        - package_darwin_386
+        - package_darwin_amd64
+        - package_freebsd_386
+        - package_freebsd_amd64
+        - package_freebsd_arm
+        - package_linux_386
+        - package_linux_amd64
+        - package_linux_arm
+        - package_linux_arm64
+        - package_netbsd_386
+        - package_netbsd_amd64
+        - package_openbsd_386
+        - package_openbsd_amd64
+        - package_solaris_amd64
+        - package_windows_386
+        - package_windows_amd64
   ci:
     jobs:
     - pre-flight-checks

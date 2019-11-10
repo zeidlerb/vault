@@ -4,11 +4,11 @@ workflows:
     jobs:
       - cache-builder-images
       {{- range $packages}}
-      - {{.JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
+      - {{.BUILD_JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
       - bundle-releases:
           requires:
             {{- range $packages}}
-            - {{.JOB_NAME}}{{end}}
+            - {{.BUILD_JOB_NAME}}{{end}}
 jobs:
   cache-builder-images:
     executor: releaser
