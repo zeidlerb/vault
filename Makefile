@@ -123,10 +123,9 @@ CI_BUILD_JOBS_TPL   := .circleci/config/jobs/@build-jobs.yml.tpl
 CI_BUILD_JOBS       := .circleci/config/jobs/@build-jobs.yml
 CI_WORKFLOW_TPL     := .circleci/config/@build-release.yml.tpl
 CI_WORKFLOW         := .circleci/config/@build-release.yml
-PACKAGE_SPEC_SOURCE := build/* $(CI_BUILD_JOBS_TPL)
-PACKAGE_SPEC        := build/.tmp/list.yml
+PACKAGE_SPEC        := release/package-spec.lock
 
-.PHONY: update-package-spec $(CI_BUILD_JOBS) $(CI_WORKFLOW)
+.PHONY: ci-update-release-packages $(CI_BUILD_JOBS) $(CI_WORKFLOW)
 ci-update-release-packages: $(CI_BUILD_JOBS) $(CI_WORKFLOW)
 	@echo $^
 
@@ -140,7 +139,7 @@ $(PACKAGE_SPEC):
 	@make -C build .tmp/list.yml
 
 .PHONY: ci-config
-ci-config: 
+ci-config: ci-update-release-packages
 	@$(MAKE) -C .circleci ci-config
 .PHONY: ci-verify
 ci-verify:
