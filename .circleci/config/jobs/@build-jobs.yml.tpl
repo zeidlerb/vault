@@ -1,9 +1,9 @@
 {{ $packages := (datasource "package-list" ).packages }}
 {{- range $packages }}
-{{.JOB_NAME}}:
+{{.BUILD_JOB_NAME}}:
   executor: releaser
   environment:
-    {{range $NAME, $VALUE := . -}}
+    {{- range $NAME, $VALUE := .}}
     - {{$NAME}}="{{$VALUE}}"{{end}}
   steps:
     - build-package:
