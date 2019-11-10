@@ -9,5 +9,6 @@ package-lock:
 	@$(MAKE) -f package-spec.Makefile package-spec.lock
 
 package:
-	@$(MAKE) -f package.Makefile -C ../ package
+	@# Run the package makefile as if it were in the repo root.
+	@$(MAKE) -f release/package.Makefile -C ../ package
 
