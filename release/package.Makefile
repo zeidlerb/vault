@@ -1,5 +1,8 @@
 SHELL := /usr/bin/env bash -euo pipefail
 
+THIS_FILE := $(lastword $(MAKEFILE_LIST))
+THIS_DIR := $(shell dirname $(THIS_FILE))
+
 ### Base configuration
 CACHE_ROOT := .buildcache
 ### End base configuration
@@ -43,7 +46,7 @@ $(1)_SOURCE_EXCLUDE = $(4)
 $(1)_CURRENT_LINK = $(CACHE_ROOT)/$$($(1)_NAME)/current
 $(1)_CACHE = $(CACHE_ROOT)/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
 $(1)_SOURCE_LIST = $$($(1)_CACHE)/source.list
-$(1)_DOCKERFILE = build/$$($(1)_NAME).Dockerfile
+$(1)_DOCKERFILE = $(THIS_DIR)/builder-image/$$($(1)_NAME).Dockerfile
 $(1)_IMAGE_NAME = vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 $(1)_SOURCE_GIT = $$($(1)_SOURCE_INCLUDE) $$($(1)_DOCKERFILE) $$(call QUOTE_LIST,$$(addprefix $(GIT_EXCLUDE_PREFIX),$$($(1)_SOURCE_EXCLUDE)))
 $(1)_SOURCE_CMD = { \
@@ -346,7 +349,7 @@ $(PACKAGE):
 	@# here. This allows us to skip checking the whole dependency tree, which means
 	@# we can buiild the package with just the static image, not relying on any of
 	@# the other base images to be present.
-	@if [ ! -f $(static_IMAGE) ]; then $(MAKE) -f release.Makefile $(static_IMAGE); fi
+	@if [ ! -f $(static_IMAGE) ]; then $(MAKE) -f $(THIS_FILE) $(static_IMAGE); fi
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
 	@rm -rf ./$(OUT_DIR)
