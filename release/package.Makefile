@@ -38,6 +38,7 @@ endif
 #   <name>-restore   : restore this image from a saved tar.gz
 
 define LAYER
+LAYERS += $(1)
 $(1)_NAME           = $(1)
 $(1)_BASE           = $(2)
 $(1)_SOURCE_INCLUDE = $(3)
@@ -137,6 +138,15 @@ $(1)-debug:
 $(1)-id:
 	@echo $(1)-$$($(1)_SOURCE_ID)
 
+$(1)_CACHE_KEY_FILE := $(CACHE_ROOT)/$(1)-cache-key
+
+$(1)-write-cache-key:
+	@FILE=$$($(1)_CACHE_KEY_FILE); \
+		echo $(1)-$$($(1)_SOURCE_ID) > $$$$FILE; \
+		echo "==> Cache key for $(1) written to $$$$FILE:"; \
+		cat $$$$FILE
+
+
 $(1)-image: $$($(1)_IMAGE_LINK)
 	@cat $$<
 
@@ -227,6 +237,9 @@ STATIC_BASEIMAGE      := ui
 STATIC_SOURCE_INCLUDE := .
 STATIC_SOURCE_EXCLUDE := release/ .circleci/
 $(eval $(call LAYER,$(STATIC_NAME),$(STATIC_BASEIMAGE),$(STATIC_SOURCE_INCLUDE),$(STATIC_SOURCE_EXCLUDE)))
+
+write-cache-keys: $(addsuffix -write-cache-key,$(LAYERS))
+	@echo "==> All cache keys written."
 
 .PHONY: debug
 debug:
