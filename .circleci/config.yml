@@ -29,76 +29,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -201,76 +141,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -333,76 +213,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -484,76 +304,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -616,76 +376,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -748,76 +448,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -936,76 +576,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -1233,76 +813,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -1365,76 +885,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -1497,76 +957,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -1629,76 +1029,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -1761,76 +1101,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -1893,76 +1173,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -2025,76 +1245,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -2157,76 +1317,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -2289,76 +1389,16 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         keys:
         - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
@@ -2456,40 +1496,10 @@ jobs:
     - checkout
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
     - restore_cache:
@@ -2529,40 +1539,10 @@ jobs:
         name: Update static builder image layer
     - run:
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
         environment:
-          NAME: static
-        name: Generate static image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: ui
-        name: Generate ui image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: yarn
-        name: Generate yarn image cache key.
-    - run:
-        command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
-        environment:
-          NAME: base
-        name: Generate base image cache key.
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
           ls -lahR .buildcache
