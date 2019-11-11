@@ -203,7 +203,7 @@ endef
 # The base image contains base dependencies like libraries and tools.
 BASE_NAME           := base
 BASE_BASEIMAGE      :=
-BASE_SOURCE_INCLUDE := build/base.Dockerfile
+BASE_SOURCE_INCLUDE :=
 BASE_SOURCE_EXCLUDE := 
 $(eval $(call LAYER,$(BASE_NAME),$(BASE_BASEIMAGE),$(BASE_SOURCE_INCLUDE),$(BASE_SOURCE_EXCLUDE)))
 
@@ -227,6 +227,21 @@ STATIC_BASEIMAGE      := ui
 STATIC_SOURCE_INCLUDE := .
 STATIC_SOURCE_EXCLUDE := release/ .circleci/
 $(eval $(call LAYER,$(STATIC_NAME),$(STATIC_BASEIMAGE),$(STATIC_SOURCE_INCLUDE),$(STATIC_SOURCE_EXCLUDE)))
+
+.PHONY: debug
+debug:
+	@echo "base_SOURCE_COMMIT       = $(base_SOURCE_COMMIT)"
+	@echo "base_SOURCE_ID           = $(base_SOURCE_ID)"
+	@echo "base_SOURCE_GIT          = $(base_SOURCE_GIT)"
+	@echo "yarn_SOURCE_COMMIT       = $(yarn_SOURCE_COMMIT)"
+	@echo "yarn_SOURCE_ID           = $(yarn_SOURCE_ID)"
+	@echo "yarn_SOURCE_GIT          = $(yarn_SOURCE_GIT)"
+	@echo "ui_SOURCE_COMMIT         = $(ui_SOURCE_COMMIT)"
+	@echo "ui_SOURCE_ID             = $(ui_SOURCE_ID)"
+	@echo "ui_SOURCE_GIT            = $(ui_SOURCE_GIT)"
+	@echo "static_SOURCE_COMMIT     = $(static_SOURCE_COMMIT)"
+	@echo "static_SOURCE_ID         = $(static_SOURCE_ID)"
+	@echo "static_SOURCE_GIT        = $(static_SOURCE_GIT)"
 
 ### BEGIN Pre-processing to ensure marker files aren't lying.
 

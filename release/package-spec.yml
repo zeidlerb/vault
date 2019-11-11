@@ -85,6 +85,9 @@ templates:
 # expanded by first filling in any unspecified variables with those from defaults,
 # and then rendering each template and adding the result to the map.
 # Each package must result in a unique PACKAGE_NAME.
+#
+# The fully expanded set of packages are written to package-spec.lock. That file
+# is a useful data source for building CI/CD pipelines.
 packages:
   - { GOOS: darwin, GOARCH: 386 }
   - { GOOS: darwin, GOARCH: amd64 }
