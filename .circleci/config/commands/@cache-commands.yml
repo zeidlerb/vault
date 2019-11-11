@@ -71,14 +71,8 @@ restore-builder-cache:
 
 write-builder-cache-keys:
   steps:
-    - write-cache-key:
-        layer-name: static
-    - write-cache-key:
-        layer-name: ui
-    - write-cache-key:
-        layer-name: yarn
-    - write-cache-key:
-        layer-name: base
+    - write-cache-keys:
+        layer-names: static ui yarn base
 
 save-builder-cache:
   steps:
@@ -109,20 +103,17 @@ info-print-buildcache:
           ls -lahR .buildcache
           docker image ls --no-trunc
 
-write-cache-key:
+write-cache-keys:
   parameters:
-    layer-name:
+    layer-names:
       type: string
   steps:
     - run:
-        name: Generate <<parameters.layer-name>> image cache key.
+        name: "Generate builder cache keys: <<parameters.layer-names>>"
         environment:
-          NAME: <<parameters.layer-name>>
+          NAMES: <<parameters.layer-names>>
         command: |
-          mkdir -p .buildcache
-          FILE=.buildcache/$NAME-cache-key
-          make -f release/package.Makefile $NAME-id > $FILE
-          echo "Cache key for layer '$NAME' is $(cat $FILE); written to $FILE"
+          make -f release/package.Makefile write-cache-keys
 
 build-package:
   parameters:
