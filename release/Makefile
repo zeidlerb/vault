@@ -7,4 +7,4 @@ packages:
 
 build:
 	@# Run the build makefile as if it were in the repo root.
-	@$(MAKE) -f release/build/build.mk -C ../ package
+	@$(MAKE) -C ../ -f release/build/build.mk build
