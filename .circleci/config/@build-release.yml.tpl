@@ -2,7 +2,11 @@
 workflows:
   build-release:
     jobs:
-      - cache-builder-images
+      - cache-builder-images:
+          filters:
+            branches:
+              only:
+                - /build-.*/
       {{- range $packages}}
       - {{.BUILD_JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
       - bundle-releases:
