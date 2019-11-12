@@ -3,7 +3,7 @@ SHELL := /usr/bin/env bash -euo pipefail -c
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 THIS_DIR := $(shell dirname $(THIS_FILE))
 
-DOCKERFILES_DIR := $(THIS_DIR)/builder-image
+DOCKERFILES_DIR := $(THIS_DIR)/layers
 include $(THIS_DIR)/layer.mk
 
 ### BUILDER_IMAGE_LAYERS
@@ -149,6 +149,7 @@ LDFLAGS += -X github.com/hashicorp/vault/sdk/version.VersionPrerelease="$(BUILD_
 
 # OUT_DIR tells the Go toolchain where to place the binary.
 OUT_DIR := $(PACKAGE_OUT_ROOT)/$(PACKAGE_NAME)/$(static_SOURCE_ID)
+
 # BUILD_ENV is the list of env vars that are passed through to 'make package' and 'go build'.
 BUILD_ENV := \
 	GO111MODULE=$(GO111MODULE) \
@@ -177,8 +178,8 @@ DOCKER_RUN_FLAGS := --rm -v $(CURDIR)/$(OUT_DIR):/$(OUT_DIR)
 # single docker run invocation.
 DOCKER_RUN_COMMAND = docker run $(DOCKER_RUN_FLAGS) $(static_IMAGE_NAME) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"
 
-.PHONY: package
-package: $(PACKAGE)
+.PHONY: build
+build: $(PACKAGE)
 	@echo $<
 
 # PACKAGE assumes 'make static-image' has already been run.
@@ -189,7 +190,7 @@ $(PACKAGE):
 	@# here. This allows us to skip checking the whole dependency tree, which means
 	@# we can buiild the package with just the static image, not relying on any of
 	@# the other base images to be present.
-	@if [ ! -f $(static_IMAGE) ]; then $(MAKE) -f $(THIS_FILE) $(static_IMAGE); fi
+	if [ ! -f $(static_IMAGE) ]; then $(MAKE) -f $(THIS_FILE) $(static_IMAGE); fi
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
 	@rm -rf ./$(OUT_DIR)
