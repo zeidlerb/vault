@@ -121,7 +121,7 @@ CI_BUILD_JOBS_TPL   := .circleci/config/jobs/@build-jobs.yml.tpl
 CI_BUILD_JOBS       := .circleci/config/jobs/@build-jobs.yml
 CI_WORKFLOW_TPL     := .circleci/config/@build-release.yml.tpl
 CI_WORKFLOW         := .circleci/config/@build-release.yml
-PACKAGE_SPEC        := release/package-spec.lock
+PACKAGE_SPEC        := release/packages.lock
 
 .PHONY: ci-update-release-packages $(CI_BUILD_JOBS) $(CI_WORKFLOW)
 ci-update-release-packages: $(CI_BUILD_JOBS) $(CI_WORKFLOW)

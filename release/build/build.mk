@@ -1,3 +1,8 @@
+# build.mk
+#
+# build.mk defines the builder image layers, as well as the final build instructions we pass to
+# the final layer (static) to produce the various packages.
+
 SHELL := /usr/bin/env bash -euo pipefail -c
 
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
@@ -150,7 +155,7 @@ LDFLAGS += -X github.com/hashicorp/vault/sdk/version.VersionPrerelease="$(BUILD_
 # OUT_DIR tells the Go toolchain where to place the binary.
 OUT_DIR := $(PACKAGE_OUT_ROOT)/$(PACKAGE_NAME)/$(static_SOURCE_ID)
 
-# BUILD_ENV is the list of env vars that are passed through to 'make package' and 'go build'.
+# BUILD_ENV is the list of env vars that are passed through to 'make build' and 'go build'.
 BUILD_ENV := \
 	GO111MODULE=$(GO111MODULE) \
 	GOOS=$(GOOS) \
@@ -190,7 +195,7 @@ $(PACKAGE):
 	@# here. This allows us to skip checking the whole dependency tree, which means
 	@# we can buiild the package with just the static image, not relying on any of
 	@# the other base images to be present.
-	if [ ! -f $(static_IMAGE) ]; then $(MAKE) -f $(THIS_FILE) $(static_IMAGE); fi
+	@if [ ! -f $(static_IMAGE) ]; then $(MAKE) -f $(THIS_FILE) $(static_IMAGE); fi
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
 	@rm -rf ./$(OUT_DIR)
