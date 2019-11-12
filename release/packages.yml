@@ -1,12 +1,12 @@
-# package-spec.yml
+# packages.yml
 #
-# package-spec.yml defines all the packages we are able to build for a single commit
+# packages.yml defines all the packages we are able to build for a single commit
 # in this repo. A package means a single zip file containing the executable binary,
 # and optionally other files if needed.
 #
-# package-spec.yml is a convenience file for the human management of large numbers of
+# packages.yml is a convenience file for the human management of large numbers of
 # alternate packages, allowing default and templated values. We generate another
-# file from this one, called package-spec.lock which contains the fully expanded set
+# file from this one, called packages.lock which contains the fully expanded set
 # of package specs. This fully expanded file is in turn used to generate CI config
 # to build specific sets of packages.
 #
@@ -86,7 +86,7 @@ templates:
 # and then rendering each template and adding the result to the map.
 # Each package must result in a unique PACKAGE_NAME.
 #
-# The fully expanded set of packages are written to package-spec.lock. That file
+# The fully expanded set of packages are written to packages.lock. That file
 # is a useful data source for building CI/CD pipelines.
 packages:
   - { GOOS: darwin, GOARCH: 386 }

@@ -1,14 +1,10 @@
 SHELL := /usr/bin/env bash -euo pipefail -c
 
-.PHONY: package-list package-lock package
+.PHONY: packages build
 
-package-list:
-	@$(MAKE) -f package-spec.Makefile list
+packages:
+	@$(MAKE) -f packages.mk lock
 
-package-lock:
-	@$(MAKE) -f package-spec.Makefile package-spec.lock
-
-package:
-	@# Run the package makefile as if it were in the repo root.
-	@$(MAKE) -f release/package.Makefile -C ../ package
-
+build:
+	@# Run the build makefile as if it were in the repo root.
+	@$(MAKE) -f release/build/build.mk -C ../ package

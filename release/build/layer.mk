@@ -1,5 +1,12 @@
 # build-layers.mk contains the machinery to incrementally build the builder image
-# as separate layers, so each can be cached both locally and in CI.
+# as separate layers, so each can be cached both locally and in CI. This serves
+# both to speed up builds by avoiding unnecessary repetition of work already done,
+# as well as to ehnance the reliability of builds by downloading external
+# dependencies only once per build.
+#
+# The build layers themselves can be individually exported as tarballs (by calling
+# make <layer-name>-save) for later inspection, for sharing, or for implementing
+# on-host caching without recourse to external docker registries.
 #
 # To use this file, include it in another makefile, and from there you must eval
 # calls to the LAYER macro with this syntax:
