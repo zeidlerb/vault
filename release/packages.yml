@@ -46,8 +46,19 @@ defaults:
   # a comma or space separated list, depending on the GO_VERSION you are using.
   BUILD_TAGS: vault
 
-  # CGOENABLED is a standard Go environment variable.
+  # Standard golang environment variables, passed to the 'go build' command.
+  # Some of these are commented out, which means "use the system default" on
+  # the builder image. They can be overridden on a per-package basis, or set
+  # here to apply them to all packages.
   CGOENABLED: 0
+  GO111MODULE: off
+  #CC: gcc
+  #CXX: g++
+  #CGO_CFLAGS: "-g -O2"
+  #CGO_CPPFLAGS: ""
+  #CGO_CXXFLAGS: "-g -O2"
+  #CGO_FFLAGS: "-g -O2"
+  #CGO_LDFLAGS: "-g -O2"
 
 # templates contain gomplate template strings. Each of these is rendered per package
 # using that packages values (including any default values), and then added to that
