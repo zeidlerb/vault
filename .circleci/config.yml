@@ -1573,7 +1573,11 @@ jobs:
 workflows:
   build-release:
     jobs:
-    - cache-builder-images
+    - cache-builder-images:
+        filters:
+          branches:
+            only:
+            - /rel-.*/
     - package_darwin_386:
         requires:
         - cache-builder-images
