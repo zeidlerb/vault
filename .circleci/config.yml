@@ -82,6 +82,12 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     steps:
     - checkout
+    - run:
+        command: |
+          make -f release/package.Makefile write-cache-keys
+        environment:
+          NAMES: static ui yarn base
+        name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
         key: package-cache-v1-37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff-{{ checksum ".buildcache/static-cache-key" }}
     - restore_cache:
