@@ -160,7 +160,7 @@ $(1)-load:
 		MARKER=$$($(1)_IMAGE); \
 		rm -f $$$$MARKER; \
 		echo "==> Loading $$$$IMAGE image from $$$$ARCHIVE"; \
-		docker load -i $$$$ARCHIVE
+		docker load < $$$$ARCHIVE
 	@$$(call $(1)_UPDATE_MARKER_FILE)
 
 ## END PHONY targets
@@ -187,8 +187,11 @@ $$($(1)_SOURCE_ARCHIVE): $$($(1)_SOURCE)
 
 # Save the docker image as a tar.gz.
 $$($(1)_IMAGE_ARCHIVE): | $$($(1)_IMAGE)
-	@echo "==> Saving $(1) image to $$@"
-	@docker save -o $$@ $$$$(cat $$($(1)_IMAGE))
+	IMAGE=$$$$(cat $$($(1)_IMAGE)); \
+		echo "==> Saving $(1) image to $$@"; \
+		docker save $$$$IMAGE \
+			$$$$(docker history -q --no-trunc $$$$IMAGE | grep -v missing) \
+			| gzip > $$@
 
 endef
 
