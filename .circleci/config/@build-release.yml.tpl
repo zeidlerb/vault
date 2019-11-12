@@ -20,6 +20,7 @@ jobs:
     executor: releaser
     steps:
       - checkout
+      - write-builder-cache-keys
       {{- range $packages}}
       - load-package:
           PACKAGE_NAME: {{.PACKAGE_NAME}}
