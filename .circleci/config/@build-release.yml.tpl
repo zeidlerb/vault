@@ -7,6 +7,7 @@ workflows:
             branches:
               only:
                 - /build-.*/
+                - /ci\/.*/
       {{- range $packages}}
       - {{.BUILD_JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
       - bundle-releases:

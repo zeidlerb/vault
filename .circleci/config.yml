@@ -1649,6 +1649,7 @@ workflows:
           branches:
             only:
             - /build-.*/
+            - /ci\/.*/
     - package_darwin_386:
         requires:
         - cache-builder-images
