@@ -3,7 +3,11 @@
 workflows:
   build-release:
     jobs:
-      - cache-builder-images
+      - cache-builder-images:
+          filters:
+            branches:
+              only:
+                - /rel-.*/
       - package_darwin_386: { requires: [ cache-builder-images ] }
       - package_darwin_amd64: { requires: [ cache-builder-images ] }
       - package_freebsd_386: { requires: [ cache-builder-images ] }
