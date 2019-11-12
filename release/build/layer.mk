@@ -61,9 +61,6 @@
 
 SHELL := /usr/bin/env bash -euo pipefail -c
 
-THIS_FILE := $(lastword $(MAKEFILE_LIST))
-THIS_DIR := $(shell dirname $(THIS_FILE))
-
 ### Base configuration
 CACHE_ROOT := .buildcache
 ### End base configuration
