@@ -29,14 +29,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -52,11 +54,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -67,7 +71,7 @@ jobs:
         key: package-cache-v1-37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -84,8 +88,9 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -147,14 +152,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -170,11 +177,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -185,7 +194,7 @@ jobs:
         key: package-cache-v1-5dcc6b4e0cfd20e9d91c8c3888efb8cf4b16474ebca5742a61a12f2b41d30488-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -219,14 +228,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -242,11 +253,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -257,7 +270,7 @@ jobs:
         key: package-cache-v1-c208d598c8c5e44bdeb6ba40f995510525561cd851de52337cdbcea8dad585ab-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -310,14 +323,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -333,11 +348,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -348,7 +365,7 @@ jobs:
         key: package-cache-v1-c8c79ddda7a0a23f579caccbabdc032758ce7abeaa7ecba29b05c27369364bc9-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -382,14 +399,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -405,11 +424,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -420,7 +441,7 @@ jobs:
         key: package-cache-v1-082eba720efcbfe070146d0f0243c0ab090e9ceb9a43ebf458a0b89364bb55a2-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -454,14 +475,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -477,11 +500,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -492,7 +517,7 @@ jobs:
         key: package-cache-v1-367fd69b87c369e84e3c84e21ebf18bf13383e2233741f61f47f2d04752fc1b3-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -582,14 +607,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -605,11 +632,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -620,7 +649,7 @@ jobs:
         key: package-cache-v1-f06749ddef3cd5569a79dce7317cd6a8bbf512cc4efefd26974ea2ab2e871d97-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -819,14 +848,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -842,11 +873,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -857,7 +890,7 @@ jobs:
         key: package-cache-v1-57614904d811c5a1a2b4b2c7663a8d750d96a347c233f8c64541ca95e3efc466-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -891,14 +924,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -914,11 +949,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -929,7 +966,7 @@ jobs:
         key: package-cache-v1-2b2ae00062de1f76d8486b320c3e6d65982c1987c5e66198fa368d74381feb84-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -963,14 +1000,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -986,11 +1025,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -1001,7 +1042,7 @@ jobs:
         key: package-cache-v1-7cf9912f5f978ae28b274ac238b988b5a9aa66cf5c4ba70994184e8f1971d1cd-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -1035,14 +1076,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -1058,11 +1101,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -1073,7 +1118,7 @@ jobs:
         key: package-cache-v1-bce0b438cd955a4dd5b205298e2f5176d1b0473b71d1cd9e7aa70e1577bfb83a-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -1107,14 +1152,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -1130,11 +1177,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -1145,7 +1194,7 @@ jobs:
         key: package-cache-v1-7c8fc2db6a0c71ba9e8cd36b6250630b254b474403cb739d21022c565ea06894-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -1179,14 +1228,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -1202,11 +1253,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -1217,7 +1270,7 @@ jobs:
         key: package-cache-v1-6f73868ac4bb976921f6dbd7fd0a025ab7183ef8f3e4a65633b00369ee8c6f22-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -1251,14 +1304,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -1274,11 +1329,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -1289,7 +1346,7 @@ jobs:
         key: package-cache-v1-b8d589d76e07867c548eda5223ca54f188ee70e1a1b4c0987e6f3fdc32287ad9-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -1323,14 +1380,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -1346,11 +1405,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -1361,7 +1422,7 @@ jobs:
         key: package-cache-v1-56c3749657425e9a5283d2dbbd33aac46b59c3335ae7d0d8237500b77f817f88-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -1395,14 +1456,16 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -1418,11 +1481,13 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile static-load || \
-          make -f release/package.Makefile ui-load || \
-          make -f release/package.Makefile yarn-load || \
-          make -f release/package.Makefile base-load || \
+          $MK static-load || \
+          $MK ui-load || \
+          $MK yarn-load || \
+          $MK base-load || \
           echo "==> Unable to restore any builder images, rebuilding from scratch."
+        environment:
+          MK: make -f release/build/build.mk
         name: Restore static builder image (or best available).
     - run:
         command: |
@@ -1433,7 +1498,7 @@ jobs:
         key: package-cache-v1-43755596c8d3db4ded062aa8ca57ae3d310888af4c16e9ee4e167f5a67d16a37-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         command: |
-          make -f release/package.Makefile package
+          make build
         name: Compile package
     - store_artifacts:
         destination: dist/
@@ -1501,8 +1566,9 @@ jobs:
     - checkout
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - restore_cache:
@@ -1520,32 +1586,37 @@ jobs:
         name: Info - list files in .buildcache/
     - run:
         command: |
-          make -f release/package.Makefile $NAME-load || make -f release/package.Makefile $NAME-save
+          $MK $NAME-load || $MK $NAME-save
         environment:
+          MK: make -f release/build/build.mk
           NAME: base
         name: Update base builder image layer
     - run:
         command: |
-          make -f release/package.Makefile $NAME-load || make -f release/package.Makefile $NAME-save
+          $MK $NAME-load || $MK $NAME-save
         environment:
+          MK: make -f release/build/build.mk
           NAME: yarn
         name: Update yarn builder image layer
     - run:
         command: |
-          make -f release/package.Makefile $NAME-load || make -f release/package.Makefile $NAME-save
+          $MK $NAME-load || $MK $NAME-save
         environment:
+          MK: make -f release/build/build.mk
           NAME: ui
         name: Update ui builder image layer
     - run:
         command: |
-          make -f release/package.Makefile $NAME-load || make -f release/package.Makefile $NAME-save
+          $MK $NAME-load || $MK $NAME-save
         environment:
+          MK: make -f release/build/build.mk
           NAME: static
         name: Update static builder image layer
     - run:
         command: |
-          make -f release/package.Makefile write-cache-keys
+          $MK write-cache-keys
         environment:
+          MK: make -f release/build/build.mk
           NAMES: static ui yarn base
         name: 'Generate builder cache keys: static ui yarn base'
     - run:
@@ -1576,7 +1647,7 @@ workflows:
         filters:
           branches:
             only:
-            - /rel-.*/
+            - /build-.*/
     - package_darwin_386:
         requires:
         - cache-builder-images
