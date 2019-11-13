@@ -74,6 +74,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -198,6 +201,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -275,6 +281,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -371,6 +380,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -448,6 +460,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -525,6 +540,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -658,6 +676,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -900,6 +921,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -977,6 +1001,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -1054,6 +1081,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -1131,6 +1161,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -1208,6 +1241,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -1285,6 +1321,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -1362,6 +1401,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -1439,6 +1481,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
@@ -1516,6 +1561,9 @@ jobs:
         command: |
           make build
         name: Compile package
+    - run:
+        command: ls -lahR dist/
+        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/
         path: dist/
