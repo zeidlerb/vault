@@ -51,7 +51,7 @@ defaults:
   # will be ommitted from the go build command too, meaning to use the system
   # default in the build container.
   CGOENABLED: 0
-  GO111MODULE: off
+  GO111MODULE: "off"
 
 # templates contain gomplate template strings. Each of these is rendered per package
 # using that packages values (including any default values), and then added to that
