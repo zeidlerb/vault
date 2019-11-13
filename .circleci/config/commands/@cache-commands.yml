@@ -138,6 +138,9 @@ build-package:
         name: Compile package
         command: |
           make build
+    - run:
+        name: Dump contents of dist/
+        command: ls -lahR dist/
     - store_artifacts:
         path: dist/
         destination: dist/
