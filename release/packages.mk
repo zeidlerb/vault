@@ -58,7 +58,8 @@ lock: $(LOCK)
 	@echo "$< updated."
 
 commands: $(COMMANDS)
-	@echo done
+	@cat $^ > .tmp/all-commands.sh
+	@echo "see .tmp/all-commands.sh"
 
 # Other phony targets below are for debugging purposes, allowing you
 # to run just part of the pipeline.
