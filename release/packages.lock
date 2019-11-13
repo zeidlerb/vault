@@ -3,14 +3,13 @@
 ### INSTEAD: Edit or merge the source in this directory then run 'make packages.lock'.
 ### ***
 packages:
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: darwin
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -18,15 +17,14 @@ packages:
     BUILD_JOB_NAME: package_darwin_386
     PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 8ce4174e90910f075a5b68e7c81f9f292faaecf25c94b6d852445c3908aa457a
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 3378aeebce8b947a1549e2d675c715461ebe1050aebf5fdfd125a3625f39f73f
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: darwin
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -34,15 +32,14 @@ packages:
     BUILD_JOB_NAME: package_darwin_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: cfa7de5074f6feaa91efbd66642dfdd83666b1f19915d6f67af72ca7854815c4
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 88b776b51abc67895eeca2f3def05494f8c01bff31c06df3d8b22f4944bd7b52
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: freebsd
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -50,15 +47,14 @@ packages:
     BUILD_JOB_NAME: package_freebsd_386
     PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: c19c2956ab772eb22b70c988b25b17a7b0333f3032d16e135bc6d88937a8c54b
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: e2533638689959edd46905fcd5e2d6ce8eab84eb5f2154a63dde3cc5bad2f759
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: freebsd
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -66,15 +62,14 @@ packages:
     BUILD_JOB_NAME: package_freebsd_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: efdb3627f583f7bfe80f1c6ecf090d9d08596ed721f322816daaaa5ab9f6904c
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 9b51df12fe78bf4ca6a5d2a02e40e90ecfc3886e51f08a5d0f37dff3f966a364
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: freebsd
     GOARCH: arm
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -82,15 +77,14 @@ packages:
     BUILD_JOB_NAME: package_freebsd_arm
     PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 33c7131b1b40b813fc517c6a70fcbfd9714f47db190b15c30c7e7c830d466d32
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 90efc09209bd6250de9e7aa6497cbe72661b2a1407e29c19b8f6ef7d2f86b772
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: linux
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -98,15 +92,14 @@ packages:
     BUILD_JOB_NAME: package_linux_386
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: a52c953d1d426b8086876185a49afd4299bc7f8fe46bd1d591675b25f710e742
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 3676f7424411e79a827528338e1750abfd41ed31618476d1630b44b7d2a227ca
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: linux
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -114,15 +107,14 @@ packages:
     BUILD_JOB_NAME: package_linux_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 4b4c08d7b1bdb3d34b75e3813e372f1db2fea5f951c1900231948057e5b28c4c
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 95e3365a03514d7861dfc3cfb21ff9d09b7a5d036a445ff0d706f3ad0514c4b5
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: linux
     GOARCH: arm
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -130,15 +122,14 @@ packages:
     BUILD_JOB_NAME: package_linux_arm
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 04cdde53dbec5fd94c36cdec85bcc88d4b080f190ea225e8ecfc24ca7c91d530
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 5ca780a61447be013dac529c97bd06e3f77ea6fd0e6f21c85bd5a916e26a7b51
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: linux
     GOARCH: arm64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -146,15 +137,14 @@ packages:
     BUILD_JOB_NAME: package_linux_arm64
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 3559225ef449dbd9cfeebd29ba8d85ad7662d0c88ccc582e5ab21abf1055667e
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 28781dd58a29e2dbb6822e0f2789a147c4f73002453355ef116278493a92f366
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: netbsd
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -162,15 +152,14 @@ packages:
     BUILD_JOB_NAME: package_netbsd_386
     PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: c4320711fe1e67a9bf6d52bc0e38f05e1b1875716f219ee4fb79a1d28bb2416f
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 52840bf1ea12af2fb7af1d3e1f74de5aad427dbe05319e68df9f126467335fbf
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: netbsd
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -178,15 +167,14 @@ packages:
     BUILD_JOB_NAME: package_netbsd_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 798cc632b47db457ff40dc92e76efd1b7437594850c4fc9517c43ccf655cff12
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 0465d642767d7325dba311dd2a230fa5d89bcc77b713de60564b31c89c98bce9
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: openbsd
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -194,15 +182,14 @@ packages:
     BUILD_JOB_NAME: package_openbsd_386
     PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 5ed90e11d88068ef1fc8b4e3943a314837d9def22da88ae293e65b779b58d905
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 30331a621720b0fef3a1aea6545fa5eba6cd5cd4e225a22e7bdfdc8977a74295
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: openbsd
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -210,15 +197,14 @@ packages:
     BUILD_JOB_NAME: package_openbsd_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 7bf667920a24772f396666e4c27f1fe3a202e7a6ba6b53f44ae72879615e1685
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: ec0eb3f6625761b5981df1fe5e41af5484a1b22b41a971c6b10d810c7a8e4d41
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: solaris
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -226,15 +212,14 @@ packages:
     BUILD_JOB_NAME: package_solaris_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 613c5e9a3e9372f288f5a3552f57d26497fd569b7459b5840c60a3298fc2184c
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: e3ba1d47fee9ec4f94d9619ae68bb503383e364d66b1b1706d67a714cae69acb
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: windows
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -242,15 +227,14 @@ packages:
     BUILD_JOB_NAME: package_windows_386
     PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: 32f1f2f5be32b003c02fdee931cd54f9d5fe9d33b978c44946c76cd1d6134a12
-  - PRODUCT_NAME: vault
-    PRODUCT_EDITION: ''
-    PRODUCT_VERSION: 0.0.0-snapshot
-    GIT_REF: HEAD
-    GO_VERSION: 1.12.13
-    BUILD_TAGS: vault
-    CGOENABLED: 0
+    PACKAGE_SPEC_ID: 5fdd65418f51d28cb90f8e2a8566841e08bd58ef4f2b6007f93b8a19b4be345f
+  - BUILD_TAGS: vault
+    CGOENABLED: '0'
     GO111MODULE: 'off'
+    GO_VERSION: 1.12.13
+    PRODUCT_EDITION: ''
+    PRODUCT_NAME: vault
+    PRODUCT_VERSION: 0.0.0-snapshot
     GOOS: windows
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
@@ -258,4 +242,4 @@ packages:
     BUILD_JOB_NAME: package_windows_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
     PRODUCT_VERSION_MMP: 0.0.0
-    PACKAGE_SPEC_ID: cd4571987fbe65a7082e9480f4c62e6346cb9a7342a3b135e322b452d96c60fc
+    PACKAGE_SPEC_ID: f20ab72d443b431b3a7e24b3de31adfe2263bd497266d62c30bf41902e557f46
