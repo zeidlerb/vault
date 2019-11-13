@@ -174,21 +174,25 @@ BUILD_COMMAND := \
 
 # ARCHIVE_COMMAND creates the package archive from the binary.
 ARCHIVE_COMMAND := cd /$(OUT_DIR) && zip $(PACKAGE_FILENAME) $(BINARY_NAME)
+PACKAGE_PATH := $(OUT_DIR)/$(PACKAGE_FILENAME) 
 
 ### Docker run command configuration.
 
 DOCKER_SHELL := /bin/bash -euo pipefail -c
-DOCKER_RUN_FLAGS := --rm -v $(CURDIR)/$(OUT_DIR):/$(OUT_DIR)
+
+BUILD_CONTAINER_NAME := build-$(PACKAGE_NAME)
+DOCKER_RUN_FLAGS := --name $(BUILD_CONTAINER_NAME)
 # DOCKER_RUN_COMMAND ties everything together to build the final package as a
 # single docker run invocation.
 DOCKER_RUN_COMMAND = docker run $(DOCKER_RUN_FLAGS) $(static_IMAGE_NAME) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"
+DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):/$(PACKAGE_PATH) $(PACKAGE_PATH)
 
 .PHONY: build
 build: $(PACKAGE)
 	@echo $<
 
 # PACKAGE assumes 'make static-image' has already been run.
-# It does not depend on the static image, as this simplifies cached later re-use
+# It does not depend on the static image, as this simplifies cache re-use
 # on circleci.
 $(PACKAGE):
 	@# Instead of depending on the static image, we just check for its marker file
@@ -201,3 +205,5 @@ $(PACKAGE):
 	@rm -rf ./$(OUT_DIR)
 	@mkdir -p ./$(OUT_DIR)
 	$(DOCKER_RUN_COMMAND)
+	$(DOCKER_CP_COMMAND)
+	docker rm -f $(BUILD_CONTAINER_NAME)
