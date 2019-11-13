@@ -4,7 +4,7 @@
   executor: releaser
   environment:
     {{- range $NAME, $VALUE := .}}
-    - {{$NAME}}="{{$VALUE}}"{{end}}
+    - {{$NAME}}: "{{$VALUE}}"{{end}}
   steps:
     - build-package:
         PACKAGE_SPEC_ID: {{.PACKAGE_SPEC_ID}}

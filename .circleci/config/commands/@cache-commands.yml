@@ -133,7 +133,7 @@ build-package:
     - write-builder-cache-keys
     - ensure-static-builder
     - restore_cache:
-        key: &PACKAGE_CACHE_KEY package-cache-v1-<<parameters.PACKAGE_SPEC_ID>>-{{ checksum ".buildcache/static-cache-key" }}
+        key: &PACKAGE_CACHE_KEY package-cache-v2-<<parameters.PACKAGE_SPEC_ID>>-{{ checksum ".buildcache/static-cache-key" }}
     - run:
         name: Compile package
         command: |
