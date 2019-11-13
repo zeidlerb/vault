@@ -56,51 +56,51 @@ jobs:
       - checkout
       - write-builder-cache-keys
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
-          PACKAGE_SPEC_ID: 3378aeebce8b947a1549e2d675c715461ebe1050aebf5fdfd125a3625f39f73f
+          PACKAGE_NAME: vault_0.0.1-sam-test_darwin_386
+          PACKAGE_SPEC_ID: f5b223b67b4c767bebb9d644baa37e583a682a9a19f97975c1a6c9bbd2451b04
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
-          PACKAGE_SPEC_ID: 88b776b51abc67895eeca2f3def05494f8c01bff31c06df3d8b22f4944bd7b52
+          PACKAGE_NAME: vault_0.0.1-sam-test_darwin_amd64
+          PACKAGE_SPEC_ID: 536b26882af2ac3de010be3091edc045a606693eecc68ca8af4f027b50d7bec3
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
-          PACKAGE_SPEC_ID: e2533638689959edd46905fcd5e2d6ce8eab84eb5f2154a63dde3cc5bad2f759
+          PACKAGE_NAME: vault_0.0.1-sam-test_freebsd_386
+          PACKAGE_SPEC_ID: f09b8552e9b91f13069a299a20b5ff99f312ce7bfea31efda3a63120b109c52e
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
-          PACKAGE_SPEC_ID: 9b51df12fe78bf4ca6a5d2a02e40e90ecfc3886e51f08a5d0f37dff3f966a364
+          PACKAGE_NAME: vault_0.0.1-sam-test_freebsd_amd64
+          PACKAGE_SPEC_ID: 889d4d8d937831715f030c2d4255b116a10ed6c229fb30eaed32046a082d01fe
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
-          PACKAGE_SPEC_ID: 90efc09209bd6250de9e7aa6497cbe72661b2a1407e29c19b8f6ef7d2f86b772
+          PACKAGE_NAME: vault_0.0.1-sam-test_freebsd_arm
+          PACKAGE_SPEC_ID: bf076a46c933d828c6f60682f987060f67ccce878b452704d883123284413236
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
-          PACKAGE_SPEC_ID: 3676f7424411e79a827528338e1750abfd41ed31618476d1630b44b7d2a227ca
+          PACKAGE_NAME: vault_0.0.1-sam-test_linux_386
+          PACKAGE_SPEC_ID: f05fd7b1df0bdc92e518cc7e4ba2edede6d684596b7758c75805fe94ada47ecd
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
-          PACKAGE_SPEC_ID: 95e3365a03514d7861dfc3cfb21ff9d09b7a5d036a445ff0d706f3ad0514c4b5
+          PACKAGE_NAME: vault_0.0.1-sam-test_linux_amd64
+          PACKAGE_SPEC_ID: e09fee3d496b5a60a5a256ef77e4df568ca874d68dff7e8768793c81a53b4cc0
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
-          PACKAGE_SPEC_ID: 5ca780a61447be013dac529c97bd06e3f77ea6fd0e6f21c85bd5a916e26a7b51
+          PACKAGE_NAME: vault_0.0.1-sam-test_linux_arm
+          PACKAGE_SPEC_ID: 691ce287d89859168f03139a6452c43fe5f1c5f40d76459bbb21d2c7a9d4a35c
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
-          PACKAGE_SPEC_ID: 28781dd58a29e2dbb6822e0f2789a147c4f73002453355ef116278493a92f366
+          PACKAGE_NAME: vault_0.0.1-sam-test_linux_arm64
+          PACKAGE_SPEC_ID: 313dd1d289522ebbd3afe7321f93082165697b71b3cc170dd5f7c3a05c00a7b7
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
-          PACKAGE_SPEC_ID: 52840bf1ea12af2fb7af1d3e1f74de5aad427dbe05319e68df9f126467335fbf
+          PACKAGE_NAME: vault_0.0.1-sam-test_netbsd_386
+          PACKAGE_SPEC_ID: 19943530bc0bcb6ed29b5ef7a4afbded0febb42fcb13a30454ab84484ca3b2d5
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
-          PACKAGE_SPEC_ID: 0465d642767d7325dba311dd2a230fa5d89bcc77b713de60564b31c89c98bce9
+          PACKAGE_NAME: vault_0.0.1-sam-test_netbsd_amd64
+          PACKAGE_SPEC_ID: b4a96c53a7d3929a4faee6a7df724e9b837a894c9975b731a90524b78abc64cf
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
-          PACKAGE_SPEC_ID: 30331a621720b0fef3a1aea6545fa5eba6cd5cd4e225a22e7bdfdc8977a74295
+          PACKAGE_NAME: vault_0.0.1-sam-test_openbsd_386
+          PACKAGE_SPEC_ID: dde1e1d385c8c7469e9d87f2fbdc4a617894064cbb98c348a4e9199f5a982a5d
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
-          PACKAGE_SPEC_ID: ec0eb3f6625761b5981df1fe5e41af5484a1b22b41a971c6b10d810c7a8e4d41
+          PACKAGE_NAME: vault_0.0.1-sam-test_openbsd_amd64
+          PACKAGE_SPEC_ID: 7a2f2a00954e113718c4e745d1014b2c04db9b04e0dd2cc077bf07cd51e6677c
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
-          PACKAGE_SPEC_ID: e3ba1d47fee9ec4f94d9619ae68bb503383e364d66b1b1706d67a714cae69acb
+          PACKAGE_NAME: vault_0.0.1-sam-test_solaris_amd64
+          PACKAGE_SPEC_ID: 449cfd009e8fa82f71d751d35196b070bc8096a141b65369c9dee6229c0b851b
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
-          PACKAGE_SPEC_ID: 5fdd65418f51d28cb90f8e2a8566841e08bd58ef4f2b6007f93b8a19b4be345f
+          PACKAGE_NAME: vault_0.0.1-sam-test_windows_386
+          PACKAGE_SPEC_ID: 80cb8b933d34bd48e2e5348535e27c83351507ec50c7f61d90e2fb4f23ad6a47
       - load-package:
-          PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
-          PACKAGE_SPEC_ID: f20ab72d443b431b3a7e24b3de31adfe2263bd497266d62c30bf41902e557f46
+          PACKAGE_NAME: vault_0.0.1-sam-test_windows_amd64
+          PACKAGE_SPEC_ID: 94941cdfe3547f57b7e5d90ae490c10ad3bdaa5cee1a29db5ed20c4907237027
       - run: ls -lahR dist/
