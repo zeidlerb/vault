@@ -105,14 +105,12 @@ endif
 # PACKAGE_OUT_ROOT is the root directory where the final packages will be written to.
 PACKAGE_OUT_ROOT ?= dist
 
-### Non-source build inputs (override these when invoking make to produce alternate binaries).
-### See build/package-list.txt and build/package-list.lock, which override these
-### per package.
+### Default package parameters when not explicitly set.
+### This is closely equivalent to 'make dev' in the top-level Makefile.
+### For releases, these are overrdden by entries in packages.lock.
 
-## Standard Go env vars.
-GOOS ?= $(shell go env GOOS || echo linux)
-GOARCH ?= $(shell go env GOARCH || echo amd64)
-CC ?= gcc
+GOOS ?= $(shell go env GOOS 2>/dev/null || echo linux)
+GOARCH ?= $(shell go env GOARCH 2>/dev/null || echo amd64)
 CGO_ENABLED ?= 0
 GO111MODULE ?= off
 
@@ -125,10 +123,11 @@ GO_BUILD_TAGS ?= vault
 BINARY_NAME ?= vault
 # PRODUCT_NAME is the top-level name of all editions of this product.
 PRODUCT_NAME ?= vault
+PRODUCT_VERSION ?= 0.0.0-dev
 # BUILD_VERSION is the major/minor/prerelease fields of the version.
-BUILD_VERSION ?= 0.0.0
+PRODUCT_VERSION_MMP ?= 0.0.0
 # BUILD_PRERELEASE is the prerelease field of the version. If nonempty, it must begin with a -.
-BUILD_PRERELEASE ?= -dev
+PRODUCT_VERSION_PRE ?= -dev
 # EDITION is used to differentiate alternate builds of the same commit, which may differ in
 # terms of build tags or other build inputs. EDITION should always form part of the BUNDLE_NAME,
 # and if non-empty MUST begin with a +.
@@ -136,12 +135,11 @@ EDITION ?=
 
 ### Calculated package parameters.
 
-FULL_VERSION := $(BUILD_VERSION)$(BUILD_PRERELEASE)
 # BUNDLE_NAME is the name of the release bundle.
 BUNDLE_NAME ?= $(PRODUCT_NAME)$(EDITION)
 # PACKAGE_NAME is the unique name of a specific build of this product.
-PACKAGE_NAME = $(BUNDLE_NAME)_$(FULL_VERSION)_$(GOOS)_$(GOARCH)
-PACKAGE_FILENAME = $(PACKAGE_NAME).zip
+PACKAGE_NAME ?= $(BUNDLE_NAME)_$(PRODUCT_VERSION)_$(GOOS)_$(GOARCH)
+PACKAGE_FILENAME ?= $(PACKAGE_NAME).zip
 # PACKAGE is the zip file containing a specific binary.
 PACKAGE = $(OUT_DIR)/$(PACKAGE_FILENAME)
 
@@ -149,25 +147,48 @@ PACKAGE = $(OUT_DIR)/$(PACKAGE_FILENAME)
 
 # LDFLAGS: These linker commands inject build metadata into the binary.
 LDFLAGS += -X github.com/hashicorp/vault/sdk/version.GitCommit="$(static_SOURCE_ID)"
-LDFLAGS += -X github.com/hashicorp/vault/sdk/version.Version="$(BUILD_VERSION)"
-LDFLAGS += -X github.com/hashicorp/vault/sdk/version.VersionPrerelease="$(BUILD_PRERELEASE)"
+LDFLAGS += -X github.com/hashicorp/vault/sdk/version.Version="$(PRODUCT_VERSION_MMP)"
+LDFLAGS += -X github.com/hashicorp/vault/sdk/version.VersionPrerelease="$(PRODUCT_VERSION_PRE)"
 
 # OUT_DIR tells the Go toolchain where to place the binary.
 OUT_DIR := $(PACKAGE_OUT_ROOT)/$(PACKAGE_NAME)/$(static_SOURCE_ID)
 
-# BUILD_ENV is the list of env vars that are passed through to 'make build' and 'go build'.
-BUILD_ENV := \
-	GO111MODULE=$(GO111MODULE) \
-	GOOS=$(GOOS) \
-	GOARCH=$(GOARCH) \
-	CC=$(CC) \
-	CGO_ENABLED=$(CGO_ENABLED) \
-	BUILD_VERSION=$(BUILD_VERSION) \
-	BUILD_PRERELEASE=$(BUILD_PRERELEASE)
+# GO_BUILD_VARS are environment variables affecting the go build
+# command that will be passed through to the go build command inside the
+# build container. This is a hand-picked list, because some like GOPATH you
+# probably do not want the container build to inherit.
+#
+# Usually, you will be building one of the packages defined in packages.yml
+# which should set the necessary vars for a given package.
+#
+# Any of these which are SET (even if empty) are passed through to 'go build'.
+# Any which are not set will have default values on the build image.
+GO_BUILD_VARS := \
+	AR                      CC                      CGO_CFLAGS \
+	CGO_CFLAGS_ALLOW        CGO_CFLAGS_DISALLOW     CGO_CPPFLAGS \
+	CGO_CPPFLAGS_ALLOW      CGO_CPPFLAGS_DISALLOW   CGO_CXXFLAGS \
+	CGO_CXXFLAGS_ALLOW      CGO_CXXFLAGS_DISALLOW   CGO_ENABLED \
+	CGO_FFLAGS              CGO_FFLAGS_ALLOW        CGO_FFLAGS_DISALLOW \
+	CGO_LDFLAGS             CGO_LDFLAGS_ALLOW       CGO_LDFLAGS_DISALLOW \
+	CXX                     GCCGO                   GCCGOTOOLDIR \
+	GIT_ALLOW_PROTOCOL      GO386                   GOARCH \
+	GOARM                   GOBIN                   GOCACHE \
+	GOFLAGS                 GOMIPS                  GOMIPS64 \
+	GOOS                    GOPROXY                 GORACE \
+	GO_EXTLINK_ENABLED      PKG_CONFIG
+
+# For any GO_BUILD_VARS that are explicitly set, stick them in GO_BUILD_ENV
+# for passing to 'go build'.
+GO_BUILD_ENV := $(shell \
+	for VAR in $(GO_BUILD_VARS); do \
+		[ -z "$${!VAR+x}" ] || echo "$$VAR='$${!VAR}'"; \
+	done; \
+)
 
 # BUILD_COMMAND compiles the Go binary.
 BUILD_COMMAND := \
-	$(BUILD_ENV) go build -v \
+	$(GO_BUILD_ENV) \
+	go build -v \
 	-tags '$(GO_BUILD_TAGS)' \
 	-ldflags '$(LDFLAGS)' \
 	-o /$(OUT_DIR)/$(BINARY_NAME)
@@ -204,6 +225,7 @@ $(PACKAGE):
 	@echo "==> Building package: $@"
 	@rm -rf ./$(OUT_DIR)
 	@mkdir -p ./$(OUT_DIR)
+	@docker rm -f $(BUILD_CONTAINER_NAME) > /dev/null 2>&1 || true # Speculative cleanup.
 	$(DOCKER_RUN_COMMAND)
 	$(DOCKER_CP_COMMAND)
-	docker rm -f $(BUILD_CONTAINER_NAME)
+	@docker rm -f $(BUILD_CONTAINER_NAME) # Imperative cleanup.
