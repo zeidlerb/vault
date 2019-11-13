@@ -8,19 +8,20 @@ package_darwin_386:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="386"
     - GOOS="darwin"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_darwin_386"
-    - PACKAGE_SPEC_ID="37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff"
+    - PACKAGE_SPEC_ID="8ce4174e90910f075a5b68e7c81f9f292faaecf25c94b6d852445c3908aa457a"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 37a06a4a572a81b11a8f414d482c2ab3d73ab1330d4fbd430ce493c8a15617ff
+        PACKAGE_SPEC_ID: 8ce4174e90910f075a5b68e7c81f9f292faaecf25c94b6d852445c3908aa457a
 
 package_darwin_amd64:
   executor: releaser
@@ -30,19 +31,20 @@ package_darwin_amd64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="amd64"
     - GOOS="darwin"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_darwin_amd64"
-    - PACKAGE_SPEC_ID="56c3749657425e9a5283d2dbbd33aac46b59c3335ae7d0d8237500b77f817f88"
+    - PACKAGE_SPEC_ID="cfa7de5074f6feaa91efbd66642dfdd83666b1f19915d6f67af72ca7854815c4"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 56c3749657425e9a5283d2dbbd33aac46b59c3335ae7d0d8237500b77f817f88
+        PACKAGE_SPEC_ID: cfa7de5074f6feaa91efbd66642dfdd83666b1f19915d6f67af72ca7854815c4
 
 package_freebsd_386:
   executor: releaser
@@ -52,19 +54,20 @@ package_freebsd_386:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="386"
     - GOOS="freebsd"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_freebsd_386"
-    - PACKAGE_SPEC_ID="43755596c8d3db4ded062aa8ca57ae3d310888af4c16e9ee4e167f5a67d16a37"
+    - PACKAGE_SPEC_ID="c19c2956ab772eb22b70c988b25b17a7b0333f3032d16e135bc6d88937a8c54b"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 43755596c8d3db4ded062aa8ca57ae3d310888af4c16e9ee4e167f5a67d16a37
+        PACKAGE_SPEC_ID: c19c2956ab772eb22b70c988b25b17a7b0333f3032d16e135bc6d88937a8c54b
 
 package_freebsd_amd64:
   executor: releaser
@@ -74,19 +77,20 @@ package_freebsd_amd64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="amd64"
     - GOOS="freebsd"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_freebsd_amd64"
-    - PACKAGE_SPEC_ID="bce0b438cd955a4dd5b205298e2f5176d1b0473b71d1cd9e7aa70e1577bfb83a"
+    - PACKAGE_SPEC_ID="efdb3627f583f7bfe80f1c6ecf090d9d08596ed721f322816daaaa5ab9f6904c"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: bce0b438cd955a4dd5b205298e2f5176d1b0473b71d1cd9e7aa70e1577bfb83a
+        PACKAGE_SPEC_ID: efdb3627f583f7bfe80f1c6ecf090d9d08596ed721f322816daaaa5ab9f6904c
 
 package_freebsd_arm:
   executor: releaser
@@ -96,19 +100,20 @@ package_freebsd_arm:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="arm"
     - GOOS="freebsd"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_freebsd_arm"
-    - PACKAGE_SPEC_ID="f06749ddef3cd5569a79dce7317cd6a8bbf512cc4efefd26974ea2ab2e871d97"
+    - PACKAGE_SPEC_ID="33c7131b1b40b813fc517c6a70fcbfd9714f47db190b15c30c7e7c830d466d32"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: f06749ddef3cd5569a79dce7317cd6a8bbf512cc4efefd26974ea2ab2e871d97
+        PACKAGE_SPEC_ID: 33c7131b1b40b813fc517c6a70fcbfd9714f47db190b15c30c7e7c830d466d32
 
 package_linux_386:
   executor: releaser
@@ -118,19 +123,20 @@ package_linux_386:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="386"
     - GOOS="linux"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_linux_386"
-    - PACKAGE_SPEC_ID="7cf9912f5f978ae28b274ac238b988b5a9aa66cf5c4ba70994184e8f1971d1cd"
+    - PACKAGE_SPEC_ID="a52c953d1d426b8086876185a49afd4299bc7f8fe46bd1d591675b25f710e742"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 7cf9912f5f978ae28b274ac238b988b5a9aa66cf5c4ba70994184e8f1971d1cd
+        PACKAGE_SPEC_ID: a52c953d1d426b8086876185a49afd4299bc7f8fe46bd1d591675b25f710e742
 
 package_linux_amd64:
   executor: releaser
@@ -140,19 +146,20 @@ package_linux_amd64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="amd64"
     - GOOS="linux"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_linux_amd64"
-    - PACKAGE_SPEC_ID="57614904d811c5a1a2b4b2c7663a8d750d96a347c233f8c64541ca95e3efc466"
+    - PACKAGE_SPEC_ID="4b4c08d7b1bdb3d34b75e3813e372f1db2fea5f951c1900231948057e5b28c4c"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 57614904d811c5a1a2b4b2c7663a8d750d96a347c233f8c64541ca95e3efc466
+        PACKAGE_SPEC_ID: 4b4c08d7b1bdb3d34b75e3813e372f1db2fea5f951c1900231948057e5b28c4c
 
 package_linux_arm:
   executor: releaser
@@ -162,19 +169,20 @@ package_linux_arm:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="arm"
     - GOOS="linux"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_linux_arm"
-    - PACKAGE_SPEC_ID="082eba720efcbfe070146d0f0243c0ab090e9ceb9a43ebf458a0b89364bb55a2"
+    - PACKAGE_SPEC_ID="04cdde53dbec5fd94c36cdec85bcc88d4b080f190ea225e8ecfc24ca7c91d530"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 082eba720efcbfe070146d0f0243c0ab090e9ceb9a43ebf458a0b89364bb55a2
+        PACKAGE_SPEC_ID: 04cdde53dbec5fd94c36cdec85bcc88d4b080f190ea225e8ecfc24ca7c91d530
 
 package_linux_arm64:
   executor: releaser
@@ -184,19 +192,20 @@ package_linux_arm64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="arm64"
     - GOOS="linux"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_linux_arm64"
-    - PACKAGE_SPEC_ID="5dcc6b4e0cfd20e9d91c8c3888efb8cf4b16474ebca5742a61a12f2b41d30488"
+    - PACKAGE_SPEC_ID="3559225ef449dbd9cfeebd29ba8d85ad7662d0c88ccc582e5ab21abf1055667e"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 5dcc6b4e0cfd20e9d91c8c3888efb8cf4b16474ebca5742a61a12f2b41d30488
+        PACKAGE_SPEC_ID: 3559225ef449dbd9cfeebd29ba8d85ad7662d0c88ccc582e5ab21abf1055667e
 
 package_netbsd_386:
   executor: releaser
@@ -206,19 +215,20 @@ package_netbsd_386:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="386"
     - GOOS="netbsd"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_netbsd_386"
-    - PACKAGE_SPEC_ID="b8d589d76e07867c548eda5223ca54f188ee70e1a1b4c0987e6f3fdc32287ad9"
+    - PACKAGE_SPEC_ID="c4320711fe1e67a9bf6d52bc0e38f05e1b1875716f219ee4fb79a1d28bb2416f"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: b8d589d76e07867c548eda5223ca54f188ee70e1a1b4c0987e6f3fdc32287ad9
+        PACKAGE_SPEC_ID: c4320711fe1e67a9bf6d52bc0e38f05e1b1875716f219ee4fb79a1d28bb2416f
 
 package_netbsd_amd64:
   executor: releaser
@@ -228,19 +238,20 @@ package_netbsd_amd64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="amd64"
     - GOOS="netbsd"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_netbsd_amd64"
-    - PACKAGE_SPEC_ID="c8c79ddda7a0a23f579caccbabdc032758ce7abeaa7ecba29b05c27369364bc9"
+    - PACKAGE_SPEC_ID="798cc632b47db457ff40dc92e76efd1b7437594850c4fc9517c43ccf655cff12"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: c8c79ddda7a0a23f579caccbabdc032758ce7abeaa7ecba29b05c27369364bc9
+        PACKAGE_SPEC_ID: 798cc632b47db457ff40dc92e76efd1b7437594850c4fc9517c43ccf655cff12
 
 package_openbsd_386:
   executor: releaser
@@ -250,19 +261,20 @@ package_openbsd_386:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="386"
     - GOOS="openbsd"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_openbsd_386"
-    - PACKAGE_SPEC_ID="7c8fc2db6a0c71ba9e8cd36b6250630b254b474403cb739d21022c565ea06894"
+    - PACKAGE_SPEC_ID="5ed90e11d88068ef1fc8b4e3943a314837d9def22da88ae293e65b779b58d905"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 7c8fc2db6a0c71ba9e8cd36b6250630b254b474403cb739d21022c565ea06894
+        PACKAGE_SPEC_ID: 5ed90e11d88068ef1fc8b4e3943a314837d9def22da88ae293e65b779b58d905
 
 package_openbsd_amd64:
   executor: releaser
@@ -272,19 +284,20 @@ package_openbsd_amd64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="amd64"
     - GOOS="openbsd"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_openbsd_amd64"
-    - PACKAGE_SPEC_ID="6f73868ac4bb976921f6dbd7fd0a025ab7183ef8f3e4a65633b00369ee8c6f22"
+    - PACKAGE_SPEC_ID="7bf667920a24772f396666e4c27f1fe3a202e7a6ba6b53f44ae72879615e1685"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 6f73868ac4bb976921f6dbd7fd0a025ab7183ef8f3e4a65633b00369ee8c6f22
+        PACKAGE_SPEC_ID: 7bf667920a24772f396666e4c27f1fe3a202e7a6ba6b53f44ae72879615e1685
 
 package_solaris_amd64:
   executor: releaser
@@ -294,19 +307,20 @@ package_solaris_amd64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="amd64"
     - GOOS="solaris"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_solaris_amd64"
-    - PACKAGE_SPEC_ID="367fd69b87c369e84e3c84e21ebf18bf13383e2233741f61f47f2d04752fc1b3"
+    - PACKAGE_SPEC_ID="613c5e9a3e9372f288f5a3552f57d26497fd569b7459b5840c60a3298fc2184c"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 367fd69b87c369e84e3c84e21ebf18bf13383e2233741f61f47f2d04752fc1b3
+        PACKAGE_SPEC_ID: 613c5e9a3e9372f288f5a3552f57d26497fd569b7459b5840c60a3298fc2184c
 
 package_windows_386:
   executor: releaser
@@ -316,19 +330,20 @@ package_windows_386:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="386"
     - GOOS="windows"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_windows_386"
-    - PACKAGE_SPEC_ID="c208d598c8c5e44bdeb6ba40f995510525561cd851de52337cdbcea8dad585ab"
+    - PACKAGE_SPEC_ID="32f1f2f5be32b003c02fdee931cd54f9d5fe9d33b978c44946c76cd1d6134a12"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: c208d598c8c5e44bdeb6ba40f995510525561cd851de52337cdbcea8dad585ab
+        PACKAGE_SPEC_ID: 32f1f2f5be32b003c02fdee931cd54f9d5fe9d33b978c44946c76cd1d6134a12
 
 package_windows_amd64:
   executor: releaser
@@ -338,16 +353,17 @@ package_windows_amd64:
     - BUNDLE_NAME="vault_0.0.0-snapshot"
     - CGOENABLED="0"
     - GIT_REF="HEAD"
+    - GO111MODULE="off"
     - GOARCH="amd64"
     - GOOS="windows"
     - GO_VERSION="1.12.13"
     - PACKAGE_NAME="vault_0.0.0-snapshot_windows_amd64"
-    - PACKAGE_SPEC_ID="2b2ae00062de1f76d8486b320c3e6d65982c1987c5e66198fa368d74381feb84"
+    - PACKAGE_SPEC_ID="cd4571987fbe65a7082e9480f4c62e6346cb9a7342a3b135e322b452d96c60fc"
     - PRODUCT_EDITION=""
     - PRODUCT_NAME="vault"
     - PRODUCT_VERSION="0.0.0-snapshot"
-    - VERSION_MMP="0.0.0"
-    - VERSION_PRE="snapshot"
+    - PRODUCT_VERSION_MMP="0.0.0"
+    - PRODUCT_VERSION_PRE="snapshot"
   steps:
     - build-package:
-        PACKAGE_SPEC_ID: 2b2ae00062de1f76d8486b320c3e6d65982c1987c5e66198fa368d74381feb84
+        PACKAGE_SPEC_ID: cd4571987fbe65a7082e9480f4c62e6346cb9a7342a3b135e322b452d96c60fc
