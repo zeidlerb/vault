@@ -25,19 +25,16 @@ defaults:
   # PRODUCT_NAME is used as the name of the binary we compile. It should also
   # be used in the PACKAGE_NAME template.
   PRODUCT_NAME: vault
+
   # PRODUCT_EDITION is an additional differentiator for a given package. It should
   # be used in the PACKAGE_NAME template.
   PRODUCT_EDITION: ""
+
   # PRODUCT_VERSION is the version of this product. Usually, this should be left
   # as 0.0.0-snapshot. When we build a release candidate, this is overridden in
   # a one-off fashion to produce that build.
   # This should be used in the PACKAGE_NAME template.
   PRODUCT_VERSION: 0.0.0-snapshot
-
-  # GIT_REF is the reference to the git commit we should build. Usually this
-  # should be left as HEAD, meaning build the current commit. When we produce
-  # release builds, this can be overridden on a one-off basis.
-  GIT_REF: HEAD
 
   # GO_VERSION is the version of the Go toolchain to use to compile this package.
   GO_VERSION: 1.12.13
