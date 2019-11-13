@@ -47,32 +47,25 @@ defaults:
   BUILD_TAGS: vault
 
   # Standard golang environment variables, passed to the 'go build' command.
-  # Some of these are commented out, which means "use the system default" on
-  # the builder image. They can be overridden on a per-package basis, or set
-  # here to apply them to all packages.
+  # You can use any standard environment variables here, any that you omit
+  # will be ommitted from the go build command too, meaning to use the system
+  # default in the build container.
   CGOENABLED: 0
   GO111MODULE: off
-  #CC: gcc
-  #CXX: g++
-  #CGO_CFLAGS: "-g -O2"
-  #CGO_CPPFLAGS: ""
-  #CGO_CXXFLAGS: "-g -O2"
-  #CGO_FFLAGS: "-g -O2"
-  #CGO_LDFLAGS: "-g -O2"
 
 # templates contain gomplate template strings. Each of these is rendered per package
 # using that packages values (including any default values), and then added to that
 # package. To find out more about gomplate, see https://docs.gomplate.ca/
 # Note that templates MAY NOT refer to each other.
 templates:
-  # VERSION_MMP is just the major.minor.prerelease fields of the PRODUCT_VERSION.
+  # PRODUCT_VERSION_MMP is just the major.minor.prerelease fields of the PRODUCT_VERSION.
   # Think semantic versioning (semver), although we do not version our binaries
   # using semver.
-  VERSION_MMP: >-
+  PRODUCT_VERSION_MMP: >-
     {{with .PRODUCT_VERSION | strings.SplitN "-" 2}}{{index . 0}}{{end}}
-  # VERSION_PRE is just the prerelease field of the product version (i.e. the bit
+  # PRODUCT_VERSION_PRE is just the prerelease field of the product version (i.e. the bit
   # after any -, if there is one.
-  VERSION_PRE: >-
+  PRODUCT_VERSION_PRE: >-
     {{with .PRODUCT_VERSION | strings.SplitN "-" 2}}{{if gt (len .) 1}}{{index . 1}}{{else}}"''"{{end}}{{end}}
   # BUNDLE_NAME is the name of the release bundle this package belongs to.
   # All packages with the same BUNDLE_NAME are considered part of the same release
