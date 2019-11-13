@@ -13,3 +13,4 @@ build:
 	@$(MAKE) -C ../ -f release/build/build.mk build
 
 build-all: commands
+	cd ../ && $(SHELL) "$$(cat release/.tmp/all-commands.sh)"
