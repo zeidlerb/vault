@@ -5,7 +5,7 @@
 # It also generates the layered Dockerfiles for each package.
 
 # Include config.mk relative to this file (this allows us to invoke this file
-# from different directories safely.
+# from different directories safely).
 include $(shell dirname $(lastword $(MAKEFILE_LIST)))/config.mk
 
 # Disable built-in rules.
@@ -15,12 +15,6 @@ MAKEFLAGS += --no-builtin-rules
 SHELL := /usr/bin/env bash -euo pipefail -c
 
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
-
-# SPEC is the human-managed description of which packages we are able to build.
-SPEC := packages.yml
-# LOCK is the generated fully-expanded rendition of SPEC, for use in generating CI
-# pipelines and other things.
-LOCK := packages.lock
 
 # Temporary files.
 TEMPLATE_DIR := .tmp/templates
@@ -234,17 +228,6 @@ $(PACKAGES_WITH_CHECKSUMS_DIR)/%.json: $(PACKAGES_DIR)/%.json $(DOCKERFILES_DIR)
 .tmp/layer-info.yml: $(DOCKERFILES)
 	@find layers.lock -name '*.yml' | xargs yq -ys '. | sort_by(.depth) | { layers: . }' > $@
 	@find layers.lock -name '*.yml' | xargs rm
-
-CACHE_KEY_FILES := .tmp/cache-keys
-.PHONY: $(CACHE_KEY_FILES)
-$(CACHE_KEY_FILES): $(LOCK)
-	@rm -rf $@; mkdir -p $@
-	@grep -F 'PACKAGE_SPEC_ID:' < $(LOCK) | cut -d':' -f2 | while read -r ID; do \
-		echo $(PACKAGE_SOURCE_ID) > $@/package-$$ID; \
-	done
-
-write-package-cache-keys: $(CACHE_KEY_FILES)
-	@echo "==> Package cache keys written to $<"
 
 # LIST just plonks all the package json files generated above into an array,
 # and converts it to YAML.

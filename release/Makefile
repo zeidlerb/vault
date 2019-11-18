@@ -1,10 +1,14 @@
-SHELL := /usr/bin/env bash -euo pipefail -c
+# Include config.mk relative to this file (this allows us to invoke this file
+# from different directories safely).
+include $(shell dirname $(lastword $(MAKEFILE_LIST)))/config.mk
 
 .PHONY: packages build
 
 REPO_ROOT := $(shell git rev-parse --show-toplevel) 
 GOOS ?= $(shell go env GOOS 2>/dev/null || echo linux)
 GOARCH ?= $(shell go env GOARCH 2>/dev/null || echo amd64)
+
+PACKAGE_CACHE_KEY_FILES := .tmp/cache-keys
 
 packages:
 	@# Remove layers.lock entirely to avoid buildup of old layers.
@@ -32,10 +36,8 @@ load-builder-cache:
 	@echo "==> Loading Docker build cache"
 	@$(MAKE) -C ../ -f release/layer.mk load-builder-cache
 
-write-package-cache-keys:
-	@echo "==> Writing all package cache keys"
-	@$(MAKE) -f packages.mk write-package-cache-keys
-
+write-package-cache-keys: $(PACKAGE_CACHE_KEY_FILES)
+	@echo "==> Package cache keys written to $<"
 
 build-all: commands
 	cd ../ && $(SHELL) "$$(cat release/.tmp/all-commands.sh)"
@@ -47,3 +49,10 @@ build-all: commands
 .tmp/default-package-index: packages.lock
 	@mkdir -p .tmp
 	@yq -r '.packages | to_entries | .[] | select(.value.GOOS=="$(GOOS)" and .value.GOARCH=="$(GOARCH)") | .key + 1' < packages.lock | head -n1 > $@
+
+.PHONY: $(PACKAGE_CACHE_KEY_FILES)
+$(PACKAGE_CACHE_KEY_FILES):
+	@rm -rf $@; mkdir -p $@
+	@grep -F 'PACKAGE_SPEC_ID:' < $(LOCK) | cut -d':' -f2 | while read -r ID; do \
+		echo $(PACKAGE_SOURCE_ID) > $@/package-$$ID; \
+	done
