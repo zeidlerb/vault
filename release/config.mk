@@ -19,6 +19,14 @@ RELEASE_DIR := $(shell dirname $(lastword $(MAKEFILE_LIST)))
 # CACHE_ROOT is the build cache directory.
 CACHE_ROOT ?= .buildcache
 
+# SPEC is the human-managed description of which packages we are able to build.
+SPEC := packages.yml
+
+# LOCK is the generated fully-expanded rendition of SPEC, for use in generating CI
+# pipelines and other things.
+LOCK := packages.lock
+
+
 # ALWAYS_EXCLUDE_SOURCE prevents source from these directories from taking
 # part in the SOURCE_ID, or from being sent to the builder image layers.
 # This is important for allowing the head of master to build other commits
