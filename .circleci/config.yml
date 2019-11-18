@@ -48,7 +48,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -150,7 +150,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -206,7 +206,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -281,7 +281,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -337,7 +337,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -393,7 +393,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -505,7 +505,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -726,7 +726,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -782,7 +782,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -838,7 +838,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -894,7 +894,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -950,7 +950,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -1006,7 +1006,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -1062,7 +1062,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -1118,7 +1118,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -1174,7 +1174,7 @@ jobs:
         name: Load builder layers from cache
     - run:
         command: |
-          make build
+          make -C release package
         name: Compile package
     - run:
         command: ls -lahR dist/
@@ -1263,6 +1263,10 @@ jobs:
     - run:
         command: make -C release save-builder-cache
         name: Update and save builder layers to cache
+    - save_cache:
+        key: buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}ui-{{checksum ".buildcache/ui_778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key"}}static-{{checksum ".buildcache/static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key"}}
+        paths:
+        - .buildcache/docker-builder-cache.tar.gz
 workflows:
   build-release:
     jobs:

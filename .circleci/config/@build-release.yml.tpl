@@ -45,6 +45,12 @@ jobs:
       - load-builder-cache
       - run: make -C release build-all-layers
       - save-builder-cache
+      - save_cache:
+          key: {{$cacheVersion}}-{{range $layers}}{{$count = (math.Add $count 1) -}}
+               {{- .type}}-{{"{{checksum \".buildcache/" }}{{.type}}_{{.checksum}}-cache-key{{"\"}}"}}
+               {{- end }}
+          paths:
+            - .buildcache/docker-builder-cache.tar.gz
 
   bundle-releases:
     executor: releaser
@@ -93,7 +99,7 @@ jobs:
       - run:
           name: Compile package
           command: |
-            make build
+            make -C release package
       - run:
           name: Dump contents of dist/
           command: ls -lahR dist/
