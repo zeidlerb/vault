@@ -43,6 +43,7 @@ jobs:
               {{- end -}}
             {{- end}}
       - load-builder-cache
+      - run: make -C release build-all-layers
       - save-builder-cache
 
   bundle-releases:

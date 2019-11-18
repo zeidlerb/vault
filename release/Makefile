@@ -26,6 +26,10 @@ write-builder-cache-keys:
 	@echo "==> Writing build layer cache keys"
 	@$(MAKE) -C ../ -f release/layer.mk write-cache-keys
 
+build-all-layers:
+	@echo "==> Building all builder layers"
+	@(MAKE) -C ../ -f release/layer.mk build-all-layers
+
 save-builder-cache:
 	@echo "==> Exporting Docker build cache"
 	@$(MAKE) -C ../ -f release/layer.mk save-builder-cache

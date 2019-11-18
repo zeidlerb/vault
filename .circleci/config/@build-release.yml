@@ -56,6 +56,7 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
+      - run: make -C release build-all-layers
       - save-builder-cache
 
   bundle-releases:

@@ -1273,6 +1273,8 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
+        command: make -C release build-all-layers
+    - run:
         command: make -C release save-builder-cache
         name: Update and save builder layers to cache
 workflows:
