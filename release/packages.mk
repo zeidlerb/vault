@@ -216,8 +216,8 @@ $(PACKAGES_WITH_CHECKSUMS_DIR)/%.json: $(PACKAGES_DIR)/%.json $(DOCKERFILES_DIR)
 	@for NAME in $(LAYER_NAMES); do \
 		LAYER_CHECKSUM=$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum); \
 		LAYER_ID="$${NAME}-$${LAYER_CHECKSUM}"; \
-		LAYER_SEGMENT="$${NAME}-{{checksum $(CACHE_ROOT)/$${LAYER_ID}-cache-key}}"; \
-		echo "  - $${LAYER_SEGMENT}" >> $@; \
+		LAYER_SEGMENT="$${NAME}-{{checksum \"$(CACHE_ROOT)/$${LAYER_ID}-cache-key\"}}"; \
+		echo "  - '$${LAYER_SEGMENT}'" >> $@; \
 	done; \
 	echo "BUILDER_LAYER_ID: $${NAME}_$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum)" >> $@
 	@PACKAGE_SPEC_ID="$$(sha256sum < $@ | cut -d' ' -f1)"; \

@@ -59,8 +59,11 @@ jobs:
   {{.BUILD_JOB_NAME}}:
     executor: releaser
     environment:
-      {{- range $NAME, $VALUE := .}}
+      {{- range $NAME, $VALUE := . -}}
+        {{- $type := (printf "%T" $VALUE)  -}}
+        {{- if or (eq $type "string") (eq $type "int") }}
       - {{$NAME}}: "{{conv.ToString $VALUE}}"
+        {{- end}}
       {{- end}}
     steps:
       - setup_remote_docker
