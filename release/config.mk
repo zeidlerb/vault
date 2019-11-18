@@ -26,6 +26,8 @@ SPEC := packages.yml
 # pipelines and other things.
 LOCK := packages.lock
 
+# PACKAGE_CACHE_KEY_FILES is the place we write package cache key files.
+PACKAGE_CACHE_KEY_FILES := .tmp/cache-keys
 
 # ALWAYS_EXCLUDE_SOURCE prevents source from these directories from taking
 # part in the SOURCE_ID, or from being sent to the builder image layers.
