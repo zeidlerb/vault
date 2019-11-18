@@ -239,7 +239,7 @@ CACHE_KEY_FILES := .tmp/cache-keys
 .PHONY: $(CACHE_KEY_FILES)
 $(CACHE_KEY_FILES): $(LOCK)
 	@rm -rf $@; mkdir -p $@
-	@yq -r '.packages[] | .PACKAGE_SPEC_ID' < $(LOCK) | while read -r ID; do \
+	@grep -F 'PACKAGE_SPEC_ID:' < $(LOCK) | cut -d':' -f2 | while read -r ID; do \
 		echo $(PACKAGE_SOURCE_ID) > $@/package-$$ID; \
 	done
 
