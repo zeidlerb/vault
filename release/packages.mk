@@ -222,7 +222,7 @@ $(PACKAGES_WITH_CHECKSUMS_DIR)/%.json: $(PACKAGES_DIR)/%.json $(DOCKERFILES_DIR)
 	done; \
 	echo "BUILDER_LAYER_ID: $${NAME}_$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum)" >> $@; \
 	echo "PACKAGE_SPEC_ID: $$PACKAGE_SPEC_ID" >> $@; \
-	echo "PACKAGE_CACHE_KEY: $$(yq -r '.PACKAGE_NAME' < $@)-{{checksum release/$(PACKAGE_CACHE_KEY_FILES)/package-$${PACKAGE_SPEC_ID}}}" >> $@; \
+	echo "PACKAGE_CACHE_KEY: $$(yq -r '.PACKAGE_NAME' < $@)-{{checksum \"release/$(PACKAGE_CACHE_KEY_FILES)/package-$${PACKAGE_SPEC_ID}\"}}" >> $@; \
 	yq . < $@ | sponge $@
 
 .tmp/layer-info.yml: $(DOCKERFILES)

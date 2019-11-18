@@ -88,28 +88,28 @@ jobs:
   package_darwin_386:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_darwin_386"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "386"
-      - GOOS: "darwin"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_darwin_386-{{checksum release/.tmp/cache-keys/package-335e0f276e5d7b0fa409289e40ad1a03060812ab3abf7323f6d6f29be1ba4943}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_darwin_386"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "335e0f276e5d7b0fa409289e40ad1a03060812ab3abf7323f6d6f29be1ba4943"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_darwin_386'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: '386'
+      - GOOS: 'darwin'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_darwin_386-{{checksum "release/.tmp/cache-keys/package-335e0f276e5d7b0fa409289e40ad1a03060812ab3abf7323f6d6f29be1ba4943"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_darwin_386'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '335e0f276e5d7b0fa409289e40ad1a03060812ab3abf7323f6d6f29be1ba4943'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -132,35 +132,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_darwin_386-{{checksum release/.tmp/cache-keys/package-335e0f276e5d7b0fa409289e40ad1a03060812ab3abf7323f6d6f29be1ba4943}}'
+          key: 'vault_0.0.0-snapshot_darwin_386-{{checksum "release/.tmp/cache-keys/package-335e0f276e5d7b0fa409289e40ad1a03060812ab3abf7323f6d6f29be1ba4943"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_darwin_amd64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_darwin_amd64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "amd64"
-      - GOOS: "darwin"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_darwin_amd64-{{checksum release/.tmp/cache-keys/package-f7c19b8676cfe8c8d2a6a3720a2afd4a1f161ac157f5aef9efa4734687703563}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_darwin_amd64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "f7c19b8676cfe8c8d2a6a3720a2afd4a1f161ac157f5aef9efa4734687703563"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_darwin_amd64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'amd64'
+      - GOOS: 'darwin'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_darwin_amd64-{{checksum "release/.tmp/cache-keys/package-f7c19b8676cfe8c8d2a6a3720a2afd4a1f161ac157f5aef9efa4734687703563"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_darwin_amd64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'f7c19b8676cfe8c8d2a6a3720a2afd4a1f161ac157f5aef9efa4734687703563'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -183,35 +183,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_darwin_amd64-{{checksum release/.tmp/cache-keys/package-f7c19b8676cfe8c8d2a6a3720a2afd4a1f161ac157f5aef9efa4734687703563}}'
+          key: 'vault_0.0.0-snapshot_darwin_amd64-{{checksum "release/.tmp/cache-keys/package-f7c19b8676cfe8c8d2a6a3720a2afd4a1f161ac157f5aef9efa4734687703563"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_freebsd_386:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_freebsd_386"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "386"
-      - GOOS: "freebsd"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_freebsd_386-{{checksum release/.tmp/cache-keys/package-2735158722a385c7f09b437764d37199bdce6dccd217777654e3b2daf73c47c3}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_freebsd_386"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "2735158722a385c7f09b437764d37199bdce6dccd217777654e3b2daf73c47c3"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_freebsd_386'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: '386'
+      - GOOS: 'freebsd'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_freebsd_386-{{checksum "release/.tmp/cache-keys/package-2735158722a385c7f09b437764d37199bdce6dccd217777654e3b2daf73c47c3"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_freebsd_386'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '2735158722a385c7f09b437764d37199bdce6dccd217777654e3b2daf73c47c3'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -234,35 +234,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_freebsd_386-{{checksum release/.tmp/cache-keys/package-2735158722a385c7f09b437764d37199bdce6dccd217777654e3b2daf73c47c3}}'
+          key: 'vault_0.0.0-snapshot_freebsd_386-{{checksum "release/.tmp/cache-keys/package-2735158722a385c7f09b437764d37199bdce6dccd217777654e3b2daf73c47c3"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_freebsd_amd64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_freebsd_amd64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "amd64"
-      - GOOS: "freebsd"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_freebsd_amd64-{{checksum release/.tmp/cache-keys/package-cdf7996c10a0b6610d3d956eaf0b61cb489d0e30b6616a8ac08a0ca55b57adb1}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_freebsd_amd64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "cdf7996c10a0b6610d3d956eaf0b61cb489d0e30b6616a8ac08a0ca55b57adb1"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_freebsd_amd64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'amd64'
+      - GOOS: 'freebsd'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_freebsd_amd64-{{checksum "release/.tmp/cache-keys/package-cdf7996c10a0b6610d3d956eaf0b61cb489d0e30b6616a8ac08a0ca55b57adb1"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_freebsd_amd64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'cdf7996c10a0b6610d3d956eaf0b61cb489d0e30b6616a8ac08a0ca55b57adb1'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -285,35 +285,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_freebsd_amd64-{{checksum release/.tmp/cache-keys/package-cdf7996c10a0b6610d3d956eaf0b61cb489d0e30b6616a8ac08a0ca55b57adb1}}'
+          key: 'vault_0.0.0-snapshot_freebsd_amd64-{{checksum "release/.tmp/cache-keys/package-cdf7996c10a0b6610d3d956eaf0b61cb489d0e30b6616a8ac08a0ca55b57adb1"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_freebsd_arm:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_freebsd_arm"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "arm"
-      - GOOS: "freebsd"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_freebsd_arm-{{checksum release/.tmp/cache-keys/package-678cdba8ff2c887648d206e15cfeff0e85fd53e182a66bcaae8e4d478d7d2741}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_freebsd_arm"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "678cdba8ff2c887648d206e15cfeff0e85fd53e182a66bcaae8e4d478d7d2741"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_freebsd_arm'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'arm'
+      - GOOS: 'freebsd'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_freebsd_arm-{{checksum "release/.tmp/cache-keys/package-678cdba8ff2c887648d206e15cfeff0e85fd53e182a66bcaae8e4d478d7d2741"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_freebsd_arm'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '678cdba8ff2c887648d206e15cfeff0e85fd53e182a66bcaae8e4d478d7d2741'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -336,35 +336,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_freebsd_arm-{{checksum release/.tmp/cache-keys/package-678cdba8ff2c887648d206e15cfeff0e85fd53e182a66bcaae8e4d478d7d2741}}'
+          key: 'vault_0.0.0-snapshot_freebsd_arm-{{checksum "release/.tmp/cache-keys/package-678cdba8ff2c887648d206e15cfeff0e85fd53e182a66bcaae8e4d478d7d2741"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_386:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_linux_386"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "386"
-      - GOOS: "linux"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_linux_386-{{checksum release/.tmp/cache-keys/package-bf24e713abe67992eed30ac67ec02a9bc98dd7783e89911d57d6fc7200724549}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_linux_386"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "bf24e713abe67992eed30ac67ec02a9bc98dd7783e89911d57d6fc7200724549"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_linux_386'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: '386'
+      - GOOS: 'linux'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_linux_386-{{checksum "release/.tmp/cache-keys/package-bf24e713abe67992eed30ac67ec02a9bc98dd7783e89911d57d6fc7200724549"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_linux_386'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'bf24e713abe67992eed30ac67ec02a9bc98dd7783e89911d57d6fc7200724549'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -387,35 +387,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_linux_386-{{checksum release/.tmp/cache-keys/package-bf24e713abe67992eed30ac67ec02a9bc98dd7783e89911d57d6fc7200724549}}'
+          key: 'vault_0.0.0-snapshot_linux_386-{{checksum "release/.tmp/cache-keys/package-bf24e713abe67992eed30ac67ec02a9bc98dd7783e89911d57d6fc7200724549"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_amd64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_linux_amd64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "amd64"
-      - GOOS: "linux"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_linux_amd64-{{checksum release/.tmp/cache-keys/package-8944cad9ef31bfd93b94046dcce050a44c186179fcdfd0c3246d2d49e7a10822}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_linux_amd64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "8944cad9ef31bfd93b94046dcce050a44c186179fcdfd0c3246d2d49e7a10822"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_linux_amd64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'amd64'
+      - GOOS: 'linux'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_linux_amd64-{{checksum "release/.tmp/cache-keys/package-8944cad9ef31bfd93b94046dcce050a44c186179fcdfd0c3246d2d49e7a10822"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_linux_amd64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '8944cad9ef31bfd93b94046dcce050a44c186179fcdfd0c3246d2d49e7a10822'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -438,35 +438,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_linux_amd64-{{checksum release/.tmp/cache-keys/package-8944cad9ef31bfd93b94046dcce050a44c186179fcdfd0c3246d2d49e7a10822}}'
+          key: 'vault_0.0.0-snapshot_linux_amd64-{{checksum "release/.tmp/cache-keys/package-8944cad9ef31bfd93b94046dcce050a44c186179fcdfd0c3246d2d49e7a10822"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_arm:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_linux_arm"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "arm"
-      - GOOS: "linux"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_linux_arm-{{checksum release/.tmp/cache-keys/package-7e8569b768c5939cdcec061155ebca58156df8ea10547418206b22c59838de05}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_linux_arm"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "7e8569b768c5939cdcec061155ebca58156df8ea10547418206b22c59838de05"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_linux_arm'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'arm'
+      - GOOS: 'linux'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_linux_arm-{{checksum "release/.tmp/cache-keys/package-7e8569b768c5939cdcec061155ebca58156df8ea10547418206b22c59838de05"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_linux_arm'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '7e8569b768c5939cdcec061155ebca58156df8ea10547418206b22c59838de05'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -489,35 +489,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_linux_arm-{{checksum release/.tmp/cache-keys/package-7e8569b768c5939cdcec061155ebca58156df8ea10547418206b22c59838de05}}'
+          key: 'vault_0.0.0-snapshot_linux_arm-{{checksum "release/.tmp/cache-keys/package-7e8569b768c5939cdcec061155ebca58156df8ea10547418206b22c59838de05"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_arm64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_linux_arm64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "arm64"
-      - GOOS: "linux"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_linux_arm64-{{checksum release/.tmp/cache-keys/package-87838a751d263be37f256dcfb8655911fa890f956043a696fc7029ed51146fe2}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_linux_arm64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "87838a751d263be37f256dcfb8655911fa890f956043a696fc7029ed51146fe2"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_linux_arm64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'arm64'
+      - GOOS: 'linux'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_linux_arm64-{{checksum "release/.tmp/cache-keys/package-87838a751d263be37f256dcfb8655911fa890f956043a696fc7029ed51146fe2"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_linux_arm64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '87838a751d263be37f256dcfb8655911fa890f956043a696fc7029ed51146fe2'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -540,35 +540,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_linux_arm64-{{checksum release/.tmp/cache-keys/package-87838a751d263be37f256dcfb8655911fa890f956043a696fc7029ed51146fe2}}'
+          key: 'vault_0.0.0-snapshot_linux_arm64-{{checksum "release/.tmp/cache-keys/package-87838a751d263be37f256dcfb8655911fa890f956043a696fc7029ed51146fe2"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_netbsd_386:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_netbsd_386"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "386"
-      - GOOS: "netbsd"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_netbsd_386-{{checksum release/.tmp/cache-keys/package-4b8cbd864a636115604e6df60d7efdca4ca10db005effaedc8911a304a8d65dc}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_netbsd_386"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "4b8cbd864a636115604e6df60d7efdca4ca10db005effaedc8911a304a8d65dc"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_netbsd_386'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: '386'
+      - GOOS: 'netbsd'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_netbsd_386-{{checksum "release/.tmp/cache-keys/package-4b8cbd864a636115604e6df60d7efdca4ca10db005effaedc8911a304a8d65dc"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_netbsd_386'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '4b8cbd864a636115604e6df60d7efdca4ca10db005effaedc8911a304a8d65dc'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -591,35 +591,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_netbsd_386-{{checksum release/.tmp/cache-keys/package-4b8cbd864a636115604e6df60d7efdca4ca10db005effaedc8911a304a8d65dc}}'
+          key: 'vault_0.0.0-snapshot_netbsd_386-{{checksum "release/.tmp/cache-keys/package-4b8cbd864a636115604e6df60d7efdca4ca10db005effaedc8911a304a8d65dc"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_netbsd_amd64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_netbsd_amd64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "amd64"
-      - GOOS: "netbsd"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_netbsd_amd64-{{checksum release/.tmp/cache-keys/package-5d20aacd8ace428e15b987c1ba9cce1d671022ff8c8db038e3b04407a0a4738c}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_netbsd_amd64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "5d20aacd8ace428e15b987c1ba9cce1d671022ff8c8db038e3b04407a0a4738c"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_netbsd_amd64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'amd64'
+      - GOOS: 'netbsd'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_netbsd_amd64-{{checksum "release/.tmp/cache-keys/package-5d20aacd8ace428e15b987c1ba9cce1d671022ff8c8db038e3b04407a0a4738c"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_netbsd_amd64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: '5d20aacd8ace428e15b987c1ba9cce1d671022ff8c8db038e3b04407a0a4738c'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -642,35 +642,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_netbsd_amd64-{{checksum release/.tmp/cache-keys/package-5d20aacd8ace428e15b987c1ba9cce1d671022ff8c8db038e3b04407a0a4738c}}'
+          key: 'vault_0.0.0-snapshot_netbsd_amd64-{{checksum "release/.tmp/cache-keys/package-5d20aacd8ace428e15b987c1ba9cce1d671022ff8c8db038e3b04407a0a4738c"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_openbsd_386:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_openbsd_386"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "386"
-      - GOOS: "openbsd"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_openbsd_386-{{checksum release/.tmp/cache-keys/package-e42068b234df3f05f7f7a1dacb2d2a4146c7076e7932a1aac6541f19682419b5}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_openbsd_386"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "e42068b234df3f05f7f7a1dacb2d2a4146c7076e7932a1aac6541f19682419b5"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_openbsd_386'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: '386'
+      - GOOS: 'openbsd'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_openbsd_386-{{checksum "release/.tmp/cache-keys/package-e42068b234df3f05f7f7a1dacb2d2a4146c7076e7932a1aac6541f19682419b5"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_openbsd_386'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'e42068b234df3f05f7f7a1dacb2d2a4146c7076e7932a1aac6541f19682419b5'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -693,35 +693,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_openbsd_386-{{checksum release/.tmp/cache-keys/package-e42068b234df3f05f7f7a1dacb2d2a4146c7076e7932a1aac6541f19682419b5}}'
+          key: 'vault_0.0.0-snapshot_openbsd_386-{{checksum "release/.tmp/cache-keys/package-e42068b234df3f05f7f7a1dacb2d2a4146c7076e7932a1aac6541f19682419b5"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_openbsd_amd64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_openbsd_amd64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "amd64"
-      - GOOS: "openbsd"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_openbsd_amd64-{{checksum release/.tmp/cache-keys/package-e063cd2ba412b7e2dbdccf6eba3edf212acc613190543cccde61a4e38049747e}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_openbsd_amd64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "e063cd2ba412b7e2dbdccf6eba3edf212acc613190543cccde61a4e38049747e"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_openbsd_amd64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'amd64'
+      - GOOS: 'openbsd'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_openbsd_amd64-{{checksum "release/.tmp/cache-keys/package-e063cd2ba412b7e2dbdccf6eba3edf212acc613190543cccde61a4e38049747e"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_openbsd_amd64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'e063cd2ba412b7e2dbdccf6eba3edf212acc613190543cccde61a4e38049747e'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -744,35 +744,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_openbsd_amd64-{{checksum release/.tmp/cache-keys/package-e063cd2ba412b7e2dbdccf6eba3edf212acc613190543cccde61a4e38049747e}}'
+          key: 'vault_0.0.0-snapshot_openbsd_amd64-{{checksum "release/.tmp/cache-keys/package-e063cd2ba412b7e2dbdccf6eba3edf212acc613190543cccde61a4e38049747e"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_solaris_amd64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_solaris_amd64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "amd64"
-      - GOOS: "solaris"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_solaris_amd64-{{checksum release/.tmp/cache-keys/package-a8d27fc8b004a3bfa032e6dbc7d8e2b6e232c21e9a9a9b0117fb5e7cc378cc5d}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_solaris_amd64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "a8d27fc8b004a3bfa032e6dbc7d8e2b6e232c21e9a9a9b0117fb5e7cc378cc5d"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_solaris_amd64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'amd64'
+      - GOOS: 'solaris'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_solaris_amd64-{{checksum "release/.tmp/cache-keys/package-a8d27fc8b004a3bfa032e6dbc7d8e2b6e232c21e9a9a9b0117fb5e7cc378cc5d"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_solaris_amd64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'a8d27fc8b004a3bfa032e6dbc7d8e2b6e232c21e9a9a9b0117fb5e7cc378cc5d'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -795,35 +795,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_solaris_amd64-{{checksum release/.tmp/cache-keys/package-a8d27fc8b004a3bfa032e6dbc7d8e2b6e232c21e9a9a9b0117fb5e7cc378cc5d}}'
+          key: 'vault_0.0.0-snapshot_solaris_amd64-{{checksum "release/.tmp/cache-keys/package-a8d27fc8b004a3bfa032e6dbc7d8e2b6e232c21e9a9a9b0117fb5e7cc378cc5d"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_windows_386:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_windows_386"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "386"
-      - GOOS: "windows"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_windows_386-{{checksum release/.tmp/cache-keys/package-a0dfb0d5aa3971c1b1da715c73227b250ed91c2219b9fc27aa38373272c8a1d8}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_windows_386"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "a0dfb0d5aa3971c1b1da715c73227b250ed91c2219b9fc27aa38373272c8a1d8"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_windows_386'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: '386'
+      - GOOS: 'windows'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_windows_386-{{checksum "release/.tmp/cache-keys/package-a0dfb0d5aa3971c1b1da715c73227b250ed91c2219b9fc27aa38373272c8a1d8"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_windows_386'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'a0dfb0d5aa3971c1b1da715c73227b250ed91c2219b9fc27aa38373272c8a1d8'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -846,35 +846,35 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_windows_386-{{checksum release/.tmp/cache-keys/package-a0dfb0d5aa3971c1b1da715c73227b250ed91c2219b9fc27aa38373272c8a1d8}}'
+          key: 'vault_0.0.0-snapshot_windows_386-{{checksum "release/.tmp/cache-keys/package-a0dfb0d5aa3971c1b1da715c73227b250ed91c2219b9fc27aa38373272c8a1d8"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_windows_amd64:
     executor: releaser
     environment:
-      - BINARY_NAME: "vault"
-      - BUILDER_LAYER_ID: "static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c"
-      - BUILD_JOB_NAME: "package_windows_amd64"
-      - BUILD_TAGS: "vault"
-      - BUNDLE_NAME: "vault_0.0.0-snapshot"
-      - CGOENABLED: "0"
-      - GO111MODULE: "off"
-      - GOARCH: "amd64"
-      - GOOS: "windows"
-      - GO_VERSION: "1.12.13"
-      - PACKAGE_CACHE_KEY: "vault_0.0.0-snapshot_windows_amd64-{{checksum release/.tmp/cache-keys/package-d11df4db8fb8af6fd19f58ed53b7bd6d2125f6f9dbd02672875e8828a8c538df}}"
-      - PACKAGE_NAME: "vault_0.0.0-snapshot_windows_amd64"
-      - PACKAGE_OUT_ROOT: "dist/public/vault_0.0.0-snapshot"
-      - PACKAGE_SPEC_ID: "d11df4db8fb8af6fd19f58ed53b7bd6d2125f6f9dbd02672875e8828a8c538df"
-      - PRODUCT_EDITION: ""
-      - PRODUCT_NAME: "vault"
-      - PRODUCT_REVISION: ""
-      - PRODUCT_VERSION: "0.0.0-snapshot"
-      - PRODUCT_VERSION_MMP: "0.0.0"
-      - PRODUCT_VERSION_PRE: "snapshot"
-      - PUBLIC: "true"
-      - YARN_VERSION: "1.19.1-1"
+      - BINARY_NAME: 'vault'
+      - BUILDER_LAYER_ID: 'static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c'
+      - BUILD_JOB_NAME: 'package_windows_amd64'
+      - BUILD_TAGS: 'vault'
+      - BUNDLE_NAME: 'vault_0.0.0-snapshot'
+      - CGOENABLED: '0'
+      - GO111MODULE: 'off'
+      - GOARCH: 'amd64'
+      - GOOS: 'windows'
+      - GO_VERSION: '1.12.13'
+      - PACKAGE_CACHE_KEY: 'vault_0.0.0-snapshot_windows_amd64-{{checksum "release/.tmp/cache-keys/package-d11df4db8fb8af6fd19f58ed53b7bd6d2125f6f9dbd02672875e8828a8c538df"}}'
+      - PACKAGE_NAME: 'vault_0.0.0-snapshot_windows_amd64'
+      - PACKAGE_OUT_ROOT: 'dist/public/vault_0.0.0-snapshot'
+      - PACKAGE_SPEC_ID: 'd11df4db8fb8af6fd19f58ed53b7bd6d2125f6f9dbd02672875e8828a8c538df'
+      - PRODUCT_EDITION: ''
+      - PRODUCT_NAME: 'vault'
+      - PRODUCT_REVISION: ''
+      - PRODUCT_VERSION: '0.0.0-snapshot'
+      - PRODUCT_VERSION_MMP: '0.0.0'
+      - PRODUCT_VERSION_PRE: 'snapshot'
+      - PUBLIC: 'true'
+      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -897,7 +897,7 @@ jobs:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
       - save_cache:
-          key: 'vault_0.0.0-snapshot_windows_amd64-{{checksum release/.tmp/cache-keys/package-d11df4db8fb8af6fd19f58ed53b7bd6d2125f6f9dbd02672875e8828a8c538df}}'
+          key: 'vault_0.0.0-snapshot_windows_amd64-{{checksum "release/.tmp/cache-keys/package-d11df4db8fb8af6fd19f58ed53b7bd6d2125f6f9dbd02672875e8828a8c538df"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
