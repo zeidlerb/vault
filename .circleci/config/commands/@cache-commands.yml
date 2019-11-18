@@ -10,19 +10,19 @@ write-cache-keys:
   steps:
     - run:
         name: Write builder layer cache keys
-        command: make write-builder-cache-keys
+        command: make -C release write-builder-cache-keys
     - run:
         name: Write package cache keys
-        command: make write-package-cache-keys
+        command: make -C release write-package-cache-keys
 
 load-builder-cache:
   steps:
     - run:
         name: Load builder layers from cache
-        command: make load-builder-cache || echo "No builder cache found."
+        command: make -C release load-builder-cache || echo "No builder cache found."
 
 save-builder-cache:
   steps:
     - run:
         name: Update and save builder layers to cache
-        command: make save-builder-cache
+        command: make -C release save-builder-cache
