@@ -80,7 +80,7 @@ jobs:
           {{- $segments := .CIRCLECI_CACHE_KEY_SEGMENTS -}}
           {{- $count := 0 -}}
           {{- $index := 0}}
-           - {{$cacheVersion}}-{{range $segments}}{{$count = (math.Add $count 1) -}}
+            - {{$cacheVersion}}-{{range $segments}}{{$count = (math.Add $count 1) -}}
               {{.}}
               {{- end}}{{$index = $count -}}
               {{- range $segments -}}
