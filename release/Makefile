@@ -17,10 +17,15 @@ packages:
 commands:
 	@$(MAKE) -f packages.mk commands
 
+# build is a convenience target for local builds, do not use in CI.
+# Instead, use `make package`.
 build: .tmp/default-package-index commands
 	@echo "==> Building default package for GOOS=$(GOOS) GOARCH=$(GOARCH)"
 	@cat .tmp/commands/$$(cat $<).sh
 	@$(SHELL) "$$(cat .tmp/commands/$$(cat $<).sh)"
+
+package:
+	@$(MAKE) -C ../ -f release/build.mk package
 
 write-builder-cache-keys:
 	@echo "==> Writing build layer cache keys"
