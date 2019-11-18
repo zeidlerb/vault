@@ -267,5 +267,5 @@ PACKAGE_COMMAND := make -C ../ -f release/build.mk package
 # COMMANDS files are created by this rule. They are one-line shell scripts that can
 # be invoked from the release/ directory to produce a certain package.
 $(COMMANDS_DIR)/%.sh: $(BUILD_ENV_DIR)/%.env
-		@{ head -n1 $<; { { tail -n+2 $<; echo "$(PACKAGE_COMMAND)"; } | xargs; }; } >> $@
+		@{ head -n1 $<; { { tail -n+2 $<; echo "$(PACKAGE_COMMAND)"; } | xargs; }; } > $@
 
