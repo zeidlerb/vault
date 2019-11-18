@@ -42,20 +42,12 @@ endif
 ifeq ($(PACKAGE_SPEC_ID),)
 $(error You must set PACKAGE_SPEC_ID, try invoking 'make build' instead.)
 endif
+ifeq ($(PACKAGE_OUT_ROOT),)
+$(error You must set PACKAGE_OUT_ROOT, try invoking 'make build' instead.)
+endif
 
 # Include the layers driver.
 include $(RELEASE_DIR)/layer.mk
-
-# Determine the SOURCE_ID for this package.
-ifeq ($(ALLOW_DIRTY),YES)
-DIRTY := $(shell git diff --exit-code $(GIT_REF) -- $(ALWAYS_EXCLUDE_SOURCE_GIT) > /dev/null 2>&1 || echo "dirty_")
-PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse $(GIT_REF))
-else
-PACKAGE_SOURCE_ID := $(shell git rev-parse $(GIT_REF))
-endif
-
-# PACKAGE_OUT_ROOT is the root directory where the final packages will be written to.
-PACKAGE_OUT_ROOT ?= dist
 
 VERSION_PATH := github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version
 
@@ -65,7 +57,7 @@ LDFLAGS += -X $(VERSION_PATH).Version=$(PRODUCT_VERSION_MMP)
 LDFLAGS += -X $(VERSION_PATH).VersionPrerelease=$(PRODUCT_VERSION_PRE)
 
 # OUT_DIR tells the Go toolchain where to place the binary.
-OUT_DIR := $(PACKAGE_OUT_ROOT)/$(PACKAGE_NAME)/$(PACKAGE_SOURCE_ID)/$(PACKAGE_SPEC_ID)
+OUT_DIR := $(PACKAGE_OUT_ROOT)/$(PACKAGE_SPEC_ID)/$(PACKAGE_SOURCE_ID)
 PACKAGE_FILENAME := $(PACKAGE_NAME).zip
 # PACKAGE is the zip file containing a specific binary.
 PACKAGE := $(OUT_DIR)/$(PACKAGE_FILENAME)
@@ -138,3 +130,15 @@ $(PACKAGE): $(BUILD_LAYER_IMAGE)
 	$(DOCKER_RUN_COMMAND)
 	$(DOCKER_CP_COMMAND)
 	@docker rm -f $(BUILD_CONTAINER_NAME)
+
+source-id:
+	@echo $(PACKAGE_SOURCE_ID)
+
+cache-key: $(CACHE_KEY)
+	@echo "==> Cache key for $(PACKAGE_NAME) written to $<"
+
+CACHE_KEY := $(CACHE_ROOT)/cache-keys/package-$(PACKAGE_SPEC_ID)
+# CACHE_KEY writes this package's cache key.
+$(CACHE_KEY):
+	@mkdir -p $@
+	@echo $(PACKAGE_SOURCE_ID) > $@

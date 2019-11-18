@@ -12,7 +12,7 @@ CONFIG_INCLUDED := YES
 # Set SHELL to strict mode, in a way compatible with both old and new GNU make.
 SHELL := /usr/bin/env bash -euo pipefail -c
 
-# RELEASE_DIR is the absolute path to the dir containing all the
+# RELEASE_DIR is the path to the dir containing all the
 # release makefiles etc. typically this is 'release'.
 RELEASE_DIR := $(shell dirname $(lastword $(MAKEFILE_LIST)))
 
@@ -48,6 +48,14 @@ else
 # directly from git rather than the work tree.
 GIT_REF := $(PRODUCT_REVISION)
 ALLOW_DIRTY := NO
+endif
+
+# Determine the PACKAGE_SOURCE_ID.
+ifeq ($(ALLOW_DIRTY),YES)
+DIRTY := $(shell git diff --exit-code $(GIT_REF) -- $(ALWAYS_EXCLUDE_SOURCE_GIT) > /dev/null 2>&1 || echo "dirty_")
+PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse $(GIT_REF))
+else
+PACKAGE_SOURCE_ID := $(shell git rev-parse $(GIT_REF))
 endif
 
 # End including config once only.

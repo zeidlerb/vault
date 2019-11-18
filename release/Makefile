@@ -20,6 +20,10 @@ build: .tmp/default-package-index commands
 	@cat .tmp/commands/$$(cat $<).sh
 	@$(SHELL) "$$(cat .tmp/commands/$$(cat $<).sh)"
 
+write-builder-cache-keys:
+	@echo "==> Writing build layer cache keys"
+	@$(MAKE) -C ../ -f release/layer.mk write-cache-keys
+
 save-builder-cache:
 	@echo "==> Exporting Docker build cache"
 	@$(MAKE) -C ../ -f release/layer.mk save-builder-cache
@@ -27,6 +31,11 @@ save-builder-cache:
 load-builder-cache:
 	@echo "==> Loading Docker build cache"
 	@$(MAKE) -C ../ -f release/layer.mk load-builder-cache
+
+write-package-cache-keys:
+	@echo "==> Writing all package cache keys"
+	@$(MAKE) -f packages.mk write-package-cache-keys
+
 
 build-all: commands
 	cd ../ && $(SHELL) "$$(cat release/.tmp/all-commands.sh)"
