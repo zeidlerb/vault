@@ -1,103 +1,3 @@
-ensure-builder-image-cache:
-  description: >
-    Ensure all intermediate build images are cached appropriately.
-    Use this in an earlier job than ensure-static-builder to make sure
-    all builder caches are up to date. Because we specifically build
-    each image archive here, we can be sure they are restorable.
-  steps:
-    - restore-each-builder-cache
-    - update-base-image: {layer-name: base}
-    - update-base-image: {layer-name: yarn}
-    - update-base-image: {layer-name: ui}
-    - update-base-image: {layer-name: static}
-    - save-builder-cache
-
-update-base-image:
-  parameters:
-    layer-name:
-      type: string
-  steps:
-    - run:
-        name: Update <<parameters.layer-name>> builder image layer
-        environment:
-          NAME: <<parameters.layer-name>>
-          MK: make -f release/build/build.mk
-        command: |
-          $MK $NAME-load || $MK $NAME-save
-
-ensure-static-builder:
-  description: >
-    Ensures the static builder image is available (prefers cache but will rebuild it if necessary).
-    Use this to prepare the builder for building final packages.
-  steps:
-    - restore-builder-cache
-
-restore-each-builder-cache:
-  description: >
-    Restore each separate cached archive so we can just update those layers that need it.
-  steps:
-    - write-builder-cache-keys
-    - restore_cache:
-        key: &BASE_CACHE_KEY base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - restore_cache:
-        key: &YARN_CACHE_KEY yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-    - restore_cache:
-        key: &UI_CACHE_KEY ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-    - restore_cache:
-        key: &STATIC_CACHE_KEY static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-    - info-print-buildcache
-
-restore-builder-cache:
-  description: >
-    Just restore the most specific cache that exists, not intermediate caches.
-    This is what you need to build packages.
-  steps:
-    - write-builder-cache-keys
-    - restore_cache:
-        keys:
-          - *STATIC_CACHE_KEY
-          - *UI_CACHE_KEY
-          - *YARN_CACHE_KEY
-          - *BASE_CACHE_KEY
-    - info-print-buildcache
-    - run:
-        name: Restore static builder image (or best available).
-        environment:
-          MK: make -f release/build/build.mk
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-    - info-print-buildcache
-
-write-builder-cache-keys:
-  steps:
-    - write-cache-keys:
-        layer-names: static ui yarn base
-
-save-builder-cache:
-  steps:
-    - write-builder-cache-keys
-    - info-print-buildcache
-    - save_cache:
-        key: *BASE_CACHE_KEY
-        paths:
-          - .buildcache/base
-    - save_cache:
-        key: *YARN_CACHE_KEY
-        paths:
-          - .buildcache/yarn
-    - save_cache:
-        key: *UI_CACHE_KEY
-        paths:
-          - .buildcache/ui
-    - save_cache:
-        key: *STATIC_CACHE_KEY
-        paths:
-          - .buildcache/static
-
 info-print-buildcache:
   steps:
     - run:
@@ -107,59 +7,22 @@ info-print-buildcache:
           docker image ls --no-trunc
 
 write-cache-keys:
-  parameters:
-    layer-names:
-      type: string
   steps:
     - run:
-        name: "Generate builder cache keys: <<parameters.layer-names>>"
-        environment:
-          NAMES: <<parameters.layer-names>>
-          MK: make -f release/build/build.mk
-        command: |
-          $MK write-cache-keys
+        name: Write builder layer cache keys
+        command: make write-builder-cache-keys
+    - run:
+        name: Write package cache keys
+        command: make write-package-cache-keys
 
-build-package:
-  parameters:
-    PACKAGE_SPEC_ID:
-      type: string
-      description: >
-        PACKAGE_SPEC_ID encompasses inputs to the build that may not be captured already in the
-        builder images. Combined with the builder image cache checksum, it uniquely identifies
-        a built package by its path.
+load-builder-cache:
   steps:
-    - setup_remote_docker
-    - checkout
-    - write-builder-cache-keys
-    - ensure-static-builder
-    - restore_cache:
-        key: &PACKAGE_CACHE_KEY package-cache-v2-<<parameters.PACKAGE_SPEC_ID>>-{{ checksum ".buildcache/static-cache-key" }}
     - run:
-        name: Compile package
-        command: |
-          make build
-    - run:
-        name: Dump contents of dist/
-        command: ls -lahR dist/
-    - store_artifacts:
-        path: dist/
-        destination: dist/
-    - save_cache:
-        key: *PACKAGE_CACHE_KEY
-        paths:
-          - dist/
+        name: Load builder layers from cache
+        command: make load-builder-cache || echo "No builder cache found."
 
-load-package:
-  parameters:
-    PACKAGE_NAME:
-      type: string
-      description: Name of the package identified by PACKAGE_SPEC_ID.
-    PACKAGE_SPEC_ID:
-      type: string
-      description: >
-        PACKAGE_SPEC_ID encompasses inputs to the build that may not be captured already in the
-        builder images. Combined with the builder image cache checksum, it uniquely identifies
-        a built package by its path.
+save-builder-cache:
   steps:
-    - restore_cache:
-        key: *PACKAGE_CACHE_KEY
+    - run:
+        name: Update and save builder layers to cache
+        command: make save-builder-cache

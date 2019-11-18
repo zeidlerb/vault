@@ -48,6 +48,12 @@ defaults:
   # when producing release or custom builds.
   PRODUCT_REVISION: ""
 
+  # PUBLIC dictates if this package should be uploaded to
+  # releases.hashicorp.com where it will be accessible to the world.
+  # This should be set to NO for any packages that include a perpetual, or very
+  # lengthy built-in license, such as Vault pro or prem editions.
+  PUBLIC: YES
+
   # GO_VERSION is the version of the Go toolchain to use to compile this package.
   GO_VERSION: 1.12.13
 
@@ -94,6 +100,16 @@ templates:
   # with the CI system's naming conventions.
   BUILD_JOB_NAME: >-
     package_{{if .PRODUCT_EDITION}}{{.PRODUCT_EDITION}}_{{end}}{{.GOOS}}_{{.GOARCH}}
+
+  # PACKAGE_OUT_ROOT is the root directory we output the package to.
+  # It must be a relative path (relative to the root of the repo).
+  # We extend this with the calculated PACKAGE_SPEC_ID and PACKAGE_SOURCE_ID during
+  # the build.
+  PACKAGE_OUT_ROOT: >-
+    {{ "dist" -}}
+    /{{- if .PUBLIC}}public{{else}}private{{end -}}
+    /{{- .PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end -}}
+
 
 # packages is the full set of packages we are able to build based on a single commit
 # in this repo. Each package is a map where the keys are the names of environment

@@ -33,11 +33,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: darwin
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_darwin_386
     PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
     PRODUCT_VERSION_MMP: 0.0.0
@@ -47,7 +49,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: a390acc154cc0f3110e6b2acc11cfb331e2d468cb24562939914b5b8c768a7f6
+    PACKAGE_SPEC_ID: 33b1960b3c01f5de2ba13e5fed09543c373bbe81496de65c858394344faac399
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_darwin_386-{{checksum release/.tmp/cache-keys/package-33b1960b3c01f5de2ba13e5fed09543c373bbe81496de65c858394344faac399}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -57,11 +60,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: darwin
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_darwin_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -71,7 +76,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: 6f2d37cbeb9f266a256d55f4af6f00e3bb100e8ee426aec5fb25555cabe1c841
+    PACKAGE_SPEC_ID: 78065e672f92135a9f08c60c9b46aba1a1ee0a2bdef90906f451f16582ce791a
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_darwin_amd64-{{checksum release/.tmp/cache-keys/package-78065e672f92135a9f08c60c9b46aba1a1ee0a2bdef90906f451f16582ce791a}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -81,11 +87,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: freebsd
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_freebsd_386
     PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
     PRODUCT_VERSION_MMP: 0.0.0
@@ -95,7 +103,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: 6030e643801096df5a4207e986a8ba4c60325111615772c0db9bb91a9140349d
+    PACKAGE_SPEC_ID: a7cecd82757ad0d36e6b1015495a81258947537a9398ccc7a20afe1610561646
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_freebsd_386-{{checksum release/.tmp/cache-keys/package-a7cecd82757ad0d36e6b1015495a81258947537a9398ccc7a20afe1610561646}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -105,11 +114,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: freebsd
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_freebsd_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -119,7 +130,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: a876c6224a5fc30b8732326067a798cc468cb46e72ac45da512dd6e428aff97e
+    PACKAGE_SPEC_ID: 67be7c5f2d123851f4bbedb303197004b0b9cb6027515a7b3a4c8df8543e9626
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_freebsd_amd64-{{checksum release/.tmp/cache-keys/package-67be7c5f2d123851f4bbedb303197004b0b9cb6027515a7b3a4c8df8543e9626}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -129,11 +141,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: freebsd
     GOARCH: arm
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_freebsd_arm
     PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
     PRODUCT_VERSION_MMP: 0.0.0
@@ -143,7 +157,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: aae1db5ad0a7c9fa0bbd93baf6ea617fef1407628eeb522761d8d48dab11767c
+    PACKAGE_SPEC_ID: 717a1a3cfcaaf55532b92bf27503f117b4ff40e0ac9b9149220b4a970690563e
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_freebsd_arm-{{checksum release/.tmp/cache-keys/package-717a1a3cfcaaf55532b92bf27503f117b4ff40e0ac9b9149220b4a970690563e}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -153,11 +168,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: linux
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_linux_386
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
     PRODUCT_VERSION_MMP: 0.0.0
@@ -167,7 +184,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: 3bcd5cf2ffd012221167a774d4d3881b6092d467fe58ee30bca26bf180e9f33f
+    PACKAGE_SPEC_ID: e09def8ba65859a3b0351d25c8265d10a0e51802429841ed6a94e86cb2837458
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_386-{{checksum release/.tmp/cache-keys/package-e09def8ba65859a3b0351d25c8265d10a0e51802429841ed6a94e86cb2837458}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -177,11 +195,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: linux
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_linux_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -191,7 +211,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: a57c4ed29782fc14a90e785c827f94fe93c6da321e523ed6638487039f541473
+    PACKAGE_SPEC_ID: a317f686ab003b757c8c2bc8f3ccaca8efdb8b868eb2efb0b14d562ed7e8684e
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_amd64-{{checksum release/.tmp/cache-keys/package-a317f686ab003b757c8c2bc8f3ccaca8efdb8b868eb2efb0b14d562ed7e8684e}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -201,11 +222,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: linux
     GOARCH: arm
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_linux_arm
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
     PRODUCT_VERSION_MMP: 0.0.0
@@ -215,7 +238,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: 7651d6d80f119b6e08974fa982786b2716c05fad14c3603c94d4f5daa4d51b3d
+    PACKAGE_SPEC_ID: 0a1c7ef7f282d45e2a9a3d6d99c178d75be012b0d72a62829623ce8d1eefaa07
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_arm-{{checksum release/.tmp/cache-keys/package-0a1c7ef7f282d45e2a9a3d6d99c178d75be012b0d72a62829623ce8d1eefaa07}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -225,11 +249,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: linux
     GOARCH: arm64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_linux_arm64
     PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -239,7 +265,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: bd0389a3b192ce84f7f8acc83322df8e10dcda7dbf6292e3f68f962426b39713
+    PACKAGE_SPEC_ID: 3129bd9768209343e12e369d111de1b9d6a0cf41722022855366ac61ab39ffaa
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_arm64-{{checksum release/.tmp/cache-keys/package-3129bd9768209343e12e369d111de1b9d6a0cf41722022855366ac61ab39ffaa}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -249,11 +276,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: netbsd
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_netbsd_386
     PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
     PRODUCT_VERSION_MMP: 0.0.0
@@ -263,7 +292,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: bdc664cec8117512cb8373bec353a4400a661803c0b2b59186d8924f67a77762
+    PACKAGE_SPEC_ID: 064001735eefcd94726e59216a482ee5b1102a06f7dc45e325a59ba5c2f7d1e3
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_netbsd_386-{{checksum release/.tmp/cache-keys/package-064001735eefcd94726e59216a482ee5b1102a06f7dc45e325a59ba5c2f7d1e3}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -273,11 +303,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: netbsd
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_netbsd_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -287,7 +319,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: a4c66d08113d4ffda38d90e34b9d95a4c19da70777cbd6214e3cbd4774ed93c4
+    PACKAGE_SPEC_ID: 6a7ef1d91326bca4745e4fc42e48047b8644c632203ea9c26c751db203425f33
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_netbsd_amd64-{{checksum release/.tmp/cache-keys/package-6a7ef1d91326bca4745e4fc42e48047b8644c632203ea9c26c751db203425f33}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -297,11 +330,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: openbsd
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_openbsd_386
     PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
     PRODUCT_VERSION_MMP: 0.0.0
@@ -311,7 +346,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: ad5e0be0df3ef232cd1523c9fe2b29556dbc9ef94e074f9307df83b75920d21b
+    PACKAGE_SPEC_ID: a644f6928c241dccff21a47e1d42d92d9bd24c299a9910fe7692bb00a725620e
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_openbsd_386-{{checksum release/.tmp/cache-keys/package-a644f6928c241dccff21a47e1d42d92d9bd24c299a9910fe7692bb00a725620e}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -321,11 +357,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: openbsd
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_openbsd_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -335,7 +373,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: 36a72dde3d23365d8bbc3478613af211e8d2b8e0c4682adb00597cea654f3927
+    PACKAGE_SPEC_ID: 8fa600ff16ca2df5a48ec28570938c62ffc3de4d43bed873f5ee00b6f0960e54
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_openbsd_amd64-{{checksum release/.tmp/cache-keys/package-8fa600ff16ca2df5a48ec28570938c62ffc3de4d43bed873f5ee00b6f0960e54}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -345,11 +384,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: solaris
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_solaris_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -359,7 +400,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: e0684544d1dbe4a8e548556931d91764cff7b76cd13ae203c8b1b8e70f2cdfd4
+    PACKAGE_SPEC_ID: 2df10bf249e383f8ceea3d2059689e84f5995ea6a7f4c3dbe5f1df8518a0f15d
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_solaris_amd64-{{checksum release/.tmp/cache-keys/package-2df10bf249e383f8ceea3d2059689e84f5995ea6a7f4c3dbe5f1df8518a0f15d}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -369,11 +411,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: windows
     GOARCH: 386
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_windows_386
     PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
     PRODUCT_VERSION_MMP: 0.0.0
@@ -383,7 +427,8 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: 3b376dc7aa6c770f41745da66126c2d1c7759fc2891f748a1b63d056a4c8e980
+    PACKAGE_SPEC_ID: ee5199d16b233e5119962d4c0a763fc6ff1a520af49db89602f27d32e70f7edc
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_windows_386-{{checksum release/.tmp/cache-keys/package-ee5199d16b233e5119962d4c0a763fc6ff1a520af49db89602f27d32e70f7edc}}
   - BINARY_NAME: vault
     BUILD_TAGS: vault
     CGOENABLED: '0'
@@ -393,11 +438,13 @@ packages:
     PRODUCT_NAME: vault
     PRODUCT_REVISION: ''
     PRODUCT_VERSION: 0.0.0-snapshot
+    PUBLIC: 'true'
     YARN_VERSION: 1.19.1-1
     GOOS: windows
     GOARCH: amd64
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_VERSION_PRE: snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     BUILD_JOB_NAME: package_windows_amd64
     PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
     PRODUCT_VERSION_MMP: 0.0.0
@@ -407,4 +454,5 @@ packages:
       - ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}
       - static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}
     BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
-    PACKAGE_SPEC_ID: f93f089a84f7716dbebfe4b27213dce0690ce77d20e8cedc04ea7bb6f52a3aec
+    PACKAGE_SPEC_ID: a98127d97fc01253f731d01ff090dd0a043f5b25e42a245de7197c0f10f0aa6b
+    PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_windows_amd64-{{checksum release/.tmp/cache-keys/package-a98127d97fc01253f731d01ff090dd0a043f5b25e42a245de7197c0f10f0aa6b}}

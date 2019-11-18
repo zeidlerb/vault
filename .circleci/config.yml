@@ -9,66 +9,44 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_darwin_386
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: '386'
     - GOOS: darwin
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_darwin_386-{{checksum release/.tmp/cache-keys/package-33b1960b3c01f5de2ba13e5fed09543c373bbe81496de65c858394344faac399}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
-    - PACKAGE_SPEC_ID: 3378aeebce8b947a1549e2d675c715461ebe1050aebf5fdfd125a3625f39f73f
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 33b1960b3c01f5de2ba13e5fed09543c373bbe81496de65c858394344faac399
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-3378aeebce8b947a1549e2d675c715461ebe1050aebf5fdfd125a3625f39f73f-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -77,12 +55,12 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-3378aeebce8b947a1549e2d675c715461ebe1050aebf5fdfd125a3625f39f73f-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_darwin_386-{{checksum release/.tmp/cache-keys/package-33b1960b3c01f5de2ba13e5fed09543c373bbe81496de65c858394344faac399}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   bundle-releases:
     docker:
     - image: circleci/buildpack-deps
@@ -90,44 +68,43 @@ jobs:
     steps:
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
+    - run:
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
-        key: package-cache-v2-3378aeebce8b947a1549e2d675c715461ebe1050aebf5fdfd125a3625f39f73f-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_darwin_386-{{checksum release/.tmp/cache-keys/package-33b1960b3c01f5de2ba13e5fed09543c373bbe81496de65c858394344faac399}}
     - restore_cache:
-        key: package-cache-v2-88b776b51abc67895eeca2f3def05494f8c01bff31c06df3d8b22f4944bd7b52-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_darwin_amd64-{{checksum release/.tmp/cache-keys/package-78065e672f92135a9f08c60c9b46aba1a1ee0a2bdef90906f451f16582ce791a}}
     - restore_cache:
-        key: package-cache-v2-e2533638689959edd46905fcd5e2d6ce8eab84eb5f2154a63dde3cc5bad2f759-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_freebsd_386-{{checksum release/.tmp/cache-keys/package-a7cecd82757ad0d36e6b1015495a81258947537a9398ccc7a20afe1610561646}}
     - restore_cache:
-        key: package-cache-v2-9b51df12fe78bf4ca6a5d2a02e40e90ecfc3886e51f08a5d0f37dff3f966a364-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_freebsd_amd64-{{checksum release/.tmp/cache-keys/package-67be7c5f2d123851f4bbedb303197004b0b9cb6027515a7b3a4c8df8543e9626}}
     - restore_cache:
-        key: package-cache-v2-90efc09209bd6250de9e7aa6497cbe72661b2a1407e29c19b8f6ef7d2f86b772-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_freebsd_arm-{{checksum release/.tmp/cache-keys/package-717a1a3cfcaaf55532b92bf27503f117b4ff40e0ac9b9149220b4a970690563e}}
     - restore_cache:
-        key: package-cache-v2-3676f7424411e79a827528338e1750abfd41ed31618476d1630b44b7d2a227ca-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_386-{{checksum release/.tmp/cache-keys/package-e09def8ba65859a3b0351d25c8265d10a0e51802429841ed6a94e86cb2837458}}
     - restore_cache:
-        key: package-cache-v2-95e3365a03514d7861dfc3cfb21ff9d09b7a5d036a445ff0d706f3ad0514c4b5-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_amd64-{{checksum release/.tmp/cache-keys/package-a317f686ab003b757c8c2bc8f3ccaca8efdb8b868eb2efb0b14d562ed7e8684e}}
     - restore_cache:
-        key: package-cache-v2-5ca780a61447be013dac529c97bd06e3f77ea6fd0e6f21c85bd5a916e26a7b51-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_arm-{{checksum release/.tmp/cache-keys/package-0a1c7ef7f282d45e2a9a3d6d99c178d75be012b0d72a62829623ce8d1eefaa07}}
     - restore_cache:
-        key: package-cache-v2-28781dd58a29e2dbb6822e0f2789a147c4f73002453355ef116278493a92f366-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_arm64-{{checksum release/.tmp/cache-keys/package-3129bd9768209343e12e369d111de1b9d6a0cf41722022855366ac61ab39ffaa}}
     - restore_cache:
-        key: package-cache-v2-52840bf1ea12af2fb7af1d3e1f74de5aad427dbe05319e68df9f126467335fbf-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_netbsd_386-{{checksum release/.tmp/cache-keys/package-064001735eefcd94726e59216a482ee5b1102a06f7dc45e325a59ba5c2f7d1e3}}
     - restore_cache:
-        key: package-cache-v2-0465d642767d7325dba311dd2a230fa5d89bcc77b713de60564b31c89c98bce9-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_netbsd_amd64-{{checksum release/.tmp/cache-keys/package-6a7ef1d91326bca4745e4fc42e48047b8644c632203ea9c26c751db203425f33}}
     - restore_cache:
-        key: package-cache-v2-30331a621720b0fef3a1aea6545fa5eba6cd5cd4e225a22e7bdfdc8977a74295-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_openbsd_386-{{checksum release/.tmp/cache-keys/package-a644f6928c241dccff21a47e1d42d92d9bd24c299a9910fe7692bb00a725620e}}
     - restore_cache:
-        key: package-cache-v2-ec0eb3f6625761b5981df1fe5e41af5484a1b22b41a971c6b10d810c7a8e4d41-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_openbsd_amd64-{{checksum release/.tmp/cache-keys/package-8fa600ff16ca2df5a48ec28570938c62ffc3de4d43bed873f5ee00b6f0960e54}}
     - restore_cache:
-        key: package-cache-v2-e3ba1d47fee9ec4f94d9619ae68bb503383e364d66b1b1706d67a714cae69acb-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_solaris_amd64-{{checksum release/.tmp/cache-keys/package-2df10bf249e383f8ceea3d2059689e84f5995ea6a7f4c3dbe5f1df8518a0f15d}}
     - restore_cache:
-        key: package-cache-v2-5fdd65418f51d28cb90f8e2a8566841e08bd58ef4f2b6007f93b8a19b4be345f-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_windows_386-{{checksum release/.tmp/cache-keys/package-ee5199d16b233e5119962d4c0a763fc6ff1a520af49db89602f27d32e70f7edc}}
     - restore_cache:
-        key: package-cache-v2-f20ab72d443b431b3a7e24b3de31adfe2263bd497266d62c30bf41902e557f46-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_windows_amd64-{{checksum release/.tmp/cache-keys/package-a98127d97fc01253f731d01ff090dd0a043f5b25e42a245de7197c0f10f0aa6b}}
     - run:
         command: ls -lahR dist/
   package_linux_arm64:
@@ -135,66 +112,44 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_linux_arm64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: arm64
     - GOOS: linux
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_arm64-{{checksum release/.tmp/cache-keys/package-3129bd9768209343e12e369d111de1b9d6a0cf41722022855366ac61ab39ffaa}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
-    - PACKAGE_SPEC_ID: 28781dd58a29e2dbb6822e0f2789a147c4f73002453355ef116278493a92f366
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 3129bd9768209343e12e369d111de1b9d6a0cf41722022855366ac61ab39ffaa
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-28781dd58a29e2dbb6822e0f2789a147c4f73002453355ef116278493a92f366-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -203,77 +158,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-28781dd58a29e2dbb6822e0f2789a147c4f73002453355ef116278493a92f366-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_arm64-{{checksum release/.tmp/cache-keys/package-3129bd9768209343e12e369d111de1b9d6a0cf41722022855366ac61ab39ffaa}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_windows_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_windows_386
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: '386'
     - GOOS: windows
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_windows_386-{{checksum release/.tmp/cache-keys/package-ee5199d16b233e5119962d4c0a763fc6ff1a520af49db89602f27d32e70f7edc}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
-    - PACKAGE_SPEC_ID: 5fdd65418f51d28cb90f8e2a8566841e08bd58ef4f2b6007f93b8a19b4be345f
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: ee5199d16b233e5119962d4c0a763fc6ff1a520af49db89602f27d32e70f7edc
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-5fdd65418f51d28cb90f8e2a8566841e08bd58ef4f2b6007f93b8a19b4be345f-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -282,12 +215,12 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-5fdd65418f51d28cb90f8e2a8566841e08bd58ef4f2b6007f93b8a19b4be345f-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_windows_386-{{checksum release/.tmp/cache-keys/package-ee5199d16b233e5119962d4c0a763fc6ff1a520af49db89602f27d32e70f7edc}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   install-ui-dependencies:
     docker:
     - image: node:10-buster
@@ -312,66 +245,44 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_netbsd_amd64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: amd64
     - GOOS: netbsd
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_netbsd_amd64-{{checksum release/.tmp/cache-keys/package-6a7ef1d91326bca4745e4fc42e48047b8644c632203ea9c26c751db203425f33}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
-    - PACKAGE_SPEC_ID: 0465d642767d7325dba311dd2a230fa5d89bcc77b713de60564b31c89c98bce9
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 6a7ef1d91326bca4745e4fc42e48047b8644c632203ea9c26c751db203425f33
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-0465d642767d7325dba311dd2a230fa5d89bcc77b713de60564b31c89c98bce9-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -380,77 +291,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-0465d642767d7325dba311dd2a230fa5d89bcc77b713de60564b31c89c98bce9-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_netbsd_amd64-{{checksum release/.tmp/cache-keys/package-6a7ef1d91326bca4745e4fc42e48047b8644c632203ea9c26c751db203425f33}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_linux_arm:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_linux_arm
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: arm
     - GOOS: linux
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_arm-{{checksum release/.tmp/cache-keys/package-0a1c7ef7f282d45e2a9a3d6d99c178d75be012b0d72a62829623ce8d1eefaa07}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
-    - PACKAGE_SPEC_ID: 5ca780a61447be013dac529c97bd06e3f77ea6fd0e6f21c85bd5a916e26a7b51
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 0a1c7ef7f282d45e2a9a3d6d99c178d75be012b0d72a62829623ce8d1eefaa07
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-5ca780a61447be013dac529c97bd06e3f77ea6fd0e6f21c85bd5a916e26a7b51-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -459,77 +348,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-5ca780a61447be013dac529c97bd06e3f77ea6fd0e6f21c85bd5a916e26a7b51-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_arm-{{checksum release/.tmp/cache-keys/package-0a1c7ef7f282d45e2a9a3d6d99c178d75be012b0d72a62829623ce8d1eefaa07}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_solaris_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_solaris_amd64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: amd64
     - GOOS: solaris
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_solaris_amd64-{{checksum release/.tmp/cache-keys/package-2df10bf249e383f8ceea3d2059689e84f5995ea6a7f4c3dbe5f1df8518a0f15d}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
-    - PACKAGE_SPEC_ID: e3ba1d47fee9ec4f94d9619ae68bb503383e364d66b1b1706d67a714cae69acb
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 2df10bf249e383f8ceea3d2059689e84f5995ea6a7f4c3dbe5f1df8518a0f15d
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-e3ba1d47fee9ec4f94d9619ae68bb503383e364d66b1b1706d67a714cae69acb-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -538,12 +405,12 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-e3ba1d47fee9ec4f94d9619ae68bb503383e364d66b1b1706d67a714cae69acb-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_solaris_amd64-{{checksum release/.tmp/cache-keys/package-2df10bf249e383f8ceea3d2059689e84f5995ea6a7f4c3dbe5f1df8518a0f15d}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   test-ui:
     docker:
     - image: node:10-buster
@@ -605,66 +472,44 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_freebsd_arm
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: arm
     - GOOS: freebsd
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_freebsd_arm-{{checksum release/.tmp/cache-keys/package-717a1a3cfcaaf55532b92bf27503f117b4ff40e0ac9b9149220b4a970690563e}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
-    - PACKAGE_SPEC_ID: 90efc09209bd6250de9e7aa6497cbe72661b2a1407e29c19b8f6ef7d2f86b772
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 717a1a3cfcaaf55532b92bf27503f117b4ff40e0ac9b9149220b4a970690563e
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-90efc09209bd6250de9e7aa6497cbe72661b2a1407e29c19b8f6ef7d2f86b772-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -673,12 +518,12 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-90efc09209bd6250de9e7aa6497cbe72661b2a1407e29c19b8f6ef7d2f86b772-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_freebsd_arm-{{checksum release/.tmp/cache-keys/package-717a1a3cfcaaf55532b92bf27503f117b4ff40e0ac9b9149220b4a970690563e}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   build-go-dev:
     docker:
     - image: golang:1.12.12-buster
@@ -849,66 +694,44 @@ jobs:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_linux_amd64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: amd64
     - GOOS: linux
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_amd64-{{checksum release/.tmp/cache-keys/package-a317f686ab003b757c8c2bc8f3ccaca8efdb8b868eb2efb0b14d562ed7e8684e}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
-    - PACKAGE_SPEC_ID: 95e3365a03514d7861dfc3cfb21ff9d09b7a5d036a445ff0d706f3ad0514c4b5
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: a317f686ab003b757c8c2bc8f3ccaca8efdb8b868eb2efb0b14d562ed7e8684e
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-95e3365a03514d7861dfc3cfb21ff9d09b7a5d036a445ff0d706f3ad0514c4b5-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -917,77 +740,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-95e3365a03514d7861dfc3cfb21ff9d09b7a5d036a445ff0d706f3ad0514c4b5-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_amd64-{{checksum release/.tmp/cache-keys/package-a317f686ab003b757c8c2bc8f3ccaca8efdb8b868eb2efb0b14d562ed7e8684e}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_windows_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_windows_amd64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: amd64
     - GOOS: windows
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_windows_amd64-{{checksum release/.tmp/cache-keys/package-a98127d97fc01253f731d01ff090dd0a043f5b25e42a245de7197c0f10f0aa6b}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
-    - PACKAGE_SPEC_ID: f20ab72d443b431b3a7e24b3de31adfe2263bd497266d62c30bf41902e557f46
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: a98127d97fc01253f731d01ff090dd0a043f5b25e42a245de7197c0f10f0aa6b
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-f20ab72d443b431b3a7e24b3de31adfe2263bd497266d62c30bf41902e557f46-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -996,77 +797,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-f20ab72d443b431b3a7e24b3de31adfe2263bd497266d62c30bf41902e557f46-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_windows_amd64-{{checksum release/.tmp/cache-keys/package-a98127d97fc01253f731d01ff090dd0a043f5b25e42a245de7197c0f10f0aa6b}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_linux_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_linux_386
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: '386'
     - GOOS: linux
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_linux_386-{{checksum release/.tmp/cache-keys/package-e09def8ba65859a3b0351d25c8265d10a0e51802429841ed6a94e86cb2837458}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
-    - PACKAGE_SPEC_ID: 3676f7424411e79a827528338e1750abfd41ed31618476d1630b44b7d2a227ca
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: e09def8ba65859a3b0351d25c8265d10a0e51802429841ed6a94e86cb2837458
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-3676f7424411e79a827528338e1750abfd41ed31618476d1630b44b7d2a227ca-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -1075,77 +854,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-3676f7424411e79a827528338e1750abfd41ed31618476d1630b44b7d2a227ca-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_linux_386-{{checksum release/.tmp/cache-keys/package-e09def8ba65859a3b0351d25c8265d10a0e51802429841ed6a94e86cb2837458}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_freebsd_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_freebsd_amd64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: amd64
     - GOOS: freebsd
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_freebsd_amd64-{{checksum release/.tmp/cache-keys/package-67be7c5f2d123851f4bbedb303197004b0b9cb6027515a7b3a4c8df8543e9626}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
-    - PACKAGE_SPEC_ID: 9b51df12fe78bf4ca6a5d2a02e40e90ecfc3886e51f08a5d0f37dff3f966a364
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 67be7c5f2d123851f4bbedb303197004b0b9cb6027515a7b3a4c8df8543e9626
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-9b51df12fe78bf4ca6a5d2a02e40e90ecfc3886e51f08a5d0f37dff3f966a364-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -1154,77 +911,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-9b51df12fe78bf4ca6a5d2a02e40e90ecfc3886e51f08a5d0f37dff3f966a364-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_freebsd_amd64-{{checksum release/.tmp/cache-keys/package-67be7c5f2d123851f4bbedb303197004b0b9cb6027515a7b3a4c8df8543e9626}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_openbsd_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_openbsd_386
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: '386'
     - GOOS: openbsd
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_openbsd_386-{{checksum release/.tmp/cache-keys/package-a644f6928c241dccff21a47e1d42d92d9bd24c299a9910fe7692bb00a725620e}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
-    - PACKAGE_SPEC_ID: 30331a621720b0fef3a1aea6545fa5eba6cd5cd4e225a22e7bdfdc8977a74295
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: a644f6928c241dccff21a47e1d42d92d9bd24c299a9910fe7692bb00a725620e
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-30331a621720b0fef3a1aea6545fa5eba6cd5cd4e225a22e7bdfdc8977a74295-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -1233,77 +968,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-30331a621720b0fef3a1aea6545fa5eba6cd5cd4e225a22e7bdfdc8977a74295-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_openbsd_386-{{checksum release/.tmp/cache-keys/package-a644f6928c241dccff21a47e1d42d92d9bd24c299a9910fe7692bb00a725620e}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_openbsd_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_openbsd_amd64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: amd64
     - GOOS: openbsd
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_openbsd_amd64-{{checksum release/.tmp/cache-keys/package-8fa600ff16ca2df5a48ec28570938c62ffc3de4d43bed873f5ee00b6f0960e54}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
-    - PACKAGE_SPEC_ID: ec0eb3f6625761b5981df1fe5e41af5484a1b22b41a971c6b10d810c7a8e4d41
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 8fa600ff16ca2df5a48ec28570938c62ffc3de4d43bed873f5ee00b6f0960e54
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-ec0eb3f6625761b5981df1fe5e41af5484a1b22b41a971c6b10d810c7a8e4d41-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -1312,77 +1025,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-ec0eb3f6625761b5981df1fe5e41af5484a1b22b41a971c6b10d810c7a8e4d41-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_openbsd_amd64-{{checksum release/.tmp/cache-keys/package-8fa600ff16ca2df5a48ec28570938c62ffc3de4d43bed873f5ee00b6f0960e54}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_netbsd_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_netbsd_386
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: '386'
     - GOOS: netbsd
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_netbsd_386-{{checksum release/.tmp/cache-keys/package-064001735eefcd94726e59216a482ee5b1102a06f7dc45e325a59ba5c2f7d1e3}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
-    - PACKAGE_SPEC_ID: 52840bf1ea12af2fb7af1d3e1f74de5aad427dbe05319e68df9f126467335fbf
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 064001735eefcd94726e59216a482ee5b1102a06f7dc45e325a59ba5c2f7d1e3
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-52840bf1ea12af2fb7af1d3e1f74de5aad427dbe05319e68df9f126467335fbf-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -1391,77 +1082,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-52840bf1ea12af2fb7af1d3e1f74de5aad427dbe05319e68df9f126467335fbf-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_netbsd_386-{{checksum release/.tmp/cache-keys/package-064001735eefcd94726e59216a482ee5b1102a06f7dc45e325a59ba5c2f7d1e3}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_darwin_amd64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_darwin_amd64
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: amd64
     - GOOS: darwin
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_darwin_amd64-{{checksum release/.tmp/cache-keys/package-78065e672f92135a9f08c60c9b46aba1a1ee0a2bdef90906f451f16582ce791a}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
-    - PACKAGE_SPEC_ID: 88b776b51abc67895eeca2f3def05494f8c01bff31c06df3d8b22f4944bd7b52
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: 78065e672f92135a9f08c60c9b46aba1a1ee0a2bdef90906f451f16582ce791a
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-88b776b51abc67895eeca2f3def05494f8c01bff31c06df3d8b22f4944bd7b52-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -1470,77 +1139,55 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-88b776b51abc67895eeca2f3def05494f8c01bff31c06df3d8b22f4944bd7b52-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_darwin_amd64-{{checksum release/.tmp/cache-keys/package-78065e672f92135a9f08c60c9b46aba1a1ee0a2bdef90906f451f16582ce791a}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   package_freebsd_386:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
+    - BINARY_NAME: vault
+    - BUILDER_LAYER_ID: static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c
     - BUILD_JOB_NAME: package_freebsd_386
     - BUILD_TAGS: vault
     - BUNDLE_NAME: vault_0.0.0-snapshot
     - CGOENABLED: '0'
+    - CIRCLECI_CACHE_KEY_SEGMENTS: '[base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}} yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}}]'
     - GO111MODULE: 'off'
     - GOARCH: '386'
     - GOOS: freebsd
     - GO_VERSION: 1.12.13
+    - PACKAGE_CACHE_KEY: vault_0.0.0-snapshot_freebsd_386-{{checksum release/.tmp/cache-keys/package-a7cecd82757ad0d36e6b1015495a81258947537a9398ccc7a20afe1610561646}}
     - PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
-    - PACKAGE_SPEC_ID: e2533638689959edd46905fcd5e2d6ce8eab84eb5f2154a63dde3cc5bad2f759
+    - PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    - PACKAGE_SPEC_ID: a7cecd82757ad0d36e6b1015495a81258947537a9398ccc7a20afe1610561646
     - PRODUCT_EDITION: ''
     - PRODUCT_NAME: vault
+    - PRODUCT_REVISION: ''
     - PRODUCT_VERSION: 0.0.0-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
     - PRODUCT_VERSION_PRE: snapshot
+    - PUBLIC: 'true'
+    - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
         keys:
-        - static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        - ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        - yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        - base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
+        - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{checksum .buildcache/static-7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{checksum .buildcache/ui-778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{checksum .buildcache/yarn-246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{checksum .buildcache/base-25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - run:
-        command: |
-          $MK static-load || \
-          $MK ui-load || \
-          $MK yarn-load || \
-          $MK base-load || \
-          echo "==> Unable to restore any builder images, rebuilding from scratch."
-        environment:
-          MK: make -f release/build/build.mk
-        name: Restore static builder image (or best available).
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - restore_cache:
-        key: package-cache-v2-e2533638689959edd46905fcd5e2d6ce8eab84eb5f2154a63dde3cc5bad2f759-{{ checksum ".buildcache/static-cache-key" }}
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
         command: |
           make build
@@ -1549,12 +1196,12 @@ jobs:
         command: ls -lahR dist/
         name: Dump contents of dist/
     - store_artifacts:
-        destination: dist/
-        path: dist/
+        destination: dist/public/vault_0.0.0-snapshot
+        path: dist/public/vault_0.0.0-snapshot
     - save_cache:
-        key: package-cache-v2-e2533638689959edd46905fcd5e2d6ce8eab84eb5f2154a63dde3cc5bad2f759-{{ checksum ".buildcache/static-cache-key" }}
+        key: vault_0.0.0-snapshot_freebsd_386-{{checksum release/.tmp/cache-keys/package-a7cecd82757ad0d36e6b1015495a81258947537a9398ccc7a20afe1610561646}}
         paths:
-        - dist/
+        - dist/public/vault_0.0.0-snapshot
   pre-flight-checks:
     docker:
     - image: circleci/buildpack-deps
@@ -1613,81 +1260,20 @@ jobs:
     - setup_remote_docker
     - checkout
     - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
+        command: make write-builder-cache-keys
+        name: Write builder layer cache keys
+    - run:
+        command: make write-package-cache-keys
+        name: Write package cache keys
     - restore_cache:
-        key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-    - restore_cache:
-        key: yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-    - restore_cache:
-        key: ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-    - restore_cache:
-        key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
+        keys:
+        - buildcache-v0-base-{{ checksum .buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}yarn-{{ checksum .buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}ui-{{ checksum .buildcache/ui_778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}}static-{{ checksum .buildcache/static_7e16e7cb2b063e5aa8a9127c279deacef009efca50ad10793ae43701a17a0b1c-cache-key}} - buildcache-v0-base-{{ checksum .buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{ checksum .buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}}-ui-{{ checksum .buildcache/ui_778061c2b8e11b2550d4dae696decb960c312b34f4f7c0934fca9fe7a4c39817-cache-key}} - buildcache-v0-base-{{ checksum .buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}-yarn-{{ checksum .buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key}} - buildcache-v0-base-{{ checksum .buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key}}
     - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
+        command: make load-builder-cache || echo "No builder cache found."
+        name: Load builder layers from cache
     - run:
-        command: |
-          $MK $NAME-load || $MK $NAME-save
-        environment:
-          MK: make -f release/build/build.mk
-          NAME: base
-        name: Update base builder image layer
-    - run:
-        command: |
-          $MK $NAME-load || $MK $NAME-save
-        environment:
-          MK: make -f release/build/build.mk
-          NAME: yarn
-        name: Update yarn builder image layer
-    - run:
-        command: |
-          $MK $NAME-load || $MK $NAME-save
-        environment:
-          MK: make -f release/build/build.mk
-          NAME: ui
-        name: Update ui builder image layer
-    - run:
-        command: |
-          $MK $NAME-load || $MK $NAME-save
-        environment:
-          MK: make -f release/build/build.mk
-          NAME: static
-        name: Update static builder image layer
-    - run:
-        command: |
-          $MK write-cache-keys
-        environment:
-          MK: make -f release/build/build.mk
-          NAMES: static ui yarn base
-        name: 'Generate builder cache keys: static ui yarn base'
-    - run:
-        command: |
-          ls -lahR .buildcache
-          docker image ls --no-trunc
-        name: Info - list files in .buildcache/
-    - save_cache:
-        key: base-archive-v1-{{ checksum ".buildcache/base-cache-key" }}
-        paths:
-        - .buildcache/base
-    - save_cache:
-        key: yarn-archive-v1-{{ checksum ".buildcache/yarn-cache-key" }}
-        paths:
-        - .buildcache/yarn
-    - save_cache:
-        key: ui-archive-v1-{{ checksum ".buildcache/ui-cache-key" }}
-        paths:
-        - .buildcache/ui
-    - save_cache:
-        key: static-archive-v1-{{ checksum ".buildcache/static-cache-key" }}
-        paths:
-        - .buildcache/static
+        command: make save-builder-cache
+        name: Update and save builder layers to cache
 workflows:
   build-release:
     jobs:

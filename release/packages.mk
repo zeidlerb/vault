@@ -29,6 +29,7 @@ DEFAULTS_DIR := .tmp/defaults
 RENDERED_DIR := .tmp/rendered
 PACKAGES_DIR := .tmp/packages
 PACKAGES_WITH_CHECKSUMS_DIR := .tmp/packages-with-checksums
+BUILD_ENV_DIR := .tmp/build-env
 COMMANDS_DIR := .tmp/commands
 DOCKERFILES_DIR := .tmp/dockerfiles
 DEFAULTS_WITH_ENV := .tmp/defaults-with-env.json
@@ -47,6 +48,7 @@ $(shell mkdir -p \
 	$(RENDERED_DIR) \
 	$(PACKAGES_DIR) \
 	$(PACKAGES_WITH_CHECKSUMS_DIR) \
+	$(BUILD_ENV_DIR) \
 	$(COMMANDS_DIR) \
 	$(DOCKERFILES_DIR) \
 )
@@ -58,6 +60,7 @@ DEFAULTS := $(addprefix $(DEFAULTS_DIR)/,$(addsuffix .json,$(PKG_INDEXES)))
 RENDERED := $(addprefix $(RENDERED_DIR)/,$(addsuffix .json,$(PKG_INDEXES)))
 PACKAGES := $(addprefix $(PACKAGES_DIR)/,$(addsuffix .json,$(PKG_INDEXES)))
 PACKAGES_WITH_CHECKSUMS := $(addprefix $(PACKAGES_WITH_CHECKSUMS_DIR)/,$(addsuffix .json,$(PKG_INDEXES)))
+BUILD_ENVS := $(addprefix $(BUILD_ENV_DIR)/,$(addsuffix .env,$(PKG_INDEXES)))
 COMMANDS := $(addprefix $(COMMANDS_DIR)/,$(addsuffix .sh,$(PKG_INDEXES)))
 
 TEMPLATE_NAMES := $(shell yq -r '.templates | keys[]' < $(SPEC))
@@ -108,6 +111,9 @@ templates: $(TEMPLATES)
 
 layer-templates: $(LAYER_TEMPLATES)
 	@echo Layer templates update $^
+
+build-envs: $(BUILD_ENVS)
+	@echo Build envs updated: $^
 
 .PHONY: list lock commands packages rendered defaults templates
 
@@ -220,14 +226,25 @@ $(PACKAGES_WITH_CHECKSUMS_DIR)/%.json: $(PACKAGES_DIR)/%.json $(DOCKERFILES_DIR)
 		echo "  - $${LAYER_SEGMENT}" >> $@; \
 	done; \
 	echo "BUILDER_LAYER_ID: $${NAME}_$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum)" >> $@
-	@echo "PACKAGE_SPEC_ID: $$(sha256sum < $@ | cut -d' ' -f1)" >> $@
+	@PACKAGE_SPEC_ID="$$(sha256sum < $@ | cut -d' ' -f1)"; \
+	echo "PACKAGE_SPEC_ID: $$PACKAGE_SPEC_ID" >> $@; \
+	echo "PACKAGE_CACHE_KEY: $$(yq -r '.PACKAGE_NAME' < $@)-{{checksum release/$(CACHE_KEY_FILES)/package-$${PACKAGE_SPEC_ID}}}" >> $@
 	@yq . < $@ | sponge $@
 
 .tmp/layer-info.yml: $(DOCKERFILES)
 	@find layers.lock -name '*.yml' | xargs yq -ys '. | sort_by(.depth) | { layers: . }' > $@
 	@find layers.lock -name '*.yml' | xargs rm
 
-PACKAGE_COMMAND := make -C ../ -f release/build.mk package
+CACHE_KEY_FILES := .tmp/cache-keys
+.PHONY: $(CACHE_KEY_FILES)
+$(CACHE_KEY_FILES): $(LOCK)
+	@rm -rf $@; mkdir -p $@
+	@yq -r '.packages[] | .PACKAGE_SPEC_ID' < $(LOCK) | while read -r ID; do \
+		echo $(PACKAGE_SOURCE_ID) > $@/package-$$ID; \
+	done
+
+write-package-cache-keys: $(CACHE_KEY_FILES)
+	@echo "==> Package cache keys written to $<"
 
 # LIST just plonks all the package json files generated above into an array,
 # and converts it to YAML.
@@ -242,10 +259,13 @@ $(LOCK): $(LIST)
 	@echo "### ***" >> $@
 	@cat $< >> $@
 
+$(BUILD_ENV_DIR)/%.env: $(PACKAGES_WITH_CHECKSUMS_DIR)/%.json $(LOCK)
+	@{ echo "# Package: $$(jq -r '.PACKAGE_NAME' < $<)"; } > $@ 
+	@{ jq "to_entries | .[] | select((.value | type)!=\"array\" and (.value | type)!=\"object\") | \"\(.key)='\(.value)'\"" < $<; } >> $@
+
+PACKAGE_COMMAND := make -C ../ -f release/build.mk package
 # COMMANDS files are created by this rule. They are one-line shell scripts that can
 # be invoked from the release/ directory to produce a certain package.
-$(COMMANDS_DIR)/%.sh: $(PACKAGES_WITH_CHECKSUMS_DIR)/%.json $(LOCK)
-	@{ echo "# Build package: $$(jq -r '.PACKAGE_NAME' < $<)"; } > $@ 
-	@{ jq "to_entries | .[] | select((.value | type)!=\"array\" and (.value | type)!=\"object\") | \"\(.key)='\(.value)'\"" \
-		< $<; echo "$(PACKAGE_COMMAND)"; } | xargs >> $@
+$(COMMANDS_DIR)/%.sh: $(BUILD_ENV_DIR)/%.env
+		@{ head -n1 $<; { { tail -n+2 $<; echo "$(PACKAGE_COMMAND)"; } | xargs; }; } >> $@
 
