@@ -27,8 +27,8 @@ jobs:
           keys:
           {{- $count := 0 -}}
           {{- $index := 0}}
-           - {{$cacheVersion}}-{{range $layers}}{{$count = (math.Add $count 1) -}}
-              {{.type}}-{{ "{{ checksum .buildcache/" }}{{.type}}_{{.checksum}}-cache-key{{"}}"}}
+            - {{$cacheVersion}}-{{range $layers}}{{$count = (math.Add $count 1) -}}
+              {{.type}}-{{"{{checksum \".buildcache/" }}{{.type}}_{{.checksum}}-cache-key{{"\"}}"}}
               {{- end}}{{$index = $count -}}
               {{- range $layers -}}
               {{- $count = 0 -}}
@@ -37,7 +37,7 @@ jobs:
             - {{$cacheVersion -}}
                 {{- range $layers}}{{$count = (math.Add $count 1) -}}
                   {{- if le $count $index -}}
-                    -{{.type}}-{{ "{{ checksum .buildcache/" }}{{.type}}_{{.checksum}}-cache-key{{"}}"}}
+                    -{{.type}}-{{"{{checksum \".buildcache/" }}{{.type}}_{{.checksum}}-cache-key{{"\"}}"}}
                   {{- end -}}
                 {{- end -}}
               {{- end -}}
