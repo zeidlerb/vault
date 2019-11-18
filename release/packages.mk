@@ -212,18 +212,18 @@ $(PACKAGES_WITH_CHECKSUMS_DIR)/%.json: $(PACKAGES_DIR)/%.json $(DOCKERFILES_DIR)
 	@# Add references to the layer Dockerfiles.
 	@# Add the package spec ID.
 	@cp $< $@
-	@echo "CIRCLECI_CACHE_KEY_SEGMENTS:" >> $@
-	@for NAME in $(LAYER_NAMES); do \
+	@PACKAGE_SPEC_ID="$$(sha256sum < $@ | cut -d' ' -f1)"; \
+	echo "CIRCLECI_CACHE_KEY_SEGMENTS:" >> $@; \
+	for NAME in $(LAYER_NAMES); do \
 		LAYER_CHECKSUM=$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum); \
-		LAYER_ID="$${NAME}-$${LAYER_CHECKSUM}"; \
+		LAYER_ID="$${NAME}_$${LAYER_CHECKSUM}"; \
 		LAYER_SEGMENT="$${NAME}-{{checksum \"$(CACHE_ROOT)/$${LAYER_ID}-cache-key\"}}"; \
 		echo "  - '$${LAYER_SEGMENT}'" >> $@; \
 	done; \
-	echo "BUILDER_LAYER_ID: $${NAME}_$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum)" >> $@
-	@PACKAGE_SPEC_ID="$$(sha256sum < $@ | cut -d' ' -f1)"; \
+	echo "BUILDER_LAYER_ID: $${NAME}_$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum)" >> $@; \
 	echo "PACKAGE_SPEC_ID: $$PACKAGE_SPEC_ID" >> $@; \
-	echo "PACKAGE_CACHE_KEY: $$(yq -r '.PACKAGE_NAME' < $@)-{{checksum release/$(PACKAGE_CACHE_KEY_FILES)/package-$${PACKAGE_SPEC_ID}}}" >> $@
-	@yq . < $@ | sponge $@
+	echo "PACKAGE_CACHE_KEY: $$(yq -r '.PACKAGE_NAME' < $@)-{{checksum release/$(PACKAGE_CACHE_KEY_FILES)/package-$${PACKAGE_SPEC_ID}}}" >> $@; \
+	yq . < $@ | sponge $@
 
 .tmp/layer-info.yml: $(DOCKERFILES)
 	@find layers.lock -name '*.yml' | xargs yq -ys '. | sort_by(.depth) | { layers: . }' > $@
