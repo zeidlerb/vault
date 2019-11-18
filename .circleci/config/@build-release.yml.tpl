@@ -68,7 +68,7 @@ jobs:
       {{- range $NAME, $VALUE := . -}}
         {{- $type := (printf "%T" $VALUE)  -}}
         {{- if or (eq $type "string") (eq $type "int") }}
-      - {{$NAME}}: "{{conv.ToString $VALUE}}"
+      - {{$NAME}}: '{{conv.ToString $VALUE}}'
         {{- end}}
       {{- end}}
     steps:
