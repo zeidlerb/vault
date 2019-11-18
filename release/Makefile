@@ -8,8 +8,6 @@ REPO_ROOT := $(shell git rev-parse --show-toplevel)
 GOOS ?= $(shell go env GOOS 2>/dev/null || echo linux)
 GOARCH ?= $(shell go env GOARCH 2>/dev/null || echo amd64)
 
-PACKAGE_CACHE_KEY_FILES := .tmp/cache-keys
-
 packages:
 	@# Remove layers.lock entirely to avoid buildup of old layers.
 	@# Easier to do that here than in packages.mk.
