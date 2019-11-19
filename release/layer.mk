@@ -85,8 +85,9 @@ $(1)_BASE           = $(2)
 $(1)_SOURCE_INCLUDE = $(3)
 $(1)_SOURCE_EXCLUDE = $(4) $(ALWAYS_EXCLUDE_SOURCE)
 
-$(1)_CURRENT_LINK = $(CACHE_ROOT)/$$($(1)_NAME)/current
-$(1)_CACHE = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
+$(1)_CURRENT_LINK                                     = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current
+$(1)_CACHE                                            = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
+$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/current/image.marker)
 
 LAYER_CACHES += $$($(1)_CACHE)
 
