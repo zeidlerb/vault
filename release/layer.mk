@@ -86,6 +86,7 @@ $(1)_SOURCE_INCLUDE = $(3)
 $(1)_SOURCE_EXCLUDE = $(4) $(ALWAYS_EXCLUDE_SOURCE)
 
 $(1)_CURRENT_LINK                                     = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current
+$(1)_IMAGE_LINK                                       = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current/image.marker
 $(1)_CACHE                                            = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
 $(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/current/image.marker)
 
@@ -153,8 +154,6 @@ $(1)_LAYER_REFS        := $$($(1)_CACHE)/image.layer_refs
 $(1)_IMAGE_TIMESTAMP   := $$($(1)_CACHE)/image.created_time
 $(1)_IMAGE_ARCHIVE     := $$($(1)_CACHE)/image.tar.gz
 $(1)_SOURCE_ARCHIVE    := $$($(1)_CACHE)/source.tar.gz
-
-$(1)_IMAGE_LINK        := $(CACHE_ROOT)/$$($(1)_NAME)/current/image.marker
 
 $(1)_BASE_IMAGE        := $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/$$($(1)_BASE)/current/image.marker)
 
