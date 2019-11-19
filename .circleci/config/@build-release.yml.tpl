@@ -61,6 +61,7 @@ jobs:
       - "load-{{.BUILD_JOB_NAME}}"{{end}}
       - run: ls -lahR dist/
 
+
 {{- range $packages}}
   {{.BUILD_JOB_NAME}}:
     executor: releaser
@@ -96,13 +97,8 @@ jobs:
               {{- end -}}
             {{- end}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: {{.PACKAGE_OUT_ROOT}}
           destination: {{.PACKAGE_OUT_ROOT}}

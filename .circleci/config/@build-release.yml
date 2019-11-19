@@ -121,13 +121,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -172,13 +167,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -223,13 +213,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -274,13 +259,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -325,13 +305,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -376,13 +351,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -427,13 +397,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -478,13 +443,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -529,13 +489,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -580,13 +535,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -631,13 +581,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -682,13 +627,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -733,13 +673,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -784,13 +719,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -835,13 +765,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot
@@ -886,13 +811,8 @@ jobs:
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}-yarn-{{checksum ".buildcache/yarn_246d7eef3c85dfaba9ae31ffb25d5e52a864121c527907337bd6e5688a49b7aa-cache-key"}}
             - buildcache-v0-base-{{checksum ".buildcache/base_25e9840bf289aaf9dd6e86ac9c7be90009517f66cbc9efbb385ed676efef9ed9-cache-key"}}
       - load-builder-cache
-      - run:
-          name: Compile package
-          command: |
-            make -C release package
-      - run:
-          name: Dump contents of dist/
-          command: ls -lahR dist/
+      - run: make -C release package
+      - run: ls -lahR dist/
       - store_artifacts:
           path: dist/public/vault_0.0.0-snapshot
           destination: dist/public/vault_0.0.0-snapshot

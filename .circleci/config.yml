@@ -50,12 +50,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -155,12 +152,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -214,12 +208,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -292,12 +283,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -351,12 +339,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -410,12 +395,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -525,12 +507,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -749,12 +728,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -808,12 +784,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -867,12 +840,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -926,12 +896,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -985,12 +952,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -1044,12 +1008,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -1103,12 +1064,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -1162,12 +1120,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
@@ -1221,12 +1176,9 @@ jobs:
         command: make -C release load-builder-cache || echo "No builder cache found."
         name: Load builder layers from cache
     - run:
-        command: |
-          make -C release package
-        name: Compile package
+        command: make -C release package
     - run:
         command: ls -lahR dist/
-        name: Dump contents of dist/
     - store_artifacts:
         destination: dist/public/vault_0.0.0-snapshot
         path: dist/public/vault_0.0.0-snapshot
