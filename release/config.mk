@@ -30,6 +30,17 @@ MISSING_PACKAGES := $(shell \
 ifneq ($(MISSING_PACKAGES),)
 $(error You are missing required GNU tools, please run 'brew install $(MISSING_PACKAGES)'.)
 endif
+endif
+
+### Utilities and constants
+GIT_EXCLUDE_PREFIX := :(exclude)
+# SUM generates the sha1sum of its input.
+SUM := sha1sum | cut -d' ' -f1
+# QUOTE_LIST wraps a list of space-separated strings in quotes.
+QUOTE := $(shell echo "'")
+QUOTE_LIST = $(addprefix $(QUOTE),$(addsuffix $(QUOTE),$(1)))
+GIT_EXCLUDE_LIST = $(call QUOTE_LIST,$(addprefix $(1)))
+### End utilities and constants.
 
 # RELEASE_DIR is the path to the dir containing all the
 # release makefiles etc. typically this is 'release'.
