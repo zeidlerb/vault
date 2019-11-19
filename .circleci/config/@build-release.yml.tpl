@@ -11,11 +11,11 @@ workflows:
                 - /build-.*/
                 - /ci.*/
       {{- range $packages}}
-      - {{.BUILD_JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
+      - {{.inputs.BUILD_JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
       - bundle-releases:
           requires:
             {{- range $packages}}
-            - {{.BUILD_JOB_NAME}}{{end}}
+            - {{.inputs.BUILD_JOB_NAME}}{{end}}
 jobs:
   cache-builder-images:
     executor: releaser
@@ -58,15 +58,15 @@ jobs:
       - checkout
       - write-cache-keys
       {{- range $packages}}
-      - "load-{{.BUILD_JOB_NAME}}"{{end}}
+      - "load-{{.inputs.BUILD_JOB_NAME}}"{{end}}
       - run: ls -lahR dist/
 
 
 {{- range $packages}}
-  {{.BUILD_JOB_NAME}}:
+  {{.inputs.BUILD_JOB_NAME}}:
     executor: releaser
     environment:
-      {{- range $NAME, $VALUE := . -}}
+      {{- range $NAME, $VALUE := .inputs -}}
         {{- $type := (printf "%T" $VALUE)  -}}
         {{- if or (eq $type "string") (eq $type "int") }}
       - {{$NAME}}: '{{conv.ToString $VALUE}}'
@@ -78,33 +78,18 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          {{- $segments := .CIRCLECI_CACHE_KEY_SEGMENTS -}}
-          {{- $count := 0 -}}
-          {{- $index := 0}}
-            - {{$cacheVersion}}-{{range $segments}}{{$count = (math.Add $count 1) -}}
-              {{.}}
-              {{- end}}{{$index = $count -}}
-              {{- range $segments -}}
-              {{- $count = 0 -}}
-              {{- $index = (math.Sub $index 1) -}}
-              {{- if ge $index 1}}
-            - {{$cacheVersion -}}
-                {{- range $segments }}{{$count = (math.Add $count 1) -}}
-                  {{- if le $count $index -}}
-                    -{{.}}
-                  {{- end -}}
-                {{- end -}}
-              {{- end -}}
-            {{- end}}
+          {{- range .meta.CIRCLECI_CACHE_KEY_PREFIXES}}
+          - {{.}}
+          {{- end}}
       - load-builder-cache
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
-          path: {{.PACKAGE_OUT_ROOT}}
-          destination: {{.PACKAGE_OUT_ROOT}}
+          path: {{.inputs.PACKAGE_OUT_ROOT}}
+          destination: {{.inputs.PACKAGE_OUT_ROOT}}
       - save_cache:
-          key: '{{.PACKAGE_CACHE_KEY}}'
+          key: '{{.meta.PACKAGE_CACHE_KEY}}'
           paths:
-            - {{.PACKAGE_OUT_ROOT}}
+            - {{.inputs.PACKAGE_OUT_ROOT}}
 {{end}}
 
