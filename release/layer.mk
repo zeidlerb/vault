@@ -155,8 +155,6 @@ $(1)_IMAGE_TIMESTAMP   := $$($(1)_CACHE)/image.created_time
 $(1)_IMAGE_ARCHIVE     := $$($(1)_CACHE)/image.tar.gz
 $(1)_SOURCE_ARCHIVE    := $$($(1)_CACHE)/source.tar.gz
 
-$(1)_BASE_IMAGE        := $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/$$($(1)_BASE)/current/image.marker)
-
 $(1)_TARGETS = $$($(1)_PHONY_TARGETS)
 
 # UPDATE_MARKER_FILE ensures the image marker file has the same timestamp as the
@@ -249,7 +247,7 @@ $$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
 $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
 
 # Build the docker image.
-$$($(1)_IMAGE): | $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
+$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
 	@echo "==> Building Docker image: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
 	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE)
 	@$$(call $(1)_UPDATE_MARKER_FILE)
