@@ -256,12 +256,17 @@ $$($(1)_IMAGE): | $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
 
 # Build the source archive used as docker context for this image.
 ifeq ($(ALLOW_DIRTY),YES)
+# For dirty builds, generate a source list file and use that to build
+# the source archive. We --ignore-failed-read so that deleted files that are not
+# committed do not cause problems. This should be OK for dirty builds.
 $$($(1)_SOURCE_LIST):
-	$$($(1)_SOURCE_CMD) > $$@
+	@$$($(1)_SOURCE_CMD) > $$@
 $$($(1)_SOURCE_ARCHIVE): $$($(1)_SOURCE_LIST)
 	@echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
-	@{ echo $$($(1)_DOCKERFILE); cat $$<; } | $(TAR) czf --ignore-failed-read $$@ -T -
+	@{ echo $$($(1)_DOCKERFILE); cat $$<; } | $(TAR) --create --file $$@ --ignore-failed-read -T -
 else
+# For non-dirty builds, ask Git directly for a source archive, then append the
+# dockerfile to it.
 $$($(1)_SOURCE_ARCHIVE):
 	@echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
 	@git archive $(GIT_REF) $$($(1)_SOURCE_GIT) > $$@.tar
