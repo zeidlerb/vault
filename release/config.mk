@@ -12,6 +12,25 @@ CONFIG_INCLUDED := YES
 # Set SHELL to strict mode, in a way compatible with both old and new GNU make.
 SHELL := /usr/bin/env bash -euo pipefail -c
 
+# We rely on GNU tools, so make sure they are installed.
+TOUCH := touch
+TAR := tar
+ifeq ($(shell uname),Darwin)
+# List tool-name:brew package
+TOUCH := gtouch:coreutils
+TAR := gtar:gnu-tar
+TOOLS := $(TOUCH) $(TAR)
+MISSING_PACKAGES := $(shell \
+	for T in $(TOOLS); do \
+		BIN=$$(echo $$T | cut -d':' -f1); \
+		if ! command -v $$BIN > /dev/null 2>&1; then \
+			echo $$T | cut -d':' -f2; \
+		fi; \
+	done)
+ifneq ($(MISSING_PACKAGES),)
+$(error You are missing required GNU tools, please run 'brew install $(MISSING_PACKAGES)'.)
+endif
+
 # RELEASE_DIR is the path to the dir containing all the
 # release makefiles etc. typically this is 'release'.
 RELEASE_DIR := $(shell dirname $(lastword $(MAKEFILE_LIST)))
