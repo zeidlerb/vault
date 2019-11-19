@@ -30,6 +30,8 @@ MISSING_PACKAGES := $(shell \
 ifneq ($(MISSING_PACKAGES),)
 $(error You are missing required GNU tools, please run 'brew install $(MISSING_PACKAGES)'.)
 endif
+TOUCH := gtouch
+TAR := gtar
 endif
 
 ### Utilities and constants
