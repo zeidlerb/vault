@@ -261,7 +261,7 @@ $$($(1)_SOURCE_LIST):
 	@$$($(1)_SOURCE_CMD) > $$@
 $$($(1)_SOURCE_ARCHIVE): $$($(1)_SOURCE_LIST)
 	@echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
-	@{ echo $$($(1)_DOCKERFILE); cat $$<; } | $(TAR) --create --file $$@ --ignore-failed-read -T -
+	@{ echo $$($(1)_DOCKERFILE); cat $$<; } | $(TAR) --create -z --file $$@ --ignore-failed-read -T -
 else
 # For non-dirty builds, ask Git directly for a source archive, then append the
 # dockerfile to it.
