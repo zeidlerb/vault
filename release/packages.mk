@@ -210,13 +210,15 @@ $(PACKAGES_META_DIR)/%.json: $(PACKAGES_DIR)/%.yml $(DOCKERFILES_DIR)/%
 	@# Add the package spec ID.
 	@PACKAGE_SPEC_ID="$$(sha256sum < $< | cut -d' ' -f1)"; \
 	echo "PACKAGE_SPEC_ID: $$PACKAGE_SPEC_ID" > $@; \
+	SEGMENTS=""; \
 	for NAME in $(LAYER_NAMES); do \
 		LAYER_CHECKSUM=$$(cat $(DOCKERFILES_DIR)/$*/$$NAME.Dockerfile.checksum); \
 		LAYER_ID="$${NAME}_$${LAYER_CHECKSUM}"; \
 		LAYER_SEGMENT="$${NAME}-{{checksum \"$(CACHE_ROOT)/$${LAYER_ID}-cache-key\"}}"; \
-		echo "$${LAYER_SEGMENT}" >> $@.cacheprefix; \
+		SEGMENTS="$${SEGMENTS}$${LAYER_SEGMENT}"; \
+		echo "$${SEGMENTS}" >> $@.cacheprefix; \
 	done; \
-	echo "CIRCLECI_CACHE_KEY_SEGMENTS:" >> $@; \
+	echo "CIRCLECI_CACHE_KEY_PREFIXES:" >> $@; \
 	tac $@.cacheprefix | while read -r SEGMENT; do \
 		echo "  - '$$SEGMENT'" >> $@; \
 	done; \
