@@ -18,7 +18,7 @@ ifeq ($(shell uname),Darwin)
 TOUCH := gtouch
 TAR := gtar
 # List tool-name:brew package to search for installed tools.
-TOOLS := gtouch:coreutils gtar:gnu-tar gomplate:gomplate jq:jq yq:python-yq
+TOOLS := gtouch:coreutils gtar:gnu-tar 
 MISSING_PACKAGES := $(shell \
 	for T in $(TOOLS); do \
 		BIN=$$(echo $$T | cut -d':' -f1); \
@@ -32,7 +32,7 @@ endif
 else
 TOUCH := touch
 TAR := tar
-TOOLS := touch tar gomplate jq python-yq
+TOOLS := touch tar
 MISSING_PACKAGES := $(shell \
 	for T in $(TOOLS); do \
 		BIN=$$(echo $$T | cut -d':' -f1); \
