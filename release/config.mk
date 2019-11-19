@@ -12,14 +12,13 @@ CONFIG_INCLUDED := YES
 # Set SHELL to strict mode, in a way compatible with both old and new GNU make.
 SHELL := /usr/bin/env bash -euo pipefail -c
 
-# We rely on GNU tools, so make sure they are installed.
-TOUCH := touch
-TAR := tar
+# We rely on GNU touch and tar. On macOS, we assume they are installed as gtouch and gtar
+# by homebrew.
 ifeq ($(shell uname),Darwin)
-# List tool-name:brew package
-TOUCH := gtouch:coreutils
-TAR := gtar:gnu-tar
-TOOLS := $(TOUCH) $(TAR)
+TOUCH := gtouch
+TAR := gtar
+# List tool-name:brew package to search for installed tools.
+TOOLS := gtouch:coreutils gtar:gnu-tar gomplate:gomplate jq:jq yq:python-yq
 MISSING_PACKAGES := $(shell \
 	for T in $(TOOLS); do \
 		BIN=$$(echo $$T | cut -d':' -f1); \
@@ -28,10 +27,22 @@ MISSING_PACKAGES := $(shell \
 		fi; \
 	done)
 ifneq ($(MISSING_PACKAGES),)
-$(error You are missing required GNU tools, please run 'brew install $(MISSING_PACKAGES)'.)
+$(error You are missing required tools, please run 'brew install $(MISSING_PACKAGES)'.)
 endif
-TOUCH := gtouch
-TAR := gtar
+else
+TOUCH := touch
+TAR := tar
+TOOLS := touch tar gomplate jq python-yq
+MISSING_PACKAGES := $(shell \
+	for T in $(TOOLS); do \
+		BIN=$$(echo $$T | cut -d':' -f1); \
+		if ! command -v $$BIN > /dev/null 2>&1; then \
+			echo $$T | cut -d':' -f2; \
+		fi; \
+	done)
+ifneq ($(MISSING_PACKAGES),)
+$(error You are missing required tools, please install: $(MISSING_PACKAGES).)
+endif
 endif
 
 ### Utilities and constants
