@@ -14,8 +14,6 @@ MAKEFLAGS += --no-builtin-rules
 
 SHELL := /usr/bin/env bash -euo pipefail -c
 
-THIS_FILE := $(lastword $(MAKEFILE_LIST))
-
 # Temporary files.
 TEMPLATE_DIR := .tmp/templates
 LAYER_TEMPLATE_DIR := .tmp/layer-templates
@@ -69,11 +67,6 @@ DOCKERFILES := $(addprefix $(DOCKERFILES_DIR)/,$(PKG_INDEXES))
 
 ## PHONY targets for human use.
 
-# list generates the fully expanded package list, this is usually
-# what you want.
-list: $(LIST)
-	@cat $<
-
 # lock updates the lock file with the fully expanded list.
 lock: $(LOCK)
 	@echo "$< updated."
@@ -88,7 +81,7 @@ dockerfiles: $(DOCKERFILES)
 
 # Other phony targets below are for debugging purposes, allowing you
 # to run just part of the pipeline.
-packages: $(PACKAGES)
+partial-packages: $(PACKAGES)
 	@cat $^
 
 rendered: $(RENDERED)
@@ -109,24 +102,23 @@ layer-templates: $(LAYER_TEMPLATES)
 build-envs: $(BUILD_ENVS)
 	@echo Build envs updated: $^
 
-.PHONY: list lock commands packages rendered defaults templates
+.PHONY: lock commands dockerfiles partial-packages rendered defaults-with-env defaults templates layer-templates build-envs
 
 ## END PHONY targets.
 
 # TEMPLATES writes out a file for each template in the spec, so we can refer to them
 # individually later.
-$(TEMPLATE_DIR)/%: $(SPEC) $(THIS_FILE)
+$(TEMPLATE_DIR)/%: $(SPEC) $(MAKEFILE_LIST)
 	@echo -n '{{$$d := (datasource "vars")}}{{with $$d}}' > $@; \
 		yq -r ".templates.$*" $< >> $@; \
 		echo "{{end}}" >> $@
 
-$(LAYER_TEMPLATE_DIR)/%: $(SPEC) $(THIS_FILE)
+$(LAYER_TEMPLATE_DIR)/%: $(SPEC) $(MAKEFILE_LIST)
 	@echo -n '{{$$d := (datasource "vars")}}{{with $$d}}' > $@; \
 		yq -r '.layers[] | select(.name == "$*") | .dockerfile' $< >> $@; \
 		echo "{{end}}" >> $@
 
-.PHONY: $(DEFAULTS_WITH_ENV)
-$(DEFAULTS_WITH_ENV): $(SPEC) $(THIS_FILE)
+$(DEFAULTS_WITH_ENV): $(SPEC) $(MAKEFILE_LIST)
 	@rm -f $@.withenv
 	@yq -r '.defaults | keys[]' < $< | while read -r NAME; do \
 		if [ -n "$${!NAME+x}" ]; then \
