@@ -14,6 +14,18 @@ MAKEFLAGS += --no-builtin-rules
 
 SHELL := /usr/bin/env bash -euo pipefail -c
 
+TOOLS := gomplate:gomplate jq:jq yq:python-yq
+MISSING_PACKAGES := $(shell \
+	for T in $(TOOLS); do \
+		BIN=$$(echo $$T | cut -d':' -f1); \
+		if ! command -v $$BIN > /dev/null 2>&1; then \
+			echo $$T | cut -d':' -f2; \
+		fi; \
+	done)
+ifneq ($(MISSING_PACKAGES),)
+$(error You are missing required tools, please install: $(MISSING_PACKAGES).)
+endif
+
 # Temporary files.
 TEMPLATE_DIR := .tmp/templates
 LAYER_TEMPLATE_DIR := .tmp/layer-templates
