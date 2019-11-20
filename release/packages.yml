@@ -13,12 +13,6 @@
 # Each package defined by this file is a set of environment variables that are
 # passed into the build command 'make package'. See GNUMakefile in this directory.
 #
-# Note that each package receives an additional entry named PACKAGE_SPEC_ID
-# which is the SHA256 sum of a yaml file containing just the entries for that
-# specific package. This can be used as part of a cache key for caching packages.
-# Note that is is not itself a complete cache key, as the whole source code must be
-# taken into consideration, as well as potentially other environmental factors.
-
 # defaults contains default values for each package.
 # These values may be overridden on a per-package basis in the packages section.
 defaults:
@@ -42,16 +36,14 @@ defaults:
 
   # PRODUCT_REVISION is the revision of the source code to build.
   # This is a git ref i.e. a commit SHA, branch name or tag.
-  # It left empty ("") then default to building whatever is in the current
+  # If left empty ("") then default to building whatever is in the current
   # working tree, even if it is dirty (contains uncommitted changes).
   # This should usually be left empty, it is overridden on a one-off basis
   # when producing release or custom builds.
   PRODUCT_REVISION: ""
 
-  # PUBLIC dictates if this package should be uploaded to
+  # PUBLIC dictates if this package may eventually be uploaded to
   # releases.hashicorp.com where it will be accessible to the world.
-  # This should be set to NO for any packages that include a perpetual, or very
-  # lengthy built-in license, such as Vault pro or prem editions.
   PUBLIC: YES
 
   # GO_VERSION is the version of the Go toolchain to use to compile this package.
@@ -139,7 +131,7 @@ packages:
   - { GOOS: windows, GOARCH: amd64 }
 
 # Layers determines the build layers, which are individually cacheable layers
-# in a linear build. Each layer contains a partial Dockerfile. All the layers
+# in a linear build. Each layer contains a Dockerfile. All the layers
 # together produce the final builder image used to compile binaries.
 #
 # The partial Dockerfiles may contain references to any of the variables
@@ -210,7 +202,7 @@ layers:
   # Dockerfile into consideration, rather than all of them.
   # The comments look like this:
   #
-  #     # Base layer checksum: {{env.Getenv "BASE_LAYER_CHECKSUM"}}
+  #     # Parent layer checksum: {{env.Getenv "BASE_LAYER_CHECKSUM"}}
   #
   # Note that the source ID of the _images_ built using these Dockerfiles
   # is additionally dictated by the source included in that layer.
