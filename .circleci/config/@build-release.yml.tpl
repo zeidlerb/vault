@@ -55,6 +55,7 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: {{.packagespecid}}
+      - PRODUCT_REVISION: {{.meta.PRODUCT_REVISION}}
       {{- range $NAME, $VALUE := .inputs -}}
         {{- $type := (printf "%T" $VALUE)  -}}
         {{- if or (eq $type "string") (eq $type "int") }}
