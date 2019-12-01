@@ -32,9 +32,9 @@ jobs:
             {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
             - {{$cacheVersion}}-{{.}}
             {{- end}}
-      - run: make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
-      - run: make -f release/layer.mk {{.name}}-image
-      - run: make -f release/layer.mk {{.name}}-save
+      - run: PRODUCT_REVISION={{.meta.PRODUCT_REVISION}} make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
+      - run: PRODUCT_REVISION={{.meta.PRODUCT_REVISION}} make -f release/layer.mk {{.name}}-image
+      - run: PRODUCT_REVISION={{.meta.PRODUCT_REVISION}} make -f release/layer.mk {{.name}}-save
       - save_cache:
           key: {{$cacheVersion}}-{{index .meta.circleci.CACHE_KEY_PREFIX_LIST 0}}
           paths:

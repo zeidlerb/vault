@@ -31,9 +31,9 @@ jobs:
             - buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}-yarn_c3b21faa96145772075659b497ccc60a2a69464b-{{ checksum ".buildcache/cache-keys/yarn-c3b21faa96145772075659b497ccc60a2a69464b" }}-ui_3a8c4bff60eb05e71d903b7fef5a0fb6f2de62bf-{{ checksum ".buildcache/cache-keys/ui-3a8c4bff60eb05e71d903b7fef5a0fb6f2de62bf" }}
             - buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}-yarn_c3b21faa96145772075659b497ccc60a2a69464b-{{ checksum ".buildcache/cache-keys/yarn-c3b21faa96145772075659b497ccc60a2a69464b" }}
             - buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}
-      - run: make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-load || echo "No cached builder image to load."
-      - run: make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-image
-      - run: make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-save
+      - run: PRODUCT_REVISION=v1.2.1 make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-load || echo "No cached builder image to load."
+      - run: PRODUCT_REVISION=v1.2.1 make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-image
+      - run: PRODUCT_REVISION=v1.2.1 make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-save
       - save_cache:
           key: buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}-yarn_c3b21faa96145772075659b497ccc60a2a69464b-{{ checksum ".buildcache/cache-keys/yarn-c3b21faa96145772075659b497ccc60a2a69464b" }}-ui_3a8c4bff60eb05e71d903b7fef5a0fb6f2de62bf-{{ checksum ".buildcache/cache-keys/ui-3a8c4bff60eb05e71d903b7fef5a0fb6f2de62bf" }}-static_091b1f3a3673094f9fec6c536decbaabc947f8a8-{{ checksum ".buildcache/cache-keys/static-091b1f3a3673094f9fec6c536decbaabc947f8a8" }}
           paths:
