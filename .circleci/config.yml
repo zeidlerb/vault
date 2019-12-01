@@ -35,10 +35,10 @@ jobs:
     - setup_remote_docker
     - checkout
     - run:
-        command: make -C release write-builder-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-builder-cache-keys
         name: Write builder layer cache keys
     - run:
-        command: make -C release write-package-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-package-cache-keys
         name: Write package cache keys
     - restore_cache:
         keys:
@@ -72,10 +72,10 @@ jobs:
     steps:
     - checkout
     - run:
-        command: make -C release write-builder-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-builder-cache-keys
         name: Write builder layer cache keys
     - run:
-        command: make -C release write-package-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-package-cache-keys
         name: Write package cache keys
     - restore_cache:
         key: package-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}
@@ -356,10 +356,10 @@ jobs:
     - setup_remote_docker
     - checkout
     - run:
-        command: make -C release write-builder-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-builder-cache-keys
         name: Write builder layer cache keys
     - run:
-        command: make -C release write-package-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-package-cache-keys
         name: Write package cache keys
     - restore_cache:
         keys:
@@ -442,10 +442,10 @@ jobs:
     - setup_remote_docker
     - checkout
     - run:
-        command: make -C release write-builder-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-builder-cache-keys
         name: Write builder layer cache keys
     - run:
-        command: make -C release write-package-cache-keys
+        command: PRODUCT_REVISION=v1.2.1 make -C release write-package-cache-keys
         name: Write package cache keys
     - restore_cache:
         keys:

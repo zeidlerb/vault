@@ -1,5 +1,7 @@
-{{$packages := (datasource "package-list" ).packages }}
-{{$layers := (datasource "package-list" ).layers -}}
+{{$data := (datasource "package-list")}}
+{{$packages := $data.packages }}
+{{$layers := $data.layers -}}
+{{$revision := $data.productrevision}}
 # Any change to $cacheVersion invalidates all build layer and package caches.
 {{$cacheVersion := "buildcache-v1" -}}
 # Current $cacheVersion: {{$cacheVersion}}
@@ -32,9 +34,9 @@ jobs:
             {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
             - {{$cacheVersion}}-{{.}}
             {{- end}}
-      - run: PRODUCT_REVISION={{.meta.PRODUCT_REVISION}} make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
-      - run: PRODUCT_REVISION={{.meta.PRODUCT_REVISION}} make -f release/layer.mk {{.name}}-image
-      - run: PRODUCT_REVISION={{.meta.PRODUCT_REVISION}} make -f release/layer.mk {{.name}}-save
+      - run: PRODUCT_REVISION={{$revision}} make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
+      - run: PRODUCT_REVISION={{$revision}} make -f release/layer.mk {{.name}}-image
+      - run: PRODUCT_REVISION={{$revision}} make -f release/layer.mk {{.name}}-save
       - save_cache:
           key: {{$cacheVersion}}-{{index .meta.circleci.CACHE_KEY_PREFIX_LIST 0}}
           paths:
@@ -55,7 +57,7 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: {{.packagespecid}}
-      - PRODUCT_REVISION: {{.meta.PRODUCT_REVISION}}
+      - PRODUCT_REVISION: {{$revision}}
       {{- range $NAME, $VALUE := .inputs -}}
         {{- $type := (printf "%T" $VALUE)  -}}
         {{- if or (eq $type "string") (eq $type "int") }}

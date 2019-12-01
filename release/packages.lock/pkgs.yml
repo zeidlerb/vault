@@ -1,3 +1,4 @@
+productrevision: v1.2.1
 packages:
 - packagespecid: 44cd0406d177aa0d653c55b3f9b66a700938a3f1
   inputs:
@@ -31,7 +32,6 @@ packages:
       YARN_VERSION='1.17.3-1' make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1
     PACKAGE_SPEC_ID: 44cd0406d177aa0d653c55b3f9b66a700938a3f1
-    PRODUCT_REVISION: v1.2.1
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
@@ -81,7 +81,6 @@ packages:
       YARN_VERSION='1.17.3-1' make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96
     PACKAGE_SPEC_ID: ff293baf407ea656d95d8c0356de5115b5a3ea96
-    PRODUCT_REVISION: v1.2.1
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
@@ -115,7 +114,6 @@ layers:
   makefilepath: packages.lock/layers/base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060.mk
   archivefile: .buildcache/archives/base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060.tar.gz
   meta:
-    PRODUCT_REVISION: v1.2.1
     circleci:
       CACHE_KEY_PREFIX_LIST:
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
@@ -135,7 +133,6 @@ layers:
   makefilepath: packages.lock/layers/yarn_c3b21faa96145772075659b497ccc60a2a69464b.mk
   archivefile: .buildcache/archives/yarn_c3b21faa96145772075659b497ccc60a2a69464b.tar.gz
   meta:
-    PRODUCT_REVISION: v1.2.1
     circleci:
       CACHE_KEY_PREFIX_LIST:
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
@@ -158,7 +155,6 @@ layers:
   makefilepath: packages.lock/layers/ui_3a8c4bff60eb05e71d903b7fef5a0fb6f2de62bf.mk
   archivefile: .buildcache/archives/ui_3a8c4bff60eb05e71d903b7fef5a0fb6f2de62bf.tar.gz
   meta:
-    PRODUCT_REVISION: v1.2.1
     circleci:
       CACHE_KEY_PREFIX_LIST:
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
@@ -185,7 +181,6 @@ layers:
   makefilepath: packages.lock/layers/static_091b1f3a3673094f9fec6c536decbaabc947f8a8.mk
   archivefile: .buildcache/archives/static_091b1f3a3673094f9fec6c536decbaabc947f8a8.tar.gz
   meta:
-    PRODUCT_REVISION: v1.2.1
     circleci:
       CACHE_KEY_PREFIX_LIST:
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
