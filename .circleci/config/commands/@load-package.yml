@@ -3,10 +3,10 @@
 load-package_darwin_386:
   steps:
     - restore_cache:
-        key: 'package-{{checksum ".buildcache/cache-keys/package-c7f9859c3092fc95a40524186ca2c4e7c51e0079"}}'
+        key: 'package-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}'
 
 load-package_darwin_amd64:
   steps:
     - restore_cache:
-        key: 'package-{{checksum ".buildcache/cache-keys/package-274c2d659472a2c59ce257bf00b705aea142e36a"}}'
+        key: 'package-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}'
 
