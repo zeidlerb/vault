@@ -51,6 +51,13 @@ jobs:
       {{- range $packages}}
       - "load-{{.inputs.BUILD_JOB_NAME}}"{{end}}
       - run: ls -lahR dist/
+      - run: tar -czf dist.tar.gz dist
+      - store_artifacts:
+          path: dist
+          destination: dist
+      - store_artifacts:
+          path: dist.tar.gz
+          destination: dist.tar.gz
 
 {{- range $packages}}
   {{.inputs.BUILD_JOB_NAME}}:
