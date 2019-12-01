@@ -68,11 +68,13 @@ ALLOW_DIRTY := NO
 endif
 
 # Determine the PACKAGE_SOURCE_ID.
+# Note we use the GIT_REF suffixed with '^{}' in order to traverse tags down
+# to individual commits, which is important in case the GIT_REF is an annotated tag.
 ifeq ($(ALLOW_DIRTY),YES)
 DIRTY := $(shell git diff --exit-code $(GIT_REF) -- $(ALWAYS_EXCLUDE_SOURCE_GIT) > /dev/null 2>&1 || echo "dirty_")
-PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse $(GIT_REF))
+PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse $(GIT_REF)^{})
 else
-PACKAGE_SOURCE_ID := $(shell git rev-parse $(GIT_REF))
+PACKAGE_SOURCE_ID := $(shell git rev-parse $(GIT_REF)^{})
 endif
 
 # REQ_TOOLS detects availability of a set of tools, and optionally auto-installs them.
