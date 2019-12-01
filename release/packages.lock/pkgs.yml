@@ -48,7 +48,8 @@ packages:
         }}
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
         }}
-      PACKAGE_CACHE_KEY: package-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}
+      PACKAGE_CACHE_KEY: package-44cd0406d177aa0d653c55b3f9b66a700938a3f1-{{checksum
+        ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}
 - packagespecid: ff293baf407ea656d95d8c0356de5115b5a3ea96
   inputs:
     BINARY_NAME: vault
@@ -97,7 +98,8 @@ packages:
         }}
       - base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060"
         }}
-      PACKAGE_CACHE_KEY: package-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}
+      PACKAGE_CACHE_KEY: package-ff293baf407ea656d95d8c0356de5115b5a3ea96-{{checksum
+        ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}
 layers:
 - depth: 0
   final: false
