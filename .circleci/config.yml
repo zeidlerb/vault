@@ -83,6 +83,14 @@ jobs:
         key: package-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}
     - run:
         command: ls -lahR dist/
+    - run:
+        command: tar -czf dist.tar.gz dist
+    - store_artifacts:
+        destination: dist
+        path: dist
+    - store_artifacts:
+        destination: dist.tar.gz
+        path: dist.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
   install-ui-dependencies:

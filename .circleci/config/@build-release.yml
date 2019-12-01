@@ -49,6 +49,13 @@ jobs:
       - "load-package_darwin_386"
       - "load-package_darwin_amd64"
       - run: ls -lahR dist/
+      - run: tar -czf dist.tar.gz dist
+      - store_artifacts:
+          path: dist
+          destination: dist
+      - store_artifacts:
+          path: dist.tar.gz
+          destination: dist.tar.gz
   package_darwin_386:
     executor: releaser
     environment:
