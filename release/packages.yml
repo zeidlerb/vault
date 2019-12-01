@@ -12,7 +12,15 @@
 #
 # Each package defined by this file is a set of environment variables that are
 # passed into the build command 'make package'. See GNUMakefile in this directory.
-#
+
+# productrevision is the revision of the source code to build.
+# This is a git ref i.e. a commit SHA, branch name or tag.
+# If left empty ("") then default to building whatever is in the current
+# working tree, even if it is dirty (contains uncommitted changes).
+# This should usually be left empty, it is overridden on a one-off basis
+# when producing release or custom builds.
+productrevision: ""
+
 # defaults contains default values for each package.
 # These values may be overridden on a per-package basis in the packages section.
 defaults:
@@ -67,17 +75,6 @@ defaults:
 # Additional keys are automatically added to meta when running `make packages` these
 # are things like the calcualted PACKAGE_SPEC_ID and calculated cache keys etc.
 meta:
-  # PRODUCT_REVISION is the revision of the source code to build.
-  # This is a git ref i.e. a commit SHA, branch name or tag.
-  # If left empty ("") then default to building whatever is in the current
-  # working tree, even if it is dirty (contains uncommitted changes).
-  # This should usually be left empty, it is overridden on a one-off basis
-  # when producing release or custom builds.
-  #
-  # PRODUCT_REVISION is a meta field, because multiple different revisions here may
-  # point to the same underlying Git commits and/or git trees, making them equivalent,
-  # enabling us avoid invalidating layer cachces unnecessarily.
-  PRODUCT_REVISION: ""
 
 # templates contain golang template strings. Each of these is rendered per package
 # using that packages values (including any default values), and then added to that
