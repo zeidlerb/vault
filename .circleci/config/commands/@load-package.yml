@@ -5,12 +5,12 @@
 load-package_darwin_386:
   steps:
     - restore_cache:
-        key: 'package-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}'
+        key: 'package-44cd0406d177aa0d653c55b3f9b66a700938a3f1-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}'
 
 load-package_darwin_amd64:
   steps:
     - restore_cache:
-        key: 'package-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}'
+        key: 'package-ff293baf407ea656d95d8c0356de5115b5a3ea96-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}'
 
 
 write-cache-keys:

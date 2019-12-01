@@ -91,7 +91,7 @@ jobs:
           - buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}-yarn_c3b21faa96145772075659b497ccc60a2a69464b-{{ checksum ".buildcache/cache-keys/yarn-c3b21faa96145772075659b497ccc60a2a69464b" }}
           - buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}
       - restore_cache:
-          key: 'package-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}'
+          key: 'package-44cd0406d177aa0d653c55b3f9b66a700938a3f1-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}'
       - run: make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
@@ -105,7 +105,7 @@ jobs:
             - .buildcache/archives/static_091b1f3a3673094f9fec6c536decbaabc947f8a8.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}'
+          key: 'package-44cd0406d177aa0d653c55b3f9b66a700938a3f1-{{checksum ".buildcache/cache-keys/package-44cd0406d177aa0d653c55b3f9b66a700938a3f1"}}'
           paths:
             - dist/public/vault_1.2.1-testbuild-sam
 
@@ -144,7 +144,7 @@ jobs:
           - buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}-yarn_c3b21faa96145772075659b497ccc60a2a69464b-{{ checksum ".buildcache/cache-keys/yarn-c3b21faa96145772075659b497ccc60a2a69464b" }}
           - buildcache-v1-base_2a2d27b4f4e5e0e7f4cde990163e75d7241f5060-{{ checksum ".buildcache/cache-keys/base-2a2d27b4f4e5e0e7f4cde990163e75d7241f5060" }}
       - restore_cache:
-          key: 'package-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}'
+          key: 'package-ff293baf407ea656d95d8c0356de5115b5a3ea96-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}'
       - run: make -f release/layer.mk static_091b1f3a3673094f9fec6c536decbaabc947f8a8-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
@@ -158,7 +158,7 @@ jobs:
             - .buildcache/archives/static_091b1f3a3673094f9fec6c536decbaabc947f8a8.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}'
+          key: 'package-ff293baf407ea656d95d8c0356de5115b5a3ea96-{{checksum ".buildcache/cache-keys/package-ff293baf407ea656d95d8c0356de5115b5a3ea96"}}'
           paths:
             - dist/public/vault_1.2.1-testbuild-sam
 
