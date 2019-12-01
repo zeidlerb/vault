@@ -29,14 +29,14 @@ jobs:
       {{- range $layers}}{{if eq .type "static"}}
       - restore_cache:
           keys:
-            {{- range .circlecicacheprefixes}}
+            {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
             - {{$cacheVersion}}-{{.}}
             {{- end}}
       - run: make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
       - run: make -f release/layer.mk {{.name}}-image
       - run: make -f release/layer.mk {{.name}}-save
       - save_cache:
-          key: {{$cacheVersion}}-{{index .circlecicacheprefixes 0}}
+          key: {{$cacheVersion}}-{{index .meta.circleci.CACHE_KEY_PREFIX_LIST 0}}
           paths:
             - {{.archivefile}}
       {{- end}}{{end}}
@@ -67,11 +67,11 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          {{- range .meta.CIRCLECI_CACHE_KEY_PREFIXES}}
+          {{- range .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST}}
           - {{$cacheVersion}}-{{.}}
           {{- end}}
       - restore_cache:
-          key: '{{.meta.PACKAGE_CACHE_KEY}}'
+          key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
       - run: make -f release/layer.mk {{.inputs.BUILDER_LAYER_ID}}-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
@@ -80,12 +80,12 @@ jobs:
           destination: {{.inputs.PACKAGE_OUT_ROOT}}
       # Save builder image cache.
       - save_cache:
-          key: '{{$cacheVersion}}-{{index .meta.CIRCLECI_CACHE_KEY_PREFIXES 0}}'
+          key: '{{$cacheVersion}}-{{index .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST 0}}'
           paths:
             - .buildcache/archives/{{.inputs.BUILDER_LAYER_ID}}.tar.gz
       # Save package cache.
       - save_cache:
-          key: '{{.meta.PACKAGE_CACHE_KEY}}'
+          key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
           paths:
             - {{.inputs.PACKAGE_OUT_ROOT}}
 {{end}}

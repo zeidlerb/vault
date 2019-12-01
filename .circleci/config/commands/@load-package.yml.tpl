@@ -3,5 +3,5 @@
 load-{{.inputs.BUILD_JOB_NAME}}:
   steps:
     - restore_cache:
-        key: '{{.meta.PACKAGE_CACHE_KEY}}'
+        key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
 {{end}}
