@@ -13,15 +13,7 @@
 # Each package defined by this file is a set of environment variables that are
 # passed into the build command 'make package'. See GNUMakefile in this directory.
 
-# productrevision is the revision of the source code to build.
-# This is a git ref i.e. a commit SHA, branch name or tag.
-# If left empty ("") then default to building whatever is in the current
-# working tree, even if it is dirty (contains uncommitted changes).
-# This should usually be left empty, it is overridden on a one-off basis
-# when producing release or custom builds.
-productrevision: ""
-
-# defaults contains default values for each package.
+# defaults contains default input values for each package.
 # These values may be overridden on a per-package basis in the packages section.
 defaults:
   # PRODUCT_NAME is the name of the product we are building. It should also
@@ -72,8 +64,7 @@ defaults:
 # useful fields for CI workflow template rendering etc, without invalidating all the
 # layer caches needlessly.
 #
-# Additional keys are automatically added to meta when running `make packages` these
-# are things like the calcualted PACKAGE_SPEC_ID and calculated cache keys etc.
+# Additional keys are automatically added to meta when running `make packages`.
 meta:
 
 # templates contain golang template strings. Each of these is rendered per package
@@ -114,30 +105,6 @@ templates:
     {{ "dist" -}}
     /{{- if .PUBLIC}}public{{else}}private{{end -}}
     /{{- .PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end -}}
-
-# build-command-template is a template for the command we run in the container to produce a package.
-# This template recieves a full package definition from packages.lock/pkgs.yml, so can refer to any
-# of the inputs or metadata. In addition, it recieves a top-level key "build" containing the following
-# fields:
-#
-#   .build.ENV               : All the inputs for this build in the form NAME='VALUE', separated with spaces.
-#   .build.PACKAGE_SOURCE_ID : The Git commit SHA (if clean) or "dirty_<unique SHA>" if dirty.
-#   .build.PACKAGE_DIR       : Absolute directory to output the final package to.
-#   .build.PACKAGE_FILENAME  : The filename of the package to output to PACKAGE_DIR.
-#
-# It's important to note that the build-command is not evaluated at package lock time, but only
-# at build time. Therefore, referencing metadata in the build command does not affect the address
-# (cache-key) of the binary. The build command template itself (before being rendered) is considered
-# an input, so changing it will invalidate package caches.
-build-command-template: >
-  {{.build.ENV}} go build -v -tags '{{.inputs.BUILD_TAGS}}' -ldflags "
-    -X github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version.GitCommit={{.build.PACKAGE_SOURCE_ID}}
-    -X github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version.Version={{.inputs.PRODUCT_VERSION_MMP}}
-    -X github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version.Prerelease={{.inputs.PRODUCT_VERSION_PRE}}
-  " -o {{.build.PACKAGE_DIR}}/{{inputs.BINARY_NAME}}
-  && cd {{.build.PACKAGE_DIR}} && zip {{.build.PACKAGE_FILENAME}} {{.inputs.BINARY_NAME}}
-
-
 
 # packages is the full set of packages we are able to build based on a single commit
 # in this repo. Each package is a map where the keys are the names of environment
@@ -227,19 +194,6 @@ layers:
       RUN mkdir -p $DIR
 
       WORKDIR $DIR
-
-  # Because each layer is a small, separate Dockerfile, rather than a cumulative
-  # Dockerfile, we add a comment to each one, containing the checksum of the
-  # underlying one. This ensures that any changes to underlying Dockerfiles will
-  # result in new subsequent Dockerfilees. This is important because when
-  # calculating the source ID, we must also take into consideration the source
-  # of the Docker container we are building in. By having the checksums flow
-  # through the source, we are able to just take just the last layer's
-  # Dockerfile into consideration, rather than all of them.
-  # The comments look like this:
-  #
-  # Note that the source ID of the _images_ built using these Dockerfiles
-  # is additionally dictated by the source included in that layer.
   - name: yarn
     source-include: ui/package.json ui/yarn.lock
     source-exclude: ""
