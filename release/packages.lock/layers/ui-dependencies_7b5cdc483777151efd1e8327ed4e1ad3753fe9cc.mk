@@ -1,0 +1,9 @@
+
+LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_ID             := ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc
+LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_BASE_LAYER     := install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55
+LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_SOURCE_INCLUDE := ui/package.json ui/yarn.lock
+LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_SOURCE_EXCLUDE := 
+LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_CACHE_KEY_FILE := .buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc
+LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_ARCHIVE_FILE   := .buildcache/archives/ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc.tar.gz
+$(eval $(call LAYER,$(LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_ID),$(LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_BASE_LAYER),$(LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_SOURCE_INCLUDE),$(LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_SOURCE_EXCLUDE),$(LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_CACHE_KEY_FILE),$(LAYER_ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc_ARCHIVE_FILE)))
+

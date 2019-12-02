@@ -37,7 +37,7 @@ jobs:
       - setup_remote_docker
       - checkout
       - write-cache-keys
-      {{- range $layers}}{{if eq .type "static"}}
+      {{- range $layers}}{{if eq .type "build-static-assets"}}
       - restore_cache:
           keys:
             {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
