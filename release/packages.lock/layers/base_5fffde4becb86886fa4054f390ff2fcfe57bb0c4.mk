@@ -1,0 +1,9 @@
+
+LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_ID             := base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4
+LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_BASE_LAYER     := 
+LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_SOURCE_INCLUDE := 
+LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_SOURCE_EXCLUDE := 
+LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_CACHE_KEY_FILE := .buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4
+LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_ARCHIVE_FILE   := .buildcache/archives/base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4.tar.gz
+$(eval $(call LAYER,$(LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_ID),$(LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_BASE_LAYER),$(LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_SOURCE_INCLUDE),$(LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_SOURCE_EXCLUDE),$(LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_CACHE_KEY_FILE),$(LAYER_base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4_ARCHIVE_FILE)))
+

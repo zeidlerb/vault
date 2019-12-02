@@ -66,17 +66,21 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-            - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-            - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-            - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-            - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-image
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-save
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+            - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-image
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-save
       - save_cache:
-          key: v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
+          key: v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
 
   bundle-releases:
     executor: releaser
@@ -110,9 +114,9 @@ jobs:
   package_darwin_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 647c5f61299d6ded5eecba75ce0afaacfc90d32f
+      - PACKAGE_SPEC_ID: 26698ed2269e0e06e4de648d3d252ef12f261a83
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_darwin_386'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -136,13 +140,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-647c5f61299d6ded5eecba75ce0afaacfc90d32f-{{checksum ".buildcache/cache-keys/package-647c5f61299d6ded5eecba75ce0afaacfc90d32f"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-26698ed2269e0e06e4de648d3d252ef12f261a83-{{checksum ".buildcache/cache-keys/package-26698ed2269e0e06e4de648d3d252ef12f261a83"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -150,21 +158,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-647c5f61299d6ded5eecba75ce0afaacfc90d32f-{{checksum ".buildcache/cache-keys/package-647c5f61299d6ded5eecba75ce0afaacfc90d32f"}}'
+          key: 'package-26698ed2269e0e06e4de648d3d252ef12f261a83-{{checksum ".buildcache/cache-keys/package-26698ed2269e0e06e4de648d3d252ef12f261a83"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_darwin_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 754b4e6d0951cfb18ce402d95d9863a7051bb79d
+      - PACKAGE_SPEC_ID: 30c9788512ec9082ec6e574e56fa18bb12f3c7d9
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_darwin_amd64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -188,13 +196,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-754b4e6d0951cfb18ce402d95d9863a7051bb79d-{{checksum ".buildcache/cache-keys/package-754b4e6d0951cfb18ce402d95d9863a7051bb79d"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-30c9788512ec9082ec6e574e56fa18bb12f3c7d9-{{checksum ".buildcache/cache-keys/package-30c9788512ec9082ec6e574e56fa18bb12f3c7d9"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -202,21 +214,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-754b4e6d0951cfb18ce402d95d9863a7051bb79d-{{checksum ".buildcache/cache-keys/package-754b4e6d0951cfb18ce402d95d9863a7051bb79d"}}'
+          key: 'package-30c9788512ec9082ec6e574e56fa18bb12f3c7d9-{{checksum ".buildcache/cache-keys/package-30c9788512ec9082ec6e574e56fa18bb12f3c7d9"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_freebsd_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 0b8ee19233c84dee317a55fae82daef17e2fe005
+      - PACKAGE_SPEC_ID: cfbae20a63ceca5e8d3addc8fd986a2fba81e858
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_freebsd_386'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -240,13 +252,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-0b8ee19233c84dee317a55fae82daef17e2fe005-{{checksum ".buildcache/cache-keys/package-0b8ee19233c84dee317a55fae82daef17e2fe005"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-cfbae20a63ceca5e8d3addc8fd986a2fba81e858-{{checksum ".buildcache/cache-keys/package-cfbae20a63ceca5e8d3addc8fd986a2fba81e858"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -254,21 +270,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-0b8ee19233c84dee317a55fae82daef17e2fe005-{{checksum ".buildcache/cache-keys/package-0b8ee19233c84dee317a55fae82daef17e2fe005"}}'
+          key: 'package-cfbae20a63ceca5e8d3addc8fd986a2fba81e858-{{checksum ".buildcache/cache-keys/package-cfbae20a63ceca5e8d3addc8fd986a2fba81e858"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_freebsd_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 0576b8f5ae7675d1cc5f62e1a45931ededc4f878
+      - PACKAGE_SPEC_ID: 66a6bc24109f54adeb98ace6cbd3a51fce99b30e
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_freebsd_amd64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -292,13 +308,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-0576b8f5ae7675d1cc5f62e1a45931ededc4f878-{{checksum ".buildcache/cache-keys/package-0576b8f5ae7675d1cc5f62e1a45931ededc4f878"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-66a6bc24109f54adeb98ace6cbd3a51fce99b30e-{{checksum ".buildcache/cache-keys/package-66a6bc24109f54adeb98ace6cbd3a51fce99b30e"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -306,21 +326,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-0576b8f5ae7675d1cc5f62e1a45931ededc4f878-{{checksum ".buildcache/cache-keys/package-0576b8f5ae7675d1cc5f62e1a45931ededc4f878"}}'
+          key: 'package-66a6bc24109f54adeb98ace6cbd3a51fce99b30e-{{checksum ".buildcache/cache-keys/package-66a6bc24109f54adeb98ace6cbd3a51fce99b30e"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_freebsd_arm:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 5899561c25e064b07ecd8203c8d481e7d234bd2c
+      - PACKAGE_SPEC_ID: 9007a017e44ef5b2e89bd77747ba04b6231756e2
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_freebsd_arm'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -344,13 +364,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-5899561c25e064b07ecd8203c8d481e7d234bd2c-{{checksum ".buildcache/cache-keys/package-5899561c25e064b07ecd8203c8d481e7d234bd2c"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-9007a017e44ef5b2e89bd77747ba04b6231756e2-{{checksum ".buildcache/cache-keys/package-9007a017e44ef5b2e89bd77747ba04b6231756e2"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -358,21 +382,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-5899561c25e064b07ecd8203c8d481e7d234bd2c-{{checksum ".buildcache/cache-keys/package-5899561c25e064b07ecd8203c8d481e7d234bd2c"}}'
+          key: 'package-9007a017e44ef5b2e89bd77747ba04b6231756e2-{{checksum ".buildcache/cache-keys/package-9007a017e44ef5b2e89bd77747ba04b6231756e2"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 91d5bff5b946d53a8f5bb666e09a20a3e619d2ab
+      - PACKAGE_SPEC_ID: 1246efddc9e15888ba348a9f1be141ca7547a72f
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_linux_386'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -396,13 +420,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-91d5bff5b946d53a8f5bb666e09a20a3e619d2ab-{{checksum ".buildcache/cache-keys/package-91d5bff5b946d53a8f5bb666e09a20a3e619d2ab"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-1246efddc9e15888ba348a9f1be141ca7547a72f-{{checksum ".buildcache/cache-keys/package-1246efddc9e15888ba348a9f1be141ca7547a72f"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -410,21 +438,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-91d5bff5b946d53a8f5bb666e09a20a3e619d2ab-{{checksum ".buildcache/cache-keys/package-91d5bff5b946d53a8f5bb666e09a20a3e619d2ab"}}'
+          key: 'package-1246efddc9e15888ba348a9f1be141ca7547a72f-{{checksum ".buildcache/cache-keys/package-1246efddc9e15888ba348a9f1be141ca7547a72f"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: df7ef0ed64df45593e4a8ba92e9fef33b0b4b778
+      - PACKAGE_SPEC_ID: 975dd2ca16db3db10c14ccb9f886fe706fe28a25
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_linux_amd64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -448,13 +476,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-df7ef0ed64df45593e4a8ba92e9fef33b0b4b778-{{checksum ".buildcache/cache-keys/package-df7ef0ed64df45593e4a8ba92e9fef33b0b4b778"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-975dd2ca16db3db10c14ccb9f886fe706fe28a25-{{checksum ".buildcache/cache-keys/package-975dd2ca16db3db10c14ccb9f886fe706fe28a25"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -462,21 +494,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-df7ef0ed64df45593e4a8ba92e9fef33b0b4b778-{{checksum ".buildcache/cache-keys/package-df7ef0ed64df45593e4a8ba92e9fef33b0b4b778"}}'
+          key: 'package-975dd2ca16db3db10c14ccb9f886fe706fe28a25-{{checksum ".buildcache/cache-keys/package-975dd2ca16db3db10c14ccb9f886fe706fe28a25"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_arm:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: f38d37ee6eb98b99f4532332747b8cc2f3ccf133
+      - PACKAGE_SPEC_ID: 3e5b155871b1cab5362f12ed41264a990607a98c
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_linux_arm'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -500,13 +532,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-f38d37ee6eb98b99f4532332747b8cc2f3ccf133-{{checksum ".buildcache/cache-keys/package-f38d37ee6eb98b99f4532332747b8cc2f3ccf133"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-3e5b155871b1cab5362f12ed41264a990607a98c-{{checksum ".buildcache/cache-keys/package-3e5b155871b1cab5362f12ed41264a990607a98c"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -514,21 +550,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-f38d37ee6eb98b99f4532332747b8cc2f3ccf133-{{checksum ".buildcache/cache-keys/package-f38d37ee6eb98b99f4532332747b8cc2f3ccf133"}}'
+          key: 'package-3e5b155871b1cab5362f12ed41264a990607a98c-{{checksum ".buildcache/cache-keys/package-3e5b155871b1cab5362f12ed41264a990607a98c"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_linux_arm64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 94c7b2112fc8d8d5ec2cf152d542e29c02ba1ab9
+      - PACKAGE_SPEC_ID: 4344fa432bfbb07a1812440263ac0eb3b930d643
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_linux_arm64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -552,13 +588,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-94c7b2112fc8d8d5ec2cf152d542e29c02ba1ab9-{{checksum ".buildcache/cache-keys/package-94c7b2112fc8d8d5ec2cf152d542e29c02ba1ab9"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-4344fa432bfbb07a1812440263ac0eb3b930d643-{{checksum ".buildcache/cache-keys/package-4344fa432bfbb07a1812440263ac0eb3b930d643"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -566,21 +606,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-94c7b2112fc8d8d5ec2cf152d542e29c02ba1ab9-{{checksum ".buildcache/cache-keys/package-94c7b2112fc8d8d5ec2cf152d542e29c02ba1ab9"}}'
+          key: 'package-4344fa432bfbb07a1812440263ac0eb3b930d643-{{checksum ".buildcache/cache-keys/package-4344fa432bfbb07a1812440263ac0eb3b930d643"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_netbsd_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 18540eb5e3fb4966b7be65ff9d66a255df72739e
+      - PACKAGE_SPEC_ID: b51a8d3508e9af3b17bb8779e39deba13c0d47ae
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_netbsd_386'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -604,13 +644,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-18540eb5e3fb4966b7be65ff9d66a255df72739e-{{checksum ".buildcache/cache-keys/package-18540eb5e3fb4966b7be65ff9d66a255df72739e"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-b51a8d3508e9af3b17bb8779e39deba13c0d47ae-{{checksum ".buildcache/cache-keys/package-b51a8d3508e9af3b17bb8779e39deba13c0d47ae"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -618,21 +662,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-18540eb5e3fb4966b7be65ff9d66a255df72739e-{{checksum ".buildcache/cache-keys/package-18540eb5e3fb4966b7be65ff9d66a255df72739e"}}'
+          key: 'package-b51a8d3508e9af3b17bb8779e39deba13c0d47ae-{{checksum ".buildcache/cache-keys/package-b51a8d3508e9af3b17bb8779e39deba13c0d47ae"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_netbsd_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: a6623f1bc320f43797857d932b553c2060fbfe0c
+      - PACKAGE_SPEC_ID: cfe0e610d977a0408d0ff394e046130f5af9b0c7
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_netbsd_amd64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -656,13 +700,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-a6623f1bc320f43797857d932b553c2060fbfe0c-{{checksum ".buildcache/cache-keys/package-a6623f1bc320f43797857d932b553c2060fbfe0c"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-cfe0e610d977a0408d0ff394e046130f5af9b0c7-{{checksum ".buildcache/cache-keys/package-cfe0e610d977a0408d0ff394e046130f5af9b0c7"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -670,21 +718,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-a6623f1bc320f43797857d932b553c2060fbfe0c-{{checksum ".buildcache/cache-keys/package-a6623f1bc320f43797857d932b553c2060fbfe0c"}}'
+          key: 'package-cfe0e610d977a0408d0ff394e046130f5af9b0c7-{{checksum ".buildcache/cache-keys/package-cfe0e610d977a0408d0ff394e046130f5af9b0c7"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_openbsd_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: fbd6af5ba2be20f99e97a355605fa97051fa16f3
+      - PACKAGE_SPEC_ID: 32ecc93930e0503f0a24f0d8c4995baf5dde4cb5
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_openbsd_386'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -708,13 +756,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-fbd6af5ba2be20f99e97a355605fa97051fa16f3-{{checksum ".buildcache/cache-keys/package-fbd6af5ba2be20f99e97a355605fa97051fa16f3"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-32ecc93930e0503f0a24f0d8c4995baf5dde4cb5-{{checksum ".buildcache/cache-keys/package-32ecc93930e0503f0a24f0d8c4995baf5dde4cb5"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -722,21 +774,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-fbd6af5ba2be20f99e97a355605fa97051fa16f3-{{checksum ".buildcache/cache-keys/package-fbd6af5ba2be20f99e97a355605fa97051fa16f3"}}'
+          key: 'package-32ecc93930e0503f0a24f0d8c4995baf5dde4cb5-{{checksum ".buildcache/cache-keys/package-32ecc93930e0503f0a24f0d8c4995baf5dde4cb5"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_openbsd_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 4c43df099bd5222d20541e981f505ef0236a2552
+      - PACKAGE_SPEC_ID: d29d04be5f19d4aa23dde278d2934eceea62f052
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_openbsd_amd64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -760,13 +812,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-4c43df099bd5222d20541e981f505ef0236a2552-{{checksum ".buildcache/cache-keys/package-4c43df099bd5222d20541e981f505ef0236a2552"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-d29d04be5f19d4aa23dde278d2934eceea62f052-{{checksum ".buildcache/cache-keys/package-d29d04be5f19d4aa23dde278d2934eceea62f052"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -774,21 +830,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-4c43df099bd5222d20541e981f505ef0236a2552-{{checksum ".buildcache/cache-keys/package-4c43df099bd5222d20541e981f505ef0236a2552"}}'
+          key: 'package-d29d04be5f19d4aa23dde278d2934eceea62f052-{{checksum ".buildcache/cache-keys/package-d29d04be5f19d4aa23dde278d2934eceea62f052"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_solaris_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: df94b3d0dfc19550e950ce311ecca64d26e13a9d
+      - PACKAGE_SPEC_ID: cd6d9d8bce06cb1c5f5e041d96b484766565c4f5
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_solaris_amd64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -812,13 +868,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-df94b3d0dfc19550e950ce311ecca64d26e13a9d-{{checksum ".buildcache/cache-keys/package-df94b3d0dfc19550e950ce311ecca64d26e13a9d"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-cd6d9d8bce06cb1c5f5e041d96b484766565c4f5-{{checksum ".buildcache/cache-keys/package-cd6d9d8bce06cb1c5f5e041d96b484766565c4f5"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -826,21 +886,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-df94b3d0dfc19550e950ce311ecca64d26e13a9d-{{checksum ".buildcache/cache-keys/package-df94b3d0dfc19550e950ce311ecca64d26e13a9d"}}'
+          key: 'package-cd6d9d8bce06cb1c5f5e041d96b484766565c4f5-{{checksum ".buildcache/cache-keys/package-cd6d9d8bce06cb1c5f5e041d96b484766565c4f5"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_windows_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 5f1de37f7f9b573eb3485c242383a62d59e4836d
+      - PACKAGE_SPEC_ID: 93bfe79fe9dec619cef722a1278c8d93d6d13a5e
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_windows_386'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -864,13 +924,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-5f1de37f7f9b573eb3485c242383a62d59e4836d-{{checksum ".buildcache/cache-keys/package-5f1de37f7f9b573eb3485c242383a62d59e4836d"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-93bfe79fe9dec619cef722a1278c8d93d6d13a5e-{{checksum ".buildcache/cache-keys/package-93bfe79fe9dec619cef722a1278c8d93d6d13a5e"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -878,21 +942,21 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-5f1de37f7f9b573eb3485c242383a62d59e4836d-{{checksum ".buildcache/cache-keys/package-5f1de37f7f9b573eb3485c242383a62d59e4836d"}}'
+          key: 'package-93bfe79fe9dec619cef722a1278c8d93d6d13a5e-{{checksum ".buildcache/cache-keys/package-93bfe79fe9dec619cef722a1278c8d93d6d13a5e"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
   package_windows_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 63b0548b6ab8cea9f140a55aa8552e286989d22c
+      - PACKAGE_SPEC_ID: 31f5bcfeaef5c7664286307fc60926d31935eafb
       - BINARY_NAME: 'vault'
-      - BUILDER_LAYER_ID: 'static_24b2c191871f61aa3b8d496820c689ff4c60e495'
+      - BUILDER_LAYER_ID: 'build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed'
       - BUILD_JOB_NAME: 'package_windows_amd64'
       - BUILD_TAGS: 'vault'
       - BUNDLE_NAME: 'vault_0.0.0-snapshot'
@@ -916,13 +980,17 @@ jobs:
       - write-cache-keys
       - restore_cache:
           keys:
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}
-          - v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}
+          - v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}
       - restore_cache:
-          key: 'package-63b0548b6ab8cea9f140a55aa8552e286989d22c-{{checksum ".buildcache/cache-keys/package-63b0548b6ab8cea9f140a55aa8552e286989d22c"}}'
-      - run: make -f release/layer.mk static_24b2c191871f61aa3b8d496820c689ff4c60e495-load || echo "No cached builder image to load."
+          key: 'package-31f5bcfeaef5c7664286307fc60926d31935eafb-{{checksum ".buildcache/cache-keys/package-31f5bcfeaef5c7664286307fc60926d31935eafb"}}'
+      - run: make -f release/layer.mk build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-load || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
@@ -930,12 +998,12 @@ jobs:
           destination: dist/public/vault_0.0.0-snapshot
       # Save builder image cache.
       - save_cache:
-          key: 'v0-base_02376a8228ddcfc3d014c896ea4897e75582221a-{{ checksum ".buildcache/cache-keys/base-02376a8228ddcfc3d014c896ea4897e75582221a" }}-yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-{{ checksum ".buildcache/cache-keys/yarn-4b8331e0d10d5546bf2b0a2b368376e7b9d7548f" }}-ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-{{ checksum ".buildcache/cache-keys/ui-91f1adae63f46e6e66c3c656ac7d3575e9a107cc" }}-static_24b2c191871f61aa3b8d496820c689ff4c60e495-{{ checksum ".buildcache/cache-keys/static-24b2c191871f61aa3b8d496820c689ff4c60e495" }}'
+          key: 'v0-base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4" }}-install-go_a002b85329b1cfabec7fdca8160ed6843f9e7541-{{ checksum ".buildcache/cache-keys/install-go-a002b85329b1cfabec7fdca8160ed6843f9e7541" }}-install-go-tools_282a91eaad85907ed038aed2f7149300a5d69a66-{{ checksum ".buildcache/cache-keys/install-go-tools-282a91eaad85907ed038aed2f7149300a5d69a66" }}-set-workdir_285cdb96775685deb1ec3d8be3a3514edff68858-{{ checksum ".buildcache/cache-keys/set-workdir-285cdb96775685deb1ec3d8be3a3514edff68858" }}-install-yarn_fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55-{{ checksum ".buildcache/cache-keys/install-yarn-fcbb1f6098a750c2d0e22a5061a3d8af5fe7af55" }}-ui-dependencies_7b5cdc483777151efd1e8327ed4e1ad3753fe9cc-{{ checksum ".buildcache/cache-keys/ui-dependencies-7b5cdc483777151efd1e8327ed4e1ad3753fe9cc" }}-build-ui_aff131f8c56fb3a346b8c66581c76280003c039a-{{ checksum ".buildcache/cache-keys/build-ui-aff131f8c56fb3a346b8c66581c76280003c039a" }}-build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed-{{ checksum ".buildcache/cache-keys/build-static-assets-bac30e3b408af2be397b0c8ef34a794d309216ed" }}'
           paths:
-            - .buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+            - .buildcache/archives/build-static-assets_bac30e3b408af2be397b0c8ef34a794d309216ed.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'package-63b0548b6ab8cea9f140a55aa8552e286989d22c-{{checksum ".buildcache/cache-keys/package-63b0548b6ab8cea9f140a55aa8552e286989d22c"}}'
+          key: 'package-31f5bcfeaef5c7664286307fc60926d31935eafb-{{checksum ".buildcache/cache-keys/package-31f5bcfeaef5c7664286307fc60926d31935eafb"}}'
           paths:
             - dist/public/vault_0.0.0-snapshot
 
@@ -944,82 +1012,82 @@ commands:
   load-package_darwin_386:
     steps:
       - restore_cache:
-          key: 'package-647c5f61299d6ded5eecba75ce0afaacfc90d32f-{{checksum ".buildcache/cache-keys/package-647c5f61299d6ded5eecba75ce0afaacfc90d32f"}}'
+          key: 'package-26698ed2269e0e06e4de648d3d252ef12f261a83-{{checksum ".buildcache/cache-keys/package-26698ed2269e0e06e4de648d3d252ef12f261a83"}}'
   
   load-package_darwin_amd64:
     steps:
       - restore_cache:
-          key: 'package-754b4e6d0951cfb18ce402d95d9863a7051bb79d-{{checksum ".buildcache/cache-keys/package-754b4e6d0951cfb18ce402d95d9863a7051bb79d"}}'
+          key: 'package-30c9788512ec9082ec6e574e56fa18bb12f3c7d9-{{checksum ".buildcache/cache-keys/package-30c9788512ec9082ec6e574e56fa18bb12f3c7d9"}}'
   
   load-package_freebsd_386:
     steps:
       - restore_cache:
-          key: 'package-0b8ee19233c84dee317a55fae82daef17e2fe005-{{checksum ".buildcache/cache-keys/package-0b8ee19233c84dee317a55fae82daef17e2fe005"}}'
+          key: 'package-cfbae20a63ceca5e8d3addc8fd986a2fba81e858-{{checksum ".buildcache/cache-keys/package-cfbae20a63ceca5e8d3addc8fd986a2fba81e858"}}'
   
   load-package_freebsd_amd64:
     steps:
       - restore_cache:
-          key: 'package-0576b8f5ae7675d1cc5f62e1a45931ededc4f878-{{checksum ".buildcache/cache-keys/package-0576b8f5ae7675d1cc5f62e1a45931ededc4f878"}}'
+          key: 'package-66a6bc24109f54adeb98ace6cbd3a51fce99b30e-{{checksum ".buildcache/cache-keys/package-66a6bc24109f54adeb98ace6cbd3a51fce99b30e"}}'
   
   load-package_freebsd_arm:
     steps:
       - restore_cache:
-          key: 'package-5899561c25e064b07ecd8203c8d481e7d234bd2c-{{checksum ".buildcache/cache-keys/package-5899561c25e064b07ecd8203c8d481e7d234bd2c"}}'
+          key: 'package-9007a017e44ef5b2e89bd77747ba04b6231756e2-{{checksum ".buildcache/cache-keys/package-9007a017e44ef5b2e89bd77747ba04b6231756e2"}}'
   
   load-package_linux_386:
     steps:
       - restore_cache:
-          key: 'package-91d5bff5b946d53a8f5bb666e09a20a3e619d2ab-{{checksum ".buildcache/cache-keys/package-91d5bff5b946d53a8f5bb666e09a20a3e619d2ab"}}'
+          key: 'package-1246efddc9e15888ba348a9f1be141ca7547a72f-{{checksum ".buildcache/cache-keys/package-1246efddc9e15888ba348a9f1be141ca7547a72f"}}'
   
   load-package_linux_amd64:
     steps:
       - restore_cache:
-          key: 'package-df7ef0ed64df45593e4a8ba92e9fef33b0b4b778-{{checksum ".buildcache/cache-keys/package-df7ef0ed64df45593e4a8ba92e9fef33b0b4b778"}}'
+          key: 'package-975dd2ca16db3db10c14ccb9f886fe706fe28a25-{{checksum ".buildcache/cache-keys/package-975dd2ca16db3db10c14ccb9f886fe706fe28a25"}}'
   
   load-package_linux_arm:
     steps:
       - restore_cache:
-          key: 'package-f38d37ee6eb98b99f4532332747b8cc2f3ccf133-{{checksum ".buildcache/cache-keys/package-f38d37ee6eb98b99f4532332747b8cc2f3ccf133"}}'
+          key: 'package-3e5b155871b1cab5362f12ed41264a990607a98c-{{checksum ".buildcache/cache-keys/package-3e5b155871b1cab5362f12ed41264a990607a98c"}}'
   
   load-package_linux_arm64:
     steps:
       - restore_cache:
-          key: 'package-94c7b2112fc8d8d5ec2cf152d542e29c02ba1ab9-{{checksum ".buildcache/cache-keys/package-94c7b2112fc8d8d5ec2cf152d542e29c02ba1ab9"}}'
+          key: 'package-4344fa432bfbb07a1812440263ac0eb3b930d643-{{checksum ".buildcache/cache-keys/package-4344fa432bfbb07a1812440263ac0eb3b930d643"}}'
   
   load-package_netbsd_386:
     steps:
       - restore_cache:
-          key: 'package-18540eb5e3fb4966b7be65ff9d66a255df72739e-{{checksum ".buildcache/cache-keys/package-18540eb5e3fb4966b7be65ff9d66a255df72739e"}}'
+          key: 'package-b51a8d3508e9af3b17bb8779e39deba13c0d47ae-{{checksum ".buildcache/cache-keys/package-b51a8d3508e9af3b17bb8779e39deba13c0d47ae"}}'
   
   load-package_netbsd_amd64:
     steps:
       - restore_cache:
-          key: 'package-a6623f1bc320f43797857d932b553c2060fbfe0c-{{checksum ".buildcache/cache-keys/package-a6623f1bc320f43797857d932b553c2060fbfe0c"}}'
+          key: 'package-cfe0e610d977a0408d0ff394e046130f5af9b0c7-{{checksum ".buildcache/cache-keys/package-cfe0e610d977a0408d0ff394e046130f5af9b0c7"}}'
   
   load-package_openbsd_386:
     steps:
       - restore_cache:
-          key: 'package-fbd6af5ba2be20f99e97a355605fa97051fa16f3-{{checksum ".buildcache/cache-keys/package-fbd6af5ba2be20f99e97a355605fa97051fa16f3"}}'
+          key: 'package-32ecc93930e0503f0a24f0d8c4995baf5dde4cb5-{{checksum ".buildcache/cache-keys/package-32ecc93930e0503f0a24f0d8c4995baf5dde4cb5"}}'
   
   load-package_openbsd_amd64:
     steps:
       - restore_cache:
-          key: 'package-4c43df099bd5222d20541e981f505ef0236a2552-{{checksum ".buildcache/cache-keys/package-4c43df099bd5222d20541e981f505ef0236a2552"}}'
+          key: 'package-d29d04be5f19d4aa23dde278d2934eceea62f052-{{checksum ".buildcache/cache-keys/package-d29d04be5f19d4aa23dde278d2934eceea62f052"}}'
   
   load-package_solaris_amd64:
     steps:
       - restore_cache:
-          key: 'package-df94b3d0dfc19550e950ce311ecca64d26e13a9d-{{checksum ".buildcache/cache-keys/package-df94b3d0dfc19550e950ce311ecca64d26e13a9d"}}'
+          key: 'package-cd6d9d8bce06cb1c5f5e041d96b484766565c4f5-{{checksum ".buildcache/cache-keys/package-cd6d9d8bce06cb1c5f5e041d96b484766565c4f5"}}'
   
   load-package_windows_386:
     steps:
       - restore_cache:
-          key: 'package-5f1de37f7f9b573eb3485c242383a62d59e4836d-{{checksum ".buildcache/cache-keys/package-5f1de37f7f9b573eb3485c242383a62d59e4836d"}}'
+          key: 'package-93bfe79fe9dec619cef722a1278c8d93d6d13a5e-{{checksum ".buildcache/cache-keys/package-93bfe79fe9dec619cef722a1278c8d93d6d13a5e"}}'
   
   load-package_windows_amd64:
     steps:
       - restore_cache:
-          key: 'package-63b0548b6ab8cea9f140a55aa8552e286989d22c-{{checksum ".buildcache/cache-keys/package-63b0548b6ab8cea9f140a55aa8552e286989d22c"}}'
+          key: 'package-31f5bcfeaef5c7664286307fc60926d31935eafb-{{checksum ".buildcache/cache-keys/package-31f5bcfeaef5c7664286307fc60926d31935eafb"}}'
   
   
   write-cache-keys:
