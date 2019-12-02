@@ -1,26 +1,6 @@
 ---
 version: 2.1
 
-references:
-  images:
-    node: &NODE_IMAGE node:10-buster # Pin Node.js to major version (ex: 10)
-
-  cache:
-    yarn-lock: &YARN_LOCK_CACHE_KEY yarn-lock-v6-{{ checksum "ui/yarn.lock" }}
-
-# more commands defined in commands/
-commands:
-  restore_yarn_cache:
-    steps:
-      - restore_cache:
-          key: *YARN_LOCK_CACHE_KEY
-  save_yarn_cache:
-    steps:
-      - save_cache:
-          key: *YARN_LOCK_CACHE_KEY
-          paths:
-            - ui/node_modules
-
 executors:
   releaser:
     docker:
@@ -40,12 +20,12 @@ executors:
     working_directory: /go/src/github.com/hashicorp/vault
   node:
     docker:
-      - image: *NODE_IMAGE
+      - image: node:10-buster
     shell: /usr/bin/env bash -euo pipefail -c
     working_directory: /go/src/github.com/hashicorp/vault
   python:
     docker:
-     - image: python:3-alpine
+      - image: python:3-alpine
     shell: /usr/bin/env bash -euo pipefail -c
     working_directory: /go/src/github.com/hashicorp/vault
   alpine:
