@@ -6,6 +6,15 @@
 {{$cacheVersion := "buildcache-v1" -}}
 # Current $cacheVersion: {{$cacheVersion}}
 
+executors:
+  releaser:
+    docker:
+      - image: circleci/buildpack-deps
+    environment:
+      PRODUCT_REVISION: "{{if $revision}}{{$revision}}{{end}}"
+      AUTO_INSTALL_TOOLS: 'YES'
+    shell: /usr/bin/env bash -euo pipefail -c
+
 workflows:
   build-release:
     jobs:
@@ -34,9 +43,9 @@ jobs:
             {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
             - {{$cacheVersion}}-{{.}}
             {{- end}}
-      - run: PRODUCT_REVISION={{$revision}} make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
-      - run: PRODUCT_REVISION={{$revision}} make -f release/layer.mk {{.name}}-image
-      - run: PRODUCT_REVISION={{$revision}} make -f release/layer.mk {{.name}}-save
+      - run: make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
+      - run: make -f release/layer.mk {{.name}}-image
+      - run: make -f release/layer.mk {{.name}}-save
       - save_cache:
           key: {{$cacheVersion}}-{{index .meta.circleci.CACHE_KEY_PREFIX_LIST 0}}
           paths:
@@ -64,7 +73,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: {{.packagespecid}}
-      - PRODUCT_REVISION: {{$revision}}
       {{- range $NAME, $VALUE := .inputs -}}
         {{- $type := (printf "%T" $VALUE)  -}}
         {{- if or (eq $type "string") (eq $type "int") }}
@@ -112,7 +120,7 @@ commands:
     steps:
       - run:
           name: Write builder layer cache keys
-          command: PRODUCT_REVISION={{$revision}} make -C release write-builder-cache-keys
+          command: make -C release write-builder-cache-keys
       - run:
           name: Write package cache keys
-          command: PRODUCT_REVISION={{$revision}} make -C release write-package-cache-keys
+          command: make -C release write-package-cache-keys
