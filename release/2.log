@@ -1,0 +1,68 @@
+==> Debug info: static_24b2c191871f61aa3b8d496820c689ff4c60e495 depends on ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_TARGETS               = static_24b2c191871f61aa3b8d496820c689ff4c60e495-debug static_24b2c191871f61aa3b8d496820c689ff4c60e495-id static_24b2c191871f61aa3b8d496820c689ff4c60e495-image static_24b2c191871f61aa3b8d496820c689ff4c60e495-save static_24b2c191871f61aa3b8d496820c689ff4c60e495-load
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_SOURCE_CMD            = { git ls-files -- . ':(exclude).circleci/' ':(exclude)release/' ':(exclude)/Users/sam/src/github.com/hashicorp/vault/release/' ':(exclude).circleci/'; git ls-files -m --exclude-standard -- . ':(exclude).circleci/' ':(exclude)release/' ':(exclude)/Users/sam/src/github.com/hashicorp/vault/release/' ':(exclude).circleci/'; } | sort | uniq
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_SOURCE_LIST           = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/static_24b2c191871f61aa3b8d496820c689ff4c60e495/75327e7b71af994a4f540a371bca25fa6fa4393e/source.list
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_CACHE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/static_24b2c191871f61aa3b8d496820c689ff4c60e495/75327e7b71af994a4f540a371bca25fa6fa4393e
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_DOCKERFILE            = /Users/sam/src/github.com/hashicorp/vault/release/packages.lock/layers/static_24b2c191871f61aa3b8d496820c689ff4c60e495.Dockerfile
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_SOURCE_COMMIT         = 75327e7b71af994a4f540a371bca25fa6fa4393e
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_SOURCE_ID             = 75327e7b71af994a4f540a371bca25fa6fa4393e
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_SOURCE_MODIFIED       = NO
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_SOURCE_DIRTY          = NO
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_SOURCE_NEW            = 
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_IMAGE_LINK            = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/static_24b2c191871f61aa3b8d496820c689ff4c60e495/current/image.marker
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_IMAGE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/static_24b2c191871f61aa3b8d496820c689ff4c60e495/75327e7b71af994a4f540a371bca25fa6fa4393e/image.marker
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_IMAGE_TIMESTAMP       = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/static_24b2c191871f61aa3b8d496820c689ff4c60e495/75327e7b71af994a4f540a371bca25fa6fa4393e/image.created_time
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_IMAGE_ARCHIVE         = /Users/sam/src/github.com/hashicorp/vault/.buildcache/archives/static_24b2c191871f61aa3b8d496820c689ff4c60e495.tar.gz
+static_24b2c191871f61aa3b8d496820c689ff4c60e495_BASE_IMAGE            = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc/current/image.marker
+
+==> Debug info: ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc depends on yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_TARGETS               = ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-debug ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-id ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-image ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-save ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc-load
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_SOURCE_CMD            = { git ls-files -- ui/ ':(exclude)/Users/sam/src/github.com/hashicorp/vault/release/' ':(exclude).circleci/'; git ls-files -m --exclude-standard -- ui/ ':(exclude)/Users/sam/src/github.com/hashicorp/vault/release/' ':(exclude).circleci/'; } | sort | uniq
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_SOURCE_LIST           = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc/05ca95e182c66579fac186b716638d5d576bd66b/source.list
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_CACHE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc/05ca95e182c66579fac186b716638d5d576bd66b
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_DOCKERFILE            = /Users/sam/src/github.com/hashicorp/vault/release/packages.lock/layers/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc.Dockerfile
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_SOURCE_COMMIT         = 05ca95e182c66579fac186b716638d5d576bd66b
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_SOURCE_ID             = 05ca95e182c66579fac186b716638d5d576bd66b
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_SOURCE_MODIFIED       = NO
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_SOURCE_DIRTY          = NO
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_SOURCE_NEW            = 
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_IMAGE_LINK            = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc/current/image.marker
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_IMAGE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc/05ca95e182c66579fac186b716638d5d576bd66b/image.marker
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_IMAGE_TIMESTAMP       = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc/05ca95e182c66579fac186b716638d5d576bd66b/image.created_time
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_IMAGE_ARCHIVE         = /Users/sam/src/github.com/hashicorp/vault/.buildcache/archives/ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc.tar.gz
+ui_91f1adae63f46e6e66c3c656ac7d3575e9a107cc_BASE_IMAGE            = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f/current/image.marker
+
+==> Debug info: yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f depends on base_02376a8228ddcfc3d014c896ea4897e75582221a
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_TARGETS               = yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-debug yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-id yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-image yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-save yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f-load
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_SOURCE_CMD            = { git ls-files -- ui/package.json ui/yarn.lock ':(exclude)/Users/sam/src/github.com/hashicorp/vault/release/' ':(exclude).circleci/'; git ls-files -m --exclude-standard -- ui/package.json ui/yarn.lock ':(exclude)/Users/sam/src/github.com/hashicorp/vault/release/' ':(exclude).circleci/'; } | sort | uniq
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_SOURCE_LIST           = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f/efa74497e070c643a0507ab4e29c317cce8011bd/source.list
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_CACHE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f/efa74497e070c643a0507ab4e29c317cce8011bd
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_DOCKERFILE            = /Users/sam/src/github.com/hashicorp/vault/release/packages.lock/layers/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f.Dockerfile
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_SOURCE_COMMIT         = efa74497e070c643a0507ab4e29c317cce8011bd
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_SOURCE_ID             = efa74497e070c643a0507ab4e29c317cce8011bd
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_SOURCE_MODIFIED       = NO
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_SOURCE_DIRTY          = NO
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_SOURCE_NEW            = 
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_IMAGE_LINK            = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f/current/image.marker
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_IMAGE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f/efa74497e070c643a0507ab4e29c317cce8011bd/image.marker
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_IMAGE_TIMESTAMP       = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f/efa74497e070c643a0507ab4e29c317cce8011bd/image.created_time
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_IMAGE_ARCHIVE         = /Users/sam/src/github.com/hashicorp/vault/.buildcache/archives/yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f.tar.gz
+yarn_4b8331e0d10d5546bf2b0a2b368376e7b9d7548f_BASE_IMAGE            = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/base_02376a8228ddcfc3d014c896ea4897e75582221a/current/image.marker
+
+==> Debug info: base_02376a8228ddcfc3d014c896ea4897e75582221a depends on 
+base_02376a8228ddcfc3d014c896ea4897e75582221a_TARGETS               = base_02376a8228ddcfc3d014c896ea4897e75582221a-debug base_02376a8228ddcfc3d014c896ea4897e75582221a-id base_02376a8228ddcfc3d014c896ea4897e75582221a-image base_02376a8228ddcfc3d014c896ea4897e75582221a-save base_02376a8228ddcfc3d014c896ea4897e75582221a-load
+base_02376a8228ddcfc3d014c896ea4897e75582221a_SOURCE_CMD            = 
+base_02376a8228ddcfc3d014c896ea4897e75582221a_SOURCE_LIST           = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/base_02376a8228ddcfc3d014c896ea4897e75582221a/none/source.list
+base_02376a8228ddcfc3d014c896ea4897e75582221a_CACHE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/base_02376a8228ddcfc3d014c896ea4897e75582221a/none
+base_02376a8228ddcfc3d014c896ea4897e75582221a_DOCKERFILE            = /Users/sam/src/github.com/hashicorp/vault/release/packages.lock/layers/base_02376a8228ddcfc3d014c896ea4897e75582221a.Dockerfile
+base_02376a8228ddcfc3d014c896ea4897e75582221a_SOURCE_COMMIT         = 
+base_02376a8228ddcfc3d014c896ea4897e75582221a_SOURCE_ID             = none
+base_02376a8228ddcfc3d014c896ea4897e75582221a_SOURCE_MODIFIED       = 
+base_02376a8228ddcfc3d014c896ea4897e75582221a_SOURCE_DIRTY          = 
+base_02376a8228ddcfc3d014c896ea4897e75582221a_SOURCE_NEW            = 
+base_02376a8228ddcfc3d014c896ea4897e75582221a_IMAGE_LINK            = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/base_02376a8228ddcfc3d014c896ea4897e75582221a/current/image.marker
+base_02376a8228ddcfc3d014c896ea4897e75582221a_IMAGE                 = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/base_02376a8228ddcfc3d014c896ea4897e75582221a/none/image.marker
+base_02376a8228ddcfc3d014c896ea4897e75582221a_IMAGE_TIMESTAMP       = /Users/sam/src/github.com/hashicorp/vault/.buildcache/layers/base_02376a8228ddcfc3d014c896ea4897e75582221a/none/image.created_time
+base_02376a8228ddcfc3d014c896ea4897e75582221a_IMAGE_ARCHIVE         = /Users/sam/src/github.com/hashicorp/vault/.buildcache/archives/base_02376a8228ddcfc3d014c896ea4897e75582221a.tar.gz
+base_02376a8228ddcfc3d014c896ea4897e75582221a_BASE_IMAGE            = 
+
