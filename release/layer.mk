@@ -202,7 +202,6 @@ $(1)-debug:
 	@echo "$(1)_IMAGE_TIMESTAMP       = $$($(1)_IMAGE_TIMESTAMP)"
 	@echo "$(1)_IMAGE_ARCHIVE         = $$($(1)_IMAGE_ARCHIVE)"
 	@echo "$(1)_BASE_IMAGE            = $$($(1)_BASE_IMAGE)"
-	@cat $$($(1)_SOURCE_LIST) | wc -l
 	@echo
 
 $(1)-id:
