@@ -31,6 +31,8 @@ YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")
 
 BUILD_ENV := $(shell yq -r '$(YQ_PACKAGE_PATH) | .inputs | to_entries[] | "\(.key)=\(.value)"' < $(LOCK))
 BUILD_COMMAND := $(shell yq -r '$(YQ_PACKAGE_PATH) | .["build-command"]' < $(LOCK))
+ALIASES := $(shell yq -r '$(YQ_PACKAGE_PATH) | .aliases[] | .path' < $(LOCK))
+ALIASES := $(addprefix dist/,$(ALIASES))
 
 ifeq ($(BUILD_ENV),)
 $(error Unable to find build inputs for package spec ID $(PACKAGE_SPEC_ID))
@@ -70,6 +72,9 @@ DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):/$(OUTPUT_DIR)/$(PACKAGE_Z
 package: $(PACKAGE)
 	@echo $<
 
+.PHONY: aliases
+aliases: $(ALIASES)
+
 $(META): $(LOCK)
 	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
 
@@ -81,6 +86,14 @@ $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	$(DOCKER_RUN_COMMAND)
 	$(DOCKER_CP_COMMAND)
 	@docker rm -f $(BUILD_CONTAINER_NAME)
+	done
+
+# ALIASES writes the package alias links.
+.PHONY: $(ALIASES)
+$(ALIASES): $(PACKAGE)
+	@mkdir -p $(dir $@)
+	@ln -fs $< $@
+	@echo "==> Package alias written: $@"
 
 source-id:
 	@echo $(PACKAGE_SOURCE_ID)
