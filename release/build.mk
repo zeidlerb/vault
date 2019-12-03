@@ -21,7 +21,10 @@ include $(RELEASE_DIR)/layer.mk
 
 # Should be set by layer.mk.
 ifeq ($(BUILD_LAYER_IMAGE_NAME),)
-$(error You must set BUILDER_LAYER_IMAGE_NAME, try invoking 'make build' instead.)
+$(error You must set BUILDER_LAYER_IMAGE_NAME)
+endif
+ifeq ($(BUILD_LAYER_IMAGE),)
+$(error You must set BUILDER_LAYER_IMAGE)
 endif
 
 YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")  
@@ -36,7 +39,7 @@ ifeq ($(BUILD_COMMAND),)
 $(error Unable to find build command for package spec ID $(PACKAGE_SPEC_ID))
 endif
 
-FULL_BUILD_COMMAND := export $(BUILD_ENV) && export $(BUILD_COMMAND)
+FULL_BUILD_COMMAND := export $(BUILD_ENV) && $(BUILD_COMMAND)
 
 OUTPUT_DIR := $(CACHE_ROOT)/packages
 _ := $(shell mkdir -p $(OUTPUT_DIR))
