@@ -87,6 +87,24 @@ build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/has
     -o $OUTPUT_DIR/{{.BINARY_NAME}}
   && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME {{.BINARY_NAME}}
 
+# package-aliases are a set of paths by which each package may be known, they are
+# templates which may refer to any input or meta field defined in this file.
+# Package aliases must be unique across all packages defined in this file.
+# If any package-alias is empty, it is ignored.
+#
+# We use package aliases to give human-readable names to packages, and to arrange
+# them in a directory hierarchy ready for further processing and distribution.
+# Each alias is written as a relative symbolic link to the dist/ directory.
+package-aliases:
+  - type: local
+    template: >-
+      {{.PUBLIC_PACKAGE_NAME}}.zip
+  # hc-releases-bundle is the name to use for upload to releases.hashicorp.com
+  # it is empty if this package is not public.
+  - type: hc-releases-bundle
+    template: >-
+      {{if .PUBLIC}}public/{{.BUNDLE_NAME}}/{{.PUBLIC_PACKAGE_NAME}}{{end}}.zip
+
 # meta contains additional metadata to pass into the build. This metadata does not
 # participate in the PACKAGE_SPEC_ID and so changing it does not directly change cache
 # keys for layers or packages. In addition, metadata may not be overridden per-package
@@ -116,7 +134,7 @@ meta:
       {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end}}
     # PACKAGE_NAME is the name of a specific package. Care must be taken to ensure this
     # is unique per package. The final zip file we produce per package uses this name.
-    PACKAGE_NAME: >-
+    PUBLIC_PACKAGE_NAME: >-
       {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end}}_{{.GOOS}}_{{.GOARCH}}
     # BUILD_JOB_NAME is the name of a job to build this package in CI. Care must be
     # taken that it is both unique within this set of packages, as well as compatible

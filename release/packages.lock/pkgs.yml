@@ -25,11 +25,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-569ab08a061840deacb0117b0eda0df487b777c1
-    PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 569ab08a061840deacb0117b0eda0df487b777c1
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -83,6 +83,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_darwin_386.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_386.zip
 - packagespecid: 8dd7e9512978886f019bb2e2147fc9c4fff831fb
   inputs:
     BINARY_NAME: vault
@@ -108,11 +113,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8dd7e9512978886f019bb2e2147fc9c4fff831fb
-    PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 8dd7e9512978886f019bb2e2147fc9c4fff831fb
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -166,6 +171,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_darwin_amd64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_amd64.zip
 - packagespecid: 0fe9177d73cdb1617ba82ce3d9ffb6f898441c6b
   inputs:
     BINARY_NAME: vault
@@ -191,11 +201,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-0fe9177d73cdb1617ba82ce3d9ffb6f898441c6b
-    PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 0fe9177d73cdb1617ba82ce3d9ffb6f898441c6b
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -249,6 +259,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_freebsd_386.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_386.zip
 - packagespecid: 27a35ff52f358f57350b87f41b5fcaba5a3f6ef8
   inputs:
     BINARY_NAME: vault
@@ -274,11 +289,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-27a35ff52f358f57350b87f41b5fcaba5a3f6ef8
-    PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 27a35ff52f358f57350b87f41b5fcaba5a3f6ef8
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -332,6 +347,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_freebsd_amd64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_amd64.zip
 - packagespecid: 31b2072a8180e11ac0f7b861c211eb09f3492c20
   inputs:
     BINARY_NAME: vault
@@ -357,11 +377,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-31b2072a8180e11ac0f7b861c211eb09f3492c20
-    PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 31b2072a8180e11ac0f7b861c211eb09f3492c20
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -415,6 +435,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_freebsd_arm.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_arm.zip
 - packagespecid: 490ff5c850dbc222c31979ae6f45359871eeca6b
   inputs:
     BINARY_NAME: vault
@@ -440,11 +465,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-490ff5c850dbc222c31979ae6f45359871eeca6b
-    PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 490ff5c850dbc222c31979ae6f45359871eeca6b
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -498,6 +523,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_linux_386.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_386.zip
 - packagespecid: 3c1d3ad6438a6338cfffc38a136c71abb2aee60a
   inputs:
     BINARY_NAME: vault
@@ -523,11 +553,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-3c1d3ad6438a6338cfffc38a136c71abb2aee60a
-    PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 3c1d3ad6438a6338cfffc38a136c71abb2aee60a
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -581,6 +611,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_linux_amd64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_amd64.zip
 - packagespecid: 4f8e8eaf62f2db07d5fc7229cd8437b861bd31c5
   inputs:
     BINARY_NAME: vault
@@ -606,11 +641,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-4f8e8eaf62f2db07d5fc7229cd8437b861bd31c5
-    PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 4f8e8eaf62f2db07d5fc7229cd8437b861bd31c5
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -664,6 +699,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_linux_arm.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm.zip
 - packagespecid: e2a12a221f3a7d4007461e8ad2abdd95db646d65
   inputs:
     BINARY_NAME: vault
@@ -689,11 +729,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-e2a12a221f3a7d4007461e8ad2abdd95db646d65
-    PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: e2a12a221f3a7d4007461e8ad2abdd95db646d65
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -747,6 +787,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_linux_arm64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm64.zip
 - packagespecid: 8dd4d5b684bb95841a2d21c180e1bccacf759fab
   inputs:
     BINARY_NAME: vault
@@ -772,11 +817,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8dd4d5b684bb95841a2d21c180e1bccacf759fab
-    PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 8dd4d5b684bb95841a2d21c180e1bccacf759fab
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -830,6 +875,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_netbsd_386.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_386.zip
 - packagespecid: 59b3845db386cd07d5e5652e31e39c353c97d165
   inputs:
     BINARY_NAME: vault
@@ -855,11 +905,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-59b3845db386cd07d5e5652e31e39c353c97d165
-    PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 59b3845db386cd07d5e5652e31e39c353c97d165
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -913,6 +963,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_netbsd_amd64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_amd64.zip
 - packagespecid: 11e76c2556ae2dbf7dc0aff951d61ba8e54ef78a
   inputs:
     BINARY_NAME: vault
@@ -938,11 +993,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-11e76c2556ae2dbf7dc0aff951d61ba8e54ef78a
-    PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 11e76c2556ae2dbf7dc0aff951d61ba8e54ef78a
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -996,6 +1051,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_openbsd_386.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_386.zip
 - packagespecid: c5a48ee34be37b6b7196a84635b893edeb6c1682
   inputs:
     BINARY_NAME: vault
@@ -1021,11 +1081,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-c5a48ee34be37b6b7196a84635b893edeb6c1682
-    PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: c5a48ee34be37b6b7196a84635b893edeb6c1682
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -1079,6 +1139,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_openbsd_amd64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_amd64.zip
 - packagespecid: 9b7c3baa92fa520659e6b2641e1a7569c2d35d12
   inputs:
     BINARY_NAME: vault
@@ -1104,11 +1169,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-9b7c3baa92fa520659e6b2641e1a7569c2d35d12
-    PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 9b7c3baa92fa520659e6b2641e1a7569c2d35d12
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -1162,6 +1227,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_solaris_amd64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_solaris_amd64.zip
 - packagespecid: fe8bb7b558961af0c0e1800b35ee0011821b2704
   inputs:
     BINARY_NAME: vault
@@ -1187,11 +1257,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-fe8bb7b558961af0c0e1800b35ee0011821b2704
-    PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: fe8bb7b558961af0c0e1800b35ee0011821b2704
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -1245,6 +1315,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_windows_386.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_386.zip
 - packagespecid: 98809527a0bdfb0e6510e26f49bb36759dc55b73
   inputs:
     BINARY_NAME: vault
@@ -1270,11 +1345,11 @@ packages:
       PRODUCT_VERSION_PRE='snapshot' YARN_VERSION='1.19.1-1' make -C ../ -f release/build.mk
       package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-98809527a0bdfb0e6510e26f49bb36759dc55b73
-    PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
     PACKAGE_SPEC_ID: 98809527a0bdfb0e6510e26f49bb36759dc55b73
     PRODUCT_NAME: vault
     PUBLIC: "YES"
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_5fffde4becb86886fa4054f390ff2fcfe57bb0c4-{{ checksum ".buildcache/cache-keys/base-5fffde4becb86886fa4054f390ff2fcfe57bb0c4"
@@ -1328,6 +1403,11 @@ packages:
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
     -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
+  aliases:
+  - type: local
+    path: vault_0.0.0-snapshot_windows_amd64.zip
+  - type: hc-releases-bundle
+    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_amd64.zip
 layers:
 - depth: 0
   final: false
