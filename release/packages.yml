@@ -67,6 +67,26 @@ inputs:
     PRODUCT_VERSION_PRE: >-
       {{with .PRODUCT_VERSION | strings.SplitN "-" 2}}{{if gt (len .) 1}}{{index . 1}}{{else}}"''"{{end}}{{end}}
 
+# build-command is a sequence of build steps to be run in the final builder layer
+# to produce the package. These build steps are templated and may refer to any of the
+# inputs, including rendered templates, but not meta data.
+#
+# The build command is passed 3 environment variables, in addition to all those specified by inputs.
+#
+#   - PACKAGE_SOURCE_ID       The source ID (usually the git commit SHA, unless build is dirty)
+#   - OUTPUT_DIR              Directory to write the executable and zip file to (will exist already)
+#   - PACKAGE_ZIP_NAME        The name of the package zip file to create (relative to OUTPUT_DIR)
+#
+# NOTE: You MUST NOT use single quotes in the build command, because at present we do no escaping.
+build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
+  go build -v -tags "{{.BUILD_TAGS}}"
+    -ldflags "
+      -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
+      -X $VERSION_PKG_PATH.Version={{.PRODUCT_VERSION_MMP}}
+      -X $VERSION_PKG_PATH.VersionPrerelease={{.PRODUCT_VERSION_PRE}}"
+    -o $OUTPUT_DIR/{{.BINARY_NAME}}
+  && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME {{.BINARY_NAME}}
+
 # meta contains additional metadata to pass into the build. This metadata does not
 # participate in the PACKAGE_SPEC_ID and so changing it does not directly change cache
 # keys for layers or packages. In addition, metadata may not be overridden per-package
@@ -103,14 +123,14 @@ meta:
     # with the CI system's naming conventions.
     BUILD_JOB_NAME: >-
       package_{{if .PRODUCT_EDITION}}{{.PRODUCT_EDITION}}_{{end}}{{.GOOS}}_{{.GOARCH}}
-  # PACKAGE_OUT_ROOT is the root directory we output the package to.
-  # It must be a relative path (relative to the root of the repo).
-  # We extend this with the calculated PACKAGE_SPEC_ID and PACKAGE_SOURCE_ID during
-  # the build.
-  PACKAGE_OUT_ROOT: >-
-    {{ "dist" -}}
-    /{{- if .PUBLIC}}public{{else}}private{{end -}}
-    /{{- .PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end -}}
+    # PACKAGE_OUT_ROOT is the root directory we output the package to.
+    # It must be a relative path (relative to the root of the repo).
+    # We extend this with the calculated PACKAGE_SPEC_ID and PACKAGE_SOURCE_ID during
+    # the build.
+    PACKAGE_OUT_ROOT: >-
+      {{ "dist" -}}
+      /{{- if .PUBLIC}}public{{else}}private{{end -}}
+      /{{- .PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end -}}
 
 # packages is the full set of packages we are able to build based on a single commit
 # in this repo. Each package is a map where the keys are the names of environment
@@ -143,8 +163,9 @@ packages:
 # in a linear build. Each layer contains a Dockerfile. All the layers
 # together produce the final builder image used to compile binaries.
 #
-# The partial Dockerfiles may contain references to any of the variables
-# including rendered template variables. The checksum of the cumulative
+# The partial Dockerfiles may contain references to any of the inputs
+# including rendered input templates, but may not reference meta data.
+# The checksum of the cumulative
 # layers up to each layer is calculated using the source included as well
 # as the rendered Dockerfile. Thus you can control cacheability by careful
 # use of variables. It is recommended not to use any variables that vary per-

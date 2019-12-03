@@ -1,4 +1,4 @@
-# build.mk
+#/$(PACKAGE_ZIP_NAME) build.mk
 #
 # build.mk builds the packages defined in packages.lock, first building all necessary
 # builder images.
@@ -12,120 +12,68 @@ include $(shell dirname $(lastword $(MAKEFILE_LIST)))/config.mk
 
 # Make sure we have all the necessary inputs.
 # Ensure all of these are set in packages.lock
-ifeq ($(BUILDER_LAYER_ID),)
-$(error You must set BUILDER_LAYER_ID, try invoking 'make build' instead.)
-endif
-ifeq ($(BINARY_NAME),)
-$(error You must set BINARY_NAME, try invoking 'make build' instead.)
-endif
-ifeq ($(BUNDLE_NAME),)
-$(error You must set BUNDLE_NAME, try invoking 'make build' instead.)
-endif
-ifeq ($(PRODUCT_VERSION),)
-$(error You must set PRODUCT_VERSION, try invoking 'make build' instead.)
-endif
-ifeq ($(PRODUCT_VERSION_PRE),)
-$(error You must set PRODUCT_VERSION_PRE, try invoking 'make build' instead.)
-endif
-ifeq ($(PRODUCT_VERSION_MMP),)
-$(error You must set PRODUCT_VERSION_MMP, try invoking 'make build' instead.)
-endif
-ifeq ($(BUILD_JOB_NAME),)
-$(error You must set BUILD_JOB_NAME try invoking 'make build' instead.)
-endif
-ifeq ($(PACKAGE_NAME),)
-$(error You must set PACKAGE_NAME, try invoking 'make build' instead.)
-endif
-ifeq ($(BUILDER_LAYER_ID),)
-$(error You must set BUILDER_LAYER_ID, try invoking 'make build' instead.)
-endif
 ifeq ($(PACKAGE_SPEC_ID),)
 $(error You must set PACKAGE_SPEC_ID, try invoking 'make build' instead.)
-endif
-ifeq ($(PACKAGE_OUT_ROOT),)
-$(error You must set PACKAGE_OUT_ROOT, try invoking 'make build' instead.)
 endif
 
 # Include the layers driver.
 include $(RELEASE_DIR)/layer.mk
 
-VERSION_PATH := github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version
+# Should be set by layer.mk.
+ifeq ($(BUILD_LAYER_IMAGE_NAME),)
+$(error You must set BUILDER_LAYER_IMAGE_NAME, try invoking 'make build' instead.)
+endif
 
-# LDFLAGS: These linker commands inject build metadata into the binary.
-LDFLAGS += -X $(VERSION_PATH).GitCommit=$(PACKAGE_SOURCE_ID)
-LDFLAGS += -X $(VERSION_PATH).Version=$(PRODUCT_VERSION_MMP)
-LDFLAGS += -X $(VERSION_PATH).VersionPrerelease=$(PRODUCT_VERSION_PRE)
+YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")  
 
-# OUT_DIR tells the Go toolchain where to place the binary.
-OUT_DIR := $(PACKAGE_OUT_ROOT)/$(PACKAGE_SPEC_ID)/$(PACKAGE_SOURCE_ID)
-PACKAGE_FILENAME := $(PACKAGE_NAME).zip
-# PACKAGE is the zip file containing a specific binary.
-PACKAGE := $(OUT_DIR)/$(PACKAGE_FILENAME)
+BUILD_ENV := $(shell yq -r '$(YQ_PACKAGE_PATH) | .inputs | to_entries[] | "\(.key)=\(.value)"' < $(LOCK))
+BUILD_COMMAND := $(shell yq -r '$(YQ_PACKAGE_PATH) | .["build-command"]' < $(LOCK))
 
-# GO_BUILD_VARS are environment variables affecting the go build
-# command that will be passed through to the go build command inside the
-# build container. This is a hand-picked list, because some like GOPATH you
-# probably do not want the container build to inherit.
-#
-# Usually, you will be building one of the packages defined in packages.yml
-# which should set the necessary vars for a given package.
-#
-# Any of these which are SET (even if empty) are passed through to 'go build'.
-# Any which are not set will have default values on the build image.
-GO_BUILD_VARS := \
-	AR                      CC                      CGO_CFLAGS \
-	CGO_CFLAGS_ALLOW        CGO_CFLAGS_DISALLOW     CGO_CPPFLAGS \
-	CGO_CPPFLAGS_ALLOW      CGO_CPPFLAGS_DISALLOW   CGO_CXXFLAGS \
-	CGO_CXXFLAGS_ALLOW      CGO_CXXFLAGS_DISALLOW   CGO_ENABLED \
-	CGO_FFLAGS              CGO_FFLAGS_ALLOW        CGO_FFLAGS_DISALLOW \
-	CGO_LDFLAGS             CGO_LDFLAGS_ALLOW       CGO_LDFLAGS_DISALLOW \
-	CXX                     GCCGO                   GCCGOTOOLDIR \
-	GIT_ALLOW_PROTOCOL      GO386                   GOARCH \
-	GOARM                   GOBIN                   GOCACHE \
-	GOFLAGS                 GOMIPS                  GOMIPS64 \
-	GOOS                    GOPROXY                 GORACE \
-	GO_EXTLINK_ENABLED      PKG_CONFIG
+ifeq ($(BUILD_ENV),)
+$(error Unable to find build inputs for package spec ID $(PACKAGE_SPEC_ID))
+endif
+ifeq ($(BUILD_COMMAND),)
+$(error Unable to find build command for package spec ID $(PACKAGE_SPEC_ID))
+endif
 
-# For any GO_BUILD_VARS that are explicitly set, stick them in GO_BUILD_ENV
-# for passing to 'go build'.
-GO_BUILD_ENV := $(shell \
-	for VAR in $(GO_BUILD_VARS); do \
-		[ -z "$${!VAR+x}" ] || echo "$$VAR='$${!VAR}'"; \
-	done; \
-)
+FULL_BUILD_COMMAND := export $(BUILD_ENV) && export $(BUILD_COMMAND)
 
-# BUILD_COMMAND compiles the Go binary.
-BUILD_COMMAND := \
-	$(GO_BUILD_ENV) \
-	go build -v \
-	-tags '$(BUILD_TAGS)' \
-	-ldflags '$(LDFLAGS)' \
-	-o /$(OUT_DIR)/$(BINARY_NAME)
-
-# ARCHIVE_COMMAND creates the package archive from the binary.
-ARCHIVE_COMMAND := cd /$(OUT_DIR) && zip $(PACKAGE_FILENAME) $(BINARY_NAME)
+OUTPUT_DIR := $(CACHE_ROOT)/packages
+_ := $(shell mkdir -p $(OUTPUT_DIR))
+# PACKAGE_NAME is the input-addressed name of the package.
+PACKAGE_NAME := $(PACKAGE_SOURCE_ID)-$(PACKAGE_SPEC_ID)
+PACKAGE_ZIP_NAME := $(PACKAGE_NAME).zip
+PACKAGE := $(OUTPUT_DIR)/$(PACKAGE_ZIP_NAME)
+META_YAML_NAME := $(PACKAGE_NAME)-meta.yml
+META := $(OUTPUT_DIR)/$(META_YAML_NAME)
 
 ### Docker run command configuration.
 
 DOCKER_SHELL := /bin/bash -euo pipefail -c
 
-BUILD_CONTAINER_NAME := build-$(PACKAGE_NAME)
-DOCKER_RUN_FLAGS := --name $(BUILD_CONTAINER_NAME)
+DOCKER_RUN_ENV_FLAGS := \
+	-e PACKAGE_SOURCE_ID=$(PACKAGE_SOURCE_ID) \
+	-e OUTPUT_DIR=/$(OUTPUT_DIR) \
+	-e PACKAGE_ZIP_NAME=$(PACKAGE_ZIP_NAME)
+
+BUILD_CONTAINER_NAME := build-$(PACKAGE_SPEC_ID)-$(PACKAGE_SOURCE_ID)
+DOCKER_RUN_FLAGS := $(DOCKER_RUN_ENV_FLAGS) --name $(BUILD_CONTAINER_NAME)
 # DOCKER_RUN_COMMAND ties everything together to build the final package as a
 # single docker run invocation.
-DOCKER_RUN_COMMAND = docker run $(DOCKER_RUN_FLAGS) $(BUILD_LAYER_IMAGE_NAME) $(DOCKER_SHELL) "$(BUILD_COMMAND) && $(ARCHIVE_COMMAND)"
-DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):/$(PACKAGE) $(PACKAGE)
+DOCKER_RUN_COMMAND = docker run $(DOCKER_RUN_FLAGS) $(BUILD_LAYER_IMAGE_NAME) $(DOCKER_SHELL) '$(FULL_BUILD_COMMAND)'
+DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):/$(OUTPUT_DIR)/$(PACKAGE_ZIP_NAME) $(PACKAGE)
 
 .PHONY: package
 package: $(PACKAGE)
 	@echo $<
 
+$(META): $(LOCK)
+	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
+
 # PACKAGE builds the package.
-$(PACKAGE): $(BUILD_LAYER_IMAGE)
+$(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
-	@rm -rf ./$(OUT_DIR)
-	@mkdir -p ./$(OUT_DIR)
 	@docker rm -f $(BUILD_CONTAINER_NAME) > /dev/null 2>&1 || true # Speculative cleanup.
 	$(DOCKER_RUN_COMMAND)
 	$(DOCKER_CP_COMMAND)
