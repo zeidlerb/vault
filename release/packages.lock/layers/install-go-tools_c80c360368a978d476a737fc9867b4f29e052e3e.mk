@@ -1,0 +1,9 @@
+
+LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_ID             := install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_BASE_LAYER     := install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_SOURCE_INCLUDE := 
+LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_SOURCE_EXCLUDE := 
+LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_CACHE_KEY_FILE := .buildcache/cache-keys/install-go-tools-c80c360368a978d476a737fc9867b4f29e052e3e
+LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_ARCHIVE_FILE   := .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+$(eval $(call LAYER,$(LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_ID),$(LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_BASE_LAYER),$(LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_SOURCE_INCLUDE),$(LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_SOURCE_EXCLUDE),$(LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_CACHE_KEY_FILE),$(LAYER_install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e_ARCHIVE_FILE)))
+
