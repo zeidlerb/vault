@@ -6,12 +6,12 @@
 #
 # packages.yml is a convenience file for the human management of large numbers of
 # alternate packages, allowing default and templated values. We generate another
-# file from this one, called packages.lock which contains the fully expanded set
+# artifact from this one, called packages.lock which contains the fully expanded set
 # of package specs. This fully expanded file is in turn used to generate CI config
 # to build specific sets of packages.
 #
 # Each package defined by this file is a set of environment variables that are
-# passed into the build command 'make package'. See GNUMakefile in this directory.
+# passed into the build command 'make package'. See Makefile in this directory.
 
 # inputs are a set of environment variables that may affect the set of bytes produced
 # for a given package. Note that a package is a zip file containing the binary, so
@@ -67,11 +67,11 @@ inputs:
     PRODUCT_VERSION_PRE: >-
       {{with .PRODUCT_VERSION | strings.SplitN "-" 2}}{{if gt (len .) 1}}{{index . 1}}{{else}}"''"{{end}}{{end}}
 
-# build-command is a sequence of build steps to be run in the final builder layer
-# to produce the package. These build steps are templated and may refer to any of the
+# build-command is a templated bash script to be run in the final builder layer
+# to produce the package. It may refer to any of the
 # inputs, including rendered templates, but not meta data.
 #
-# The build command is passed 3 environment variables, in addition to all those specified by inputs.
+# The build command is passed 3 environment variables, in addition to all those specified as inputs.
 #
 #   - PACKAGE_SOURCE_ID       The source ID (usually the git commit SHA, unless build is dirty)
 #   - OUTPUT_DIR              Directory to write the executable and zip file to (will exist already)
@@ -95,6 +95,8 @@ build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/has
 # We use package aliases to give human-readable names to packages, and to arrange
 # them in a directory hierarchy ready for further processing and distribution.
 # Each alias is written as a relative symbolic link to the dist/ directory.
+#
+# At least one alias must render to a nonempty string.
 package-aliases:
   - type: local
     template: >-
@@ -103,7 +105,7 @@ package-aliases:
   # it is empty if this package is not public.
   - type: hc-releases-bundle
     template: >-
-      {{if .PUBLIC}}public/{{.BUNDLE_NAME}}/{{.PUBLIC_PACKAGE_NAME}}{{end}}.zip
+      {{if .PUBLIC}}public/{{.BUNDLE_NAME}}/{{.PUBLIC_PACKAGE_NAME}}.zip{{end}}
 
 # meta contains additional metadata to pass into the build. This metadata does not
 # participate in the PACKAGE_SPEC_ID and so changing it does not directly change cache
