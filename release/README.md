@@ -37,11 +37,6 @@ translates that definition into two artifacts: `packages.lock` and `layers.lock`
 Once these are updated, you can run `make commands` to generate a set of commands
 that you can run locally to produce each package.
 
-Each command in `.tmp/all-commands.sh` builds one of tha packages by calling
-`build.mk` which orchestrates composing the build layers implied by that
-package command, and finally building and then outputting the package file to
-your local filesystem.
-
 The convenience command `make build` selects the first of these packages that
 matches your local GOOS and GOARCH and builds that one.
 
