@@ -87,23 +87,23 @@ jobs:
     steps:
       - checkout
       - write-cache-keys
-      - "load-package_darwin_386"
-      - "load-package_darwin_amd64"
-      - "load-package_freebsd_386"
-      - "load-package_freebsd_amd64"
-      - "load-package_freebsd_arm"
-      - "load-package_linux_386"
-      - "load-package_linux_amd64"
-      - "load-package_linux_arm"
-      - "load-package_linux_arm64"
-      - "load-package_netbsd_386"
-      - "load-package_netbsd_amd64"
-      - "load-package_openbsd_386"
-      - "load-package_openbsd_amd64"
-      - "load-package_solaris_amd64"
-      - "load-package_windows_386"
-      - "load-package_windows_amd64"
-      - run: ls -lahR dist/
+      - load-package_darwin_386
+      - load-package_darwin_amd64
+      - load-package_freebsd_386
+      - load-package_freebsd_amd64
+      - load-package_freebsd_arm
+      - load-package_linux_386
+      - load-package_linux_amd64
+      - load-package_linux_arm
+      - load-package_linux_arm64
+      - load-package_netbsd_386
+      - load-package_netbsd_amd64
+      - load-package_openbsd_386
+      - load-package_openbsd_amd64
+      - load-package_solaris_amd64
+      - load-package_windows_386
+      - load-package_windows_amd64
+      - run: ls -lahR .buildcache/packages
       - run: tar -czf dist.tar.gz dist
       - store_artifacts:
           path: dist
@@ -145,7 +145,7 @@ jobs:
           key: 'package-c14958a9868070f9b60cc04617b9b04ae0507382-{{checksum ".buildcache/cache-keys/package-c14958a9868070f9b60cc04617b9b04ae0507382"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -194,7 +194,7 @@ jobs:
           key: 'package-432991386eb1a208c5f51632a0eacd8cf24d551d-{{checksum ".buildcache/cache-keys/package-432991386eb1a208c5f51632a0eacd8cf24d551d"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -243,7 +243,7 @@ jobs:
           key: 'package-b63c40615ddcded3dbb06cf70ae4086e864c4827-{{checksum ".buildcache/cache-keys/package-b63c40615ddcded3dbb06cf70ae4086e864c4827"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -292,7 +292,7 @@ jobs:
           key: 'package-6a17c37c835b272e7f2b5f9636a6427508660aae-{{checksum ".buildcache/cache-keys/package-6a17c37c835b272e7f2b5f9636a6427508660aae"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -341,7 +341,7 @@ jobs:
           key: 'package-2cd5577c6ca816899878a259e9d17031b9f7f91b-{{checksum ".buildcache/cache-keys/package-2cd5577c6ca816899878a259e9d17031b9f7f91b"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -390,7 +390,7 @@ jobs:
           key: 'package-1c6c7325c948ada96d01cc8a425cea96f62cc631-{{checksum ".buildcache/cache-keys/package-1c6c7325c948ada96d01cc8a425cea96f62cc631"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -439,7 +439,7 @@ jobs:
           key: 'package-6860b62705456fee00bdd0b303e0daeaff2cb424-{{checksum ".buildcache/cache-keys/package-6860b62705456fee00bdd0b303e0daeaff2cb424"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -488,7 +488,7 @@ jobs:
           key: 'package-a95c50490fdcc5827f4f888de63b1c3625705641-{{checksum ".buildcache/cache-keys/package-a95c50490fdcc5827f4f888de63b1c3625705641"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -537,7 +537,7 @@ jobs:
           key: 'package-6be6aeb734638041439016e28917323f2a9d2e16-{{checksum ".buildcache/cache-keys/package-6be6aeb734638041439016e28917323f2a9d2e16"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -586,7 +586,7 @@ jobs:
           key: 'package-3a02ec2dfcbd09ebe346991f263986b93d357dbb-{{checksum ".buildcache/cache-keys/package-3a02ec2dfcbd09ebe346991f263986b93d357dbb"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -635,7 +635,7 @@ jobs:
           key: 'package-9e90bd9ae42168098d544edb6a64c1cddf595943-{{checksum ".buildcache/cache-keys/package-9e90bd9ae42168098d544edb6a64c1cddf595943"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -684,7 +684,7 @@ jobs:
           key: 'package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d-{{checksum ".buildcache/cache-keys/package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -733,7 +733,7 @@ jobs:
           key: 'package-8cb6f7c187d59ae3da10f464998c59990a79ed59-{{checksum ".buildcache/cache-keys/package-8cb6f7c187d59ae3da10f464998c59990a79ed59"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -782,7 +782,7 @@ jobs:
           key: 'package-8fb64730f31b9c7fec77e67460263c5e079d7355-{{checksum ".buildcache/cache-keys/package-8fb64730f31b9c7fec77e67460263c5e079d7355"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -831,7 +831,7 @@ jobs:
           key: 'package-16e514f908fcbd60fa0b3607467ee6711df5477e-{{checksum ".buildcache/cache-keys/package-16e514f908fcbd60fa0b3607467ee6711df5477e"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
@@ -880,7 +880,7 @@ jobs:
           key: 'package-f573dc503f6d36a804e21563c868588e4f713cdf-{{checksum ".buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages

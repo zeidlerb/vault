@@ -50,7 +50,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -107,7 +107,7 @@ jobs:
     - restore_cache:
         key: package-f573dc503f6d36a804e21563c868588e4f713cdf-{{checksum ".buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf"}}
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - run:
         command: tar -czf dist.tar.gz dist
     - store_artifacts:
@@ -165,7 +165,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -223,7 +223,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -300,7 +300,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -358,7 +358,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -416,7 +416,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -530,7 +530,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -779,7 +779,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -837,7 +837,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -895,7 +895,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -953,7 +953,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -1011,7 +1011,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -1069,7 +1069,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -1127,7 +1127,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -1185,7 +1185,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
@@ -1243,7 +1243,7 @@ jobs:
     - run:
         command: make -C release package
     - run:
-        command: ls -lahR dist/
+        command: ls -lahR .buildcache/packages
     - store_artifacts:
         destination: packages
         path: .buildcache/packages
