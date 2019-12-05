@@ -23,8 +23,10 @@ AUTO_INSTALL_TOOLS ?= NO
 # Typically this is 'release'.
 RELEASE_DIR := $(REPO_ROOT)/release
 
+CACHE_ROOT_REL ?= .buildcache
+
 # CACHE_ROOT is the build cache directory.
-CACHE_ROOT ?= $(REPO_ROOT)/.buildcache
+CACHE_ROOT ?= $(REPO_ROOT)/$(CACHE_ROOT_REL)
 
 # SPEC is the human-managed description of which packages we are able to build.
 SPEC := $(RELEASE_DIR)/packages.yml

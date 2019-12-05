@@ -18,12 +18,17 @@ packages:
 commands:
 	@$(MAKE) -f packages.mk commands
 
+DEFAULT_PACKAGE_YQ := .packages[] | select(.inputs.GOOS=="$(GOOS)" and .inputs.GOARCH=="$(GOARCH)") 
+
 # build is a convenience target for local builds, do not use in CI.
 # Instead, use `make package`.
 build: $(LOCK)
 	@echo "==> Building default package for GOOS=$(GOOS) GOARCH=$(GOARCH)"
-	@COMMAND=$$(yq -r '.packages[] | \
-		select(.inputs.GOOS=="$(GOOS)" and .inputs.GOARCH=="$(GOARCH)") | \
+	@echo "SOURCE ID: $(PACKAGE_SOURCE_ID)"
+	@ALIASES=$$(yq -r '$(DEFAULT_PACKAGE_YQ) | \
+		.aliases[] | "alias type:\(.type) path:\(.path)"' < $(LOCK) | column -t); \
+		echo "$$ALIASES"
+	@COMMAND=$$(yq -r '$(DEFAULT_PACKAGE_YQ) | \
 		.meta.LOCAL_BUILD_COMMAND' < $(LOCK) | head -n1); \
 		echo "$$COMMAND"; \
 		$(SHELL) "$$COMMAND"
