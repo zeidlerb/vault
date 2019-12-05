@@ -29,7 +29,8 @@ build: $(LOCK)
 		$(SHELL) "$$COMMAND"
 
 # MK is shorthand for changing to repo root and selecting a make target
-# from a file in this directory.
+# from a file in this directory. All makefiles in this directory assume
+# the current working directory is the repo root.
 MK := $(MAKE) -C $(REPO_ROOT) -f $(RELEASE_DIR)/
 
 package:
@@ -54,9 +55,6 @@ load-builder-cache:
 write-package-cache-keys: $(PACKAGE_CACHE_KEY_FILES)
 	@echo "==> Package cache keys written:"
 	@echo $(PACKAGE_CACHE_KEY_FILES)
-
-build-all: commands
-	cd $(REPO_ROOT) && $(SHELL) "$$(cat release/.tmp/all-commands.sh)"
 
 .PHONY: $(PACKAGE_CACHE_KEY_FILES)
 $(PACKAGE_CACHE_KEY_FILES):

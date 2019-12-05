@@ -18,7 +18,7 @@ packages:
     BUILD_JOB_NAME: package_darwin_386
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=c14958a9868070f9b60cc04617b9b04ae0507382
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=c14958a9868070f9b60cc04617b9b04ae0507382
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-c14958a9868070f9b60cc04617b9b04ae0507382
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -102,7 +102,7 @@ packages:
     BUILD_JOB_NAME: package_darwin_amd64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=432991386eb1a208c5f51632a0eacd8cf24d551d
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=432991386eb1a208c5f51632a0eacd8cf24d551d
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-432991386eb1a208c5f51632a0eacd8cf24d551d
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -186,7 +186,7 @@ packages:
     BUILD_JOB_NAME: package_freebsd_386
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=b63c40615ddcded3dbb06cf70ae4086e864c4827
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=b63c40615ddcded3dbb06cf70ae4086e864c4827
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-b63c40615ddcded3dbb06cf70ae4086e864c4827
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -270,7 +270,7 @@ packages:
     BUILD_JOB_NAME: package_freebsd_amd64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=6a17c37c835b272e7f2b5f9636a6427508660aae
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6a17c37c835b272e7f2b5f9636a6427508660aae
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6a17c37c835b272e7f2b5f9636a6427508660aae
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -354,7 +354,7 @@ packages:
     BUILD_JOB_NAME: package_freebsd_arm
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=2cd5577c6ca816899878a259e9d17031b9f7f91b
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=2cd5577c6ca816899878a259e9d17031b9f7f91b
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-2cd5577c6ca816899878a259e9d17031b9f7f91b
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -438,7 +438,7 @@ packages:
     BUILD_JOB_NAME: package_linux_386
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=1c6c7325c948ada96d01cc8a425cea96f62cc631
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=1c6c7325c948ada96d01cc8a425cea96f62cc631
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-1c6c7325c948ada96d01cc8a425cea96f62cc631
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -522,7 +522,7 @@ packages:
     BUILD_JOB_NAME: package_linux_amd64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=6860b62705456fee00bdd0b303e0daeaff2cb424
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6860b62705456fee00bdd0b303e0daeaff2cb424
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6860b62705456fee00bdd0b303e0daeaff2cb424
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -606,7 +606,7 @@ packages:
     BUILD_JOB_NAME: package_linux_arm
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=a95c50490fdcc5827f4f888de63b1c3625705641
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=a95c50490fdcc5827f4f888de63b1c3625705641
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-a95c50490fdcc5827f4f888de63b1c3625705641
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -690,7 +690,7 @@ packages:
     BUILD_JOB_NAME: package_linux_arm64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=6be6aeb734638041439016e28917323f2a9d2e16
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6be6aeb734638041439016e28917323f2a9d2e16
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6be6aeb734638041439016e28917323f2a9d2e16
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -774,7 +774,7 @@ packages:
     BUILD_JOB_NAME: package_netbsd_386
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=3a02ec2dfcbd09ebe346991f263986b93d357dbb
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=3a02ec2dfcbd09ebe346991f263986b93d357dbb
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-3a02ec2dfcbd09ebe346991f263986b93d357dbb
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -858,7 +858,7 @@ packages:
     BUILD_JOB_NAME: package_netbsd_amd64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=9e90bd9ae42168098d544edb6a64c1cddf595943
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=9e90bd9ae42168098d544edb6a64c1cddf595943
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-9e90bd9ae42168098d544edb6a64c1cddf595943
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -942,7 +942,7 @@ packages:
     BUILD_JOB_NAME: package_openbsd_386
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=2dd0844dea7e18c403b51b4ac20e4180b0ce768d
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=2dd0844dea7e18c403b51b4ac20e4180b0ce768d
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -1026,7 +1026,7 @@ packages:
     BUILD_JOB_NAME: package_openbsd_amd64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=8cb6f7c187d59ae3da10f464998c59990a79ed59
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=8cb6f7c187d59ae3da10f464998c59990a79ed59
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8cb6f7c187d59ae3da10f464998c59990a79ed59
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -1110,7 +1110,7 @@ packages:
     BUILD_JOB_NAME: package_solaris_amd64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=8fb64730f31b9c7fec77e67460263c5e079d7355
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=8fb64730f31b9c7fec77e67460263c5e079d7355
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8fb64730f31b9c7fec77e67460263c5e079d7355
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -1194,7 +1194,7 @@ packages:
     BUILD_JOB_NAME: package_windows_386
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=16e514f908fcbd60fa0b3607467ee6711df5477e
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=16e514f908fcbd60fa0b3607467ee6711df5477e
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-16e514f908fcbd60fa0b3607467ee6711df5477e
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
@@ -1278,7 +1278,7 @@ packages:
     BUILD_JOB_NAME: package_windows_amd64
     BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACAKGE_SPEC_ID=f573dc503f6d36a804e21563c868588e4f713cdf
+    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=f573dc503f6d36a804e21563c868588e4f713cdf
       PRODUCT_REVISION= make -C ../ -f release/build.mk package
     PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
