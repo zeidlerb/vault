@@ -127,7 +127,7 @@ BREW_TOOLS := gln:coreutils gtouch:coreutils gtar:gnu-tar jq:jq yq:python-yq
 $(eval $(call REQ_TOOLS,core,brew,brew install,$(BREW_TOOLS)))
 else
 # If not mac, assume debian and try to install using apt.
-APT_TOOLS := pip3:python3-pip jq:jq
+APT_TOOLS := pip3:python3-pip jq:jq column:bsdmainutils
 $(eval $(call REQ_TOOLS,apt-tools,apt-get,sudo apt-get update && sudo apt-get install -y,$(APT_TOOLS)))
 PIP_TOOLS := yq:yq
 $(eval $(call REQ_TOOLS,pip-tools,pip3,pip3 install,$(PIP_TOOLS)))
