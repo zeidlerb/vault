@@ -123,7 +123,7 @@ endef
 
 ifeq ($(shell uname),Darwin)
 # On Mac, try to install things with homebrew.
-BREW_TOOLS := gtouch:coreutils gtar:gnu-tar jq:jq yq:python-yq
+BREW_TOOLS := gln:coreutils gtouch:coreutils gtar:gnu-tar jq:jq yq:python-yq
 $(eval $(call REQ_TOOLS,core,brew,brew install,$(BREW_TOOLS)))
 else
 # If not mac, assume debian and try to install using apt.
@@ -134,14 +134,16 @@ $(eval $(call REQ_TOOLS,pip-tools,pip3,pip3 install,$(PIP_TOOLS)))
 
 endif
 
-# We rely on GNU touch and tar. On macOS, we assume they are installed as gtouch and gtar
-# by homebrew.
+# We rely on GNU touch, tar and ln.
+# On macOS, we assume they are installed as gtouch, gtar, gln by homebrew.
 ifeq ($(shell uname),Darwin)
 TOUCH := gtouch
 TAR := gtar
+LN := gln
 else
 TOUCH := touch
 TAR := tar
+LN := ln
 endif
 
 ### Utilities and constants
