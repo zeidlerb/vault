@@ -16,6 +16,14 @@ ifeq ($(PACKAGE_SPEC_ID),)
 $(error You must set PACKAGE_SPEC_ID, try invoking 'make build' instead.)
 endif
 
+# PACKAGES_ROOT holds the package store, as well as other package aliases.
+PACKAGES_ROOT := $(CACHE_ROOT_REL)/packages
+# PACKAGE_STORE is where we store all the package files themselves
+# addressed by their input hashes.
+PACKAGE_STORE := $(PACKAGES_ROOT)/store
+# BY_ALIAS is where we store alias symlinks to the store.
+BY_ALIAS      := $(PACKAGES_ROOT)/by-alias
+
 # Include the layers driver.
 include $(RELEASE_DIR)/layer.mk
 
@@ -31,8 +39,8 @@ YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")
 
 BUILD_ENV := $(shell yq -r '$(YQ_PACKAGE_PATH) | .inputs | to_entries[] | "\(.key)=\(.value)"' < $(LOCK))
 BUILD_COMMAND := $(shell yq -r '$(YQ_PACKAGE_PATH) | .["build-command"]' < $(LOCK))
-ALIASES := $(shell yq -r '$(YQ_PACKAGE_PATH) | .aliases[] | .path' < $(LOCK))
-ALIASES := $(addprefix dist/,$(ALIASES))
+ALIASES := $(shell yq -r '$(YQ_PACKAGE_PATH) | .aliases[] | "\(.type)/\(.path)"' < $(LOCK))
+ALIASES := $(addprefix $(BY_ALIAS)/,$(ALIASES))
 
 ifeq ($(BUILD_ENV),)
 $(error Unable to find build inputs for package spec ID $(PACKAGE_SPEC_ID))
@@ -41,9 +49,8 @@ ifeq ($(BUILD_COMMAND),)
 $(error Unable to find build command for package spec ID $(PACKAGE_SPEC_ID))
 endif
 
-FULL_BUILD_COMMAND := export $(BUILD_ENV) && $(BUILD_COMMAND)
-
-OUTPUT_DIR := $(CACHE_ROOT)/packages
+# We always write the actual package files addressed by their input hash.
+OUTPUT_DIR := $(PACKAGE_STORE)
 _ := $(shell mkdir -p $(OUTPUT_DIR))
 # PACKAGE_NAME is the input-addressed name of the package.
 PACKAGE_NAME := $(PACKAGE_SOURCE_ID)-$(PACKAGE_SPEC_ID)
@@ -52,13 +59,18 @@ PACKAGE := $(OUTPUT_DIR)/$(PACKAGE_ZIP_NAME)
 META_YAML_NAME := $(PACKAGE_NAME)-meta.yml
 META := $(OUTPUT_DIR)/$(META_YAML_NAME)
 
+# In the container, place the output dir at root. This makes 'docker cp' easier.
+CONTAINER_OUTPUT_DIR := /$(OUTPUT_DIR)
+
+FULL_BUILD_COMMAND := export $(BUILD_ENV) && mkdir -p $(CONTAINER_OUTPUT_DIR) && $(BUILD_COMMAND)
+
 ### Docker run command configuration.
 
 DOCKER_SHELL := /bin/bash -euo pipefail -c
 
 DOCKER_RUN_ENV_FLAGS := \
 	-e PACKAGE_SOURCE_ID=$(PACKAGE_SOURCE_ID) \
-	-e OUTPUT_DIR=/$(OUTPUT_DIR) \
+	-e OUTPUT_DIR=$(CONTAINER_OUTPUT_DIR) \
 	-e PACKAGE_ZIP_NAME=$(PACKAGE_ZIP_NAME)
 
 BUILD_CONTAINER_NAME := build-$(PACKAGE_SPEC_ID)-$(PACKAGE_SOURCE_ID)
@@ -66,14 +78,11 @@ DOCKER_RUN_FLAGS := $(DOCKER_RUN_ENV_FLAGS) --name $(BUILD_CONTAINER_NAME)
 # DOCKER_RUN_COMMAND ties everything together to build the final package as a
 # single docker run invocation.
 DOCKER_RUN_COMMAND = docker run $(DOCKER_RUN_FLAGS) $(BUILD_LAYER_IMAGE_NAME) $(DOCKER_SHELL) '$(FULL_BUILD_COMMAND)'
-DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):/$(OUTPUT_DIR)/$(PACKAGE_ZIP_NAME) $(PACKAGE)
+DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):$(CONTAINER_OUTPUT_DIR)/$(PACKAGE_ZIP_NAME) $(PACKAGE)
 
 .PHONY: package
-package: $(PACKAGE)
+package: $(ALIASES)
 	@echo $<
-
-.PHONY: aliases
-aliases: $(ALIASES)
 
 $(META): $(LOCK)
 	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
