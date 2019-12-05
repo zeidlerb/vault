@@ -58,8 +58,8 @@ jobs:
       - checkout
       - write-cache-keys
       {{- range $packages}}
-      - "load-{{.meta.BUILD_JOB_NAME}}"{{end}}
-      - run: ls -lahR dist/
+      - load-{{.meta.BUILD_JOB_NAME}}{{end}}
+      - run: ls -lahR .buildcache/packages
       - run: tar -czf dist.tar.gz dist
       - store_artifacts:
           path: dist
@@ -92,7 +92,7 @@ jobs:
           key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
-      - run: ls -lahR dist/
+      - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
           destination: packages
