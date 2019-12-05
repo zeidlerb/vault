@@ -50,6 +50,10 @@ ALWAYS_EXCLUDE_SOURCE     := $(RELEASE_DIR)/ .circleci/
 # ALWAYS_EXCLUD_SOURCE_GIT is git path filter parlance for the above.
 ALWAYS_EXCLUDE_SOURCE_GIT := ':(exclude)$(RELEASE_DIR)/' ':(exclude).circleci/'
 
+# YQ_PACKAGE_PATH is a yq query fragment to select the package PACKAGE_SPEC_ID.
+# This may be invalid, check that PACKAGE_SPEC_ID is not empty before use.
+YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")  
+
 # Even though layers may have different Git revisions, based on the latest
 # revision of their source, we always want to
 # honour either HEAD or the specified PRODUCT_REVISION for compiling the
