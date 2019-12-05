@@ -48,7 +48,7 @@ DEFAULT_PACKAGE_YQ := .packages[] | select(.inputs.GOOS=="$(GOOS)" and .inputs.G
 # Instead, use `make package`.
 build: $(LOCK)
 	@echo "==> Building default package for GOOS=$(GOOS) GOARCH=$(GOARCH)"
-	@echo "SOURCE ID: $(PACKAGE_SOURCE_ID)"
+	@echo "PACKAGE_SOURCE_ID: $(PACKAGE_SOURCE_ID)"
 	@ALIASES=$$(yq -r '$(DEFAULT_PACKAGE_YQ) | \
 		.aliases[] | "alias type:\(.type) path:\(.path)"' < $(LOCK) | column -t); \
 		echo "$$ALIASES"

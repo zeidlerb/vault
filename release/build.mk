@@ -89,11 +89,15 @@ $(META): $(LOCK)
 $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
+	@echo "PACKAGE_SOURCE_ID: $(PACKAGE_SOURCE_ID)"
+	@echo "PACKAGE_SPEC_ID:   $(PACKAGE_SPEC_ID)"
+	@ALIASES=$$(yq -r '$(YQ_PACKAGE_PATH) | \
+		.aliases[] | "alias type:\(.type) path:\(.path)"' < $(LOCK) | column -t); \
+		echo "$$ALIASES"
 	@docker rm -f $(BUILD_CONTAINER_NAME) > /dev/null 2>&1 || true # Speculative cleanup.
 	$(DOCKER_RUN_COMMAND)
 	$(DOCKER_CP_COMMAND)
 	@docker rm -f $(BUILD_CONTAINER_NAME)
-	done
 
 # ALIASES writes the package alias links.
 .PHONY: $(ALIASES)
