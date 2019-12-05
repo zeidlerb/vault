@@ -35,8 +35,6 @@ ifeq ($(BUILD_LAYER_IMAGE),)
 $(error You must set BUILDER_LAYER_IMAGE)
 endif
 
-YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")  
-
 BUILD_ENV := $(shell yq -r '$(YQ_PACKAGE_PATH) | .inputs | to_entries[] | "\(.key)=\(.value)"' < $(LOCK))
 BUILD_COMMAND := $(shell yq -r '$(YQ_PACKAGE_PATH) | .["build-command"]' < $(LOCK))
 ALIASES := $(shell yq -r '$(YQ_PACKAGE_PATH) | .aliases[] | "\(.type)/\(.path)"' < $(LOCK))

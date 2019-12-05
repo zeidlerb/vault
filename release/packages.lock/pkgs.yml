@@ -16,16 +16,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_darwin_386
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=c14958a9868070f9b60cc04617b9b04ae0507382
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-c14958a9868070f9b60cc04617b9b04ae0507382
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: c14958a9868070f9b60cc04617b9b04ae0507382
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=c14958a9868070f9b60cc04617b9b04ae0507382
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-c14958a9868070f9b60cc04617b9b04ae0507382
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -100,16 +117,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_darwin_amd64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=432991386eb1a208c5f51632a0eacd8cf24d551d
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-432991386eb1a208c5f51632a0eacd8cf24d551d
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 432991386eb1a208c5f51632a0eacd8cf24d551d
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=432991386eb1a208c5f51632a0eacd8cf24d551d
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-432991386eb1a208c5f51632a0eacd8cf24d551d
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -184,16 +218,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_freebsd_386
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=b63c40615ddcded3dbb06cf70ae4086e864c4827
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-b63c40615ddcded3dbb06cf70ae4086e864c4827
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: b63c40615ddcded3dbb06cf70ae4086e864c4827
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=b63c40615ddcded3dbb06cf70ae4086e864c4827
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-b63c40615ddcded3dbb06cf70ae4086e864c4827
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -268,16 +319,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_freebsd_amd64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6a17c37c835b272e7f2b5f9636a6427508660aae
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6a17c37c835b272e7f2b5f9636a6427508660aae
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 6a17c37c835b272e7f2b5f9636a6427508660aae
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6a17c37c835b272e7f2b5f9636a6427508660aae
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6a17c37c835b272e7f2b5f9636a6427508660aae
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -352,16 +420,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_freebsd_arm
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=2cd5577c6ca816899878a259e9d17031b9f7f91b
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-2cd5577c6ca816899878a259e9d17031b9f7f91b
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 2cd5577c6ca816899878a259e9d17031b9f7f91b
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=2cd5577c6ca816899878a259e9d17031b9f7f91b
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-2cd5577c6ca816899878a259e9d17031b9f7f91b
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -436,16 +521,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_386
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=1c6c7325c948ada96d01cc8a425cea96f62cc631
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-1c6c7325c948ada96d01cc8a425cea96f62cc631
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 1c6c7325c948ada96d01cc8a425cea96f62cc631
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=1c6c7325c948ada96d01cc8a425cea96f62cc631
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-1c6c7325c948ada96d01cc8a425cea96f62cc631
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -520,16 +622,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_amd64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6860b62705456fee00bdd0b303e0daeaff2cb424
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6860b62705456fee00bdd0b303e0daeaff2cb424
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 6860b62705456fee00bdd0b303e0daeaff2cb424
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6860b62705456fee00bdd0b303e0daeaff2cb424
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6860b62705456fee00bdd0b303e0daeaff2cb424
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -604,16 +723,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_arm
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=a95c50490fdcc5827f4f888de63b1c3625705641
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-a95c50490fdcc5827f4f888de63b1c3625705641
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: a95c50490fdcc5827f4f888de63b1c3625705641
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=a95c50490fdcc5827f4f888de63b1c3625705641
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-a95c50490fdcc5827f4f888de63b1c3625705641
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -688,16 +824,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_arm64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6be6aeb734638041439016e28917323f2a9d2e16
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6be6aeb734638041439016e28917323f2a9d2e16
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 6be6aeb734638041439016e28917323f2a9d2e16
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=6be6aeb734638041439016e28917323f2a9d2e16
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6be6aeb734638041439016e28917323f2a9d2e16
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -772,16 +925,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_netbsd_386
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=3a02ec2dfcbd09ebe346991f263986b93d357dbb
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-3a02ec2dfcbd09ebe346991f263986b93d357dbb
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 3a02ec2dfcbd09ebe346991f263986b93d357dbb
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=3a02ec2dfcbd09ebe346991f263986b93d357dbb
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-3a02ec2dfcbd09ebe346991f263986b93d357dbb
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -856,16 +1026,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_netbsd_amd64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=9e90bd9ae42168098d544edb6a64c1cddf595943
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-9e90bd9ae42168098d544edb6a64c1cddf595943
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 9e90bd9ae42168098d544edb6a64c1cddf595943
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=9e90bd9ae42168098d544edb6a64c1cddf595943
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-9e90bd9ae42168098d544edb6a64c1cddf595943
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -940,16 +1127,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_openbsd_386
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=2dd0844dea7e18c403b51b4ac20e4180b0ce768d
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 2dd0844dea7e18c403b51b4ac20e4180b0ce768d
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=2dd0844dea7e18c403b51b4ac20e4180b0ce768d
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -1024,16 +1228,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_openbsd_amd64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=8cb6f7c187d59ae3da10f464998c59990a79ed59
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8cb6f7c187d59ae3da10f464998c59990a79ed59
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 8cb6f7c187d59ae3da10f464998c59990a79ed59
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=8cb6f7c187d59ae3da10f464998c59990a79ed59
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8cb6f7c187d59ae3da10f464998c59990a79ed59
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -1108,16 +1329,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_solaris_amd64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=8fb64730f31b9c7fec77e67460263c5e079d7355
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8fb64730f31b9c7fec77e67460263c5e079d7355
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 8fb64730f31b9c7fec77e67460263c5e079d7355
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=8fb64730f31b9c7fec77e67460263c5e079d7355
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8fb64730f31b9c7fec77e67460263c5e079d7355
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -1192,16 +1430,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_windows_386
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=16e514f908fcbd60fa0b3607467ee6711df5477e
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-16e514f908fcbd60fa0b3607467ee6711df5477e
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: 16e514f908fcbd60fa0b3607467ee6711df5477e
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=16e514f908fcbd60fa0b3607467ee6711df5477e
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-16e514f908fcbd60fa0b3607467ee6711df5477e
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"
@@ -1276,16 +1531,33 @@ packages:
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_windows_amd64
-    BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
     BUNDLE_NAME: vault_0.0.0-snapshot
-    LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=f573dc503f6d36a804e21563c868588e4f713cdf
-      PRODUCT_REVISION= make -C ../ -f release/build.mk package
-    PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf
     PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
-    PACKAGE_SPEC_ID: f573dc503f6d36a804e21563c868588e4f713cdf
     PRODUCT_NAME: vault
     PUBLIC: "YES"
     PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
+    builtin:
+      BUILD_LAYERS:
+      - name: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+        archive: .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
+      - name: build-ui_728762e33b2c749a862c928ebf81554ec45aa779
+        archive: .buildcache/archives/build-ui_728762e33b2c749a862c928ebf81554ec45aa779.tar.gz
+      - name: ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04
+        archive: .buildcache/archives/ui-dependencies_54747977a2f697e933a9afd0dbe75cdd68454a04.tar.gz
+      - name: install-yarn_4279515382574023de63de36229161c824430ddd
+        archive: .buildcache/archives/install-yarn_4279515382574023de63de36229161c824430ddd.tar.gz
+      - name: set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
+        archive: .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
+      - name: install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
+        archive: .buildcache/archives/install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e.tar.gz
+      - name: install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b
+        archive: .buildcache/archives/install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b.tar.gz
+      - name: base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3
+        archive: .buildcache/archives/base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      BUILDER_LAYER_ID: build-static-assets_74fd3b03d653592143f9974f199752c897c1a089
+      LOCAL_BUILD_COMMAND: PACKAGE_SPEC_ID=f573dc503f6d36a804e21563c868588e4f713cdf
+        make -C ../ -f release/build.mk package
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"

@@ -25,11 +25,11 @@ workflows:
                 - /build-.*/
                 - /ci.*/
       {{- range $packages}}
-      - {{.inputs.BUILD_JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
+      - {{.meta.BUILD_JOB_NAME}}: { requires: [ cache-builder-images ] }{{end}}
       - bundle-releases:
           requires:
             {{- range $packages}}
-            - {{.inputs.BUILD_JOB_NAME}}{{end}}
+            - {{.meta.BUILD_JOB_NAME}}{{end}}
 jobs:
   cache-builder-images:
     executor: releaser
@@ -58,7 +58,7 @@ jobs:
       - checkout
       - write-cache-keys
       {{- range $packages}}
-      - "load-{{.inputs.BUILD_JOB_NAME}}"{{end}}
+      - "load-{{.meta.BUILD_JOB_NAME}}"{{end}}
       - run: ls -lahR dist/
       - run: tar -czf dist.tar.gz dist
       - store_artifacts:
@@ -69,7 +69,7 @@ jobs:
           destination: dist.tar.gz
 
 {{- range $packages}}
-  {{.inputs.BUILD_JOB_NAME}}:
+  {{.meta.BUILD_JOB_NAME}}:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: {{.packagespecid}}
@@ -90,27 +90,27 @@ jobs:
           {{- end}}
       - restore_cache:
           key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
-      - run: make -f release/layer.mk {{.inputs.BUILDER_LAYER_ID}}-load || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR dist/
       - store_artifacts:
-          path: {{.inputs.PACKAGE_OUT_ROOT}}
-          destination: {{.inputs.PACKAGE_OUT_ROOT}}
+          path: .buildcache/packages
+          destination: packages
       # Save builder image cache.
       - save_cache:
           key: '{{$cacheVersion}}-{{index .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST 0}}'
           paths:
-            - .buildcache/archives/{{.inputs.BUILDER_LAYER_ID}}.tar.gz
+            - .buildcache/archives/{{.meta.builtin.BUILDER_LAYER_ID}}.tar.gz
       # Save package cache.
       - save_cache:
           key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
           paths:
-            - {{.inputs.PACKAGE_OUT_ROOT}}
+            - .buildcache/packages
 {{end}}
 
 commands:
   {{- range $packages }}
-  load-{{.inputs.BUILD_JOB_NAME}}:
+  load-{{.meta.BUILD_JOB_NAME}}:
     steps:
       - restore_cache:
           key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
