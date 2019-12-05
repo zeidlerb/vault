@@ -103,7 +103,7 @@ $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 .PHONY: $(ALIASES)
 $(ALIASES): $(PACKAGE)
 	@mkdir -p $(dir $@)
-	@ln -fs $< $@
+	@$(LN) -rfs $< $@
 	@echo "==> Package alias written: $@"
 
 source-id:
