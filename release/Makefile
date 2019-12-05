@@ -53,7 +53,7 @@ build: $(LOCK)
 		.aliases[] | "alias type:\(.type) path:\(.path)"' < $(LOCK) | column -t); \
 		echo "$$ALIASES"
 	@COMMAND=$$(yq -r '$(DEFAULT_PACKAGE_YQ) | \
-		.meta.LOCAL_BUILD_COMMAND' < $(LOCK) | head -n1); \
+		.meta.builtin.LOCAL_BUILD_COMMAND' < $(LOCK) | head -n1); \
 		echo "$$COMMAND"; \
 		$(SHELL) "$$COMMAND"
 
