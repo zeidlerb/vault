@@ -290,9 +290,11 @@ packages:
 build:
 	@$(MAKE) -C release build
 
-BUILD_PRODUCT_REPO ?= git@github.com:hashicorp/vault.git
 BUILD_PRODUCT_NAME ?= vault
 BUILD_PRODUCT_REVISION ?= $(shell git rev-parse HEAD)
+BUILD_PRODUCT_VERSION ?= 0.0.0-$(USER)-snapshot
+BUILD_PRODUCT_REPO ?= git@github.com:hashicorp/vault.git
+BUILD_PRODUCT_CIRCLECI_SLUG ?= gh/hashicorp/vault
 export BUILD_PRODUCT_REVISION
 
 build-ci:
@@ -301,11 +303,12 @@ build-ci:
 	@[ -n "$(BUILD_PRODUCT_REPO)" ] || { echo "You must set BUILD_PRODUCT_REPO"; exit 1; }
 	@[ -d ../vault-release ] || { echo "You must clone git@github.com:hashicorp/vault-release.git into ../vault-release"; exit 1; }
 	@cd ../vault-release &&\
-		PRODUCT_REPO=$(BUILD_PRODUCT_REPO) \
 		PRODUCT_NAME=$(BUILD_PRODUCT_NAME) \
-		PRODUCT_VERSION=$(BUILD_PRODUCT_VERSION) \
 		PRODUCT_REVISION=$(BUILD_PRODUCT_REVISION) \
-		make build-vault
+		PRODUCT_VERSION=$(BUILD_PRODUCT_VERSION) \
+		PRODUCT_REPO=$(BUILD_PRODUCT_REPO) \
+		PRODUCT_CIRCLECI_SLUG=$(BUILD_PRODUCT_CIRCLECI_SLUG) \
+		make trigger-product-build
 
 .PHONY: bin default prep test vet bootstrap fmt fmtcheck mysql-database-plugin mysql-legacy-database-plugin cassandra-database-plugin influxdb-database-plugin postgresql-database-plugin mssql-database-plugin hana-database-plugin mongodb-database-plugin static-assets ember-dist ember-dist-dev static-dist static-dist-dev assetcheck check-vault-in-path check-browserstack-creds test-ui-browserstack stage-commit publish-commit packages build
 
