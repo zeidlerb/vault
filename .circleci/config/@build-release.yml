@@ -101,13 +101,13 @@ jobs:
       - load-package_windows_386
       - load-package_windows_amd64
       - run: ls -lahR .buildcache/packages
-      - run: tar -czf dist.tar.gz dist
       - store_artifacts:
-          path: dist
-          destination: dist
+          path: .buildcache/packages
+          destination: packages
+      - run: tar -czf packages.tar.gz .buildcache/packages
       - store_artifacts:
-          path: dist.tar.gz
-          destination: dist.tar.gz
+          path: packages.tar.gz
+          destination: packages.tar.gz
   package_darwin_386:
     executor: releaser
     environment:

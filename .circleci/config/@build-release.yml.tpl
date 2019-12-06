@@ -60,13 +60,13 @@ jobs:
       {{- range $packages}}
       - load-{{.meta.BUILD_JOB_NAME}}{{end}}
       - run: ls -lahR .buildcache/packages
-      - run: tar -czf dist.tar.gz dist
       - store_artifacts:
-          path: dist
-          destination: dist
+          path: .buildcache/packages
+          destination: packages
+      - run: tar -czf packages.tar.gz .buildcache/packages
       - store_artifacts:
-          path: dist.tar.gz
-          destination: dist.tar.gz
+          path: packages.tar.gz
+          destination: packages.tar.gz
 
 {{- range $packages}}
   {{.meta.BUILD_JOB_NAME}}:
