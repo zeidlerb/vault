@@ -10,8 +10,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: c14958a9868070f9b60cc04617b9b04ae0507382
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: d529cc5dea163d3fb798887900b39f7575a655b5
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -20,9 +20,9 @@ jobs:
     - GOOS: darwin
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -44,7 +44,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-c14958a9868070f9b60cc04617b9b04ae0507382-{{checksum ".buildcache/cache-keys/package-c14958a9868070f9b60cc04617b9b04ae0507382"}}
+        key: package-d529cc5dea163d3fb798887900b39f7575a655b5-{{checksum ".buildcache/cache-keys/package-d529cc5dea163d3fb798887900b39f7575a655b5"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -59,7 +59,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-c14958a9868070f9b60cc04617b9b04ae0507382-{{checksum ".buildcache/cache-keys/package-c14958a9868070f9b60cc04617b9b04ae0507382"}}
+        key: package-d529cc5dea163d3fb798887900b39f7575a655b5-{{checksum ".buildcache/cache-keys/package-d529cc5dea163d3fb798887900b39f7575a655b5"}}
         paths:
         - .buildcache/packages
   bundle-releases:
@@ -75,37 +75,37 @@ jobs:
         command: make -C release write-package-cache-keys
         name: Write package cache keys
     - restore_cache:
-        key: package-c14958a9868070f9b60cc04617b9b04ae0507382-{{checksum ".buildcache/cache-keys/package-c14958a9868070f9b60cc04617b9b04ae0507382"}}
+        key: package-d529cc5dea163d3fb798887900b39f7575a655b5-{{checksum ".buildcache/cache-keys/package-d529cc5dea163d3fb798887900b39f7575a655b5"}}
     - restore_cache:
-        key: package-432991386eb1a208c5f51632a0eacd8cf24d551d-{{checksum ".buildcache/cache-keys/package-432991386eb1a208c5f51632a0eacd8cf24d551d"}}
+        key: package-621d5c58d7dee45c40ced08d0de01f1d85102bc7-{{checksum ".buildcache/cache-keys/package-621d5c58d7dee45c40ced08d0de01f1d85102bc7"}}
     - restore_cache:
-        key: package-b63c40615ddcded3dbb06cf70ae4086e864c4827-{{checksum ".buildcache/cache-keys/package-b63c40615ddcded3dbb06cf70ae4086e864c4827"}}
+        key: package-1af1127c0eeda78c6bd9f8204ee4fbeb93e292da-{{checksum ".buildcache/cache-keys/package-1af1127c0eeda78c6bd9f8204ee4fbeb93e292da"}}
     - restore_cache:
-        key: package-6a17c37c835b272e7f2b5f9636a6427508660aae-{{checksum ".buildcache/cache-keys/package-6a17c37c835b272e7f2b5f9636a6427508660aae"}}
+        key: package-d37494ea3f634cafd874942565a0dd58caed82da-{{checksum ".buildcache/cache-keys/package-d37494ea3f634cafd874942565a0dd58caed82da"}}
     - restore_cache:
-        key: package-2cd5577c6ca816899878a259e9d17031b9f7f91b-{{checksum ".buildcache/cache-keys/package-2cd5577c6ca816899878a259e9d17031b9f7f91b"}}
+        key: package-8139dfade74533efe188d092ea7a689205b70e7b-{{checksum ".buildcache/cache-keys/package-8139dfade74533efe188d092ea7a689205b70e7b"}}
     - restore_cache:
-        key: package-1c6c7325c948ada96d01cc8a425cea96f62cc631-{{checksum ".buildcache/cache-keys/package-1c6c7325c948ada96d01cc8a425cea96f62cc631"}}
+        key: package-b3ecdc222ebc58ed7fdd605aa06b0463b5a0cc07-{{checksum ".buildcache/cache-keys/package-b3ecdc222ebc58ed7fdd605aa06b0463b5a0cc07"}}
     - restore_cache:
-        key: package-6860b62705456fee00bdd0b303e0daeaff2cb424-{{checksum ".buildcache/cache-keys/package-6860b62705456fee00bdd0b303e0daeaff2cb424"}}
+        key: package-9872974875e8e631017d988b06be25a05f0ac658-{{checksum ".buildcache/cache-keys/package-9872974875e8e631017d988b06be25a05f0ac658"}}
     - restore_cache:
-        key: package-a95c50490fdcc5827f4f888de63b1c3625705641-{{checksum ".buildcache/cache-keys/package-a95c50490fdcc5827f4f888de63b1c3625705641"}}
+        key: package-9cd451d094eb05ca2ea452108a752c9c57286a62-{{checksum ".buildcache/cache-keys/package-9cd451d094eb05ca2ea452108a752c9c57286a62"}}
     - restore_cache:
-        key: package-6be6aeb734638041439016e28917323f2a9d2e16-{{checksum ".buildcache/cache-keys/package-6be6aeb734638041439016e28917323f2a9d2e16"}}
+        key: package-1ea1a1b289ea47fb7fc8e21f52f06e11d5f793bf-{{checksum ".buildcache/cache-keys/package-1ea1a1b289ea47fb7fc8e21f52f06e11d5f793bf"}}
     - restore_cache:
-        key: package-3a02ec2dfcbd09ebe346991f263986b93d357dbb-{{checksum ".buildcache/cache-keys/package-3a02ec2dfcbd09ebe346991f263986b93d357dbb"}}
+        key: package-0024072b73923e10289c92f923e09b48e0212d6e-{{checksum ".buildcache/cache-keys/package-0024072b73923e10289c92f923e09b48e0212d6e"}}
     - restore_cache:
-        key: package-9e90bd9ae42168098d544edb6a64c1cddf595943-{{checksum ".buildcache/cache-keys/package-9e90bd9ae42168098d544edb6a64c1cddf595943"}}
+        key: package-c466624bad33cc3a8334afead981a2d19f7f973b-{{checksum ".buildcache/cache-keys/package-c466624bad33cc3a8334afead981a2d19f7f973b"}}
     - restore_cache:
-        key: package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d-{{checksum ".buildcache/cache-keys/package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d"}}
+        key: package-d432b4d5a569fd2bf960789c0ad54be9122daae9-{{checksum ".buildcache/cache-keys/package-d432b4d5a569fd2bf960789c0ad54be9122daae9"}}
     - restore_cache:
-        key: package-8cb6f7c187d59ae3da10f464998c59990a79ed59-{{checksum ".buildcache/cache-keys/package-8cb6f7c187d59ae3da10f464998c59990a79ed59"}}
+        key: package-6f366a5044cc9991d9a5a4bc9954ca5c6666e803-{{checksum ".buildcache/cache-keys/package-6f366a5044cc9991d9a5a4bc9954ca5c6666e803"}}
     - restore_cache:
-        key: package-8fb64730f31b9c7fec77e67460263c5e079d7355-{{checksum ".buildcache/cache-keys/package-8fb64730f31b9c7fec77e67460263c5e079d7355"}}
+        key: package-fec9b15d00cabed9a4a09949d08a1e318719b488-{{checksum ".buildcache/cache-keys/package-fec9b15d00cabed9a4a09949d08a1e318719b488"}}
     - restore_cache:
-        key: package-16e514f908fcbd60fa0b3607467ee6711df5477e-{{checksum ".buildcache/cache-keys/package-16e514f908fcbd60fa0b3607467ee6711df5477e"}}
+        key: package-71cc04a3dbfba2a0feae874d17277998b942a462-{{checksum ".buildcache/cache-keys/package-71cc04a3dbfba2a0feae874d17277998b942a462"}}
     - restore_cache:
-        key: package-f573dc503f6d36a804e21563c868588e4f713cdf-{{checksum ".buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf"}}
+        key: package-6b55877249b3feef09482958016dd488bf79c331-{{checksum ".buildcache/cache-keys/package-6b55877249b3feef09482958016dd488bf79c331"}}
     - run:
         command: ls -lahR .buildcache/packages
     - store_artifacts:
@@ -118,15 +118,15 @@ jobs:
         path: packages.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
   package_linux_arm64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 6be6aeb734638041439016e28917323f2a9d2e16
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 1ea1a1b289ea47fb7fc8e21f52f06e11d5f793bf
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -135,9 +135,9 @@ jobs:
     - GOOS: linux
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -159,7 +159,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-6be6aeb734638041439016e28917323f2a9d2e16-{{checksum ".buildcache/cache-keys/package-6be6aeb734638041439016e28917323f2a9d2e16"}}
+        key: package-1ea1a1b289ea47fb7fc8e21f52f06e11d5f793bf-{{checksum ".buildcache/cache-keys/package-1ea1a1b289ea47fb7fc8e21f52f06e11d5f793bf"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -174,7 +174,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-6be6aeb734638041439016e28917323f2a9d2e16-{{checksum ".buildcache/cache-keys/package-6be6aeb734638041439016e28917323f2a9d2e16"}}
+        key: package-1ea1a1b289ea47fb7fc8e21f52f06e11d5f793bf-{{checksum ".buildcache/cache-keys/package-1ea1a1b289ea47fb7fc8e21f52f06e11d5f793bf"}}
         paths:
         - .buildcache/packages
   package_windows_386:
@@ -183,8 +183,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 16e514f908fcbd60fa0b3607467ee6711df5477e
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 71cc04a3dbfba2a0feae874d17277998b942a462
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -193,9 +193,9 @@ jobs:
     - GOOS: windows
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -217,7 +217,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-16e514f908fcbd60fa0b3607467ee6711df5477e-{{checksum ".buildcache/cache-keys/package-16e514f908fcbd60fa0b3607467ee6711df5477e"}}
+        key: package-71cc04a3dbfba2a0feae874d17277998b942a462-{{checksum ".buildcache/cache-keys/package-71cc04a3dbfba2a0feae874d17277998b942a462"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -232,7 +232,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-16e514f908fcbd60fa0b3607467ee6711df5477e-{{checksum ".buildcache/cache-keys/package-16e514f908fcbd60fa0b3607467ee6711df5477e"}}
+        key: package-71cc04a3dbfba2a0feae874d17277998b942a462-{{checksum ".buildcache/cache-keys/package-71cc04a3dbfba2a0feae874d17277998b942a462"}}
         paths:
         - .buildcache/packages
   install-ui-dependencies:
@@ -260,8 +260,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 9e90bd9ae42168098d544edb6a64c1cddf595943
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: c466624bad33cc3a8334afead981a2d19f7f973b
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -270,9 +270,9 @@ jobs:
     - GOOS: netbsd
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -294,7 +294,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-9e90bd9ae42168098d544edb6a64c1cddf595943-{{checksum ".buildcache/cache-keys/package-9e90bd9ae42168098d544edb6a64c1cddf595943"}}
+        key: package-c466624bad33cc3a8334afead981a2d19f7f973b-{{checksum ".buildcache/cache-keys/package-c466624bad33cc3a8334afead981a2d19f7f973b"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -309,7 +309,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-9e90bd9ae42168098d544edb6a64c1cddf595943-{{checksum ".buildcache/cache-keys/package-9e90bd9ae42168098d544edb6a64c1cddf595943"}}
+        key: package-c466624bad33cc3a8334afead981a2d19f7f973b-{{checksum ".buildcache/cache-keys/package-c466624bad33cc3a8334afead981a2d19f7f973b"}}
         paths:
         - .buildcache/packages
   package_linux_arm:
@@ -318,8 +318,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: a95c50490fdcc5827f4f888de63b1c3625705641
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 9cd451d094eb05ca2ea452108a752c9c57286a62
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -328,9 +328,9 @@ jobs:
     - GOOS: linux
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -352,7 +352,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-a95c50490fdcc5827f4f888de63b1c3625705641-{{checksum ".buildcache/cache-keys/package-a95c50490fdcc5827f4f888de63b1c3625705641"}}
+        key: package-9cd451d094eb05ca2ea452108a752c9c57286a62-{{checksum ".buildcache/cache-keys/package-9cd451d094eb05ca2ea452108a752c9c57286a62"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -367,7 +367,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-a95c50490fdcc5827f4f888de63b1c3625705641-{{checksum ".buildcache/cache-keys/package-a95c50490fdcc5827f4f888de63b1c3625705641"}}
+        key: package-9cd451d094eb05ca2ea452108a752c9c57286a62-{{checksum ".buildcache/cache-keys/package-9cd451d094eb05ca2ea452108a752c9c57286a62"}}
         paths:
         - .buildcache/packages
   package_solaris_amd64:
@@ -376,8 +376,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 8fb64730f31b9c7fec77e67460263c5e079d7355
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: fec9b15d00cabed9a4a09949d08a1e318719b488
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -386,9 +386,9 @@ jobs:
     - GOOS: solaris
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -410,7 +410,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-8fb64730f31b9c7fec77e67460263c5e079d7355-{{checksum ".buildcache/cache-keys/package-8fb64730f31b9c7fec77e67460263c5e079d7355"}}
+        key: package-fec9b15d00cabed9a4a09949d08a1e318719b488-{{checksum ".buildcache/cache-keys/package-fec9b15d00cabed9a4a09949d08a1e318719b488"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -425,7 +425,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-8fb64730f31b9c7fec77e67460263c5e079d7355-{{checksum ".buildcache/cache-keys/package-8fb64730f31b9c7fec77e67460263c5e079d7355"}}
+        key: package-fec9b15d00cabed9a4a09949d08a1e318719b488-{{checksum ".buildcache/cache-keys/package-fec9b15d00cabed9a4a09949d08a1e318719b488"}}
         paths:
         - .buildcache/packages
   test-ui:
@@ -490,8 +490,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 2cd5577c6ca816899878a259e9d17031b9f7f91b
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 8139dfade74533efe188d092ea7a689205b70e7b
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -500,9 +500,9 @@ jobs:
     - GOOS: freebsd
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -524,7 +524,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-2cd5577c6ca816899878a259e9d17031b9f7f91b-{{checksum ".buildcache/cache-keys/package-2cd5577c6ca816899878a259e9d17031b9f7f91b"}}
+        key: package-8139dfade74533efe188d092ea7a689205b70e7b-{{checksum ".buildcache/cache-keys/package-8139dfade74533efe188d092ea7a689205b70e7b"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -539,7 +539,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-2cd5577c6ca816899878a259e9d17031b9f7f91b-{{checksum ".buildcache/cache-keys/package-2cd5577c6ca816899878a259e9d17031b9f7f91b"}}
+        key: package-8139dfade74533efe188d092ea7a689205b70e7b-{{checksum ".buildcache/cache-keys/package-8139dfade74533efe188d092ea7a689205b70e7b"}}
         paths:
         - .buildcache/packages
   build-go-dev:
@@ -739,8 +739,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 6860b62705456fee00bdd0b303e0daeaff2cb424
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 9872974875e8e631017d988b06be25a05f0ac658
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -749,9 +749,9 @@ jobs:
     - GOOS: linux
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -773,7 +773,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-6860b62705456fee00bdd0b303e0daeaff2cb424-{{checksum ".buildcache/cache-keys/package-6860b62705456fee00bdd0b303e0daeaff2cb424"}}
+        key: package-9872974875e8e631017d988b06be25a05f0ac658-{{checksum ".buildcache/cache-keys/package-9872974875e8e631017d988b06be25a05f0ac658"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -788,7 +788,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-6860b62705456fee00bdd0b303e0daeaff2cb424-{{checksum ".buildcache/cache-keys/package-6860b62705456fee00bdd0b303e0daeaff2cb424"}}
+        key: package-9872974875e8e631017d988b06be25a05f0ac658-{{checksum ".buildcache/cache-keys/package-9872974875e8e631017d988b06be25a05f0ac658"}}
         paths:
         - .buildcache/packages
   package_windows_amd64:
@@ -797,8 +797,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: f573dc503f6d36a804e21563c868588e4f713cdf
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 6b55877249b3feef09482958016dd488bf79c331
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -807,9 +807,9 @@ jobs:
     - GOOS: windows
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -831,7 +831,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-f573dc503f6d36a804e21563c868588e4f713cdf-{{checksum ".buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf"}}
+        key: package-6b55877249b3feef09482958016dd488bf79c331-{{checksum ".buildcache/cache-keys/package-6b55877249b3feef09482958016dd488bf79c331"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -846,7 +846,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-f573dc503f6d36a804e21563c868588e4f713cdf-{{checksum ".buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf"}}
+        key: package-6b55877249b3feef09482958016dd488bf79c331-{{checksum ".buildcache/cache-keys/package-6b55877249b3feef09482958016dd488bf79c331"}}
         paths:
         - .buildcache/packages
   package_linux_386:
@@ -855,8 +855,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 1c6c7325c948ada96d01cc8a425cea96f62cc631
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: b3ecdc222ebc58ed7fdd605aa06b0463b5a0cc07
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -865,9 +865,9 @@ jobs:
     - GOOS: linux
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -889,7 +889,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-1c6c7325c948ada96d01cc8a425cea96f62cc631-{{checksum ".buildcache/cache-keys/package-1c6c7325c948ada96d01cc8a425cea96f62cc631"}}
+        key: package-b3ecdc222ebc58ed7fdd605aa06b0463b5a0cc07-{{checksum ".buildcache/cache-keys/package-b3ecdc222ebc58ed7fdd605aa06b0463b5a0cc07"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -904,7 +904,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-1c6c7325c948ada96d01cc8a425cea96f62cc631-{{checksum ".buildcache/cache-keys/package-1c6c7325c948ada96d01cc8a425cea96f62cc631"}}
+        key: package-b3ecdc222ebc58ed7fdd605aa06b0463b5a0cc07-{{checksum ".buildcache/cache-keys/package-b3ecdc222ebc58ed7fdd605aa06b0463b5a0cc07"}}
         paths:
         - .buildcache/packages
   package_freebsd_amd64:
@@ -913,8 +913,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 6a17c37c835b272e7f2b5f9636a6427508660aae
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: d37494ea3f634cafd874942565a0dd58caed82da
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -923,9 +923,9 @@ jobs:
     - GOOS: freebsd
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -947,7 +947,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-6a17c37c835b272e7f2b5f9636a6427508660aae-{{checksum ".buildcache/cache-keys/package-6a17c37c835b272e7f2b5f9636a6427508660aae"}}
+        key: package-d37494ea3f634cafd874942565a0dd58caed82da-{{checksum ".buildcache/cache-keys/package-d37494ea3f634cafd874942565a0dd58caed82da"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -962,7 +962,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-6a17c37c835b272e7f2b5f9636a6427508660aae-{{checksum ".buildcache/cache-keys/package-6a17c37c835b272e7f2b5f9636a6427508660aae"}}
+        key: package-d37494ea3f634cafd874942565a0dd58caed82da-{{checksum ".buildcache/cache-keys/package-d37494ea3f634cafd874942565a0dd58caed82da"}}
         paths:
         - .buildcache/packages
   package_openbsd_386:
@@ -971,8 +971,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 2dd0844dea7e18c403b51b4ac20e4180b0ce768d
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: d432b4d5a569fd2bf960789c0ad54be9122daae9
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -981,9 +981,9 @@ jobs:
     - GOOS: openbsd
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -1005,7 +1005,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d-{{checksum ".buildcache/cache-keys/package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d"}}
+        key: package-d432b4d5a569fd2bf960789c0ad54be9122daae9-{{checksum ".buildcache/cache-keys/package-d432b4d5a569fd2bf960789c0ad54be9122daae9"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1020,7 +1020,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d-{{checksum ".buildcache/cache-keys/package-2dd0844dea7e18c403b51b4ac20e4180b0ce768d"}}
+        key: package-d432b4d5a569fd2bf960789c0ad54be9122daae9-{{checksum ".buildcache/cache-keys/package-d432b4d5a569fd2bf960789c0ad54be9122daae9"}}
         paths:
         - .buildcache/packages
   package_openbsd_amd64:
@@ -1029,8 +1029,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 8cb6f7c187d59ae3da10f464998c59990a79ed59
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 6f366a5044cc9991d9a5a4bc9954ca5c6666e803
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -1039,9 +1039,9 @@ jobs:
     - GOOS: openbsd
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -1063,7 +1063,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-8cb6f7c187d59ae3da10f464998c59990a79ed59-{{checksum ".buildcache/cache-keys/package-8cb6f7c187d59ae3da10f464998c59990a79ed59"}}
+        key: package-6f366a5044cc9991d9a5a4bc9954ca5c6666e803-{{checksum ".buildcache/cache-keys/package-6f366a5044cc9991d9a5a4bc9954ca5c6666e803"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1078,7 +1078,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-8cb6f7c187d59ae3da10f464998c59990a79ed59-{{checksum ".buildcache/cache-keys/package-8cb6f7c187d59ae3da10f464998c59990a79ed59"}}
+        key: package-6f366a5044cc9991d9a5a4bc9954ca5c6666e803-{{checksum ".buildcache/cache-keys/package-6f366a5044cc9991d9a5a4bc9954ca5c6666e803"}}
         paths:
         - .buildcache/packages
   package_netbsd_386:
@@ -1087,8 +1087,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 3a02ec2dfcbd09ebe346991f263986b93d357dbb
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 0024072b73923e10289c92f923e09b48e0212d6e
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -1097,9 +1097,9 @@ jobs:
     - GOOS: netbsd
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -1121,7 +1121,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-3a02ec2dfcbd09ebe346991f263986b93d357dbb-{{checksum ".buildcache/cache-keys/package-3a02ec2dfcbd09ebe346991f263986b93d357dbb"}}
+        key: package-0024072b73923e10289c92f923e09b48e0212d6e-{{checksum ".buildcache/cache-keys/package-0024072b73923e10289c92f923e09b48e0212d6e"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1136,7 +1136,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-3a02ec2dfcbd09ebe346991f263986b93d357dbb-{{checksum ".buildcache/cache-keys/package-3a02ec2dfcbd09ebe346991f263986b93d357dbb"}}
+        key: package-0024072b73923e10289c92f923e09b48e0212d6e-{{checksum ".buildcache/cache-keys/package-0024072b73923e10289c92f923e09b48e0212d6e"}}
         paths:
         - .buildcache/packages
   package_darwin_amd64:
@@ -1145,8 +1145,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 432991386eb1a208c5f51632a0eacd8cf24d551d
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 621d5c58d7dee45c40ced08d0de01f1d85102bc7
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -1155,9 +1155,9 @@ jobs:
     - GOOS: darwin
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -1179,7 +1179,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-432991386eb1a208c5f51632a0eacd8cf24d551d-{{checksum ".buildcache/cache-keys/package-432991386eb1a208c5f51632a0eacd8cf24d551d"}}
+        key: package-621d5c58d7dee45c40ced08d0de01f1d85102bc7-{{checksum ".buildcache/cache-keys/package-621d5c58d7dee45c40ced08d0de01f1d85102bc7"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1194,7 +1194,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-432991386eb1a208c5f51632a0eacd8cf24d551d-{{checksum ".buildcache/cache-keys/package-432991386eb1a208c5f51632a0eacd8cf24d551d"}}
+        key: package-621d5c58d7dee45c40ced08d0de01f1d85102bc7-{{checksum ".buildcache/cache-keys/package-621d5c58d7dee45c40ced08d0de01f1d85102bc7"}}
         paths:
         - .buildcache/packages
   package_freebsd_386:
@@ -1203,8 +1203,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: b63c40615ddcded3dbb06cf70ae4086e864c4827
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
+    - PACKAGE_SPEC_ID: 1af1127c0eeda78c6bd9f8204ee4fbeb93e292da
     - BINARY_NAME: vault
     - BUILD_TAGS: vault
     - CGOENABLED: '0'
@@ -1213,9 +1213,9 @@ jobs:
     - GOOS: freebsd
     - GO_VERSION: 1.12.13
     - PRODUCT_EDITION: ''
-    - PRODUCT_VERSION: 0.0.0-snapshot
+    - PRODUCT_VERSION: 0.0.0-sam-snapshot
     - PRODUCT_VERSION_MMP: 0.0.0
-    - PRODUCT_VERSION_PRE: snapshot
+    - PRODUCT_VERSION_PRE: sam-snapshot
     - YARN_VERSION: 1.19.1-1
     steps:
     - setup_remote_docker
@@ -1237,7 +1237,7 @@ jobs:
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_45e9879d4b3a086eb461fb39ea71e3ed961f245b-{{ checksum ".buildcache/cache-keys/install-go-45e9879d4b3a086eb461fb39ea71e3ed961f245b" }}
         - v0-base_36f009b1b46f02370dfb42b19ed6156a52a7f5c3-{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
     - restore_cache:
-        key: package-b63c40615ddcded3dbb06cf70ae4086e864c4827-{{checksum ".buildcache/cache-keys/package-b63c40615ddcded3dbb06cf70ae4086e864c4827"}}
+        key: package-1af1127c0eeda78c6bd9f8204ee4fbeb93e292da-{{checksum ".buildcache/cache-keys/package-1af1127c0eeda78c6bd9f8204ee4fbeb93e292da"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1252,7 +1252,7 @@ jobs:
         paths:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     - save_cache:
-        key: package-b63c40615ddcded3dbb06cf70ae4086e864c4827-{{checksum ".buildcache/cache-keys/package-b63c40615ddcded3dbb06cf70ae4086e864c4827"}}
+        key: package-1af1127c0eeda78c6bd9f8204ee4fbeb93e292da-{{checksum ".buildcache/cache-keys/package-1af1127c0eeda78c6bd9f8204ee4fbeb93e292da"}}
         paths:
         - .buildcache/packages
   pre-flight-checks:
@@ -1319,7 +1319,7 @@ jobs:
         - .buildcache/archives/build-static-assets_74fd3b03d653592143f9974f199752c897c1a089.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
+    - PRODUCT_REVISION: 29cb75d405342b0b92d45e1bd35991d53a2761b2
 workflows:
   build-release:
     jobs:
