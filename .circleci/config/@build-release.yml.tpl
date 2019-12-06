@@ -1,9 +1,9 @@
-{{$data := (datasource "package-list")}}
-{{$packages := $data.packages }}
-{{$layers := $data.layers -}}
-{{$revision := $data.productrevision}}
+{{- $data := (datasource "package-list") -}}
+{{- $packages := $data.packages -}}
+{{- $layers := $data.layers -}}
+{{- $revision := $data.productrevision -}}
+{{- $cacheVersion := "v0" -}}
 # Any change to $cacheVersion invalidates all build layer and package caches.
-{{$cacheVersion := "v0" -}}
 # Current $cacheVersion: {{$cacheVersion}}
 
 executors:
