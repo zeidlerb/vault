@@ -66,11 +66,13 @@ ifeq ($(PRODUCT_REVISION),)
 # just to perform a new build.
 GIT_REF := HEAD
 ALLOW_DIRTY ?= YES
+PRODUCT_REVISION_NICE_NAME := <current-workdir>
 else
 # PRODUCT_REVISION is non-emtpy so treat it as a git commit ref and pull files
 # directly from git rather than the work tree.
 GIT_REF := $(PRODUCT_REVISION)
 ALLOW_DIRTY := NO
+PRODUCT_REVISION_NICE_NAME := $(PRODUCT_REVISION)
 endif
 
 # Determine the PACKAGE_SOURCE_ID.

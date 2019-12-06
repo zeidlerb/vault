@@ -103,7 +103,8 @@ $(1)_IMAGE_NAME = vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 # so we still invalidate the cache appropriately.
 ifeq ($$($(1)_SOURCE_INCLUDE),)
 
-$(1)_SOURCE_ID = none
+$(1)_SOURCE_ID           = packagespec-only
+$(1)_SOURCE_ID_NICE_NAME = <packagespec-only>
 
 else
 
@@ -131,11 +132,14 @@ $(1)_SOURCE_ID           = $$(shell if [ $$($(1)_SOURCE_MODIFIED) == NO ] && [ -
 								   echo -n dirty_; echo $$($(1)_SOURCE_MODIFIED_SUM) $$($(1)_SOURCE_NEW_SUM) | $(SUM); \
 							   fi)
 
+$(1)_SOURCE_ID_NICE_NAME = $$($(1)_SOURCE_ID)
+
 # No dirty builds allowed, so the SOURCE_ID is the git commit SHA,
 # and we list files using git ls-tree.
 else
 
 $(1)_SOURCE_ID  = $$($(1)_SOURCE_COMMIT)
+$(1)_SOURCE_ID_NICE_NAME = $$($(1)_SOURCE_ID)
 $(1)_SOURCE_CMD = git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
 
 endif
@@ -247,7 +251,11 @@ $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_
 
 # Build the docker image.
 $$($(1)_IMAGE): $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
-	@echo "==> Building Docker image: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
+	@echo "==> Building Docker image $$($(1)_IMAGE_NAME)"
+	@echo "    Layer name             : $$($(1)_NAME)"
+	@echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"
+	@echo "    For product revision   : $(PRODUCT_REVISION_NICE_NAME)"
+	@echo "    For package source ID  : $(PACKAGE_SOURCE_ID)"
 	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE)
 	@$$(call $(1)_UPDATE_MARKER_FILE)
 
