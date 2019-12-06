@@ -108,14 +108,14 @@ jobs:
         key: package-f573dc503f6d36a804e21563c868588e4f713cdf-{{checksum ".buildcache/cache-keys/package-f573dc503f6d36a804e21563c868588e4f713cdf"}}
     - run:
         command: ls -lahR .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
     - run:
-        command: tar -czf dist.tar.gz dist
+        command: tar -czf packages.tar.gz .buildcache/packages
     - store_artifacts:
-        destination: dist
-        path: dist
-    - store_artifacts:
-        destination: dist.tar.gz
-        path: dist.tar.gz
+        destination: packages.tar.gz
+        path: packages.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
     - PRODUCT_REVISION: ''
