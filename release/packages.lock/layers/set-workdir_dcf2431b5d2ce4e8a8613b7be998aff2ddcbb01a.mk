@@ -1,9 +1,0 @@
-
-LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_ID             := set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
-LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_BASE_LAYER     := install-go-tools_c80c360368a978d476a737fc9867b4f29e052e3e
-LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_SOURCE_INCLUDE := 
-LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_SOURCE_EXCLUDE := 
-LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_CACHE_KEY_FILE := .buildcache/cache-keys/set-workdir-dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a
-LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_ARCHIVE_FILE   := .buildcache/archives/set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a.tar.gz
-$(eval $(call LAYER,$(LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_ID),$(LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_BASE_LAYER),$(LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_SOURCE_INCLUDE),$(LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_SOURCE_EXCLUDE),$(LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_CACHE_KEY_FILE),$(LAYER_set-workdir_dcf2431b5d2ce4e8a8613b7be998aff2ddcbb01a_ARCHIVE_FILE)))
-

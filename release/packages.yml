@@ -221,14 +221,13 @@ layers:
       ENV GOROOT /goroot
       RUN mkdir $GOROOT && mkdir $GOPATH
       RUN curl https://storage.googleapis.com/golang/go{{.GO_VERSION}}.linux-amd64.tar.gz \
-                 | tar xvzf - -C $GOROOT --strip-components=1
+                 | tar xzf - -C $GOROOT --strip-components=1
       ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH
   - name: install-go-tools
     source-include: ""
     source-exclude: ""
     dockerfile: |
       RUN go get golang.org/x/tools/cmd/goimports
-      RUN go get github.com/mitchellh/gox
       RUN go get github.com/hashicorp/go-bindata
       RUN go get github.com/hashicorp/go-bindata/go-bindata
       RUN go get github.com/elazarl/go-bindata-assetfs
