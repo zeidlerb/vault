@@ -125,7 +125,8 @@ endef
 
 ifeq ($(shell uname),Darwin)
 # On Mac, try to install things with homebrew.
-BREW_TOOLS := gln:coreutils gtouch:coreutils gtar:gnu-tar jq:jq yq:python-yq
+BREW_TOOLS := gln:coreutils gtouch:coreutils gstat:coreutils \
+	gtar:gnu-tar gfind:findutils jq:jq yq:python-yq
 $(eval $(call REQ_TOOLS,core,brew,brew install,$(BREW_TOOLS)))
 else
 # If not mac, assume debian and try to install using apt.
@@ -142,10 +143,14 @@ ifeq ($(shell uname),Darwin)
 TOUCH := gtouch
 TAR := gtar
 LN := gln
+STAT := gstat
+FIND := gfind
 else
 TOUCH := touch
 TAR := tar
 LN := ln
+STAT := stat
+FIND := find
 endif
 
 ### Utilities and constants
