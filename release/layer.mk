@@ -103,44 +103,45 @@ $(1)_IMAGE_NAME = vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 # so we still invalidate the cache appropriately.
 ifeq ($$($(1)_SOURCE_INCLUDE),)
 
-$(1)_SOURCE_ID           = packagespec-only
-$(1)_SOURCE_ID_NICE_NAME = <packagespec-only>
+$(1)_SOURCE_ID           := packagespec-only
+$(1)_SOURCE_ID_NICE_NAME := <packagespec-only>
 
 else
 
 $(1)_SOURCE_GIT = $$($(1)_SOURCE_INCLUDE) $$(call QUOTE_LIST,$$(addprefix $(GIT_EXCLUDE_PREFIX),$$($(1)_SOURCE_EXCLUDE)))
-$(1)_SOURCE_COMMIT       = $$(shell git rev-list -n1 $(GIT_REF) -- $$($(1)_SOURCE_GIT))
+$(1)_SOURCE_COMMIT       := $$(shell git rev-list -n1 $(GIT_REF) -- $$($(1)_SOURCE_GIT))
 
 # If we allow dirty builds, generate the source ID as a function of the
 # source in in the current work tree. Where the source all happens to match a Git commit,
 # that commit's SHA will be the source ID.
 ifeq ($(ALLOW_DIRTY),YES)
 
-$(1)_SOURCE_CMD = { \
+$(1)_SOURCE_CMD := { \
 					  git ls-files -- $$($(1)_SOURCE_GIT); \
 			 		  git ls-files -m --exclude-standard -- $$($(1)_SOURCE_GIT); \
 			 	  } | sort | uniq
-$(1)_SOURCE_MODIFIED     = $$(shell if git diff -s --exit-code -- $$($(1)_SOURCE_GIT); then echo NO; else echo YES; fi)
-$(1)_SOURCE_MODIFIED_SUM = $$(shell git diff -- $$($(1)_SOURCE_GIT) | $(SUM))
-$(1)_SOURCE_NEW          = $$(shell git ls-files -o --exclude-standard -- $$($(1)_SOURCE_GIT))
-$(1)_SOURCE_NEW_SUM      = $$(shell git ls-files -o --exclude-standard -- $$($(1)_SOURCE_GIT) | $(SUM))
-$(1)_SOURCE_DIRTY        = $$(shell if [ $$($(1)_SOURCE_MODIFIED) == NO ] && [ -z "$$($(1)_SOURCE_NEW)" ]; then echo NO; else echo YES; fi)
+$(1)_SOURCE_MODIFIED     := $$(trim $$(shell git ls-files -m -- $$($(1)_SOURCE_GIT)))
+$(1)_SOURCE_MODIFIED_SUM := $$(trim $$(shell git diff -- $$($(1)_SOURCE_GIT) | $(SUM)))
+$(1)_SOURCE_NEW          := $$(trim $$(shell git ls-files -o --exclude-standard -- $$($(1)_SOURCE_GIT)))
+$(1)_SOURCE_NEW_SUM      := $$(trim $$(shell git ls-files -o --exclude-standard -- $$($(1)_SOURCE_GIT) | $(SUM)))
+$(1)_SOURCE_DIRTY        := $$(trim $$(shell if [ -z "$$($(1)_SOURCE_MODIFIED)" ] && [ -z "$$($(1)_SOURCE_NEW)" ]; then echo NO; else echo YES; fi))
 
-$(1)_SOURCE_ID           = $$(shell if [ $$($(1)_SOURCE_MODIFIED) == NO ] && [ -z "$$($(1)_SOURCE_NEW)" ]; then \
+$(1)_SOURCE_ID           := $$(shell if [ -z "$$($(1)_SOURCE_MODIFIED)" ] && [ -z "$$($(1)_SOURCE_NEW)" ]; then \
 								   echo $$($(1)_SOURCE_COMMIT); \
 				      		   else \
 								   echo -n dirty_; echo $$($(1)_SOURCE_MODIFIED_SUM) $$($(1)_SOURCE_NEW_SUM) | $(SUM); \
 							   fi)
+$(1)_SOURCE_DIRTY_LIST   := $$($(1)_SOURCE_MODIFIED) $$($(1)_SOOURCE_NEW)
 
-$(1)_SOURCE_ID_NICE_NAME = $$($(1)_SOURCE_ID)
+$(1)_SOURCE_ID_NICE_NAME := $$($(1)_SOURCE_ID)
 
 # No dirty builds allowed, so the SOURCE_ID is the git commit SHA,
 # and we list files using git ls-tree.
 else
 
-$(1)_SOURCE_ID  = $$($(1)_SOURCE_COMMIT)
-$(1)_SOURCE_ID_NICE_NAME = $$($(1)_SOURCE_ID)
-$(1)_SOURCE_CMD = git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
+$(1)_SOURCE_ID  := $$($(1)_SOURCE_COMMIT)
+$(1)_SOURCE_ID_NICE_NAME := $$($(1)_SOURCE_ID)
+$(1)_SOURCE_CMD := git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
 
 endif
 endif
@@ -250,7 +251,7 @@ $$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
 $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
 
 # Build the docker image.
-$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
+$$($(1)_IMAGE): | $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
 	@echo "==> Building Docker image $$($(1)_IMAGE_NAME)"
 	@echo "    Layer name             : $$($(1)_NAME)"
 	@echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"

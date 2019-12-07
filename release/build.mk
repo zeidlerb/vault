@@ -80,7 +80,7 @@ DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):$(CONTAINER_OUTPUT_DIR)/$(
 
 .PHONY: package
 package: $(ALIASES)
-	@echo $<
+	@echo $^
 
 $(META): $(LOCK)
 	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
@@ -100,7 +100,6 @@ $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	@docker rm -f $(BUILD_CONTAINER_NAME)
 
 # ALIASES writes the package alias links.
-.PHONY: $(ALIASES)
 $(ALIASES): $(PACKAGE)
 	@mkdir -p $(dir $@)
 	@$(LN) -rfs $< $@
