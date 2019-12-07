@@ -2,7 +2,7 @@
 {{- $packages := $data.packages -}}
 {{- $layers := $data.layers -}}
 {{- $revision := $data.productrevision -}}
-{{- $cacheVersion := "v0" -}}
+{{- $cacheVersion := "v1" -}}
 # Any change to $cacheVersion invalidates all build layer and package caches.
 # Current $cacheVersion: {{$cacheVersion}}
 
