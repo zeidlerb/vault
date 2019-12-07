@@ -83,7 +83,7 @@ LAYERS += $(1)
 $(1)_NAME           = $(1)
 $(1)_BASE           = $(2)
 $(1)_SOURCE_INCLUDE = $(3)
-$(1)_SOURCE_EXCLUDE = $(4) $(ALWAYS_EXCLUDE_SOURCE)
+$(1)_SOURCE_EXCLUDE = $(sort $(4) $(ALWAYS_EXCLUDE_SOURCE))
 $(1)_CACHE_KEY_FILE = $(REPO_ROOT)/$(5)
 $(1)_IMAGE_ARCHIVE  = $(REPO_ROOT)/$(6)
 
@@ -103,6 +103,7 @@ $(1)_IMAGE_NAME = vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 # so we still invalidate the cache appropriately.
 ifeq ($$($(1)_SOURCE_INCLUDE),)
 
+$(1)_SOURCE_CMD          := echo ""
 $(1)_SOURCE_ID           := packagespec-only
 $(1)_SOURCE_ID_NICE_NAME := <packagespec-only>
 
@@ -116,10 +117,10 @@ $(1)_SOURCE_COMMIT       := $$(shell git rev-list -n1 $(GIT_REF) -- $$($(1)_SOUR
 # that commit's SHA will be the source ID.
 ifeq ($(ALLOW_DIRTY),YES)
 
-$(1)_SOURCE_CMD := { \
+$(1)_SOURCE_CMD := { { \
 					  git ls-files -- $$($(1)_SOURCE_GIT); \
 			 		  git ls-files -m --exclude-standard -- $$($(1)_SOURCE_GIT); \
-			 	  } | sort | uniq
+			 	  } | sort | uniq; }
 $(1)_SOURCE_MODIFIED     := $$(trim $$(shell git ls-files -m -- $$($(1)_SOURCE_GIT)))
 $(1)_SOURCE_MODIFIED_SUM := $$(trim $$(shell git diff -- $$($(1)_SOURCE_GIT) | $(SUM)))
 $(1)_SOURCE_NEW          := $$(trim $$(shell git ls-files -o --exclude-standard -- $$($(1)_SOURCE_GIT)))
@@ -241,17 +242,18 @@ $(1)-load:
 
 ## END PHONY targets
 
-# Update the 'current' link to point to this container.
-$$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
-	@echo "==> Linking $$($(1)_NAME) cache dir as $$@"
-	@ln -fns $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
+# Update the 'current' link to point to this cache dir.
+_ := $$(shell \
+	echo "==> Linking $$($(1)_NAME) cache dir as $$($(1)_IMAGE_LINK)"; \
+	ln -fns $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK); \
+)
 
 # Set the BASE_IMAGE build arg to reference the appropriate base image,
 # unless there is no referenced base image.
 $(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
 
 # Build the docker image.
-$$($(1)_IMAGE): | $$($(1)_BASE_IMAGE) $$($(1)_SOURCE_ARCHIVE)
+$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) | $$($(1)_SOURCE_ARCHIVE)
 	@echo "==> Building Docker image $$($(1)_IMAGE_NAME)"
 	@echo "    Layer name             : $$($(1)_NAME)"
 	@echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"
@@ -265,20 +267,23 @@ ifeq ($(ALLOW_DIRTY),YES)
 # For dirty builds, generate a source list file and use that to build
 # the source archive. We --ignore-failed-read so that deleted files that are not
 # committed do not cause problems. This should be OK for dirty builds.
-$$($(1)_SOURCE_LIST):
-	@$$($(1)_SOURCE_CMD) > $$@
-$$($(1)_SOURCE_ARCHIVE): $$($(1)_SOURCE_LIST)
-	@echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
-	@{ echo $$($(1)_DOCKERFILE); cat $$<; } | $(TAR) --create -z --file $$@ --ignore-failed-read -T -
+_ := $$(shell \
+	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
+	echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"; \
+	{ echo $$($(1)_DOCKERFILE); $$($(1)_SOURCE_CMD); } \
+		| $(TAR) --create -z --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T - \
+)
 else
 # For non-dirty builds, ask Git directly for a source archive, then append the
 # dockerfile to it.
-$$($(1)_SOURCE_ARCHIVE):
-	@echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"
-	@git archive $(GIT_REF) $$($(1)_SOURCE_GIT) > $$@.tar
-	@$(TAR) -rf $$@.tar $$($(1)_DOCKERFILE)
-	@gzip < $$@.tar > $$@
-	@rm -f $$@.tar
+_ := $$(shell \
+	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
+	echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"; \
+	git archive $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE).tar; \
+	$(TAR) -rf $$($(1)_SOURCE_ARCHIVE).tar $$($(1)_DOCKERFILE); \
+	gzip < $$($(1)_SOURCE_ARCHIVE).tar > $$($(1)_SOURCE_ARCHIVE); \
+	rm -f $$($(1)_SOURCE_ARCHIVE).tar; \
+)
 endif
 
 # Save the docker image as a tar.gz.
