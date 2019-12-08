@@ -6,7 +6,3 @@ LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_SOURCE_EXCLUD
 LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_CACHE_KEY_FILE := .buildcache/cache-keys/warm-go-build-cache-3a2d31547316becb0f7b7e0909ab4c9d2920534d
 LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_ARCHIVE_FILE   := .buildcache/archives/warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d.tar.gz
 $(eval $(call LAYER,$(LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_ID),$(LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_BASE_LAYER),$(LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_SOURCE_INCLUDE),$(LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_SOURCE_EXCLUDE),$(LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_CACHE_KEY_FILE),$(LAYER_warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_ARCHIVE_FILE)))
-
-BUILD_LAYER_IMAGE = $(warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_IMAGE)
-BUILD_LAYER_IMAGE_NAME = $(warm-go-build-cache_3a2d31547316becb0f7b7e0909ab4c9d2920534d_IMAGE_NAME)
-
