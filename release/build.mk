@@ -27,13 +27,13 @@ BY_ALIAS      := $(PACKAGES_ROOT)/by-alias
 # Include the layers driver.
 include $(RELEASE_DIR)/layer.mk
 
-# Should be set by layer.mk.
-ifeq ($(BUILD_LAYER_IMAGE_NAME),)
-$(error You must set BUILDER_LAYER_IMAGE_NAME)
-endif
-ifeq ($(BUILD_LAYER_IMAGE),)
-$(error You must set BUILDER_LAYER_IMAGE)
-endif
+GET_IMAGE_MARKER_FILE = $(CACHE_ROOT)/layers/$(1)/$($(1)_SOURCE_ID)/image.marker
+GET_IMAGE_NAME        = vault-builder-$(1):$($(1)_SOURCE_ID)
+
+# Determine the top-level build layer.
+BUILD_LAYER_NAME      := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[0].name))
+BUILD_LAYER_IMAGE      = $(call GET_IMAGE_MARKER_FILE,$(BUILD_LAYER_NAME))
+BUILD_LAYER_IMAGE_NAME = $(call GET_IMAGE_NAME,$(BUILD_LAYER_NAME))
 
 BUILD_ENV := $(shell yq -r '$(YQ_PACKAGE_PATH) | .inputs | to_entries[] | "\(.key)=\(.value)"' < $(LOCK))
 BUILD_COMMAND := $(shell yq -r '$(YQ_PACKAGE_PATH) | .["build-command"]' < $(LOCK))
