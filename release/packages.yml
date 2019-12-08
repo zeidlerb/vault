@@ -49,7 +49,7 @@ inputs:
     # You can use any standard environment variables here, any that you omit
     # will be ommitted from the go build command too, meaning to use the system
     # default in the build container.
-    CGOENABLED: 0
+    CGO_ENABLED: 0
     GO111MODULE: "off"
 
   # templates contain golang template strings. Each of these is rendered per package
@@ -268,14 +268,24 @@ layers:
     dockerfile: |-
       COPY . ./
       RUN make static-assets
-  - name: warm-go-build-cache
-    source-include: .
+  - name: warm-go-build-vendor-cache
+    source-include: vendor/
     source-exclude: ""
     dockerfile: |-
       COPY . ./
-      # The go cache is only really useful for matching GOOS and GOARCH,
-      # so we just need to refer to them here to invalidate the cache based
-      # on them, or we would end up caching junk that wouldn't be reusable.
       ENV GOOS={{.GOOS}}
       ENV GOARCH={{.GOARCH}}
-      RUN go build -v -o /dev/null
+      ENV CGO_ENABLED={{.CGO_ENABLED}}
+      # Try to build vendored packages. We first filter out packages which report
+      # errors in 'go list', because trying to run go build ./vendor/... fails early
+      # if we include them. We also don't care about the exit code here, because
+      # some of the vendored packages may fail to build, but this won't necessarily
+      # mean that the final package will fail to build, and we will still get a
+      # usefully warmed cache.
+      RUN go list -f '{{"{{.ImportPath}}{{if or .Error .DepsErrors}} ERROR{{end}}"}}' ./vendor/... | grep -v ERROR | xargs go build -v || true
+  # The final layer must contain all the source code we've not yet built.
+  - name: copy-source
+    source-include: .
+    source-exclude: vendor/ ui/
+    dockerfile: |-
+      COPY . ./

@@ -178,13 +178,13 @@ define $(1)_UPDATE_MARKER_FILE
 	export IMAGE_CREATED; \
 	if ! IMAGE_CREATED=$$$$(docker inspect -f '{{.Created}}' $$$$IMAGE 2>/dev/null); then \
 		if [ -f $$$$MARKER ]; then \
-			echo "==> Removing stale marker file for $$$$IMAGE"; \
+			echo "==> Removing stale marker file for $$$$IMAGE" 1>&2; \
 			rm -f $$$$MARKER; \
 		fi; \
 		exit 0; \
 	fi; \
 	if [ ! -f $$$$MARKER ]; then \
-		echo "==> Writing marker file for $$$$IMAGE (created $$$$IMAGE_CREATED)"; \
+		echo "==> Writing marker file for $$$$IMAGE (created $$$$IMAGE_CREATED)" 1>&2; \
 	fi; \
 	echo $$$$IMAGE > $$$$MARKER; \
 	$(TOUCH) -m -d $$$$IMAGE_CREATED $$$$MARKER; \
@@ -277,12 +277,10 @@ ifeq ($(ALLOW_DIRTY),YES)
 _ := $$(shell \
 	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
 	echo "==> Building source archive from local checkout: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
-	{ echo $$($(1)_DOCKERFILE); $$($(1)_SOURCE_CMD); } \
-		| $(TAR) --create --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T - \
+	$$($(1)_SOURCE_CMD) | $(TAR) --create --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T - \
 )
 else
-# For non-dirty builds, ask Git directly for a source archive, then append the
-# dockerfile to it.
+# For non-dirty builds, ask Git directly for a source archive.
 _ := $$(shell \
 	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
 	echo "==> Building source archive from git: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
@@ -311,10 +309,7 @@ endef
 include $(shell find $(DOCKERFILES_DIR) -name '*.mk')
 
 # Eagerly update the docker image marker files.
-UPDATE_MARKERS_OUTPUT := $(strip $(foreach L,$(LAYERS),$(shell $(call $(L)_UPDATE_MARKER_FILE))))
-ifneq ($(UPDATE_MARKERS_OUTPUT),)
-$(info $(UPDATE_MARKERS_OUTPUT))
-endif
+_ := $(foreach L,$(LAYERS),$(shell $(call $(L)_UPDATE_MARKER_FILE)))
 
 # DOCKER_LAYER_LIST is used to dump the name of every docker ref in use
 # by all of the current builder images. By running 'docker save' against

@@ -1,0 +1,8 @@
+
+LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_ID             := copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6
+LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_BASE_LAYER     := warm-go-build-vendor-cache_00798afc69b9145a1bffe99d52e0f25d3f4f3bef
+LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_SOURCE_INCLUDE := .
+LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_SOURCE_EXCLUDE := vendor/ ui/
+LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_CACHE_KEY_FILE := .buildcache/cache-keys/copy-source-c6ac263bcaec24434b356ccc166a9a98b03836d6
+LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_ARCHIVE_FILE   := .buildcache/archives/copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6.tar.gz
+$(eval $(call LAYER,$(LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_ID),$(LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_BASE_LAYER),$(LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_SOURCE_INCLUDE),$(LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_SOURCE_EXCLUDE),$(LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_CACHE_KEY_FILE),$(LAYER_copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6_ARCHIVE_FILE)))
