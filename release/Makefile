@@ -9,9 +9,6 @@ GOOS ?= $(shell go env GOOS 2>/dev/null || echo linux)
 GOARCH ?= $(shell go env GOARCH 2>/dev/null || echo amd64)
 
 DEFAULT_PACKAGE_YQ := .packages[] | select(.inputs.GOOS=="$(GOOS)" and .inputs.GOARCH=="$(GOARCH)") 
-
-QUERY_LOCK                = cd $(REPO_ROOT); yq -r '$(1)' < $(LOCK)
-QUERY_PACKAGESPEC         = $(call QUERY_LOCK,$(YQ_PACKAGE_PATH) | $(1))
 QUERY_DEFAULT_PACKAGESPEC = $(call QUERY_LOCK,$(DEFAULT_PACKAGE_YQ) | $(1))
 
 PACKAGE_CACHE_KEY_FILES := $(shell $(call QUERY_LOCK,.packages[].meta.builtin.PACKAGE_CACHE_KEY_FILE))

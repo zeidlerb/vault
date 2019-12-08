@@ -52,6 +52,9 @@ ALWAYS_EXCLUDE_SOURCE_GIT := ':(exclude)$(RELEASE_DIR)/' ':(exclude).circleci/'
 # This may be invalid, check that PACKAGE_SPEC_ID is not empty before use.
 YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")  
 
+QUERY_LOCK                = cd $(REPO_ROOT); yq -r '$(1)' < $(LOCK)
+QUERY_PACKAGESPEC         = $(call QUERY_LOCK,$(YQ_PACKAGE_PATH) | $(1))
+
 # Even though layers may have different Git revisions, based on the latest
 # revision of their source, we always want to
 # honour either HEAD or the specified PRODUCT_REVISION for compiling the
