@@ -263,8 +263,19 @@ layers:
       COPY . ./
       RUN cd ui && yarn run build
   - name: build-static-assets
-    source-include: .
-    source-exclude: .circleci/ release/
+    source-include: ""
+    source-exclude: ""
     dockerfile: |-
       COPY . ./
       RUN make static-assets
+  - name: warm-go-build-cache
+    source-include: .
+    source-exclude: ""
+    dockerfile: |-
+      COPY . ./
+      # The go cache is only really useful for matching GOOS and GOARCH,
+      # so we just need to refer to them here to invalidate the cache based
+      # on them, or we would end up caching junk that wouldn't be reusable.
+      ENV GOOS={{.GOOS}}
+      ENV GOARCH={{.GOARCH}}
+      RUN go build -v
