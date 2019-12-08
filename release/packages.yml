@@ -278,4 +278,4 @@ layers:
       # on them, or we would end up caching junk that wouldn't be reusable.
       ENV GOOS={{.GOOS}}
       ENV GOARCH={{.GOARCH}}
-      RUN go build -v
+      RUN go build -v -o /dev/null
