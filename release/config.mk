@@ -18,23 +18,19 @@ REPO_ROOT := $(shell git rev-parse --show-toplevel)
 # automatically.
 AUTO_INSTALL_TOOLS ?= NO
 
-RELEASE_DIR_REL := release
-
 # RELEASE_DIR is the path to the dir containing all the
 # release makefiles etc., relative from the repo root.
 # Typically this is 'release'.
-RELEASE_DIR := $(REPO_ROOT)/$(RELEASE_DIR_REL)
-
-CACHE_ROOT_REL ?= .buildcache
+RELEASE_DIR := release
 
 # CACHE_ROOT is the build cache directory.
-CACHE_ROOT ?= $(REPO_ROOT)/$(CACHE_ROOT_REL)
+CACHE_ROOT ?= .buildcache
 
 # SPEC is the human-managed description of which packages we are able to build.
 SPEC := $(RELEASE_DIR)/packages.yml
 
 # LOCKDIR contains the lockfile and layer files.
-LOCKDIR := $(RELEASE_DIR)/packages.lock
+LOCKDIR      := $(RELEASE_DIR)/packages.lock
 
 # LOCK is the generated fully-expanded rendition of SPEC, for use in generating CI
 # pipelines and other things.
@@ -48,9 +44,9 @@ LOCK := $(LOCKDIR)/pkgs.yml
 # Source in RELEASE_DIR is encoded as PACKAGE_SPEC_ID and included in paths
 # and cache keys. Source in .circleci/ should not do much more than call
 # code in the release/ directory.
-ALWAYS_EXCLUDE_SOURCE     := $(RELEASE_DIR_REL)/ .circleci/
+ALWAYS_EXCLUDE_SOURCE     := $(RELEASE_DIR)/ .circleci/
 # ALWAYS_EXCLUD_SOURCE_GIT is git path filter parlance for the above.
-ALWAYS_EXCLUDE_SOURCE_GIT := ':(exclude)$(RELEASE_DIR_REL)/' ':(exclude).circleci/'
+ALWAYS_EXCLUDE_SOURCE_GIT := ':(exclude)$(RELEASE_DIR)/' ':(exclude).circleci/'
 
 # YQ_PACKAGE_PATH is a yq query fragment to select the package PACKAGE_SPEC_ID.
 # This may be invalid, check that PACKAGE_SPEC_ID is not empty before use.

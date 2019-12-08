@@ -8,7 +8,7 @@
 
 # Include config.mk relative to this file (this allows us to invoke this file
 # from different directories safely.
-include $(shell dirname $(lastword $(MAKEFILE_LIST)))/config.mk
+include $(shell git rev-parse --show-toplevel)/release/config.mk
 
 # Make sure we have all the necessary inputs.
 # Ensure all of these are set in packages.lock
@@ -17,7 +17,7 @@ $(error You must set PACKAGE_SPEC_ID, try invoking 'make build' instead.)
 endif
 
 # PACKAGES_ROOT holds the package store, as well as other package aliases.
-PACKAGES_ROOT := $(CACHE_ROOT_REL)/packages
+PACKAGES_ROOT := $(CACHE_ROOT)/packages
 # PACKAGE_STORE is where we store all the package files themselves
 # addressed by their input hashes.
 PACKAGE_STORE := $(PACKAGES_ROOT)/store

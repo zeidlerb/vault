@@ -65,6 +65,8 @@ include $(dir $(lastword $(MAKEFILE_LIST)))config.mk
 
 DOCKERFILES_DIR := $(LOCKDIR)/layers
 
+_ := $(shell mkdir -p $(CACHE_ROOT)/source-archives)
+
 ### END BUILDER IMAGE LAYERS
 
 ## LAYER
@@ -80,23 +82,21 @@ DOCKERFILES_DIR := $(LOCKDIR)/layers
 
 define LAYER
 LAYERS += $(1)
-$(1)_NAME           = $(1)
-$(1)_BASE           = $(2)
-$(1)_SOURCE_INCLUDE = $(3)
-$(1)_SOURCE_EXCLUDE = $(sort $(4) $(ALWAYS_EXCLUDE_SOURCE))
-$(1)_CACHE_KEY_FILE = $(REPO_ROOT)/$(5)
-$(1)_IMAGE_ARCHIVE  = $(REPO_ROOT)/$(6)
+$(1)_NAME           := $(1)
+$(1)_BASE           := $(2)
+$(1)_SOURCE_INCLUDE := $(3)
+$(1)_SOURCE_EXCLUDE := $(sort $(4) $(ALWAYS_EXCLUDE_SOURCE))
+$(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(5)
+$(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(6)
 
-$(1)_CURRENT_LINK                                     = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current
-$(1)_IMAGE_LINK                                       = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current/image.marker
-$(1)_CACHE                                            = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
-$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/current/image.marker)
+$(1)_CURRENT_LINK                                      = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current
+$(1)_IMAGE_LINK                                        = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current/image.marker
+$(1)_CACHE                                             = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
+$(1)_BASE_IMAGE := $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/current/image.marker)
 
 LAYER_CACHES += $$($(1)_CACHE)
 
-$(1)_SOURCE_LIST = $$($(1)_CACHE)/source.list
-$(1)_DOCKERFILE = $(DOCKERFILES_DIR)/$$($(1)_NAME).Dockerfile
-$(1)_IMAGE_NAME = vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
+$(1)_DOCKERFILE := $(DOCKERFILES_DIR)/$$($(1)_NAME).Dockerfile
 
 # If no source is included, set source ID to none.
 # Note that we include the checksum of the generated Dockerfile as part of cache IDs
@@ -104,7 +104,7 @@ $(1)_IMAGE_NAME = vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 ifeq ($$($(1)_SOURCE_INCLUDE),)
 
 $(1)_SOURCE_CMD          := echo ""
-$(1)_SOURCE_ID           := packagespec-only
+$(1)_SOURCE_ID           := packagespec-only-$$($(1)_NAME)
 $(1)_SOURCE_ID_NICE_NAME := <packagespec-only>
 
 else
@@ -147,6 +147,9 @@ $(1)_SOURCE_CMD := git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
 endif
 endif
 
+$(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_SOURCE_ID).tar
+$(1)_IMAGE_NAME := vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
+
 # Ensure cache dir exists.
 _ := $$(shell mkdir -p $$($(1)_CACHE)) 
 
@@ -160,7 +163,6 @@ $(1)_PHONY_TARGETS := $$(addprefix $$($(1)_NAME)-,$$($(1)_PHONY_TARGET_NAMES))
 $(1)_IMAGE             := $$($(1)_CACHE)/image.marker
 $(1)_LAYER_REFS        := $$($(1)_CACHE)/image.layer_refs
 $(1)_IMAGE_TIMESTAMP   := $$($(1)_CACHE)/image.created_time
-$(1)_SOURCE_ARCHIVE    := $$($(1)_CACHE)/source.tar.gz
 
 $(1)_TARGETS = $$($(1)_PHONY_TARGETS)
 
@@ -195,7 +197,6 @@ $(1)-debug:
 	@echo "==> Debug info: $$($(1)_NAME) depends on $$($(1)_BASE)"
 	@echo "$(1)_TARGETS               = $$($(1)_TARGETS)"
 	@echo "$(1)_SOURCE_CMD            = $$($(1)_SOURCE_CMD)"
-	@echo "$(1)_SOURCE_LIST           = $$($(1)_SOURCE_LIST)"
 	@echo "$(1)_CACHE                 = $$($(1)_CACHE)"
 	@echo "$(1)_DOCKERFILE            = $$($(1)_DOCKERFILE)"
 	@echo "$(1)_SOURCE_COMMIT         = $$($(1)_SOURCE_COMMIT)"
@@ -243,23 +244,29 @@ $(1)-load:
 ## END PHONY targets
 
 # Update the 'current' link to point to this cache dir.
-_ := $$(shell \
-	echo "==> Linking $$($(1)_NAME) cache dir as $$($(1)_IMAGE_LINK)"; \
-	ln -fns $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK); \
-)
+.PHONY: $$($(1)_IMAGE_LINK)
+$$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
+	@echo "==> Linking $$($(1)_NAME) cache dir as $$($(1)_IMAGE_LINK)"; \
+	ln -fns $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
 
 # Set the BASE_IMAGE build arg to reference the appropriate base image,
 # unless there is no referenced base image.
-$(1)_DOCKER_BUILD_ARGS=$$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
+$(1)_DOCKER_BUILD_ARGS = $$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
+
+$(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE := $$($(1)_CACHE)/source-archive.tar
+$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE): | $$($(1)_SOURCE_ARCHIVE)
+	@cp $$($(1)_SOURCE_ARCHIVE) $$@
+	@$(TAR) --append $$($(1)_DOCKERFILE) --file $$@
+
 
 # Build the docker image.
-$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) | $$($(1)_SOURCE_ARCHIVE)
+$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) | $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
 	@echo "==> Building Docker image $$($(1)_IMAGE_NAME)"
 	@echo "    Layer name             : $$($(1)_NAME)"
 	@echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"
 	@echo "    For product revision   : $(PRODUCT_REVISION_NICE_NAME)"
 	@echo "    For package source ID  : $(PACKAGE_SOURCE_ID)"
-	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE)
+	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
 	@$$(call $(1)_UPDATE_MARKER_FILE)
 
 # Build the source archive used as docker context for this image.
@@ -269,20 +276,17 @@ ifeq ($(ALLOW_DIRTY),YES)
 # committed do not cause problems. This should be OK for dirty builds.
 _ := $$(shell \
 	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
-	echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"; \
+	echo "==> Building source archive from local checkout: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
 	{ echo $$($(1)_DOCKERFILE); $$($(1)_SOURCE_CMD); } \
-		| $(TAR) --create -z --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T - \
+		| $(TAR) --create --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T - \
 )
 else
 # For non-dirty builds, ask Git directly for a source archive, then append the
 # dockerfile to it.
 _ := $$(shell \
 	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
-	echo "==> Building source archive: $$($(1)_NAME); $$($(1)_SOURCE_ID)"; \
-	git archive $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE).tar; \
-	$(TAR) -rf $$($(1)_SOURCE_ARCHIVE).tar $$($(1)_DOCKERFILE); \
-	gzip < $$($(1)_SOURCE_ARCHIVE).tar > $$($(1)_SOURCE_ARCHIVE); \
-	rm -f $$($(1)_SOURCE_ARCHIVE).tar; \
+	echo "==> Building source archive from git: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
+	git archive --format=tar $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE); \
 )
 endif
 
