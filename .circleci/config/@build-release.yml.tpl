@@ -2,7 +2,7 @@
 {{- $packages := $data.packages -}}
 {{- $layers := $data.layers -}}
 {{- $revision := $data.productrevision -}}
-{{- $cacheVersion := "v1" -}}
+{{- $cacheVersion := "test-v1" -}}
 # Any change to $cacheVersion invalidates all build layer and package caches.
 # Current $cacheVersion: {{$cacheVersion}}
 
@@ -52,22 +52,6 @@ jobs:
             - {{.archivefile}}
       {{- end}}{{end}}
 
-  bundle-releases:
-    executor: releaser
-    steps:
-      - checkout
-      - write-cache-keys
-      {{- range $packages}}
-      - load-{{.meta.BUILD_JOB_NAME}}{{end}}
-      - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      - run: tar -czf packages.tar.gz .buildcache/packages
-      - store_artifacts:
-          path: packages.tar.gz
-          destination: packages.tar.gz
-
 {{- range $packages}}
   {{.meta.BUILD_JOB_NAME}}:
     executor: releaser
@@ -100,13 +84,30 @@ jobs:
       - save_cache:
           key: '{{$cacheVersion}}-{{index .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST 0}}'
           paths:
-            - .buildcache/archives/{{.meta.builtin.BUILDER_LAYER_ID}}.tar.gz
+            - {{ (index .meta.builtin.BUILD_LAYERS 0).archive}}
       # Save package cache.
       - save_cache:
           key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
           paths:
             - .buildcache/packages
 {{end}}
+
+  bundle-releases:
+    executor: releaser
+    steps:
+      - checkout
+      - write-cache-keys
+      {{- range $packages}}
+      - load-{{.meta.BUILD_JOB_NAME}}{{end}}
+      - run: ls -lahR .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      - run: tar -czf packages.tar.gz .buildcache/packages
+      - store_artifacts:
+          path: packages.tar.gz
+          destination: packages.tar.gz
+
 
 commands:
   {{- range $packages }}
