@@ -1,9 +1,0 @@
-ARG BASE_IMAGE
-FROM $BASE_IMAGE
-COPY . ./
-# The go cache is only really useful for matching GOOS and GOARCH,
-# so we just need to refer to them here to invalidate the cache based
-# on them, or we would end up caching junk that wouldn't be reusable.
-ENV GOOS=solaris
-ENV GOARCH=amd64
-RUN go build -v -o /dev/null
