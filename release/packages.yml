@@ -263,7 +263,7 @@ layers:
       COPY . ./
       RUN cd ui && yarn run build
   - name: build-static-assets
-    source-include: ""
+    source-include: Makefile
     source-exclude: ""
     dockerfile: |-
       COPY . ./
