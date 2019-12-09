@@ -91,8 +91,13 @@ $(1)_SOURCE_EXCLUDE := $(sort $(4) $(ALWAYS_EXCLUDE_SOURCE))
 $(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(5)
 $(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(6)
 
+$(1)_SOURCE_ID_FILE := $(CACHE_ROOT)/layers/$$($(1)_NAME)/current-source-id
+
 $(1)_CACHE                                             = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
-$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$($$($(1)_BASE)_SOURCE_ID)/image.marker)
+#$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$($($(1)_BASE)_SOURCE_ID)/image.marker)
+
+$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || \
+	echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$$$(cat $(CACHE_ROOT)/layers/$$($(1)_BASE)/current-source-id)/image.marker)
 
 LAYER_CACHES += $$($(1)_CACHE)
 
@@ -148,10 +153,11 @@ endif
 endif
 
 $(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_SOURCE_ID).tar
-$(1)_IMAGE_NAME := vault-builder-$$($(1)_NAME):$$($(1)_SOURCE_ID)
+$(1)_IMAGE_NAME := $(BUILDER_IMAGE_PREFIX)-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 
 # Ensure cache dir exists.
 _ := $$(shell mkdir -p $$($(1)_CACHE)) 
+_ := $$(shell echo $$($(1)_SOURCE_ID) > $$($(1)_SOURCE_ID_FILE))
 
 $(1)_PHONY_TARGET_NAMES := debug id image save load
 
@@ -302,7 +308,7 @@ endef
 include $(shell find $(DOCKERFILES_DIR) -name '*.mk')
 
 # Eagerly update the docker image marker files.
-_ := $(foreach L,$(LAYERS),$(shell $(call $(L)_UPDATE_MARKER_FILE)))
+_ := $(foreach L,$(sort $(LAYERS)),$(shell $(call $(L)_UPDATE_MARKER_FILE)))
 
 # DOCKER_LAYER_LIST is used to dump the name of every docker ref in use
 # by all of the current builder images. By running 'docker save' against
