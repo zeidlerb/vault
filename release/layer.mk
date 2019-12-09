@@ -85,11 +85,12 @@ _ := $(shell mkdir -p $(CACHE_ROOT)/source-archives)
 define LAYER
 LAYERS += $(1)
 $(1)_NAME           := $(1)
-$(1)_BASE           := $(2)
-$(1)_SOURCE_INCLUDE := $(3)
-$(1)_SOURCE_EXCLUDE := $(sort $(4) $(ALWAYS_EXCLUDE_SOURCE))
-$(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(5)
-$(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(6)
+$(1)_TYPE           := $(2)
+$(1)_BASE           := $(3)
+$(1)_SOURCE_INCLUDE := $(4)
+$(1)_SOURCE_EXCLUDE := $(sort $(5) $(ALWAYS_EXCLUDE_SOURCE))
+$(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(6)
+$(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(7)
 
 $(1)_SOURCE_ID_FILE := $(CACHE_ROOT)/layers/$$($(1)_NAME)/current-source-id
 
@@ -152,7 +153,7 @@ $(1)_SOURCE_CMD := git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
 endif
 endif
 
-$(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_SOURCE_ID).tar
+$(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_TYPE)-$$($(1)_SOURCE_ID)
 $(1)_IMAGE_NAME := $(BUILDER_IMAGE_PREFIX)-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 
 # Ensure cache dir exists.
