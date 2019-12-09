@@ -102,7 +102,7 @@ $(PACKAGE): | $(BUILD_LAYER_IMAGE) $(META)
 # ALIASES writes the package alias links.
 $(ALIASES): | $(PACKAGE)
 	@mkdir -p $(dir $@)
-	@$(LN) -rfs $< $@
+	@$(LN) -rfs $(PACKAGE) $@
 	@echo "==> Package alias written: $@"
 
 source-id:
