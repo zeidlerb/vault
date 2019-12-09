@@ -1,6 +1,6 @@
-productrevision: ""
+productrevision: v1.0.2
 packages:
-- packagespecid: 6aa2fbd1da76ed8aff110810063206bdbf93ad60
+- packagespecid: 3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -10,17 +10,17 @@ packages:
     GOARCH: "386"
     GOOS: darwin
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_darwin_386
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_darwin_386
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_darwin_386
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -53,7 +53,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_d434_{{checksum ".buildcache/cache-keys/copy-source-d43490496eaff11363bd07848504cef97317b363"}}
@@ -66,18 +66,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum
-        ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}
+      PACKAGE_CACHE_KEY: package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6-{{checksum
+        ".buildcache/cache-keys/package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_darwin_386.zip
+    path: vault_0.0.0-sam-snapshot_darwin_386.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_386.zip
-- packagespecid: 8c597312fe5f56feae85eb349a2cbf21e29f26b3
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_darwin_386.zip
+- packagespecid: af545b093e82e14608b514d016063cb64df873dc
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -87,17 +87,17 @@ packages:
     GOARCH: amd64
     GOOS: darwin
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_darwin_amd64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_darwin_amd64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_darwin_amd64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -130,7 +130,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-af545b093e82e14608b514d016063cb64df873dc
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_b48b_{{checksum ".buildcache/cache-keys/copy-source-b48b25b86f085fd7173562f2a1e0dbd0562ce317"}}
@@ -143,18 +143,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum
-        ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}
+      PACKAGE_CACHE_KEY: package-af545b093e82e14608b514d016063cb64df873dc-{{checksum
+        ".buildcache/cache-keys/package-af545b093e82e14608b514d016063cb64df873dc"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_darwin_amd64.zip
+    path: vault_0.0.0-sam-snapshot_darwin_amd64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_amd64.zip
-- packagespecid: a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_darwin_amd64.zip
+- packagespecid: 894d93793f30b52c3e3fe666aa7e4af12e0e64cb
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -164,17 +164,17 @@ packages:
     GOARCH: "386"
     GOOS: freebsd
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_freebsd_386
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_386
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_freebsd_386
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -207,7 +207,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_fa3f_{{checksum ".buildcache/cache-keys/copy-source-fa3fbf42c80603e13ad007f1730f93d074de6fbd"}}
@@ -220,18 +220,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum
-        ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}
+      PACKAGE_CACHE_KEY: package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb-{{checksum
+        ".buildcache/cache-keys/package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_freebsd_386.zip
+    path: vault_0.0.0-sam-snapshot_freebsd_386.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_386.zip
-- packagespecid: 567d118ae2765e0ad20d0891691465f65b7d307d
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_freebsd_386.zip
+- packagespecid: b25ecbfae80f479ed66b51a406338c8c57b75e06
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -241,17 +241,17 @@ packages:
     GOARCH: amd64
     GOOS: freebsd
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_freebsd_amd64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_amd64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_freebsd_amd64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -284,7 +284,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-b25ecbfae80f479ed66b51a406338c8c57b75e06
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_0f79_{{checksum ".buildcache/cache-keys/copy-source-0f79408e7f86dfe80c68daf69f1d16d16f1b27ee"}}
@@ -297,18 +297,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum
-        ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}
+      PACKAGE_CACHE_KEY: package-b25ecbfae80f479ed66b51a406338c8c57b75e06-{{checksum
+        ".buildcache/cache-keys/package-b25ecbfae80f479ed66b51a406338c8c57b75e06"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_freebsd_amd64.zip
+    path: vault_0.0.0-sam-snapshot_freebsd_amd64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_amd64.zip
-- packagespecid: 8cc283250f20ae292e34be3493b93f5e9a600f6f
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_freebsd_amd64.zip
+- packagespecid: e36890550e83799cba87f8cc3f062493907f8781
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -318,17 +318,17 @@ packages:
     GOARCH: arm
     GOOS: freebsd
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_freebsd_arm
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_freebsd_arm
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_freebsd_arm
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -361,7 +361,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-e36890550e83799cba87f8cc3f062493907f8781
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_f284_{{checksum ".buildcache/cache-keys/copy-source-f28438f494ace3c68f1f60085c60aa139c766677"}}
@@ -374,18 +374,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum
-        ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}
+      PACKAGE_CACHE_KEY: package-e36890550e83799cba87f8cc3f062493907f8781-{{checksum
+        ".buildcache/cache-keys/package-e36890550e83799cba87f8cc3f062493907f8781"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_freebsd_arm.zip
+    path: vault_0.0.0-sam-snapshot_freebsd_arm.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_arm.zip
-- packagespecid: a05d89d33a386881c13ab009d2a6d299fbbc8ea4
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_freebsd_arm.zip
+- packagespecid: 322bd09ad05040f36dd61ec335f9523796393aec
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -395,17 +395,17 @@ packages:
     GOARCH: "386"
     GOOS: linux
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_386
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_386
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_linux_386
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -438,7 +438,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-322bd09ad05040f36dd61ec335f9523796393aec
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_4c10_{{checksum ".buildcache/cache-keys/copy-source-4c108464b1e4a4f8c981531932e83baf8db6bbfc"}}
@@ -451,18 +451,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum
-        ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}
+      PACKAGE_CACHE_KEY: package-322bd09ad05040f36dd61ec335f9523796393aec-{{checksum
+        ".buildcache/cache-keys/package-322bd09ad05040f36dd61ec335f9523796393aec"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_linux_386.zip
+    path: vault_0.0.0-sam-snapshot_linux_386.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_386.zip
-- packagespecid: 779a842c6f6a4fd900938f083d1970208da81ddf
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_linux_386.zip
+- packagespecid: c13f3afcd2e8f561f56a74c411d82c8203f9ac38
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -472,17 +472,17 @@ packages:
     GOARCH: amd64
     GOOS: linux
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_amd64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_amd64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_linux_amd64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -515,7 +515,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_11b0_{{checksum ".buildcache/cache-keys/copy-source-11b0b277f5157870c3444cfbf3d3d54cc5730c6e"}}
@@ -528,18 +528,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum
-        ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}
+      PACKAGE_CACHE_KEY: package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38-{{checksum
+        ".buildcache/cache-keys/package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_linux_amd64.zip
+    path: vault_0.0.0-sam-snapshot_linux_amd64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_amd64.zip
-- packagespecid: 250db9a11405218e825b2b70168e27c6af7e1a88
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_linux_amd64.zip
+- packagespecid: 27e814189098036408316bd238604e1bf6929c1f
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -549,17 +549,17 @@ packages:
     GOARCH: arm
     GOOS: linux
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_arm
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_linux_arm
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -592,7 +592,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-27e814189098036408316bd238604e1bf6929c1f
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_020c_{{checksum ".buildcache/cache-keys/copy-source-020c795efeac45ae1c868131a87666087063bb14"}}
@@ -605,18 +605,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum
-        ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}
+      PACKAGE_CACHE_KEY: package-27e814189098036408316bd238604e1bf6929c1f-{{checksum
+        ".buildcache/cache-keys/package-27e814189098036408316bd238604e1bf6929c1f"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_linux_arm.zip
+    path: vault_0.0.0-sam-snapshot_linux_arm.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm.zip
-- packagespecid: 9263774b2aa1b61109603c312e6f8900be04152e
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_linux_arm.zip
+- packagespecid: 15d629bf054d9d6bef025458aee0b4efd76c1cf9
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -626,17 +626,17 @@ packages:
     GOARCH: arm64
     GOOS: linux
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_linux_arm64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_linux_arm64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_linux_arm64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -669,7 +669,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-15d629bf054d9d6bef025458aee0b4efd76c1cf9
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_ba87_{{checksum ".buildcache/cache-keys/copy-source-ba872dc84b8f628f777008f259d8931e87f08f57"}}
@@ -682,18 +682,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum
-        ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}
+      PACKAGE_CACHE_KEY: package-15d629bf054d9d6bef025458aee0b4efd76c1cf9-{{checksum
+        ".buildcache/cache-keys/package-15d629bf054d9d6bef025458aee0b4efd76c1cf9"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_linux_arm64.zip
+    path: vault_0.0.0-sam-snapshot_linux_arm64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm64.zip
-- packagespecid: ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_linux_arm64.zip
+- packagespecid: 4566a58bebf4c645c0119af498b2e55777fdceb2
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -703,17 +703,17 @@ packages:
     GOARCH: "386"
     GOOS: netbsd
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_netbsd_386
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_386
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_netbsd_386
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -746,7 +746,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-4566a58bebf4c645c0119af498b2e55777fdceb2
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_44e9_{{checksum ".buildcache/cache-keys/copy-source-44e91311bbacaffb1267b8a5abb6f479a1d130bc"}}
@@ -759,18 +759,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum
-        ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}
+      PACKAGE_CACHE_KEY: package-4566a58bebf4c645c0119af498b2e55777fdceb2-{{checksum
+        ".buildcache/cache-keys/package-4566a58bebf4c645c0119af498b2e55777fdceb2"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_netbsd_386.zip
+    path: vault_0.0.0-sam-snapshot_netbsd_386.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_386.zip
-- packagespecid: 5bbee728f4df8e41edaef59dd998c7d95c02feab
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_netbsd_386.zip
+- packagespecid: 7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -780,17 +780,17 @@ packages:
     GOARCH: amd64
     GOOS: netbsd
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_netbsd_amd64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_netbsd_amd64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_netbsd_amd64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -823,7 +823,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_7f9f_{{checksum ".buildcache/cache-keys/copy-source-7f9f65d96cfaeec0d7e3a9a73e28ecea25088ced"}}
@@ -836,18 +836,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum
-        ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}
+      PACKAGE_CACHE_KEY: package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01-{{checksum
+        ".buildcache/cache-keys/package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_netbsd_amd64.zip
+    path: vault_0.0.0-sam-snapshot_netbsd_amd64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_amd64.zip
-- packagespecid: d4b69b3c0ac7642a4c33ed1987e9093bd511ea06
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_netbsd_amd64.zip
+- packagespecid: 6a5d2803483a7d4085af9d260fed3b6c65f6602b
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -857,17 +857,17 @@ packages:
     GOARCH: "386"
     GOOS: openbsd
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_openbsd_386
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_386
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_openbsd_386
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -900,7 +900,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-6a5d2803483a7d4085af9d260fed3b6c65f6602b
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_ed7b_{{checksum ".buildcache/cache-keys/copy-source-ed7b4907a7a48d643bac8c54afc2537334d6ba92"}}
@@ -913,18 +913,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum
-        ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}
+      PACKAGE_CACHE_KEY: package-6a5d2803483a7d4085af9d260fed3b6c65f6602b-{{checksum
+        ".buildcache/cache-keys/package-6a5d2803483a7d4085af9d260fed3b6c65f6602b"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_openbsd_386.zip
+    path: vault_0.0.0-sam-snapshot_openbsd_386.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_386.zip
-- packagespecid: 0e2fa037f95b479aa01eff3e546557f6a713d01e
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_openbsd_386.zip
+- packagespecid: 738963bd7a9a0f683823ccfc4c6fc473e4cc8f14
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -934,17 +934,17 @@ packages:
     GOARCH: amd64
     GOOS: openbsd
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_openbsd_amd64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_openbsd_amd64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_openbsd_amd64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -977,7 +977,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_78a0_{{checksum ".buildcache/cache-keys/copy-source-78a0f07ca37654f020eb057dc5d3d790da04fc3c"}}
@@ -990,18 +990,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum
-        ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}
+      PACKAGE_CACHE_KEY: package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14-{{checksum
+        ".buildcache/cache-keys/package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_openbsd_amd64.zip
+    path: vault_0.0.0-sam-snapshot_openbsd_amd64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_amd64.zip
-- packagespecid: f084519720c79d535489a8c1e9d332336c58997a
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_openbsd_amd64.zip
+- packagespecid: 34fed3db8f6746b98b721a102469e782e46dafad
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -1011,17 +1011,17 @@ packages:
     GOARCH: amd64
     GOOS: solaris
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_solaris_amd64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_solaris_amd64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_solaris_amd64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -1054,7 +1054,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-34fed3db8f6746b98b721a102469e782e46dafad
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_92a2_{{checksum ".buildcache/cache-keys/copy-source-92a2a92bd3e67ef7472f5c8d3517dd0266f38665"}}
@@ -1067,18 +1067,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum
-        ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}
+      PACKAGE_CACHE_KEY: package-34fed3db8f6746b98b721a102469e782e46dafad-{{checksum
+        ".buildcache/cache-keys/package-34fed3db8f6746b98b721a102469e782e46dafad"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_solaris_amd64.zip
+    path: vault_0.0.0-sam-snapshot_solaris_amd64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_solaris_amd64.zip
-- packagespecid: ce8f4493a547b4a8461dd2a0c145360107af9acd
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_solaris_amd64.zip
+- packagespecid: b6bec555bb664166cb979b1b725075cf65808b4d
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -1088,17 +1088,17 @@ packages:
     GOARCH: "386"
     GOOS: windows
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_windows_386
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_windows_386
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_windows_386
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -1131,7 +1131,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-b6bec555bb664166cb979b1b725075cf65808b4d
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_c53a_{{checksum ".buildcache/cache-keys/copy-source-c53a56931108bd328afa374ddba2515f05dd652e"}}
@@ -1144,18 +1144,18 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum
-        ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}
+      PACKAGE_CACHE_KEY: package-b6bec555bb664166cb979b1b725075cf65808b4d-{{checksum
+        ".buildcache/cache-keys/package-b6bec555bb664166cb979b1b725075cf65808b4d"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_windows_386.zip
+    path: vault_0.0.0-sam-snapshot_windows_386.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_386.zip
-- packagespecid: 0442e87d84ed352b7ca356abf369ae707589d4d4
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_windows_386.zip
+- packagespecid: 0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4
   inputs:
     BINARY_NAME: vault
     BUILD_TAGS: vault
@@ -1165,17 +1165,17 @@ packages:
     GOARCH: amd64
     GOOS: windows
     PRODUCT_EDITION: ""
-    PRODUCT_VERSION: 0.0.0-snapshot
+    PRODUCT_VERSION: 0.0.0-sam-snapshot
     PRODUCT_VERSION_MMP: 0.0.0
-    PRODUCT_VERSION_PRE: snapshot
+    PRODUCT_VERSION_PRE: sam-snapshot
     YARN_VERSION: 1.19.1-1
   meta:
     BUILD_JOB_NAME: package_windows_amd64
-    BUNDLE_NAME: vault_0.0.0-snapshot
-    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-snapshot
+    BUNDLE_NAME: vault_0.0.0-sam-snapshot
+    PACKAGE_OUT_ROOT: dist/public/vault_0.0.0-sam-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
-    PUBLIC_PACKAGE_NAME: vault_0.0.0-snapshot_windows_amd64
+    PUBLIC_PACKAGE_NAME: vault_0.0.0-sam-snapshot_windows_amd64
     builtin:
       BUILD_LAYERS:
       - type: copy-source
@@ -1208,7 +1208,7 @@ packages:
       - type: base
         name: 00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3
         archive: .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4
+      PACKAGE_CACHE_KEY_FILE: .buildcache/cache-keys/package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4
     circleci:
       BUILDER_CACHE_KEY_PREFIX_LIST:
       - copy-source_9904_{{checksum ".buildcache/cache-keys/copy-source-9904cad43a7696e22882e225ab21ce547f231ca2"}}
@@ -1221,17 +1221,17 @@ packages:
       - install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
       - install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
       - base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      PACKAGE_CACHE_KEY: package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum
-        ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}
+      PACKAGE_CACHE_KEY: package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4-{{checksum
+        ".buildcache/cache-keys/package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4"}}
   build-command: VERSION_PKG_PATH=github.com/hashicorp/vault/vendor/github.com/hashicorp/vault/sdk/version;
     go build -v -tags "vault" -ldflags " -X $VERSION_PKG_PATH.GitCommit=$PACKAGE_SOURCE_ID
-    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=snapshot"
+    -X $VERSION_PKG_PATH.Version=0.0.0 -X $VERSION_PKG_PATH.VersionPrerelease=sam-snapshot"
     -o $OUTPUT_DIR/vault && cd $OUTPUT_DIR && zip $PACKAGE_ZIP_NAME vault
   aliases:
   - type: local
-    path: vault_0.0.0-snapshot_windows_amd64.zip
+    path: vault_0.0.0-sam-snapshot_windows_amd64.zip
   - type: hc-releases-bundle
-    path: public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_amd64.zip
+    path: public/vault_0.0.0-sam-snapshot/vault_0.0.0-sam-snapshot_windows_amd64.zip
 layers:
 - depth: 0
   final: false

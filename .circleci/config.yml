@@ -10,8 +10,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 6aa2fbd1da76ed8aff110810063206bdbf93ad60
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6
     steps:
     - setup_remote_docker
     - checkout
@@ -34,7 +34,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}
+        key: test7-v1-package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6-{{checksum ".buildcache/cache-keys/package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -51,7 +51,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz
     - save_cache:
-        key: test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}
+        key: test7-v1-package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6-{{checksum ".buildcache/cache-keys/package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6"}}
         paths:
         - .buildcache/packages
   bundle-releases:
@@ -67,37 +67,37 @@ jobs:
         command: make -C release write-package-cache-keys
         name: Write package cache keys
     - restore_cache:
-        key: test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}
+        key: test7-v1-package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6-{{checksum ".buildcache/cache-keys/package-3ef1c1b10e27d0e4220e641f6a7761d647dd1cb6"}}
     - restore_cache:
-        key: test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}
+        key: test7-v1-package-af545b093e82e14608b514d016063cb64df873dc-{{checksum ".buildcache/cache-keys/package-af545b093e82e14608b514d016063cb64df873dc"}}
     - restore_cache:
-        key: test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}
+        key: test7-v1-package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb-{{checksum ".buildcache/cache-keys/package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb"}}
     - restore_cache:
-        key: test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}
+        key: test7-v1-package-b25ecbfae80f479ed66b51a406338c8c57b75e06-{{checksum ".buildcache/cache-keys/package-b25ecbfae80f479ed66b51a406338c8c57b75e06"}}
     - restore_cache:
-        key: test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}
+        key: test7-v1-package-e36890550e83799cba87f8cc3f062493907f8781-{{checksum ".buildcache/cache-keys/package-e36890550e83799cba87f8cc3f062493907f8781"}}
     - restore_cache:
-        key: test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}
+        key: test7-v1-package-322bd09ad05040f36dd61ec335f9523796393aec-{{checksum ".buildcache/cache-keys/package-322bd09ad05040f36dd61ec335f9523796393aec"}}
     - restore_cache:
-        key: test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}
+        key: test7-v1-package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38-{{checksum ".buildcache/cache-keys/package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38"}}
     - restore_cache:
-        key: test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}
+        key: test7-v1-package-27e814189098036408316bd238604e1bf6929c1f-{{checksum ".buildcache/cache-keys/package-27e814189098036408316bd238604e1bf6929c1f"}}
     - restore_cache:
-        key: test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}
+        key: test7-v1-package-15d629bf054d9d6bef025458aee0b4efd76c1cf9-{{checksum ".buildcache/cache-keys/package-15d629bf054d9d6bef025458aee0b4efd76c1cf9"}}
     - restore_cache:
-        key: test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}
+        key: test7-v1-package-4566a58bebf4c645c0119af498b2e55777fdceb2-{{checksum ".buildcache/cache-keys/package-4566a58bebf4c645c0119af498b2e55777fdceb2"}}
     - restore_cache:
-        key: test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}
+        key: test7-v1-package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01-{{checksum ".buildcache/cache-keys/package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01"}}
     - restore_cache:
-        key: test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}
+        key: test7-v1-package-6a5d2803483a7d4085af9d260fed3b6c65f6602b-{{checksum ".buildcache/cache-keys/package-6a5d2803483a7d4085af9d260fed3b6c65f6602b"}}
     - restore_cache:
-        key: test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}
+        key: test7-v1-package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14-{{checksum ".buildcache/cache-keys/package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14"}}
     - restore_cache:
-        key: test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}
+        key: test7-v1-package-34fed3db8f6746b98b721a102469e782e46dafad-{{checksum ".buildcache/cache-keys/package-34fed3db8f6746b98b721a102469e782e46dafad"}}
     - restore_cache:
-        key: test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}
+        key: test7-v1-package-b6bec555bb664166cb979b1b725075cf65808b4d-{{checksum ".buildcache/cache-keys/package-b6bec555bb664166cb979b1b725075cf65808b4d"}}
     - restore_cache:
-        key: test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}
+        key: test7-v1-package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4-{{checksum ".buildcache/cache-keys/package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4"}}
     - run:
         command: ls -lahR .buildcache/packages
     - store_artifacts:
@@ -110,15 +110,15 @@ jobs:
         path: packages.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
+    - PRODUCT_REVISION: v1.0.2
   package_linux_arm64:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 9263774b2aa1b61109603c312e6f8900be04152e
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 15d629bf054d9d6bef025458aee0b4efd76c1cf9
     steps:
     - setup_remote_docker
     - checkout
@@ -141,7 +141,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}
+        key: test7-v1-package-15d629bf054d9d6bef025458aee0b4efd76c1cf9-{{checksum ".buildcache/cache-keys/package-15d629bf054d9d6bef025458aee0b4efd76c1cf9"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -158,7 +158,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz
     - save_cache:
-        key: test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}
+        key: test7-v1-package-15d629bf054d9d6bef025458aee0b4efd76c1cf9-{{checksum ".buildcache/cache-keys/package-15d629bf054d9d6bef025458aee0b4efd76c1cf9"}}
         paths:
         - .buildcache/packages
   package_windows_386:
@@ -167,8 +167,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: ce8f4493a547b4a8461dd2a0c145360107af9acd
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: b6bec555bb664166cb979b1b725075cf65808b4d
     steps:
     - setup_remote_docker
     - checkout
@@ -191,7 +191,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}
+        key: test7-v1-package-b6bec555bb664166cb979b1b725075cf65808b4d-{{checksum ".buildcache/cache-keys/package-b6bec555bb664166cb979b1b725075cf65808b4d"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -208,7 +208,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5.tar.gz
     - save_cache:
-        key: test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}
+        key: test7-v1-package-b6bec555bb664166cb979b1b725075cf65808b4d-{{checksum ".buildcache/cache-keys/package-b6bec555bb664166cb979b1b725075cf65808b4d"}}
         paths:
         - .buildcache/packages
   install-ui-dependencies:
@@ -236,8 +236,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 5bbee728f4df8e41edaef59dd998c7d95c02feab
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01
     steps:
     - setup_remote_docker
     - checkout
@@ -260,7 +260,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}
+        key: test7-v1-package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01-{{checksum ".buildcache/cache-keys/package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -277,7 +277,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz
     - save_cache:
-        key: test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}
+        key: test7-v1-package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01-{{checksum ".buildcache/cache-keys/package-7c628cfa9600e8a7b1c3e02fb9d4f05928ae9c01"}}
         paths:
         - .buildcache/packages
   package_linux_arm:
@@ -286,8 +286,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 250db9a11405218e825b2b70168e27c6af7e1a88
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 27e814189098036408316bd238604e1bf6929c1f
     steps:
     - setup_remote_docker
     - checkout
@@ -310,7 +310,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}
+        key: test7-v1-package-27e814189098036408316bd238604e1bf6929c1f-{{checksum ".buildcache/cache-keys/package-27e814189098036408316bd238604e1bf6929c1f"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -327,7 +327,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0.tar.gz
     - save_cache:
-        key: test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}
+        key: test7-v1-package-27e814189098036408316bd238604e1bf6929c1f-{{checksum ".buildcache/cache-keys/package-27e814189098036408316bd238604e1bf6929c1f"}}
         paths:
         - .buildcache/packages
   package_solaris_amd64:
@@ -336,8 +336,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: f084519720c79d535489a8c1e9d332336c58997a
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 34fed3db8f6746b98b721a102469e782e46dafad
     steps:
     - setup_remote_docker
     - checkout
@@ -360,7 +360,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}
+        key: test7-v1-package-34fed3db8f6746b98b721a102469e782e46dafad-{{checksum ".buildcache/cache-keys/package-34fed3db8f6746b98b721a102469e782e46dafad"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -377,7 +377,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz
     - save_cache:
-        key: test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}
+        key: test7-v1-package-34fed3db8f6746b98b721a102469e782e46dafad-{{checksum ".buildcache/cache-keys/package-34fed3db8f6746b98b721a102469e782e46dafad"}}
         paths:
         - .buildcache/packages
   test-ui:
@@ -442,8 +442,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 8cc283250f20ae292e34be3493b93f5e9a600f6f
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: e36890550e83799cba87f8cc3f062493907f8781
     steps:
     - setup_remote_docker
     - checkout
@@ -466,7 +466,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}
+        key: test7-v1-package-e36890550e83799cba87f8cc3f062493907f8781-{{checksum ".buildcache/cache-keys/package-e36890550e83799cba87f8cc3f062493907f8781"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -483,7 +483,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz
     - save_cache:
-        key: test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}
+        key: test7-v1-package-e36890550e83799cba87f8cc3f062493907f8781-{{checksum ".buildcache/cache-keys/package-e36890550e83799cba87f8cc3f062493907f8781"}}
         paths:
         - .buildcache/packages
   build-go-dev:
@@ -683,8 +683,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 779a842c6f6a4fd900938f083d1970208da81ddf
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: c13f3afcd2e8f561f56a74c411d82c8203f9ac38
     steps:
     - setup_remote_docker
     - checkout
@@ -707,7 +707,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}
+        key: test7-v1-package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38-{{checksum ".buildcache/cache-keys/package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -724,7 +724,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
     - save_cache:
-        key: test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}
+        key: test7-v1-package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38-{{checksum ".buildcache/cache-keys/package-c13f3afcd2e8f561f56a74c411d82c8203f9ac38"}}
         paths:
         - .buildcache/packages
   package_windows_amd64:
@@ -733,8 +733,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 0442e87d84ed352b7ca356abf369ae707589d4d4
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4
     steps:
     - setup_remote_docker
     - checkout
@@ -757,7 +757,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}
+        key: test7-v1-package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4-{{checksum ".buildcache/cache-keys/package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -774,7 +774,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz
     - save_cache:
-        key: test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}
+        key: test7-v1-package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4-{{checksum ".buildcache/cache-keys/package-0e3c8e6423a2bbc313ce1a8b5f3a5da2bf5756e4"}}
         paths:
         - .buildcache/packages
   package_linux_386:
@@ -783,8 +783,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: a05d89d33a386881c13ab009d2a6d299fbbc8ea4
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 322bd09ad05040f36dd61ec335f9523796393aec
     steps:
     - setup_remote_docker
     - checkout
@@ -807,7 +807,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}
+        key: test7-v1-package-322bd09ad05040f36dd61ec335f9523796393aec-{{checksum ".buildcache/cache-keys/package-322bd09ad05040f36dd61ec335f9523796393aec"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -824,7 +824,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad.tar.gz
     - save_cache:
-        key: test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}
+        key: test7-v1-package-322bd09ad05040f36dd61ec335f9523796393aec-{{checksum ".buildcache/cache-keys/package-322bd09ad05040f36dd61ec335f9523796393aec"}}
         paths:
         - .buildcache/packages
   package_freebsd_amd64:
@@ -833,8 +833,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 567d118ae2765e0ad20d0891691465f65b7d307d
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: b25ecbfae80f479ed66b51a406338c8c57b75e06
     steps:
     - setup_remote_docker
     - checkout
@@ -857,7 +857,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}
+        key: test7-v1-package-b25ecbfae80f479ed66b51a406338c8c57b75e06-{{checksum ".buildcache/cache-keys/package-b25ecbfae80f479ed66b51a406338c8c57b75e06"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -874,7 +874,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz
     - save_cache:
-        key: test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}
+        key: test7-v1-package-b25ecbfae80f479ed66b51a406338c8c57b75e06-{{checksum ".buildcache/cache-keys/package-b25ecbfae80f479ed66b51a406338c8c57b75e06"}}
         paths:
         - .buildcache/packages
   package_openbsd_386:
@@ -883,8 +883,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: d4b69b3c0ac7642a4c33ed1987e9093bd511ea06
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 6a5d2803483a7d4085af9d260fed3b6c65f6602b
     steps:
     - setup_remote_docker
     - checkout
@@ -907,7 +907,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}
+        key: test7-v1-package-6a5d2803483a7d4085af9d260fed3b6c65f6602b-{{checksum ".buildcache/cache-keys/package-6a5d2803483a7d4085af9d260fed3b6c65f6602b"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -924,7 +924,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz
     - save_cache:
-        key: test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}
+        key: test7-v1-package-6a5d2803483a7d4085af9d260fed3b6c65f6602b-{{checksum ".buildcache/cache-keys/package-6a5d2803483a7d4085af9d260fed3b6c65f6602b"}}
         paths:
         - .buildcache/packages
   package_openbsd_amd64:
@@ -933,8 +933,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 0e2fa037f95b479aa01eff3e546557f6a713d01e
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 738963bd7a9a0f683823ccfc4c6fc473e4cc8f14
     steps:
     - setup_remote_docker
     - checkout
@@ -957,7 +957,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}
+        key: test7-v1-package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14-{{checksum ".buildcache/cache-keys/package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -974,7 +974,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz
     - save_cache:
-        key: test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}
+        key: test7-v1-package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14-{{checksum ".buildcache/cache-keys/package-738963bd7a9a0f683823ccfc4c6fc473e4cc8f14"}}
         paths:
         - .buildcache/packages
   package_netbsd_386:
@@ -983,8 +983,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 4566a58bebf4c645c0119af498b2e55777fdceb2
     steps:
     - setup_remote_docker
     - checkout
@@ -1007,7 +1007,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}
+        key: test7-v1-package-4566a58bebf4c645c0119af498b2e55777fdceb2-{{checksum ".buildcache/cache-keys/package-4566a58bebf4c645c0119af498b2e55777fdceb2"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1024,7 +1024,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz
     - save_cache:
-        key: test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}
+        key: test7-v1-package-4566a58bebf4c645c0119af498b2e55777fdceb2-{{checksum ".buildcache/cache-keys/package-4566a58bebf4c645c0119af498b2e55777fdceb2"}}
         paths:
         - .buildcache/packages
   package_darwin_amd64:
@@ -1033,8 +1033,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 8c597312fe5f56feae85eb349a2cbf21e29f26b3
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: af545b093e82e14608b514d016063cb64df873dc
     steps:
     - setup_remote_docker
     - checkout
@@ -1057,7 +1057,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}
+        key: test7-v1-package-af545b093e82e14608b514d016063cb64df873dc-{{checksum ".buildcache/cache-keys/package-af545b093e82e14608b514d016063cb64df873dc"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1074,7 +1074,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz
     - save_cache:
-        key: test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}
+        key: test7-v1-package-af545b093e82e14608b514d016063cb64df873dc-{{checksum ".buildcache/cache-keys/package-af545b093e82e14608b514d016063cb64df873dc"}}
         paths:
         - .buildcache/packages
   package_freebsd_386:
@@ -1083,8 +1083,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4
+    - PRODUCT_REVISION: v1.0.2
+    - PACKAGE_SPEC_ID: 894d93793f30b52c3e3fe666aa7e4af12e0e64cb
     steps:
     - setup_remote_docker
     - checkout
@@ -1107,7 +1107,7 @@ jobs:
         - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
         - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
     - restore_cache:
-        key: test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}
+        key: test7-v1-package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb-{{checksum ".buildcache/cache-keys/package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb"}}
     - run:
         command: make -C release load-builder-cache || echo "No cached builder image to load."
     - run:
@@ -1124,7 +1124,7 @@ jobs:
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2.tar.gz
     - save_cache:
-        key: test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}
+        key: test7-v1-package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb-{{checksum ".buildcache/cache-keys/package-894d93793f30b52c3e3fe666aa7e4af12e0e64cb"}}
         paths:
         - .buildcache/packages
   pre-flight-checks:
@@ -1191,7 +1191,7 @@ jobs:
         - .buildcache/archives/07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
+    - PRODUCT_REVISION: v1.0.2
 workflows:
   build-release:
     jobs:
