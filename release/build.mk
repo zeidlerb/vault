@@ -10,8 +10,6 @@
 # from different directories safely.
 include $(shell git rev-parse --show-toplevel)/release/config.mk
 
-.SECONDARY:
-
 # Make sure we have all the necessary inputs.
 # Ensure all of these are set in packages.lock
 ifeq ($(PACKAGE_SPEC_ID),)
@@ -103,6 +101,9 @@ $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	@docker rm -f $(BUILD_CONTAINER_NAME)
 
 # ALIASES writes the package alias links.
+# ALIASES must be phony to ensure they are updated to point to the
+# latest builds.
+.PHONY: $(ALIASES)
 $(ALIASES): $(PACKAGE)
 	@mkdir -p $(dir $@)
 	@$(LN) -rfs $(PACKAGE) $@

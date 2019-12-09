@@ -153,7 +153,7 @@ $(1)_SOURCE_CMD := git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
 endif
 endif
 
-$(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_TYPE)-$$($(1)_SOURCE_ID)
+$(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_TYPE)-$$($(1)_SOURCE_ID).tar
 $(1)_IMAGE_NAME := $(BUILDER_IMAGE_PREFIX)-$$($(1)_NAME):$$($(1)_SOURCE_ID)
 
 # Ensure cache dir exists.
