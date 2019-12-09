@@ -63,6 +63,8 @@
 # from different directories safely.
 include $(dir $(lastword $(MAKEFILE_LIST)))config.mk
 
+.SECONDARY:
+
 DOCKERFILES_DIR := $(LOCKDIR)/layers
 
 _ := $(shell mkdir -p $(CACHE_ROOT)/source-archives)
@@ -89,10 +91,8 @@ $(1)_SOURCE_EXCLUDE := $(sort $(4) $(ALWAYS_EXCLUDE_SOURCE))
 $(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(5)
 $(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(6)
 
-$(1)_CURRENT_LINK                                      = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current
-$(1)_IMAGE_LINK                                        = $(CACHE_ROOT)/layers/$$($(1)_NAME)/current/image.marker
 $(1)_CACHE                                             = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
-$(1)_BASE_IMAGE := $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/current/image.marker)
+$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$($$($(1)_BASE)_SOURCE_ID)/image.marker)
 
 LAYER_CACHES += $$($(1)_CACHE)
 
@@ -204,7 +204,6 @@ $(1)-debug:
 	@echo "$(1)_SOURCE_MODIFIED       = $$($(1)_SOURCE_MODIFIED)"
 	@echo "$(1)_SOURCE_DIRTY          = $$($(1)_SOURCE_DIRTY)"
 	@echo "$(1)_SOURCE_NEW            = $$($(1)_SOURCE_NEW)"
-	@echo "$(1)_IMAGE_LINK            = $$($(1)_IMAGE_LINK)"
 	@echo "$(1)_IMAGE                 = $$($(1)_IMAGE)"
 	@echo "$(1)_IMAGE_TIMESTAMP       = $$($(1)_IMAGE_TIMESTAMP)"
 	@echo "$(1)_IMAGE_ARCHIVE         = $$($(1)_IMAGE_ARCHIVE)"
@@ -221,8 +220,7 @@ $(1)-write-cache-key:
 		echo "==> Cache key for $(1) written to $$$$FILE:"; \
 		cat $$$$FILE
 
-
-$(1)-image: $$($(1)_IMAGE_LINK)
+$(1)-image: $$($(1)_IMAGE)
 	@cat $$<
 
 $(1)-layer-refs: $$($(1)_LAYER_REFS)
@@ -243,29 +241,24 @@ $(1)-load:
 
 ## END PHONY targets
 
-# Update the 'current' link to point to this cache dir.
-.PHONY: $$($(1)_IMAGE_LINK)
-$$($(1)_IMAGE_LINK): | $$($(1)_IMAGE)
-	@echo "==> Linking $$($(1)_NAME) cache dir as $$($(1)_IMAGE_LINK)"; \
-	ln -fns $$($(1)_SOURCE_ID) $$($(1)_CURRENT_LINK)
-
 # Set the BASE_IMAGE build arg to reference the appropriate base image,
 # unless there is no referenced base image.
 $(1)_DOCKER_BUILD_ARGS = $$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BASE_IMAGE=$$$$(cat $$($(1)_BASE_IMAGE)))
 
 $(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE := $$($(1)_CACHE)/source-archive.tar
-$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE): | $$($(1)_SOURCE_ARCHIVE)
-	@cp $$($(1)_SOURCE_ARCHIVE) $$@
-	@$(TAR) --append $$($(1)_DOCKERFILE) --file $$@
-
 
 # Build the docker image.
-$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) | $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
+$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) | $$($(1)_SOURCE_ARCHIVE)
 	@echo "==> Building Docker image $$($(1)_IMAGE_NAME)"
 	@echo "    Layer name             : $$($(1)_NAME)"
 	@echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"
 	@echo "    For product revision   : $(PRODUCT_REVISION_NICE_NAME)"
 	@echo "    For package source ID  : $(PACKAGE_SOURCE_ID)"
+	@if [ ! -f "$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" ]; then \
+		echo "==> Appending Dockerfile to source archive: $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" 1>&2; \
+		cp $$($(1)_SOURCE_ARCHIVE) $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
+		$(TAR) --append $$($(1)_DOCKERFILE) --file $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
+	fi; \
 	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
 	@$$(call $(1)_UPDATE_MARKER_FILE)
 
