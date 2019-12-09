@@ -109,7 +109,7 @@ $(1)_SOURCE_ID_NICE_NAME := <packagespec-only>
 
 else
 
-$(1)_SOURCE_GIT = $$($(1)_SOURCE_INCLUDE) $$(call QUOTE_LIST,$$(addprefix $(GIT_EXCLUDE_PREFIX),$$($(1)_SOURCE_EXCLUDE)))
+$(1)_SOURCE_GIT = $$($(1)_SOURCE_INCLUDE) $$(call GIT_EXCLUDE_LIST,$$($(1)_SOURCE_EXCLUDE))
 $(1)_SOURCE_COMMIT       := $$(shell git rev-list -n1 $(GIT_REF) -- $$($(1)_SOURCE_GIT))
 
 # If we allow dirty builds, generate the source ID as a function of the
