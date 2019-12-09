@@ -31,7 +31,7 @@ BEST_BUILD_LAYER_ARCHIVE := $(shell cd $(REPO_ROOT) && for F in $(BUILD_LAYER_AR
 	if [ -f $$F ]; then echo $$F; exit 0; fi; done)
 ifeq ($(BEST_BUILD_LAYER_ARCHIVE),)
 load-builder-cache:
-	@echo "No build layer archives found in build cache. Looked for: $(BUILD_LAYER_ARCHIVES)"; exit 1
+	@echo "No build layer archives found in build cache. Looked for: $(BUILD_LAYER_ARCHIVES)"
 else
 BEST_BUILD_LAYER_NAME := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[] \
 	| select(.archive=="$(BEST_BUILD_LAYER_ARCHIVE)") | .name))
@@ -50,7 +50,7 @@ BEST_BUILD_LAYER_ARCHIVE := $(shell cd $(REPO_ROOT) && for F in $(BUILD_LAYER_AR
 	if [ -f $$F ]; then echo $$F; exit 0; fi; done)
 ifeq ($(BEST_BUILD_LAYER_ARCHIVE),)
 load-builder-cache:
-	@echo "No build layer archives found in build cache. Looked for: $(BUILD_LAYER_ARCHIVES)"; exit 1
+	@echo "No build layer archives found in build cache. Looked for: $(BUILD_LAYER_ARCHIVES)"
 else
 BEST_BUILD_LAYER_NAME := $(shell $(call QUERY_LOCK,.layers[] | select(.name=="$(BUILD_LAYER_ID)") \
 	| .meta.builtin.LAYER_LIST[].name))
