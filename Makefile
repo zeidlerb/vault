@@ -287,15 +287,15 @@ publish-commit:
 packages:
 	@$(MAKE) -C release packages
 
-build:
-	@$(MAKE) -C release build
-
-build-ci: BUILD_PRODUCT_NAME ?= vault
-build-ci: BUILD_PRODUCT_REVISION ?= $(shell git rev-parse HEAD)
-build-ci: BUILD_PRODUCT_VERSION ?= 0.0.0-$(USER)-snapshot
+build-ci build: BUILD_PRODUCT_NAME ?= vault
+build-ci build: BUILD_PRODUCT_REVISION ?= $(shell git rev-parse HEAD)
+build-ci build: BUILD_PRODUCT_VERSION ?= 0.0.0-$(USER)-snapshot
 build-ci: BUILD_PRODUCT_REPO ?= git@github.com:hashicorp/vault.git
 build-ci: BUILD_PRODUCT_CIRCLECI_SLUG ?= gh/hashicorp/vault
 build-ci: RELEASE_SYSTEM_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
+
+build:
+	@PRODUCT_REVISION=$(BUILD_PRODUCT_REVISION) PRODUCT_VERSION=$(BUILD_PRODUCT_VERSION) $(MAKE) -C release build
 
 build-ci:
 	@[ -n "$(BUILD_PRODUCT_VERSION)" ] || { echo "You must set BUILD_PRODUCT_VERSION"; exit 1; }
