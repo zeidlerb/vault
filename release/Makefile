@@ -76,6 +76,14 @@ write-package-cache-keys: $(PACKAGE_CACHE_KEY_FILES)
 	@echo "==> Package cache keys written:"
 	@echo $(PACKAGE_CACHE_KEY_FILES)
 
+clean-builder-images:
+	@docker images --format '{{.Repository}}:{{.Tag}}' | grep '^$(BUILDER_IMAGE_PREFIX)' || true | xargs docker rmi -f
+
+clean:
+	@cd $(REPO_ROOT); rm -rf $(CACHE_ROOT)
+
+clean-all: clean clean-builder-images
+
 .PHONY: $(PACKAGE_CACHE_KEY_FILES)
 $(PACKAGE_CACHE_KEY_FILES):
 	mkdir -p $(dir $@)

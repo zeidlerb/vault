@@ -32,6 +32,9 @@ SPEC := $(RELEASE_DIR)/packages.yml
 # LOCKDIR contains the lockfile and layer files.
 LOCKDIR      := $(RELEASE_DIR)/packages.lock
 
+# BUILDER_IMAGE_PREFIX is used in generating layers' docker image names.
+BUILDER_IMAGE_PREFIX := vault-builder
+
 # LOCK is the generated fully-expanded rendition of SPEC, for use in generating CI
 # pipelines and other things.
 LOCK := $(LOCKDIR)/pkgs.yml
