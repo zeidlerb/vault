@@ -71,13 +71,13 @@ jobs:
             - test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}
             - test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}
             - test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}
-      - run: make -f release/layer.mk build-static-assets_75d9c94c66bdd9437e93c84679569553964385f2-load || echo "No cached builder image to load."
-      - run: make -f release/layer.mk build-static-assets_75d9c94c66bdd9437e93c84679569553964385f2-image
-      - run: make -f release/layer.mk build-static-assets_75d9c94c66bdd9437e93c84679569553964385f2-save
+      - run: make -f release/layer.mk 07-build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2-load || echo "No cached builder image to load."
+      - run: make -f release/layer.mk 07-build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2-image
+      - run: make -f release/layer.mk 07-build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2-save
       - save_cache:
           key: test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}
           paths:
-            - .buildcache/archives/build-static-assets_75d9c94c66bdd9437e93c84679569553964385f2.tar.gz
+            - .buildcache/archives/07-build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2.tar.gz
   package_darwin_386:
     executor: releaser
     environment:
@@ -110,7 +110,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_cf34_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-cf34fc96f0de573baba7468b02b59f9c41c15737" }}-copy-source_4ec3_{{ checksum ".buildcache/cache-keys/copy-source-4ec3e0f85637ca1e59883218940c651d6b7771bb" }}'
           paths:
-            - .buildcache/archives/copy-source_4ec3e0f85637ca1e59883218940c651d6b7771bb.tar.gz
+            - .buildcache/archives/09-copy-source-4ec3e0f85637ca1e59883218940c651d6b7771bb.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-38360aab94a6388cb0beae11173d1ceda6bf0c34-{{checksum ".buildcache/cache-keys/package-38360aab94a6388cb0beae11173d1ceda6bf0c34"}}'
@@ -149,7 +149,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_2762_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-27622196ff5678439edbc7139edfdb4845f807b1" }}-copy-source_1fde_{{ checksum ".buildcache/cache-keys/copy-source-1fdea336b5af0c58c681ac9bfc21fc179f138908" }}'
           paths:
-            - .buildcache/archives/copy-source_1fdea336b5af0c58c681ac9bfc21fc179f138908.tar.gz
+            - .buildcache/archives/09-copy-source-1fdea336b5af0c58c681ac9bfc21fc179f138908.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-a34a857fe867e33492c75b0a3f340ec84124c379-{{checksum ".buildcache/cache-keys/package-a34a857fe867e33492c75b0a3f340ec84124c379"}}'
@@ -188,7 +188,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_71f5_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-71f5bf28aecf984ec3189a8c465abea2aa162c94" }}-copy-source_6e03_{{ checksum ".buildcache/cache-keys/copy-source-6e03a94295bf438602686f949aa39be6e5471e88" }}'
           paths:
-            - .buildcache/archives/copy-source_6e03a94295bf438602686f949aa39be6e5471e88.tar.gz
+            - .buildcache/archives/09-copy-source-6e03a94295bf438602686f949aa39be6e5471e88.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-c535d8d69ce539419f2ad5aaf22de4e424084a02-{{checksum ".buildcache/cache-keys/package-c535d8d69ce539419f2ad5aaf22de4e424084a02"}}'
@@ -227,7 +227,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_4390_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-4390a5286e12cb9153bdeee92365452a91013883" }}-copy-source_b28a_{{ checksum ".buildcache/cache-keys/copy-source-b28a48a81bec254a83c8a83815932ffee50d96db" }}'
           paths:
-            - .buildcache/archives/copy-source_b28a48a81bec254a83c8a83815932ffee50d96db.tar.gz
+            - .buildcache/archives/09-copy-source-b28a48a81bec254a83c8a83815932ffee50d96db.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-10bcc93a80aa7a330c252a2856735ce4c774f5dc-{{checksum ".buildcache/cache-keys/package-10bcc93a80aa7a330c252a2856735ce4c774f5dc"}}'
@@ -266,7 +266,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_eca0_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-eca0ada4aff5e780463c6540d7d6b6368b7fb6a3" }}-copy-source_5acc_{{ checksum ".buildcache/cache-keys/copy-source-5accf2533e710e3eda07b3d61630fe9d5aeaa4e9" }}'
           paths:
-            - .buildcache/archives/copy-source_5accf2533e710e3eda07b3d61630fe9d5aeaa4e9.tar.gz
+            - .buildcache/archives/09-copy-source-5accf2533e710e3eda07b3d61630fe9d5aeaa4e9.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-e4b613d830124d6b41bab4957b5bc10800819c2f-{{checksum ".buildcache/cache-keys/package-e4b613d830124d6b41bab4957b5bc10800819c2f"}}'
@@ -305,7 +305,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_dd10_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-dd10443acc201890cc1d9bf453b0ed7335ba96fb" }}-copy-source_9355_{{ checksum ".buildcache/cache-keys/copy-source-935517051058e02631e81056af49221bbca499ed" }}'
           paths:
-            - .buildcache/archives/copy-source_935517051058e02631e81056af49221bbca499ed.tar.gz
+            - .buildcache/archives/09-copy-source-935517051058e02631e81056af49221bbca499ed.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-1716925b7e5a64eec8d9fcba3036866ac20d41c5-{{checksum ".buildcache/cache-keys/package-1716925b7e5a64eec8d9fcba3036866ac20d41c5"}}'
@@ -344,7 +344,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_bb85_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-bb859fe4ed0880c93b08141b38a88d1bf0d4891e" }}-copy-source_3d97_{{ checksum ".buildcache/cache-keys/copy-source-3d9762564fd664a31cc373c7890df8c3b1aa1258" }}'
           paths:
-            - .buildcache/archives/copy-source_3d9762564fd664a31cc373c7890df8c3b1aa1258.tar.gz
+            - .buildcache/archives/09-copy-source-3d9762564fd664a31cc373c7890df8c3b1aa1258.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-05bea77bab900c62e3b330d464e4f37a9ba34b38-{{checksum ".buildcache/cache-keys/package-05bea77bab900c62e3b330d464e4f37a9ba34b38"}}'
@@ -383,7 +383,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_5c38_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-5c38c425389c41bd4cc123ea87fd3145de305ae9" }}-copy-source_be9a_{{ checksum ".buildcache/cache-keys/copy-source-be9a824e452f138847840668b36cf35088aabbb3" }}'
           paths:
-            - .buildcache/archives/copy-source_be9a824e452f138847840668b36cf35088aabbb3.tar.gz
+            - .buildcache/archives/09-copy-source-be9a824e452f138847840668b36cf35088aabbb3.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-61f3efc47df698d7df14f5eadbd69c3529242e92-{{checksum ".buildcache/cache-keys/package-61f3efc47df698d7df14f5eadbd69c3529242e92"}}'
@@ -422,7 +422,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_0eec_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-0eec87520948b00ee9b60351f98d4caaabfad369" }}-copy-source_5516_{{ checksum ".buildcache/cache-keys/copy-source-5516b39ebab07adb00093e6a77f8f401aecde617" }}'
           paths:
-            - .buildcache/archives/copy-source_5516b39ebab07adb00093e6a77f8f401aecde617.tar.gz
+            - .buildcache/archives/09-copy-source-5516b39ebab07adb00093e6a77f8f401aecde617.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-23b6faa23a0f01e94dac7bc73110c70ba1559ed3-{{checksum ".buildcache/cache-keys/package-23b6faa23a0f01e94dac7bc73110c70ba1559ed3"}}'
@@ -461,7 +461,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_ff5e_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ff5efe2d9ac1e50e748af2eac8cb614452455f2f" }}-copy-source_bf56_{{ checksum ".buildcache/cache-keys/copy-source-bf56dbd95f179bde075e7af9e56f7e5eaacd800a" }}'
           paths:
-            - .buildcache/archives/copy-source_bf56dbd95f179bde075e7af9e56f7e5eaacd800a.tar.gz
+            - .buildcache/archives/09-copy-source-bf56dbd95f179bde075e7af9e56f7e5eaacd800a.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-b43dab33b129fcfe657669b53b9ce215c05bfc47-{{checksum ".buildcache/cache-keys/package-b43dab33b129fcfe657669b53b9ce215c05bfc47"}}'
@@ -500,7 +500,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_a31b_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-a31b409f1804344afe2b61c5c92236df8b296bc9" }}-copy-source_9386_{{ checksum ".buildcache/cache-keys/copy-source-9386b0211a4c4a6cf3c567c2266d9f78a3242c1a" }}'
           paths:
-            - .buildcache/archives/copy-source_9386b0211a4c4a6cf3c567c2266d9f78a3242c1a.tar.gz
+            - .buildcache/archives/09-copy-source-9386b0211a4c4a6cf3c567c2266d9f78a3242c1a.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-cfa9597ba438a4bfd8822232f27e3790d0677784-{{checksum ".buildcache/cache-keys/package-cfa9597ba438a4bfd8822232f27e3790d0677784"}}'
@@ -539,7 +539,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_756d_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-756d57664880c5156bf80ffa4e46544512ad2c89" }}-copy-source_7782_{{ checksum ".buildcache/cache-keys/copy-source-77820dfacc643654bf9ff1bc03da322b1861dd03" }}'
           paths:
-            - .buildcache/archives/copy-source_77820dfacc643654bf9ff1bc03da322b1861dd03.tar.gz
+            - .buildcache/archives/09-copy-source-77820dfacc643654bf9ff1bc03da322b1861dd03.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-ffed132abe2170a076e53e0b6a2c087f5bdd6dfd-{{checksum ".buildcache/cache-keys/package-ffed132abe2170a076e53e0b6a2c087f5bdd6dfd"}}'
@@ -578,7 +578,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_0079_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-00798afc69b9145a1bffe99d52e0f25d3f4f3bef" }}-copy-source_c6ac_{{ checksum ".buildcache/cache-keys/copy-source-c6ac263bcaec24434b356ccc166a9a98b03836d6" }}'
           paths:
-            - .buildcache/archives/copy-source_c6ac263bcaec24434b356ccc166a9a98b03836d6.tar.gz
+            - .buildcache/archives/09-copy-source-c6ac263bcaec24434b356ccc166a9a98b03836d6.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-e43eccf48a34e778150c88fd7af099cc0bed5cbc-{{checksum ".buildcache/cache-keys/package-e43eccf48a34e778150c88fd7af099cc0bed5cbc"}}'
@@ -617,7 +617,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_33f2_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-33f23e924444e0eaa52e02e9f30d7cfffbc0fb72" }}-copy-source_ed7c_{{ checksum ".buildcache/cache-keys/copy-source-ed7c3f7f3e947093523673523071cad35d283411" }}'
           paths:
-            - .buildcache/archives/copy-source_ed7c3f7f3e947093523673523071cad35d283411.tar.gz
+            - .buildcache/archives/09-copy-source-ed7c3f7f3e947093523673523071cad35d283411.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-87fd39fe567a1ec619ceb004caf26f2caf95ae1e-{{checksum ".buildcache/cache-keys/package-87fd39fe567a1ec619ceb004caf26f2caf95ae1e"}}'
@@ -656,7 +656,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_b1d3_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-b1d3ef3c3841e621f9679727d3e6ef32cbb323f1" }}-copy-source_4d27_{{ checksum ".buildcache/cache-keys/copy-source-4d27847a4af686c6856077ed18d350c11fdc275e" }}'
           paths:
-            - .buildcache/archives/copy-source_4d27847a4af686c6856077ed18d350c11fdc275e.tar.gz
+            - .buildcache/archives/09-copy-source-4d27847a4af686c6856077ed18d350c11fdc275e.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-61557183a8b59e2174165b169f585b2df3515fb8-{{checksum ".buildcache/cache-keys/package-61557183a8b59e2174165b169f585b2df3515fb8"}}'
@@ -695,7 +695,7 @@ jobs:
       - save_cache:
           key: 'test3-v1-base_36f0_{{ checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3" }}-install-go_6ead_{{ checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102" }}-install-go-tools_8d9e_{{ checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc" }}-set-workdir_c5be_{{ checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778" }}-install-yarn_2924_{{ checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5" }}-ui-dependencies_f757_{{ checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83" }}-build-ui_cc32_{{ checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4" }}-build-static-assets_75d9_{{ checksum ".buildcache/cache-keys/build-static-assets-75d9c94c66bdd9437e93c84679569553964385f2" }}-warm-go-build-vendor-cache_6db7_{{ checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-6db76ef74f04ef2a93068af496f822fa12eebdd8" }}-copy-source_2a96_{{ checksum ".buildcache/cache-keys/copy-source-2a96e09a7cd6d2d6326466241f1f6ebbe7eec121" }}'
           paths:
-            - .buildcache/archives/copy-source_2a96e09a7cd6d2d6326466241f1f6ebbe7eec121.tar.gz
+            - .buildcache/archives/09-copy-source-2a96e09a7cd6d2d6326466241f1f6ebbe7eec121.tar.gz
       # Save package cache.
       - save_cache:
           key: 'package-2eac87516a05a670950c49fec7067103844ef14a-{{checksum ".buildcache/cache-keys/package-2eac87516a05a670950c49fec7067103844ef14a"}}'
