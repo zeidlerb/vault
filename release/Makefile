@@ -21,22 +21,46 @@ MK := $(MAKE) -C $(REPO_ROOT) -f $(RELEASE_DIR)/
 
 # configure load-builder-cache target to load the most specific builder layer cache
 # available as an archive in the build cache.
-ifeq ($(PACKAGE_SPEC_ID),)
-load-builder-cache:
-	@echo "You must set PACKAGE_SPEC_ID to use this target."; exit 1
-else
+
+ifneq ($(PACKAGE_SPEC_ID),)
+
+# Loading the best available archive for a specific package build.
+
 BUILD_LAYER_ARCHIVES := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[].archive))
-BEST_BUILD_LAYER_ARCHIVE := $(shell cd $(REPO_ROOT) && for F in $(BUILD_LAYER_ARCHIVES); do if [ -f $$F ]; then echo $$F; exit 0; fi; done)
+BEST_BUILD_LAYER_ARCHIVE := $(shell cd $(REPO_ROOT) && for F in $(BUILD_LAYER_ARCHIVES); do \
+	if [ -f $$F ]; then echo $$F; exit 0; fi; done)
 ifeq ($(BEST_BUILD_LAYER_ARCHIVE),)
 load-builder-cache:
 	@echo "No build layer archives found in build cache. Looked for: $(BUILD_LAYER_ARCHIVES)"; exit 1
 else
-BEST_BUILD_LAYER_NAME := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[] | select(.archive=="$(BEST_BUILD_LAYER_ARCHIVE)") | .name))
+BEST_BUILD_LAYER_NAME := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[] \
+	| select(.archive=="$(BEST_BUILD_LAYER_ARCHIVE)") | .name))
 BEST_BUILD_LAYER_LOAD_TARGET := $(BEST_BUILD_LAYER_NAME)-load
 load-builder-cache:
 	@$(MK)layer.mk $(BEST_BUILD_LAYER_LOAD_TARGET)
 endif
+
+else ifneq ($(BUILD_LAYER_ID),)
+
+# Loading the best avilable archive for a specific layer build.
+
+BUILD_LAYER_ARCHIVES := $(shell $(call QUERY_LOCK,.layers[] | select(.name=="$(BUILD_LAYER_ID)") \
+	| .meta.builtin.LAYER_LIST[].archive))
+BEST_BUILD_LAYER_ARCHIVE := $(shell cd $(REPO_ROOT) && for F in $(BUILD_LAYER_ARCHIVES); do \
+	if [ -f $$F ]; then echo $$F; exit 0; fi; done)
+ifeq ($(BEST_BUILD_LAYER_ARCHIVE),)
+load-builder-cache:
+	@echo "No build layer archives found in build cache. Looked for: $(BUILD_LAYER_ARCHIVES)"; exit 1
+else
+BEST_BUILD_LAYER_NAME := $(shell $(call QUERY_LOCK,.layers[] | select(.name=="$(BUILD_LAYER_ID)") \
+	| .meta.builtin.LAYER_LIST[].name))
+BEST_BUILD_LAYER_LOAD_TARGET := $(BEST_BUILD_LAYER_NAME)-load
+load-builder-cache:
+	@$(MK)layer.mk $(BEST_BUILD_LAYER_LOAD_TARGET)
 endif
+
+endif
+
 
 packages:
 	@rm -rf packages.lock
