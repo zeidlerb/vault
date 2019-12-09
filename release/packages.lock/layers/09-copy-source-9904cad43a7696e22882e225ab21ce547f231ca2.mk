@@ -1,0 +1,9 @@
+
+LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_ID             := 09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2
+LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_TYPE           := copy-source
+LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_BASE_LAYER     := 08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba
+LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_SOURCE_INCLUDE := .
+LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_SOURCE_EXCLUDE := vendor/ ui/
+LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_CACHE_KEY_FILE := .buildcache/cache-keys/copy-source-9904cad43a7696e22882e225ab21ce547f231ca2
+LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_ARCHIVE_FILE   := .buildcache/archives/09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2.tar.gz
+$(eval $(call LAYER,$(LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_ID),$(LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_TYPE),$(LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_BASE_LAYER),$(LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_SOURCE_INCLUDE),$(LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_SOURCE_EXCLUDE),$(LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_CACHE_KEY_FILE),$(LAYER_09-copy-source-9904cad43a7696e22882e225ab21ce547f231ca2_ARCHIVE_FILE)))
