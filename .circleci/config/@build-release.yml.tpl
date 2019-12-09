@@ -57,12 +57,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: {{.packagespecid}}
-      {{- range $NAME, $VALUE := .inputs -}}
-        {{- $type := (printf "%T" $VALUE)  -}}
-        {{- if or (eq $type "string") (eq $type "int") }}
-      - {{$NAME}}: '{{conv.ToString $VALUE}}'
-        {{- end}}
-      {{- end}}
     steps:
       - setup_remote_docker
       - checkout

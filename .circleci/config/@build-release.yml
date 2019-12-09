@@ -82,18 +82,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 38360aab94a6388cb0beae11173d1ceda6bf0c34
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: '386'
-      - GOOS: 'darwin'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -133,18 +121,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: a34a857fe867e33492c75b0a3f340ec84124c379
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'amd64'
-      - GOOS: 'darwin'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -184,18 +160,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: c535d8d69ce539419f2ad5aaf22de4e424084a02
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: '386'
-      - GOOS: 'freebsd'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -235,18 +199,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 10bcc93a80aa7a330c252a2856735ce4c774f5dc
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'amd64'
-      - GOOS: 'freebsd'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -286,18 +238,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: e4b613d830124d6b41bab4957b5bc10800819c2f
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'arm'
-      - GOOS: 'freebsd'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -337,18 +277,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 1716925b7e5a64eec8d9fcba3036866ac20d41c5
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: '386'
-      - GOOS: 'linux'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -388,18 +316,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 05bea77bab900c62e3b330d464e4f37a9ba34b38
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'amd64'
-      - GOOS: 'linux'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -439,18 +355,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 61f3efc47df698d7df14f5eadbd69c3529242e92
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'arm'
-      - GOOS: 'linux'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -490,18 +394,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 23b6faa23a0f01e94dac7bc73110c70ba1559ed3
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'arm64'
-      - GOOS: 'linux'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -541,18 +433,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: b43dab33b129fcfe657669b53b9ce215c05bfc47
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: '386'
-      - GOOS: 'netbsd'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -592,18 +472,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: cfa9597ba438a4bfd8822232f27e3790d0677784
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'amd64'
-      - GOOS: 'netbsd'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -643,18 +511,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: ffed132abe2170a076e53e0b6a2c087f5bdd6dfd
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: '386'
-      - GOOS: 'openbsd'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -694,18 +550,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: e43eccf48a34e778150c88fd7af099cc0bed5cbc
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'amd64'
-      - GOOS: 'openbsd'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -745,18 +589,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 87fd39fe567a1ec619ceb004caf26f2caf95ae1e
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'amd64'
-      - GOOS: 'solaris'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -796,18 +628,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 61557183a8b59e2174165b169f585b2df3515fb8
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: '386'
-      - GOOS: 'windows'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
@@ -847,18 +667,6 @@ jobs:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 2eac87516a05a670950c49fec7067103844ef14a
-      - BINARY_NAME: 'vault'
-      - BUILD_TAGS: 'vault'
-      - CGO_ENABLED: '0'
-      - GO111MODULE: 'off'
-      - GOARCH: 'amd64'
-      - GOOS: 'windows'
-      - GO_VERSION: '1.12.13'
-      - PRODUCT_EDITION: ''
-      - PRODUCT_VERSION: '0.0.0-snapshot'
-      - PRODUCT_VERSION_MMP: '0.0.0'
-      - PRODUCT_VERSION_PRE: 'snapshot'
-      - YARN_VERSION: '1.19.1-1'
     steps:
       - setup_remote_docker
       - checkout
