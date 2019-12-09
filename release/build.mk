@@ -86,7 +86,7 @@ $(META): $(LOCK)
 	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
 
 # PACKAGE builds the package.
-$(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
+$(PACKAGE): | $(BUILD_LAYER_IMAGE) $(META)
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
 	@echo "PACKAGE_SOURCE_ID: $(PACKAGE_SOURCE_ID)"
@@ -100,7 +100,7 @@ $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	@docker rm -f $(BUILD_CONTAINER_NAME)
 
 # ALIASES writes the package alias links.
-$(ALIASES): $(PACKAGE)
+$(ALIASES): | $(PACKAGE)
 	@mkdir -p $(dir $@)
 	@$(LN) -rfs $< $@
 	@echo "==> Package alias written: $@"
