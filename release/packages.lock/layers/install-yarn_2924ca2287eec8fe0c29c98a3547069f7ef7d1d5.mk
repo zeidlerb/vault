@@ -1,8 +1,0 @@
-
-LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_ID             := install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5
-LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_BASE_LAYER     := set-workdir_c5be062002c2f7353a51633272712da6a3921778
-LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_SOURCE_INCLUDE := 
-LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_SOURCE_EXCLUDE := 
-LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_CACHE_KEY_FILE := .buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5
-LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_ARCHIVE_FILE   := .buildcache/archives/install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5.tar.gz
-$(eval $(call LAYER,$(LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_ID),$(LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_BASE_LAYER),$(LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_SOURCE_INCLUDE),$(LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_SOURCE_EXCLUDE),$(LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_CACHE_KEY_FILE),$(LAYER_install-yarn_2924ca2287eec8fe0c29c98a3547069f7ef7d1d5_ARCHIVE_FILE)))
