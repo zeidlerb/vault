@@ -305,10 +305,10 @@ endef
 ### END LAYER
 
 # Include the generated instructions to build each layer.
-include $(shell find $(DOCKERFILES_DIR) -name '*.mk')
+include $(sort $(shell find $(DOCKERFILES_DIR) -name '*.mk'))
 
 # Eagerly update the docker image marker files.
-_ := $(foreach L,$(sort $(LAYERS)),$(shell $(call $(L)_UPDATE_MARKER_FILE)))
+_ := $(foreach L,$(LAYERS),$(shell $(call $(L)_UPDATE_MARKER_FILE)))
 
 # DOCKER_LAYER_LIST is used to dump the name of every docker ref in use
 # by all of the current builder images. By running 'docker save' against
