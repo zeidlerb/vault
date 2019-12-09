@@ -77,7 +77,9 @@ write-package-cache-keys: $(PACKAGE_CACHE_KEY_FILES)
 	@echo $(PACKAGE_CACHE_KEY_FILES)
 
 clean-builder-images:
-	@docker images --format '{{.Repository}}:{{.Tag}}' | grep '^$(BUILDER_IMAGE_PREFIX)' || true | xargs docker rmi -f
+	@IMAGES=$$(docker images --format '{{.Repository}}:{{.Tag}}' | grep '^$(BUILDER_IMAGE_PREFIX)' || true); \
+		if [ -z "$$IMAGES" ]; then exit 0; fi; \
+		docker rmi -f $$IMAGES
 
 clean:
 	@cd $(REPO_ROOT); rm -rf $(CACHE_ROOT)
