@@ -81,7 +81,6 @@ DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):$(CONTAINER_OUTPUT_DIR)/$(
 .PHONY: package
 package: $(ALIASES)
 	@echo $(PACKAGE)
-	@for A in $^; do echo "alias: $$A"; done
 
 $(META): $(LOCK)
 	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
