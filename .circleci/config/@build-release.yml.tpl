@@ -75,10 +75,16 @@ jobs:
           path: .buildcache/packages
           destination: packages
       # Save builder image cache.
+      {{- $pkg := . -}}
+      {{- range $idx, $layerInfo := .meta.builtin.BUILD_LAYERS }}
+      {{- if eq $layerInfo.type "warm-go-build-vendor-cache" }}
+      - run: make -f release/layer.mk {{$layerInfo.name}}-save
       - save_cache:
-          key: '{{$cacheVersion}}-{{index .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST 0}}'
+          key: '{{$cacheVersion}}-{{index $pkg.meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST $idx}}'
           paths:
-            - {{ (index .meta.builtin.BUILD_LAYERS 0).archive}}
+            - {{ (index $pkg.meta.builtin.BUILD_LAYERS $idx).archive }}
+      {{- end}}
+      {{- end}}
       # Save package cache.
       - save_cache:
           key: '{{$cacheVersion}}-{{.meta.circleci.PACKAGE_CACHE_KEY}}'
