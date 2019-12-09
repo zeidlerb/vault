@@ -2,9 +2,10 @@
 {{- $packages := $data.packages -}}
 {{- $layers := $data.layers -}}
 {{- $revision := $data.productrevision -}}
-{{- $cacheVersion := "test7-v1" -}}
+{{- define "cache-key"}}{{template "cache-version"}}-{{.}}{{end -}}
+{{- define "cache-version"}}test7-v1{{end -}}
 # Any change to $cacheVersion invalidates all build layer and package caches.
-# Current $cacheVersion: {{$cacheVersion}}
+# Current cache version {{template "cache-version"}}
 
 executors:
   releaser:
@@ -41,13 +42,13 @@ jobs:
       - restore_cache:
           keys:
             {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
-            - {{$cacheVersion}}-{{.}}
+            - {{template "cache-key" .}}
             {{- end}}
       - run: BUILD_LAYER_ID={{.name}} make -C release load-builder-cache
       - run: make -f release/layer.mk {{.name}}-image
       - run: make -f release/layer.mk {{.name}}-save
       - save_cache:
-          key: {{$cacheVersion}}-{{index .meta.circleci.CACHE_KEY_PREFIX_LIST 0}}
+          key: {{template "cache-key" (index .meta.circleci.CACHE_KEY_PREFIX_LIST 0)}}
           paths:
             - {{.archivefile}}
       {{- end}}{{end}}
@@ -64,10 +65,10 @@ jobs:
       - restore_cache:
           keys:
           {{- range .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST}}
-          - {{$cacheVersion}}-{{.}}
+          - {{template "cache-key" .}}
           {{- end}}
       - restore_cache:
-          key: '{{$cacheVersion}}-{{.meta.circleci.PACKAGE_CACHE_KEY}}'
+          key: '{{template "cache-key" .meta.circleci.PACKAGE_CACHE_KEY}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -80,14 +81,14 @@ jobs:
       {{- if eq $layerInfo.type "warm-go-build-vendor-cache" }}
       - run: make -f release/layer.mk {{$layerInfo.name}}-save
       - save_cache:
-          key: '{{$cacheVersion}}-{{index $pkg.meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST $idx}}'
+          key: '{{template "cache-key" (index $pkg.meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST $idx)}}'
           paths:
             - {{ (index $pkg.meta.builtin.BUILD_LAYERS $idx).archive }}
       {{- end}}
       {{- end}}
       # Save package cache.
       - save_cache:
-          key: '{{$cacheVersion}}-{{.meta.circleci.PACKAGE_CACHE_KEY}}'
+          key: '{{template "cache-key" .meta.circleci.PACKAGE_CACHE_KEY}}'
           paths:
             - .buildcache/packages
 {{end}}
@@ -108,13 +109,12 @@ jobs:
           path: packages.tar.gz
           destination: packages.tar.gz
 
-
 commands:
   {{- range $packages }}
   load-{{.meta.BUILD_JOB_NAME}}:
     steps:
       - restore_cache:
-          key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
+          key: '{{template "cache-key" .meta.circleci.PACKAGE_CACHE_KEY}}'
   {{end}}
   
   write-cache-keys:
