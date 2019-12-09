@@ -36,8 +36,10 @@ else
 BEST_BUILD_LAYER_NAME := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[] \
 	| select(.archive=="$(BEST_BUILD_LAYER_ARCHIVE)") | .name))
 BEST_BUILD_LAYER_LOAD_TARGET := $(BEST_BUILD_LAYER_NAME)-load
+
 load-builder-cache:
 	@$(MK)layer.mk $(BEST_BUILD_LAYER_LOAD_TARGET)
+
 endif
 
 else ifneq ($(BUILD_LAYER_ID),)
@@ -49,14 +51,18 @@ BUILD_LAYER_ARCHIVES := $(shell $(call QUERY_LOCK,.layers[] | select(.name=="$(B
 BEST_BUILD_LAYER_ARCHIVE := $(shell cd $(REPO_ROOT) && for F in $(BUILD_LAYER_ARCHIVES); do \
 	if [ -f $$F ]; then echo $$F; exit 0; fi; done)
 ifeq ($(BEST_BUILD_LAYER_ARCHIVE),)
+
 load-builder-cache:
 	@echo "No build layer archives found in build cache. Looked for: $(BUILD_LAYER_ARCHIVES)"
+
 else
 BEST_BUILD_LAYER_NAME := $(shell $(call QUERY_LOCK,.layers[] | select(.name=="$(BUILD_LAYER_ID)") \
-	| .meta.builtin.LAYER_LIST[].name))
+	| .meta.builtin.LAYER_LIST[] | select(.archive=="$(BEST_BUILD_LAYER_ARCHIVE)") | .name))
 BEST_BUILD_LAYER_LOAD_TARGET := $(BEST_BUILD_LAYER_NAME)-load
+
 load-builder-cache:
 	@$(MK)layer.mk $(BEST_BUILD_LAYER_LOAD_TARGET)
+
 endif
 
 endif
