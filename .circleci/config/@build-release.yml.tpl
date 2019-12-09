@@ -4,8 +4,8 @@
 {{- $revision := $data.productrevision -}}
 {{- define "cache-key"}}{{template "cache-version"}}-{{.}}{{end -}}
 {{- define "cache-version"}}test7-v1{{end -}}
-# Any change to $cacheVersion invalidates all build layer and package caches.
-# Current cache version {{template "cache-version"}}
+# Any change to cache-version invalidates all build layer and package caches.
+# Current cache version: {{template "cache-version"}}
 
 executors:
   releaser:
