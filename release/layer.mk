@@ -223,7 +223,10 @@ $(1)-id:
 $(1)-write-cache-key:
 	@FILE=$$($(1)_CACHE_KEY_FILE); \
 		mkdir -p $$(dir $$($(1)_CACHE_KEY_FILE)); \
-		echo $(1)-$$($(1)_SOURCE_ID) > $$$$FILE; \
+		echo LAYER_NAME=$$($(1)_NAME) > $$$$FILE; \
+		echo SOURCE_ID=$$($(1)_SOURCE_ID) >> $$$$FILE; \
+		echo SOURCE_INCLUDE=$$($(1)_SOURCE_INCLUDE) >> $$$$FILE; \
+		echo SOURCE_EXCLUDE=$$($(1)_SOURCE_EXCLUDE) >> $$$$FILE; \
 		echo "==> Cache key for $(1) written to $$$$FILE:"; \
 		cat $$$$FILE
 

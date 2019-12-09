@@ -10,6 +10,8 @@
 # from different directories safely.
 include $(shell git rev-parse --show-toplevel)/release/config.mk
 
+.SECONDARY:
+
 # Make sure we have all the necessary inputs.
 # Ensure all of these are set in packages.lock
 ifeq ($(PACKAGE_SPEC_ID),)
@@ -28,7 +30,7 @@ BY_ALIAS      := $(PACKAGES_ROOT)/by-alias
 include $(RELEASE_DIR)/layer.mk
 
 GET_IMAGE_MARKER_FILE = $(CACHE_ROOT)/layers/$(1)/$($(1)_SOURCE_ID)/image.marker
-GET_IMAGE_NAME        = vault-builder-$(1):$($(1)_SOURCE_ID)
+GET_IMAGE_NAME        = $(BUILDER_IMAGE_PREFIX)-$(1):$($(1)_SOURCE_ID)
 
 # Determine the top-level build layer.
 BUILD_LAYER_NAME      := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[0].name))
@@ -80,13 +82,14 @@ DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):$(CONTAINER_OUTPUT_DIR)/$(
 
 .PHONY: package
 package: $(ALIASES)
-	@echo $^
+	@echo $(PACKAGE)
+	@for A in $^; do echo "alias: $$A"; done
 
 $(META): $(LOCK)
 	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
 
 # PACKAGE builds the package.
-$(PACKAGE): | $(BUILD_LAYER_IMAGE) $(META)
+$(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	@mkdir -p $$(dirname $@)
 	@echo "==> Building package: $@"
 	@echo "PACKAGE_SOURCE_ID: $(PACKAGE_SOURCE_ID)"
@@ -100,7 +103,7 @@ $(PACKAGE): | $(BUILD_LAYER_IMAGE) $(META)
 	@docker rm -f $(BUILD_CONTAINER_NAME)
 
 # ALIASES writes the package alias links.
-$(ALIASES): | $(PACKAGE)
+$(ALIASES): $(PACKAGE)
 	@mkdir -p $(dir $@)
 	@$(LN) -rfs $(PACKAGE) $@
 	@echo "==> Package alias written: $@"
