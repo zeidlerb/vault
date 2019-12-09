@@ -36,6 +36,16 @@ LOCKDIR      := $(RELEASE_DIR)/packages.lock
 # pipelines and other things.
 LOCK := $(LOCKDIR)/pkgs.yml
 
+### Utilities and constants
+GIT_EXCLUDE_PREFIX := :(exclude)
+# SUM generates the sha1sum of its input.
+SUM := sha1sum | cut -d' ' -f1
+# QUOTE_LIST wraps a list of space-separated strings in quotes.
+QUOTE := $(shell echo "'")
+QUOTE_LIST = $(addprefix $(QUOTE),$(addsuffix $(QUOTE),$(1)))
+GIT_EXCLUDE_LIST = $(call QUOTE_LIST,$(addprefix $(GIT_EXCLUDE_PREFIX),$(1)))
+### End utilities and constants.
+
 # ALWAYS_EXCLUDE_SOURCE prevents source from these directories from taking
 # part in the SOURCE_ID, or from being sent to the builder image layers.
 # This is important for allowing the head of master to build other commits
@@ -46,7 +56,7 @@ LOCK := $(LOCKDIR)/pkgs.yml
 # code in the release/ directory.
 ALWAYS_EXCLUDE_SOURCE     := $(RELEASE_DIR)/ .circleci/
 # ALWAYS_EXCLUD_SOURCE_GIT is git path filter parlance for the above.
-ALWAYS_EXCLUDE_SOURCE_GIT := ':(exclude)$(RELEASE_DIR)/' ':(exclude).circleci/'
+ALWAYS_EXCLUDE_SOURCE_GIT := $(call GIT_EXCLUDE_LIST,$(ALWAYS_EXCLUDE_SOURCE))
 
 # YQ_PACKAGE_PATH is a yq query fragment to select the package PACKAGE_SPEC_ID.
 # This may be invalid, check that PACKAGE_SPEC_ID is not empty before use.
@@ -153,16 +163,6 @@ LN := ln
 STAT := stat
 FIND := find
 endif
-
-### Utilities and constants
-GIT_EXCLUDE_PREFIX := :(exclude)
-# SUM generates the sha1sum of its input.
-SUM := sha1sum | cut -d' ' -f1
-# QUOTE_LIST wraps a list of space-separated strings in quotes.
-QUOTE := $(shell echo "'")
-QUOTE_LIST = $(addprefix $(QUOTE),$(addsuffix $(QUOTE),$(1)))
-GIT_EXCLUDE_LIST = $(call QUOTE_LIST,$(addprefix $(1)))
-### End utilities and constants.
 
 # End including config once only.
 endif
