@@ -67,7 +67,7 @@ jobs:
           - {{$cacheVersion}}-{{.}}
           {{- end}}
       - restore_cache:
-          key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
+          key: '{{$cacheVersion}}-{{.meta.circleci.PACKAGE_CACHE_KEY}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -81,7 +81,7 @@ jobs:
             - {{ (index .meta.builtin.BUILD_LAYERS 0).archive}}
       # Save package cache.
       - save_cache:
-          key: '{{.meta.circleci.PACKAGE_CACHE_KEY}}'
+          key: '{{$cacheVersion}}-{{.meta.circleci.PACKAGE_CACHE_KEY}}'
           paths:
             - .buildcache/packages
 {{end}}
