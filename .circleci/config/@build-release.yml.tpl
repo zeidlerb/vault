@@ -43,7 +43,7 @@ jobs:
             {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
             - {{$cacheVersion}}-{{.}}
             {{- end}}
-      - run: make -f release/layer.mk {{.name}}-load || echo "No cached builder image to load."
+      - run: BUILD_LAYER_ID={{.name}} make -C release load-builder-cache
       - run: make -f release/layer.mk {{.name}}-image
       - run: make -f release/layer.mk {{.name}}-save
       - save_cache:
