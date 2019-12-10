@@ -130,23 +130,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_5eff_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_5eff_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz
 
   package_darwin_amd64:
     executor: releaser
@@ -193,23 +201,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_a2e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_a2e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz
 
   package_freebsd_386:
     executor: releaser
@@ -256,23 +272,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_d41d_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_d41d_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2.tar.gz
 
   package_freebsd_amd64:
     executor: releaser
@@ -319,23 +343,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_17e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_17e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz
 
   package_freebsd_arm:
     executor: releaser
@@ -382,23 +414,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_7d53_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_7d53_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz
 
   package_linux_386:
     executor: releaser
@@ -445,23 +485,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_1737_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_1737_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad.tar.gz
 
   package_linux_amd64:
     executor: releaser
@@ -508,23 +556,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_8f45_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_8f45_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
 
   package_linux_arm:
     executor: releaser
@@ -571,23 +627,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_2f72_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_2f72_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0.tar.gz
 
   package_linux_arm64:
     executor: releaser
@@ -634,23 +698,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_0064_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_0064_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz
 
   package_netbsd_386:
     executor: releaser
@@ -697,23 +769,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_7a67_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_7a67_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz
 
   package_netbsd_amd64:
     executor: releaser
@@ -760,23 +840,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_ce08_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_ce08_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz
 
   package_openbsd_386:
     executor: releaser
@@ -823,23 +911,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_b54f_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_b54f_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz
 
   package_openbsd_amd64:
     executor: releaser
@@ -886,23 +982,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_99ee_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_99ee_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz
 
   package_solaris_amd64:
     executor: releaser
@@ -949,23 +1053,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_f938_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_f938_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz
 
   package_windows_386:
     executor: releaser
@@ -1012,23 +1124,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_ba70_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_ba70_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5.tar.gz
 
   package_windows_amd64:
     executor: releaser
@@ -1075,23 +1195,31 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba-save
-      - save_cache:
-          key: 'test7-v1-warm-go-build-vendor-cache_e888_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba"}}'
-          paths:
-            - .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz
       # Save package cache.
       - save_cache:
           key: 'test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk 08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba-save
+      - save_cache:
+          key: 'test7-v1-warm-go-build-vendor-cache_e888_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba"}}'
+          paths:
+            - .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz
 
 
   bundle-releases:
