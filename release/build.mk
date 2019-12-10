@@ -83,7 +83,7 @@ package: $(ALIASES)
 	@echo $(PACKAGE)
 
 $(META): $(LOCK)
-	yq -y '.packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")' < $(LOCK) > $@
+	@$(call QUERY_PACKAGESPEC) > $@
 
 # PACKAGE builds the package.
 $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
