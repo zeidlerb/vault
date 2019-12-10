@@ -85,8 +85,8 @@ jobs:
             for ALIAS in {{ range .aliases }}.buildcache/packages/by-alias/{{.type}}/{{.path}} {{end}}; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
-                tree .buildcache/packages
                 echo "Please increment the cache version to fix this issue."
+                { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
                 exit 1
               fi
             done
