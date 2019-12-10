@@ -37,7 +37,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+      - write-build-layer-cache-keys
       {{- range $layers}}{{if eq .type "build-static-assets"}}
       - restore_cache:
           keys:
@@ -68,14 +68,37 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: '{{template "cache-key" .meta.circleci.PACKAGE_CACHE_KEY}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in {{ range .aliases }}.buildcache/packages/by-alias/{{.path}} {{end}}; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           {{- range .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST}}
           - {{template "cache-key" .}}
           {{- end}}
-      - restore_cache:
-          key: '{{template "cache-key" .meta.circleci.PACKAGE_CACHE_KEY}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -104,7 +127,7 @@ jobs:
     executor: releaser
     steps:
       - checkout
-      - write-cache-keys
+      - write-all-package-cache-keys
       {{- range $packages}}
       - load-{{.meta.BUILD_JOB_NAME}}{{end}}
       - run: ls -lahR .buildcache/packages
@@ -123,12 +146,21 @@ commands:
       - restore_cache:
           key: '{{template "cache-key" .meta.circleci.PACKAGE_CACHE_KEY}}'
   {{end}}
-  
-  write-cache-keys:
+
+  write-build-layer-cache-keys:
     steps:
       - run:
           name: Write builder layer cache keys
           command: make -C release write-builder-cache-keys
+
+  write-package-cache-key:
+    steps:
       - run:
-          name: Write package cache keys
-          command: make -C release write-package-cache-keys
+          name: Write package cache key
+          command: make -C release write-package-cache-key
+
+  write-all-package-cache-keys:
+    steps:
+      - run:
+          name: Write package cache key
+          command: make -C release write-all-package-cache-keys
