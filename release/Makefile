@@ -103,7 +103,7 @@ save-builder-cache:
 	@$(MK)layer.mk save-builder-cache
 
 write-package-cache-key: $(PACKAGE_CACHE_KEY_FILE)
-	@if [ -z "$(PACKAGE_CACHE_KEY)" ]; then echo Must set PACKAGE_SPEC_ID; exit 1; fi
+	@if [ -z "$(PACKAGE_CACHE_KEY_FILE)" ]; then echo "Must set PACKAGE_SPEC_ID"; exit 1; fi
 	@echo "==> Package cache key written: $(PACKAGE_CACHE_KEY_FILE)"
 
 write-all-package-cache-keys: $(ALL_PACKAGE_CACHE_KEYS)

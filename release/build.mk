@@ -16,6 +16,10 @@ ifeq ($(PACKAGE_SPEC_ID),)
 $(error You must set PACKAGE_SPEC_ID, try invoking 'make build' instead.)
 endif
 
+ifneq ($(PRODUCT_VERSION),)
+$(error You cannot set PRODUCT_VERSION for local builds, did you mean PRODUCT_REVISION?)
+endif
+
 # PACKAGES_ROOT holds the package store, as well as other package aliases.
 PACKAGES_ROOT := $(CACHE_ROOT)/packages
 # PACKAGE_STORE is where we store all the package files themselves
