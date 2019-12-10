@@ -264,12 +264,16 @@ $(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE := $$($(1)_CACHE)/source-archive.tar
 # committed do not cause problems. This should be OK for dirty builds.
 #
 # For non-dirty builds, ask Git directly for a source archive.
+$(1)_FULL_DOCKER_BUILD_COMMAND = docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) \
+	-f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
 $$($(1)_IMAGE): $$($(1)_BASE_IMAGE)
-	@echo "==> Building Docker image $$($(1)_IMAGE_NAME)"
-	@echo "    Layer name             : $$($(1)_NAME)"
-	@echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"
-	@echo "    For product revision   : $(PRODUCT_REVISION_NICE_NAME)"
-	@echo "    For package source ID  : $(PACKAGE_SOURCE_ID)"
+	@$$(call $(1)_UPDATE_MARKER_FILE)
+	@if [ -f $$@ ]; then exit 0; fi; \
+	echo "==> Building Docker image $$($(1)_IMAGE_NAME)"; \
+	echo "    Layer name             : $$($(1)_NAME)"; \
+	echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"; \
+	echo "    For product revision   : $(PRODUCT_REVISION_NICE_NAME)"; \
+	echo "    For package source ID  : $(PACKAGE_SOURCE_ID)"; \
 	@if [ ! -f "$$($(1)_SOURCE_ARCHIVE)" ]; then \
 		if [ $(ALLOW_DIRTY) = YES ]; then \
 			echo "==> Building source archive from working directory: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
@@ -278,14 +282,15 @@ $$($(1)_IMAGE): $$($(1)_BASE_IMAGE)
 			echo "==> Building source archive from git: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
 			git archive --format=tar $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE); \
 		fi;\
-	fi
-	@if [ ! -f "$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" ]; then \
+	fi; \
+	if [ ! -f "$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" ]; then \
 		echo "==> Appending Dockerfile to source archive: $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" 1>&2; \
 		cp $$($(1)_SOURCE_ARCHIVE) $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
 		$(TAR) --append $$($(1)_DOCKERFILE) --file $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
 	fi; \
-	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
-	@$$(call $(1)_UPDATE_MARKER_FILE)
+	echo $$($(1)_FULL_DOCKER_BUILD_COMMAND); \
+	$$($(1)_FULL_DOCKER_BUILD_COMMAND); \
+	$$(call $(1)_UPDATE_MARKER_FILE)
 
 # Save the docker image as a tar.gz.
 $$($(1)_IMAGE_ARCHIVE): | $$($(1)_IMAGE)
