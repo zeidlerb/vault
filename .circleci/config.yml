@@ -22,7 +22,7 @@ jobs:
         key: test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -144,7 +144,7 @@ jobs:
         key: test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -212,7 +212,7 @@ jobs:
         key: test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -299,7 +299,7 @@ jobs:
         key: test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -367,7 +367,7 @@ jobs:
         key: test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -435,7 +435,7 @@ jobs:
         key: test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -559,7 +559,7 @@ jobs:
         key: test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -818,7 +818,7 @@ jobs:
         key: test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -886,7 +886,7 @@ jobs:
         key: test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -954,7 +954,7 @@ jobs:
         key: test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -1022,7 +1022,7 @@ jobs:
         key: test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -1090,7 +1090,7 @@ jobs:
         key: test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -1158,7 +1158,7 @@ jobs:
         key: test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -1226,7 +1226,7 @@ jobs:
         key: test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -1294,7 +1294,7 @@ jobs:
         key: test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
@@ -1362,7 +1362,7 @@ jobs:
         key: test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}
     - run:
         command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
             echo "No package found, continuing with build."
             exit 0
           fi
