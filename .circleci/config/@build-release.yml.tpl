@@ -99,28 +99,39 @@ jobs:
           {{- range .meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST}}
           - {{template "cache-key" .}}
           {{- end}}
-      - run: make -C release load-builder-cache || echo "No cached builder image to load."
+      - run: make -C release load-builder-cache
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
-      - store_artifacts:
-          path: .buildcache/packages
-          destination: packages
-      # Save builder image cache.
-      {{- $pkg := . -}}
-      {{- range $idx, $layerInfo := .meta.builtin.BUILD_LAYERS }}
-      {{- if eq $layerInfo.type "warm-go-build-vendor-cache" }}
-      - run: make -f release/layer.mk {{$layerInfo.name}}-save
-      - save_cache:
-          key: '{{template "cache-key" (index $pkg.meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST $idx)}}'
-          paths:
-            - {{ (index $pkg.meta.builtin.BUILD_LAYERS $idx).archive }}
-      {{- end}}
-      {{- end}}
       # Save package cache.
       - save_cache:
           key: '{{template "cache-key" .meta.circleci.PACKAGE_CACHE_KEY}}'
           paths:
             - .buildcache/packages
+      - store_artifacts:
+          path: .buildcache/packages
+          destination: packages
+      # Save builder image cache if necessary.
+      # The range should only iterate over a single layer.
+      {{- $pkg := . -}}
+      {{- range $idx, $layerInfo := .meta.builtin.BUILD_LAYERS }}
+      {{- if eq $layerInfo.type "warm-go-build-vendor-cache" }}
+      {{- with $layerInfo }}
+      {{- $circleCICacheKey := (index $pkg.meta.circleci.BUILDER_CACHE_KEY_PREFIX_LIST $idx) }}
+      - run:
+          name: Check builder cache status
+          command: |
+            if [ -f {{.archive}} ]; then
+              echo "Builder image already cached, skipping cache step."
+              circleci-agent step halt
+            fi
+      - run: make -f release/layer.mk {{.name}}-save
+      - save_cache:
+          key: '{{template "cache-key" $circleCICacheKey}}'
+          paths:
+            - {{.archive}}
+      {{- end}}
+      {{- end}}
+      {{- end}}
 {{end}}
 
   bundle-releases:
