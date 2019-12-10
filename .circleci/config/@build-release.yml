@@ -7,7 +7,7 @@ executors:
     docker:
       - image: circleci/buildpack-deps
     environment:
-      PRODUCT_REVISION: ""
+      PRODUCT_REVISION: "v1.0.1"
       AUTO_INSTALL_TOOLS: 'YES'
     shell: /usr/bin/env bash -euo pipefail -c
 
@@ -88,7 +88,7 @@ jobs:
   package_darwin_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 6aa2fbd1da76ed8aff110810063206bdbf93ad60
+      - PACKAGE_SPEC_ID: ede90cc111d93633c69caf3d9b45eca9a898b98a
     steps:
       - setup_remote_docker
       - checkout
@@ -96,7 +96,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}'
+          key: 'test7-v1-package-ede90cc111d93633c69caf3d9b45eca9a898b98a-{{checksum ".buildcache/cache-keys/package-ede90cc111d93633c69caf3d9b45eca9a898b98a"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -106,7 +106,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_darwin_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_386.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_darwin_386.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_darwin_386.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -144,14 +144,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}'
+          key: 'test7-v1-package-ede90cc111d93633c69caf3d9b45eca9a898b98a-{{checksum ".buildcache/cache-keys/package-ede90cc111d93633c69caf3d9b45eca9a898b98a"}}'
           paths:
             - .buildcache/packages
 
   package_darwin_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 8c597312fe5f56feae85eb349a2cbf21e29f26b3
+      - PACKAGE_SPEC_ID: 3104239c0c46fce44603ae51e06d24287436195e
     steps:
       - setup_remote_docker
       - checkout
@@ -159,7 +159,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}'
+          key: 'test7-v1-package-3104239c0c46fce44603ae51e06d24287436195e-{{checksum ".buildcache/cache-keys/package-3104239c0c46fce44603ae51e06d24287436195e"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -169,7 +169,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_darwin_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_amd64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_darwin_amd64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_darwin_amd64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -207,14 +207,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}'
+          key: 'test7-v1-package-3104239c0c46fce44603ae51e06d24287436195e-{{checksum ".buildcache/cache-keys/package-3104239c0c46fce44603ae51e06d24287436195e"}}'
           paths:
             - .buildcache/packages
 
   package_freebsd_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4
+      - PACKAGE_SPEC_ID: 264ae429f69728b8e69b6a00f4e2532c92ef095f
     steps:
       - setup_remote_docker
       - checkout
@@ -222,7 +222,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}'
+          key: 'test7-v1-package-264ae429f69728b8e69b6a00f4e2532c92ef095f-{{checksum ".buildcache/cache-keys/package-264ae429f69728b8e69b6a00f4e2532c92ef095f"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -232,7 +232,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_freebsd_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_386.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_freebsd_386.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_freebsd_386.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -270,14 +270,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}'
+          key: 'test7-v1-package-264ae429f69728b8e69b6a00f4e2532c92ef095f-{{checksum ".buildcache/cache-keys/package-264ae429f69728b8e69b6a00f4e2532c92ef095f"}}'
           paths:
             - .buildcache/packages
 
   package_freebsd_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 567d118ae2765e0ad20d0891691465f65b7d307d
+      - PACKAGE_SPEC_ID: 008b992e0afd79dd402c41511e172a9795134b45
     steps:
       - setup_remote_docker
       - checkout
@@ -285,7 +285,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}'
+          key: 'test7-v1-package-008b992e0afd79dd402c41511e172a9795134b45-{{checksum ".buildcache/cache-keys/package-008b992e0afd79dd402c41511e172a9795134b45"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -295,7 +295,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_freebsd_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_amd64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_freebsd_amd64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_freebsd_amd64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -333,14 +333,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}'
+          key: 'test7-v1-package-008b992e0afd79dd402c41511e172a9795134b45-{{checksum ".buildcache/cache-keys/package-008b992e0afd79dd402c41511e172a9795134b45"}}'
           paths:
             - .buildcache/packages
 
   package_freebsd_arm:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 8cc283250f20ae292e34be3493b93f5e9a600f6f
+      - PACKAGE_SPEC_ID: 075dfae82c4687883bb4e9e9d1430b249257a668
     steps:
       - setup_remote_docker
       - checkout
@@ -348,7 +348,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}'
+          key: 'test7-v1-package-075dfae82c4687883bb4e9e9d1430b249257a668-{{checksum ".buildcache/cache-keys/package-075dfae82c4687883bb4e9e9d1430b249257a668"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -358,7 +358,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_freebsd_arm.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_arm.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_freebsd_arm.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_freebsd_arm.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -396,14 +396,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}'
+          key: 'test7-v1-package-075dfae82c4687883bb4e9e9d1430b249257a668-{{checksum ".buildcache/cache-keys/package-075dfae82c4687883bb4e9e9d1430b249257a668"}}'
           paths:
             - .buildcache/packages
 
   package_linux_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: a05d89d33a386881c13ab009d2a6d299fbbc8ea4
+      - PACKAGE_SPEC_ID: 55ab2f984c91043376ab9a09b09a9993d5b1629c
     steps:
       - setup_remote_docker
       - checkout
@@ -411,7 +411,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}'
+          key: 'test7-v1-package-55ab2f984c91043376ab9a09b09a9993d5b1629c-{{checksum ".buildcache/cache-keys/package-55ab2f984c91043376ab9a09b09a9993d5b1629c"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -421,7 +421,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_386.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_linux_386.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_linux_386.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -459,14 +459,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}'
+          key: 'test7-v1-package-55ab2f984c91043376ab9a09b09a9993d5b1629c-{{checksum ".buildcache/cache-keys/package-55ab2f984c91043376ab9a09b09a9993d5b1629c"}}'
           paths:
             - .buildcache/packages
 
   package_linux_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 779a842c6f6a4fd900938f083d1970208da81ddf
+      - PACKAGE_SPEC_ID: 09ccb4aa35bd6140e215298058371a4c61604a12
     steps:
       - setup_remote_docker
       - checkout
@@ -474,7 +474,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}'
+          key: 'test7-v1-package-09ccb4aa35bd6140e215298058371a4c61604a12-{{checksum ".buildcache/cache-keys/package-09ccb4aa35bd6140e215298058371a4c61604a12"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -484,7 +484,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_amd64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_linux_amd64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_linux_amd64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -522,14 +522,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}'
+          key: 'test7-v1-package-09ccb4aa35bd6140e215298058371a4c61604a12-{{checksum ".buildcache/cache-keys/package-09ccb4aa35bd6140e215298058371a4c61604a12"}}'
           paths:
             - .buildcache/packages
 
   package_linux_arm:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 250db9a11405218e825b2b70168e27c6af7e1a88
+      - PACKAGE_SPEC_ID: 82e7812067219e90d988846bef44208c6a40453c
     steps:
       - setup_remote_docker
       - checkout
@@ -537,7 +537,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}'
+          key: 'test7-v1-package-82e7812067219e90d988846bef44208c6a40453c-{{checksum ".buildcache/cache-keys/package-82e7812067219e90d988846bef44208c6a40453c"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -547,7 +547,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_arm.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_linux_arm.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_linux_arm.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -585,14 +585,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}'
+          key: 'test7-v1-package-82e7812067219e90d988846bef44208c6a40453c-{{checksum ".buildcache/cache-keys/package-82e7812067219e90d988846bef44208c6a40453c"}}'
           paths:
             - .buildcache/packages
 
   package_linux_arm64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 9263774b2aa1b61109603c312e6f8900be04152e
+      - PACKAGE_SPEC_ID: 26052bb4ab8683f894bd74f259e8a3b511560181
     steps:
       - setup_remote_docker
       - checkout
@@ -600,7 +600,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}'
+          key: 'test7-v1-package-26052bb4ab8683f894bd74f259e8a3b511560181-{{checksum ".buildcache/cache-keys/package-26052bb4ab8683f894bd74f259e8a3b511560181"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -610,7 +610,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_arm64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_linux_arm64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_linux_arm64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -648,14 +648,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}'
+          key: 'test7-v1-package-26052bb4ab8683f894bd74f259e8a3b511560181-{{checksum ".buildcache/cache-keys/package-26052bb4ab8683f894bd74f259e8a3b511560181"}}'
           paths:
             - .buildcache/packages
 
   package_netbsd_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4
+      - PACKAGE_SPEC_ID: 3093be3e04fc67b5cacc1e37530661ff432eee98
     steps:
       - setup_remote_docker
       - checkout
@@ -663,7 +663,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}'
+          key: 'test7-v1-package-3093be3e04fc67b5cacc1e37530661ff432eee98-{{checksum ".buildcache/cache-keys/package-3093be3e04fc67b5cacc1e37530661ff432eee98"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -673,7 +673,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_netbsd_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_386.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_netbsd_386.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_netbsd_386.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -711,14 +711,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}'
+          key: 'test7-v1-package-3093be3e04fc67b5cacc1e37530661ff432eee98-{{checksum ".buildcache/cache-keys/package-3093be3e04fc67b5cacc1e37530661ff432eee98"}}'
           paths:
             - .buildcache/packages
 
   package_netbsd_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 5bbee728f4df8e41edaef59dd998c7d95c02feab
+      - PACKAGE_SPEC_ID: a19c28718116eec037264f070e38375de0d2b2a8
     steps:
       - setup_remote_docker
       - checkout
@@ -726,7 +726,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}'
+          key: 'test7-v1-package-a19c28718116eec037264f070e38375de0d2b2a8-{{checksum ".buildcache/cache-keys/package-a19c28718116eec037264f070e38375de0d2b2a8"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -736,7 +736,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_netbsd_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_amd64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_netbsd_amd64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_netbsd_amd64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -774,14 +774,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}'
+          key: 'test7-v1-package-a19c28718116eec037264f070e38375de0d2b2a8-{{checksum ".buildcache/cache-keys/package-a19c28718116eec037264f070e38375de0d2b2a8"}}'
           paths:
             - .buildcache/packages
 
   package_openbsd_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: d4b69b3c0ac7642a4c33ed1987e9093bd511ea06
+      - PACKAGE_SPEC_ID: 672f650ee6b19d66350dbb3c110cab0cdf5343f4
     steps:
       - setup_remote_docker
       - checkout
@@ -789,7 +789,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}'
+          key: 'test7-v1-package-672f650ee6b19d66350dbb3c110cab0cdf5343f4-{{checksum ".buildcache/cache-keys/package-672f650ee6b19d66350dbb3c110cab0cdf5343f4"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -799,7 +799,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_openbsd_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_386.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_openbsd_386.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_openbsd_386.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -837,14 +837,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}'
+          key: 'test7-v1-package-672f650ee6b19d66350dbb3c110cab0cdf5343f4-{{checksum ".buildcache/cache-keys/package-672f650ee6b19d66350dbb3c110cab0cdf5343f4"}}'
           paths:
             - .buildcache/packages
 
   package_openbsd_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 0e2fa037f95b479aa01eff3e546557f6a713d01e
+      - PACKAGE_SPEC_ID: 794f767fb68beb64e95bbb0baa9dd8707c1ade17
     steps:
       - setup_remote_docker
       - checkout
@@ -852,7 +852,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}'
+          key: 'test7-v1-package-794f767fb68beb64e95bbb0baa9dd8707c1ade17-{{checksum ".buildcache/cache-keys/package-794f767fb68beb64e95bbb0baa9dd8707c1ade17"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -862,7 +862,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_openbsd_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_amd64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_openbsd_amd64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_openbsd_amd64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -900,14 +900,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}'
+          key: 'test7-v1-package-794f767fb68beb64e95bbb0baa9dd8707c1ade17-{{checksum ".buildcache/cache-keys/package-794f767fb68beb64e95bbb0baa9dd8707c1ade17"}}'
           paths:
             - .buildcache/packages
 
   package_solaris_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: f084519720c79d535489a8c1e9d332336c58997a
+      - PACKAGE_SPEC_ID: a667cd3cc6af15d04edb048521ba64c04d8a1cf2
     steps:
       - setup_remote_docker
       - checkout
@@ -915,7 +915,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}'
+          key: 'test7-v1-package-a667cd3cc6af15d04edb048521ba64c04d8a1cf2-{{checksum ".buildcache/cache-keys/package-a667cd3cc6af15d04edb048521ba64c04d8a1cf2"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -925,7 +925,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_solaris_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_solaris_amd64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_solaris_amd64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_solaris_amd64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -963,14 +963,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}'
+          key: 'test7-v1-package-a667cd3cc6af15d04edb048521ba64c04d8a1cf2-{{checksum ".buildcache/cache-keys/package-a667cd3cc6af15d04edb048521ba64c04d8a1cf2"}}'
           paths:
             - .buildcache/packages
 
   package_windows_386:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: ce8f4493a547b4a8461dd2a0c145360107af9acd
+      - PACKAGE_SPEC_ID: 32fc40c9892622cb3c8734af10ca938c38efe29e
     steps:
       - setup_remote_docker
       - checkout
@@ -978,7 +978,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}'
+          key: 'test7-v1-package-32fc40c9892622cb3c8734af10ca938c38efe29e-{{checksum ".buildcache/cache-keys/package-32fc40c9892622cb3c8734af10ca938c38efe29e"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -988,7 +988,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_windows_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_386.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_windows_386.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_windows_386.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -1026,14 +1026,14 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}'
+          key: 'test7-v1-package-32fc40c9892622cb3c8734af10ca938c38efe29e-{{checksum ".buildcache/cache-keys/package-32fc40c9892622cb3c8734af10ca938c38efe29e"}}'
           paths:
             - .buildcache/packages
 
   package_windows_amd64:
     executor: releaser
     environment:
-      - PACKAGE_SPEC_ID: 0442e87d84ed352b7ca356abf369ae707589d4d4
+      - PACKAGE_SPEC_ID: 41c3e918e4df40bc15c0543a4e4f16dc2683f636
     steps:
       - setup_remote_docker
       - checkout
@@ -1041,7 +1041,7 @@ jobs:
       # Restore the package cache first, we might not need to rebuild.
       - write-package-cache-key
       - restore_cache:
-          key: 'test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}'
+          key: 'test7-v1-package-41c3e918e4df40bc15c0543a4e4f16dc2683f636-{{checksum ".buildcache/cache-keys/package-41c3e918e4df40bc15c0543a4e4f16dc2683f636"}}'
       - run:
           name: Check the cache status.
           command: |
@@ -1051,7 +1051,7 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_windows_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_amd64.zip ; do
+            for ALIAS in .buildcache/packages/by-alias/vault_v1.0.1-sam-test_windows_amd64.zip .buildcache/packages/by-alias/public/vault_v1.0.1-sam-test/vault_v1.0.1-sam-test_windows_amd64.zip ; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
                 echo "Please increment the cache version to fix this issue."
@@ -1089,7 +1089,7 @@ jobs:
             - .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz
       # Save package cache.
       - save_cache:
-          key: 'test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}'
+          key: 'test7-v1-package-41c3e918e4df40bc15c0543a4e4f16dc2683f636-{{checksum ".buildcache/cache-keys/package-41c3e918e4df40bc15c0543a4e4f16dc2683f636"}}'
           paths:
             - .buildcache/packages
 
@@ -1128,82 +1128,82 @@ commands:
   load-package_darwin_386:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}'
+          key: 'test7-v1-package-ede90cc111d93633c69caf3d9b45eca9a898b98a-{{checksum ".buildcache/cache-keys/package-ede90cc111d93633c69caf3d9b45eca9a898b98a"}}'
   
   load-package_darwin_amd64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}'
+          key: 'test7-v1-package-3104239c0c46fce44603ae51e06d24287436195e-{{checksum ".buildcache/cache-keys/package-3104239c0c46fce44603ae51e06d24287436195e"}}'
   
   load-package_freebsd_386:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}'
+          key: 'test7-v1-package-264ae429f69728b8e69b6a00f4e2532c92ef095f-{{checksum ".buildcache/cache-keys/package-264ae429f69728b8e69b6a00f4e2532c92ef095f"}}'
   
   load-package_freebsd_amd64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}'
+          key: 'test7-v1-package-008b992e0afd79dd402c41511e172a9795134b45-{{checksum ".buildcache/cache-keys/package-008b992e0afd79dd402c41511e172a9795134b45"}}'
   
   load-package_freebsd_arm:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}'
+          key: 'test7-v1-package-075dfae82c4687883bb4e9e9d1430b249257a668-{{checksum ".buildcache/cache-keys/package-075dfae82c4687883bb4e9e9d1430b249257a668"}}'
   
   load-package_linux_386:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}'
+          key: 'test7-v1-package-55ab2f984c91043376ab9a09b09a9993d5b1629c-{{checksum ".buildcache/cache-keys/package-55ab2f984c91043376ab9a09b09a9993d5b1629c"}}'
   
   load-package_linux_amd64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}'
+          key: 'test7-v1-package-09ccb4aa35bd6140e215298058371a4c61604a12-{{checksum ".buildcache/cache-keys/package-09ccb4aa35bd6140e215298058371a4c61604a12"}}'
   
   load-package_linux_arm:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}'
+          key: 'test7-v1-package-82e7812067219e90d988846bef44208c6a40453c-{{checksum ".buildcache/cache-keys/package-82e7812067219e90d988846bef44208c6a40453c"}}'
   
   load-package_linux_arm64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}'
+          key: 'test7-v1-package-26052bb4ab8683f894bd74f259e8a3b511560181-{{checksum ".buildcache/cache-keys/package-26052bb4ab8683f894bd74f259e8a3b511560181"}}'
   
   load-package_netbsd_386:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}'
+          key: 'test7-v1-package-3093be3e04fc67b5cacc1e37530661ff432eee98-{{checksum ".buildcache/cache-keys/package-3093be3e04fc67b5cacc1e37530661ff432eee98"}}'
   
   load-package_netbsd_amd64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}'
+          key: 'test7-v1-package-a19c28718116eec037264f070e38375de0d2b2a8-{{checksum ".buildcache/cache-keys/package-a19c28718116eec037264f070e38375de0d2b2a8"}}'
   
   load-package_openbsd_386:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}'
+          key: 'test7-v1-package-672f650ee6b19d66350dbb3c110cab0cdf5343f4-{{checksum ".buildcache/cache-keys/package-672f650ee6b19d66350dbb3c110cab0cdf5343f4"}}'
   
   load-package_openbsd_amd64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}'
+          key: 'test7-v1-package-794f767fb68beb64e95bbb0baa9dd8707c1ade17-{{checksum ".buildcache/cache-keys/package-794f767fb68beb64e95bbb0baa9dd8707c1ade17"}}'
   
   load-package_solaris_amd64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}'
+          key: 'test7-v1-package-a667cd3cc6af15d04edb048521ba64c04d8a1cf2-{{checksum ".buildcache/cache-keys/package-a667cd3cc6af15d04edb048521ba64c04d8a1cf2"}}'
   
   load-package_windows_386:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}'
+          key: 'test7-v1-package-32fc40c9892622cb3c8734af10ca938c38efe29e-{{checksum ".buildcache/cache-keys/package-32fc40c9892622cb3c8734af10ca938c38efe29e"}}'
   
   load-package_windows_amd64:
     steps:
       - restore_cache:
-          key: 'test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}'
+          key: 'test7-v1-package-41c3e918e4df40bc15c0543a4e4f16dc2683f636-{{checksum ".buildcache/cache-keys/package-41c3e918e4df40bc15c0543a4e4f16dc2683f636"}}'
   
 
   write-build-layer-cache-keys:
