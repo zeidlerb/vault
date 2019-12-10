@@ -258,12 +258,27 @@ $(1)_DOCKER_BUILD_ARGS = $$(shell [ -z "$$($(1)_BASE)" ] || echo --build-arg BAS
 $(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE := $$($(1)_CACHE)/source-archive.tar
 
 # Build the docker image.
-$$($(1)_IMAGE): $$($(1)_BASE_IMAGE) | $$($(1)_SOURCE_ARCHIVE)
+#
+# For dirty builds, tar up a source archive from the local filesystem.
+# We --ignore-failed-read so that deleted files that are not
+# committed do not cause problems. This should be OK for dirty builds.
+#
+# For non-dirty builds, ask Git directly for a source archive.
+$$($(1)_IMAGE): $$($(1)_BASE_IMAGE)
 	@echo "==> Building Docker image $$($(1)_IMAGE_NAME)"
 	@echo "    Layer name             : $$($(1)_NAME)"
 	@echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"
 	@echo "    For product revision   : $(PRODUCT_REVISION_NICE_NAME)"
 	@echo "    For package source ID  : $(PACKAGE_SOURCE_ID)"
+	@if [ ! -f "$$($(1)_SOURCE_ARCHIVE)" ]; then \
+		if [ $(ALLOW_DIRTY) = YES ]; then \
+			echo "==> Building source archive from working directory: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
+			$$($(1)_SOURCE_CMD) | $(TAR) --create --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T -; \
+		else \
+			echo "==> Building source archive from git: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
+			git archive --format=tar $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE); \
+		fi;\
+	fi
 	@if [ ! -f "$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" ]; then \
 		echo "==> Appending Dockerfile to source archive: $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" 1>&2; \
 		cp $$($(1)_SOURCE_ARCHIVE) $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
@@ -271,25 +286,6 @@ $$($(1)_IMAGE): $$($(1)_BASE_IMAGE) | $$($(1)_SOURCE_ARCHIVE)
 	fi; \
 	docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) -f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
 	@$$(call $(1)_UPDATE_MARKER_FILE)
-
-# Build the source archive used as docker context for this image.
-ifeq ($(ALLOW_DIRTY),YES)
-# For dirty builds, generate a source list file and use that to build
-# the source archive. We --ignore-failed-read so that deleted files that are not
-# committed do not cause problems. This should be OK for dirty builds.
-_ := $$(shell \
-	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
-	echo "==> Building source archive from local checkout: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
-	$$($(1)_SOURCE_CMD) | $(TAR) --create --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T - \
-)
-else
-# For non-dirty builds, ask Git directly for a source archive.
-_ := $$(shell \
-	if [ -f "$$($(1)_SOURCE_ARCHIVE)" ]; then exit 0; fi; \
-	echo "==> Building source archive from git: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
-	git archive --format=tar $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE); \
-)
-endif
 
 # Save the docker image as a tar.gz.
 $$($(1)_IMAGE_ARCHIVE): | $$($(1)_IMAGE)
