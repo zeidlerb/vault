@@ -35,16 +35,16 @@ BUILD_LAYER_NAME      := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LA
 BUILD_LAYER_IMAGE      = $(call GET_IMAGE_MARKER_FILE,$(BUILD_LAYER_NAME))
 BUILD_LAYER_IMAGE_NAME = $(call GET_IMAGE_NAME,$(BUILD_LAYER_NAME))
 
-BUILD_ENV := $(shell yq -r '$(YQ_PACKAGE_PATH) | .inputs | to_entries[] | "\(.key)=\(.value)"' < $(LOCK))
-BUILD_COMMAND := $(shell yq -r '$(YQ_PACKAGE_PATH) | .["build-command"]' < $(LOCK))
-ALIASES := $(shell yq -r '$(YQ_PACKAGE_PATH) | .aliases[] | "\(.type)/\(.path)"' < $(LOCK))
-ALIASES := $(addprefix $(BY_ALIAS)/,$(ALIASES))
+BUILD_COMMAND := $(shell $(call QUERY_PACKAGESPEC,.["build-command"]))
+BUILD_ENV     := $(shell $(call QUERY_PACKAGESPEC,.inputs | to_entries[] | "\(.key)=\(.value)"))
+ALIASES       := $(shell $(call QUERY_PACKAGESPEC,.aliases[] | "\(.type)/\(.path)"))
+ALIASES       := $(addprefix $(BY_ALIAS)/,$(ALIASES))
 
-ifeq ($(BUILD_ENV),)
-$(error Unable to find build inputs for package spec ID $(PACKAGE_SPEC_ID))
-endif
 ifeq ($(BUILD_COMMAND),)
 $(error Unable to find build command for package spec ID $(PACKAGE_SPEC_ID))
+endif
+ifeq ($(BUILD_ENV),)
+$(error Unable to find build inputs for package spec ID $(PACKAGE_SPEC_ID))
 endif
 
 # We always write the actual package files addressed by their input hash.
@@ -83,7 +83,7 @@ package: $(ALIASES)
 	@echo $(PACKAGE)
 
 $(META): $(LOCK)
-	@$(call QUERY_PACKAGESPEC) > $@
+	@$(call QUERY_PACKAGESPEC,.) > $@
 
 # PACKAGE builds the package.
 $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
@@ -91,9 +91,8 @@ $(PACKAGE): $(BUILD_LAYER_IMAGE) $(META)
 	@echo "==> Building package: $@"
 	@echo "PACKAGE_SOURCE_ID: $(PACKAGE_SOURCE_ID)"
 	@echo "PACKAGE_SPEC_ID:   $(PACKAGE_SPEC_ID)"
-	@ALIASES=$$(yq -r '$(YQ_PACKAGE_PATH) | \
-		.aliases[] | "alias type:\(.type) path:\(.path)"' < $(LOCK) | column -t); \
-		echo "$$ALIASES"
+	@# Print alias info.
+	@$(call QUERY_PACKAGESPEC,.aliases[] | "alias type:\(.type) path:\(.path)") | column -t
 	@docker rm -f $(BUILD_CONTAINER_NAME) > /dev/null 2>&1 || true # Speculative cleanup.
 	$(DOCKER_RUN_COMMAND)
 	$(DOCKER_CP_COMMAND)
