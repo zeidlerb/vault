@@ -13,6 +13,7 @@ EXTERNAL_TOOLS=\
 	golang.org/x/tools/cmd/goimports \
 	github.com/elazarl/go-bindata-assetfs/... \
 	github.com/hashicorp/go-bindata/... \
+	github.com/hashicorp/packagespec/cmd/packagespec \
 	github.com/mitchellh/gox \
 	github.com/kardianos/govendor \
 	github.com/client9/misspell/cmd/misspell \
