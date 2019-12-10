@@ -44,6 +44,13 @@ jobs:
             {{- range .meta.circleci.CACHE_KEY_PREFIX_LIST}}
             - {{template "cache-key" .}}
             {{- end}}
+      - run:
+          name: Finish early if loaded exact match from cache.
+          command: |
+            if [ -f {{.archivefile}} ]; then
+              echo "Exact match found in cache, skipping build."
+              circleci-agent step halt
+            fi
       - run: BUILD_LAYER_ID={{.name}} make -C release load-builder-cache
       - run: make -f release/layer.mk {{.name}}-image
       - run: make -f release/layer.mk {{.name}}-save
