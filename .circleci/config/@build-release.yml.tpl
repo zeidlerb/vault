@@ -76,7 +76,7 @@ jobs:
       - run:
           name: Check the cache status.
           command: |
-            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
               echo "No package found, continuing with build."
               exit 0
             fi
