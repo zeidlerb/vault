@@ -183,14 +183,14 @@ define $(1)_UPDATE_MARKER_FILE
 	export LAYER_REFS=$$($(1)_LAYER_REFS); \
 	export IMAGE=$$($(1)_IMAGE_NAME); \
 	export IMAGE_CREATED; \
-	if ! IMAGE_CREATED=$$$$(docker inspect -f '{{.Created}}' $$$$IMAGE 2>/dev/null); then \
-		if [ -f $$$$MARKER ]; then \
+	if ! { IMAGE_CREATED="$$$$(docker inspect -f '{{.Created}}' $$$$IMAGE 2>/dev/null)"; }; then \
+		if [ -f "$$$$MARKER" ]; then \
 			echo "==> Removing stale marker file for $$$$IMAGE" 1>&2; \
 			rm -f $$$$MARKER; \
 		fi; \
 		exit 0; \
 	fi; \
-	if [ ! -f $$$$MARKER ]; then \
+	if [ ! -f "$$$$MARKER" ]; then \
 		echo "==> Writing marker file for $$$$IMAGE (created $$$$IMAGE_CREATED)" 1>&2; \
 	fi; \
 	echo $$$$IMAGE > $$$$MARKER; \
@@ -268,20 +268,20 @@ $(1)_FULL_DOCKER_BUILD_COMMAND = docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOC
 	-f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
 $$($(1)_IMAGE): $$($(1)_BASE_IMAGE)
 	@$$(call $(1)_UPDATE_MARKER_FILE)
-	@if [ -f $$@ ]; then exit 0; fi; \
+	@if [ -f "$$@" ]; then exit 0; fi; \
 	echo "==> Building Docker image $$($(1)_IMAGE_NAME)"; \
 	echo "    Layer name             : $$($(1)_NAME)"; \
 	echo "    Layer source ID        : $$($(1)_SOURCE_ID_NICE_NAME)"; \
 	echo "    For product revision   : $(PRODUCT_REVISION_NICE_NAME)"; \
 	echo "    For package source ID  : $(PACKAGE_SOURCE_ID)"; \
-	@if [ ! -f "$$($(1)_SOURCE_ARCHIVE)" ]; then \
-		if [ $(ALLOW_DIRTY) = YES ]; then \
+	if [ ! -f "$$($(1)_SOURCE_ARCHIVE)" ]; then \
+		if [ "$(ALLOW_DIRTY)" = "YES" ]; then \
 			echo "==> Building source archive from working directory: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
 			$$($(1)_SOURCE_CMD) | $(TAR) --create --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T -; \
 		else \
 			echo "==> Building source archive from git: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
 			git archive --format=tar $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE); \
-		fi;\
+		fi; \
 	fi; \
 	if [ ! -f "$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" ]; then \
 		echo "==> Appending Dockerfile to source archive: $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" 1>&2; \
