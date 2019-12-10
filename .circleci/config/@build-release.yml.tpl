@@ -82,9 +82,10 @@ jobs:
             fi
             # Check the aliases are right, as they are metadata not included in
             # the cache key. If they're wrong, it's time to bust cache.
-            for ALIAS in {{ range .aliases }}.buildcache/packages/by-alias/{{.path}} {{end}}; do
+            for ALIAS in {{ range .aliases }}.buildcache/packages/by-alias/{{.type}}/{{.path}} {{end}}; do
               if ! readlink $ALIAS; then
                 echo "Missing alias: $ALIAS"
+                tree .buildcache/packages
                 echo "Please increment the cache version to fix this issue."
                 exit 1
               fi
