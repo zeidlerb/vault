@@ -11,9 +11,9 @@ GOARCH ?= $(shell go env GOARCH 2>/dev/null || echo amd64)
 DEFAULT_PACKAGE_YQ := .packages[] | select(.inputs.GOOS=="$(GOOS)" and .inputs.GOARCH=="$(GOARCH)") 
 QUERY_DEFAULT_PACKAGESPEC = $(call QUERY_LOCK,$(DEFAULT_PACKAGE_YQ) | $(1))
 
-PACKAGE_CACHE_KEY_FILES := $(shell $(call QUERY_LOCK,.packages[].meta.builtin.PACKAGE_CACHE_KEY_FILE))
-PACKAGE_CACHE_KEY_FILES := $(addprefix $(REPO_ROOT)/,$(PACKAGE_CACHE_KEY_FILES))
-#
+PACKAGE_CACHE_KEY_FILE := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.PACKAGE_CACHE_KEY_FILE))
+ALL_PACKAGE_CACHE_KEYS := $(shell $(call QUERY_LOCK,.packages[].meta.builtin.PACKAGE_CACHE_KEY_FILE))
+
 # MK is shorthand for changing to repo root and selecting a make target
 # from a file in this directory. All makefiles in this directory assume
 # the current working directory is the repo root.
@@ -102,9 +102,13 @@ save-builder-cache:
 	@echo "==> Exporting Docker build cache"
 	@$(MK)layer.mk save-builder-cache
 
-write-package-cache-keys: $(PACKAGE_CACHE_KEY_FILES)
-	@echo "==> Package cache keys written:"
-	@echo $(PACKAGE_CACHE_KEY_FILES)
+write-package-cache-key: $(PACKAGE_CACHE_KEY_FILE)
+	@if [ -z "$(PACKAGE_CACHE_KEY)" ]; then echo Must set PACKAGE_SPEC_ID; exit 1; fi
+	@echo "==> Package cache key written: $(PACKAGE_CACHE_KEY_FILE)"
+
+write-all-package-cache-keys: $(ALL_PACKAGE_CACHE_KEYS)
+	@echo "==> All package cache keys written:"
+	@for F in $(ALL_PACKAGE_CACHE_KEYS); do echo $$F; done
 
 clean-builder-images:
 	@IMAGES=$$(docker images --format '{{.Repository}}:{{.Tag}}' | grep '^$(BUILDER_IMAGE_PREFIX)' || true); \
@@ -116,8 +120,9 @@ clean:
 
 clean-all: clean clean-builder-images
 
-.PHONY: $(PACKAGE_CACHE_KEY_FILES)
-$(PACKAGE_CACHE_KEY_FILES):
-	mkdir -p $(dir $@)
-	echo $(PACKAGE_SOURCE_ID) > $@
+.PHONY: $(ALL_PACKAGE_CACHE_KEYS)
+$(ALL_PACKAGE_CACHE_KEYS):
+	@\
+		cd $(REPO_ROOT); mkdir -p $(dir $@); \
+		echo $(PACKAGE_SOURCE_ID) > $@
 

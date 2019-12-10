@@ -60,7 +60,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
             - test7-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
@@ -92,7 +92,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_darwin_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_386.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_d434_{{checksum ".buildcache/cache-keys/copy-source-d43490496eaff11363bd07848504cef97317b363"}}
@@ -105,8 +130,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-6aa2fbd1da76ed8aff110810063206bdbf93ad60-{{checksum ".buildcache/cache-keys/package-6aa2fbd1da76ed8aff110810063206bdbf93ad60"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -132,7 +155,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_darwin_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_amd64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_b48b_{{checksum ".buildcache/cache-keys/copy-source-b48b25b86f085fd7173562f2a1e0dbd0562ce317"}}
@@ -145,8 +193,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-8c597312fe5f56feae85eb349a2cbf21e29f26b3-{{checksum ".buildcache/cache-keys/package-8c597312fe5f56feae85eb349a2cbf21e29f26b3"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -172,7 +218,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_freebsd_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_386.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_fa3f_{{checksum ".buildcache/cache-keys/copy-source-fa3fbf42c80603e13ad007f1730f93d074de6fbd"}}
@@ -185,8 +256,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4-{{checksum ".buildcache/cache-keys/package-a357c0bc60b2748cc7297f8dcd9f570dd4b7bea4"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -212,7 +281,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_freebsd_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_amd64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_0f79_{{checksum ".buildcache/cache-keys/copy-source-0f79408e7f86dfe80c68daf69f1d16d16f1b27ee"}}
@@ -225,8 +319,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-567d118ae2765e0ad20d0891691465f65b7d307d-{{checksum ".buildcache/cache-keys/package-567d118ae2765e0ad20d0891691465f65b7d307d"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -252,7 +344,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_freebsd_arm.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_arm.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_f284_{{checksum ".buildcache/cache-keys/copy-source-f28438f494ace3c68f1f60085c60aa139c766677"}}
@@ -265,8 +382,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-8cc283250f20ae292e34be3493b93f5e9a600f6f-{{checksum ".buildcache/cache-keys/package-8cc283250f20ae292e34be3493b93f5e9a600f6f"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -292,7 +407,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_386.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_4c10_{{checksum ".buildcache/cache-keys/copy-source-4c108464b1e4a4f8c981531932e83baf8db6bbfc"}}
@@ -305,8 +445,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4-{{checksum ".buildcache/cache-keys/package-a05d89d33a386881c13ab009d2a6d299fbbc8ea4"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -332,7 +470,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_amd64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_11b0_{{checksum ".buildcache/cache-keys/copy-source-11b0b277f5157870c3444cfbf3d3d54cc5730c6e"}}
@@ -345,8 +508,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-779a842c6f6a4fd900938f083d1970208da81ddf-{{checksum ".buildcache/cache-keys/package-779a842c6f6a4fd900938f083d1970208da81ddf"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -372,7 +533,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_arm.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_020c_{{checksum ".buildcache/cache-keys/copy-source-020c795efeac45ae1c868131a87666087063bb14"}}
@@ -385,8 +571,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-250db9a11405218e825b2b70168e27c6af7e1a88-{{checksum ".buildcache/cache-keys/package-250db9a11405218e825b2b70168e27c6af7e1a88"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -412,7 +596,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_linux_arm64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_ba87_{{checksum ".buildcache/cache-keys/copy-source-ba872dc84b8f628f777008f259d8931e87f08f57"}}
@@ -425,8 +634,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-9263774b2aa1b61109603c312e6f8900be04152e-{{checksum ".buildcache/cache-keys/package-9263774b2aa1b61109603c312e6f8900be04152e"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -452,7 +659,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_netbsd_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_386.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_44e9_{{checksum ".buildcache/cache-keys/copy-source-44e91311bbacaffb1267b8a5abb6f479a1d130bc"}}
@@ -465,8 +697,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4-{{checksum ".buildcache/cache-keys/package-ae4b1ad6836d1e59b9515a8c0d8a9a82fa8f78e4"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -492,7 +722,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_netbsd_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_amd64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_7f9f_{{checksum ".buildcache/cache-keys/copy-source-7f9f65d96cfaeec0d7e3a9a73e28ecea25088ced"}}
@@ -505,8 +760,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-5bbee728f4df8e41edaef59dd998c7d95c02feab-{{checksum ".buildcache/cache-keys/package-5bbee728f4df8e41edaef59dd998c7d95c02feab"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -532,7 +785,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_openbsd_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_386.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_ed7b_{{checksum ".buildcache/cache-keys/copy-source-ed7b4907a7a48d643bac8c54afc2537334d6ba92"}}
@@ -545,8 +823,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06-{{checksum ".buildcache/cache-keys/package-d4b69b3c0ac7642a4c33ed1987e9093bd511ea06"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -572,7 +848,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_openbsd_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_amd64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_78a0_{{checksum ".buildcache/cache-keys/copy-source-78a0f07ca37654f020eb057dc5d3d790da04fc3c"}}
@@ -585,8 +886,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-0e2fa037f95b479aa01eff3e546557f6a713d01e-{{checksum ".buildcache/cache-keys/package-0e2fa037f95b479aa01eff3e546557f6a713d01e"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -612,7 +911,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_solaris_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_solaris_amd64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_92a2_{{checksum ".buildcache/cache-keys/copy-source-92a2a92bd3e67ef7472f5c8d3517dd0266f38665"}}
@@ -625,8 +949,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-f084519720c79d535489a8c1e9d332336c58997a-{{checksum ".buildcache/cache-keys/package-f084519720c79d535489a8c1e9d332336c58997a"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -652,7 +974,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_windows_386.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_386.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_c53a_{{checksum ".buildcache/cache-keys/copy-source-c53a56931108bd328afa374ddba2515f05dd652e"}}
@@ -665,8 +1012,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-ce8f4493a547b4a8461dd2a0c145360107af9acd-{{checksum ".buildcache/cache-keys/package-ce8f4493a547b4a8461dd2a0c145360107af9acd"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -692,7 +1037,32 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - write-cache-keys
+
+      # Restore the package cache first, we might not need to rebuild.
+      - write-package-cache-key
+      - restore_cache:
+          key: 'test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}'
+      - run:
+          name: Check the cache status.
+          command: |
+            if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ] }; then
+              echo "No package found, continuing with build."
+              exit 0
+            fi
+            # Check the aliases are right, as they are metadata not included in
+            # the cache key. If they're wrong, it's time to bust cache.
+            for ALIAS in .buildcache/packages/by-alias/vault_0.0.0-snapshot_windows_amd64.zip .buildcache/packages/by-alias/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_amd64.zip ; do
+              if ! readlink $ALIAS; then
+                echo "Missing alias: $ALIAS"
+                echo "Please increment the cache version to fix this issue."
+                exit 1
+              fi
+            done
+            echo "Package already cached, skipping build."
+            circleci-agent step halt
+
+      # We need to rebuild, so load the builder cache.
+      - write-build-layer-cache-keys
       - restore_cache:
           keys:
           - test7-v1-copy-source_9904_{{checksum ".buildcache/cache-keys/copy-source-9904cad43a7696e22882e225ab21ce547f231ca2"}}
@@ -705,8 +1075,6 @@ jobs:
           - test7-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
           - test7-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
           - test7-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-      - restore_cache:
-          key: 'test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}'
       - run: make -C release load-builder-cache || echo "No cached builder image to load."
       - run: make -C release package
       - run: ls -lahR .buildcache/packages
@@ -730,7 +1098,7 @@ jobs:
     executor: releaser
     steps:
       - checkout
-      - write-cache-keys
+      - write-all-package-cache-keys
       - load-package_darwin_386
       - load-package_darwin_amd64
       - load-package_freebsd_386
@@ -837,12 +1205,21 @@ commands:
       - restore_cache:
           key: 'test7-v1-package-0442e87d84ed352b7ca356abf369ae707589d4d4-{{checksum ".buildcache/cache-keys/package-0442e87d84ed352b7ca356abf369ae707589d4d4"}}'
   
-  
-  write-cache-keys:
+
+  write-build-layer-cache-keys:
     steps:
       - run:
           name: Write builder layer cache keys
           command: make -C release write-builder-cache-keys
+
+  write-package-cache-key:
+    steps:
       - run:
-          name: Write package cache keys
-          command: make -C release write-package-cache-keys
+          name: Write package cache key
+          command: make -C release write-package-cache-key
+
+  write-all-package-cache-keys:
+    steps:
+      - run:
+          name: Write package cache key
+          command: make -C release write-all-package-cache-keys
