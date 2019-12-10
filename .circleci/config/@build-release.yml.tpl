@@ -3,7 +3,7 @@
 {{- $layers := $data.layers -}}
 {{- $revision := $data.productrevision -}}
 {{- define "cache-key"}}{{template "cache-version"}}-{{.}}{{end -}}
-{{- define "cache-version"}}test7-v1{{end -}}
+{{- define "cache-version"}}test8-v1{{end -}}
 # Any change to cache-version invalidates all build layer and package caches.
 # Current cache version: {{template "cache-version"}}
 
