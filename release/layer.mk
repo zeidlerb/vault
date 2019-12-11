@@ -245,16 +245,10 @@ $(1)-id:
 	@echo $(1)-$$($(1)_SOURCE_ID)
 
 $(1)-write-cache-key:
-	@FILE=$$($(1)_CACHE_KEY_FILE); \
-		mkdir -p $$(dir $$($(1)_CACHE_KEY_FILE)); \
-		echo LAYER_NAME=$$($(1)_NAME) > $$$$FILE; \
-		echo BASE_LAYER_NAME=$$($(1)_BASE_LAYER_NAME) >> $$FILE; \
-		echo BASE_LAYER_ID=
-		echo SOURCE_ID=$$($(1)_SOURCE_ID) >> $$$$FILE; \
-		echo SOURCE_INCLUDE=$$($(1)_SOURCE_INCLUDE) >> $$$$FILE; \
-		echo SOURCE_EXCLUDE=$$($(1)_SOURCE_EXCLUDE) >> $$$$FILE; \
-		echo "==> Cache key for $(1) written to $$$$FILE:"; \
-		cat $$$$FILE
+	@mkdir -p $$(dir $$($(1)_CACHE_KEY_FILE)); \
+	cp $$($(1)_LAYER_ID_CONTENTS_FILE) $$($(1)_CACHE_KEY_FILE); \
+	echo "==> Cache key for $(1) written to $$($(1)_CACHE_KEY_FILE)"; \
+	cat $$($(1)_CACHE_KEY_FILE)
 
 $(1)-image: $$($(1)_IMAGE)
 	@cat $$<
