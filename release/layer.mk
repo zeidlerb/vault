@@ -1,8 +1,8 @@
-# build-layers.mk contains the machinery to incrementally build the builder image
+# layer.mk contains the machinery to incrementally build the builder image
 # as separate layers, so each can be cached both locally and in CI. This serves
 # both to speed up builds by avoiding unnecessary repetition of work already done,
 # as well as to ehnance the reliability of builds by downloading external
-# dependencies only once per build.
+# dependencies only once per build when necessary.
 #
 # The build layers themselves can be individually exported as tarballs (by calling
 # make <layer-name>-save) for later inspection, for sharing, or for implementing
@@ -11,14 +11,15 @@
 # To use this file, include it in another makefile, and from there you must eval
 # calls to the LAYER macro with this syntax:
 #
-#   $(eval $(call LAYER,<name>,<parent-name>,<source-include>,<source-exclude>))
+#   $(eval $(call LAYER,<name>,<type>,<parent-name>,<source-include>,<source-exclude>))
 #
-# Each layer assumes the existence of a Dockerfile named <name>.Dockerfile.
+# Each layer assumes the existence of a Dockerfile named <name>.Dockerfile in
+# packages.lock/layers.
 # It uses the <parent-name> to set a Docker build arg called BASE_IMAGE to the
 # resultant docker image ref of the named parent layer. You should use this BASE_IMAGE
 # in the FROM line in your image.
 #
-# There must also be a base image, which has no parent, and that Dockerfile should
+# There must also be a base image which has no parent, and that Dockerfile should
 # use a FROM line from an explicit docker image, e.g. debian:buster.
 #
 # Each image is provided only the source code identified by <source-include>, minus
@@ -32,32 +33,14 @@
 # equals the latest Git commit SHA that affected any of those files or directories.
 # When there are any new or modified files, we take a SHA 256 sum of the latest Git
 # commit affecting those files concatenated with the output of git diff and the contents
-# of any untracked files, and prefix this with "dirty_". The SOURCE_ID is used as the
-# cache key for that layer, as well as the Docker image tag for that layer, and in a few
-# other places to track things that belong to it.
+# of any untracked files, and prefix this with "dirty_". The SOURCE_ID is used as part of
+# the cache key for that layer.
 #
-# Example:
-#
-#   # The base layer has no base layer, and only its own Dockerfile as source code.
-#   $(eval $(call LAYER,base,,,)) 
-#
-#   # The UI deps layer depends on the base layer and includes some other source.
-#   # but does not explicitly exclude anything.
-#   $(eval $(call LAYER,ui-deps,base,ui/package.json,)) 
-#
-#   # The static and finaly layer includes all the source code, and can be used to
-#   # build the final software packages. It includes all the source code (.), apart from
-#   # the release/ directory. By keeping the release directory separate, we can iterate
-#   # on it quickly by maintaining caches.
-#   $(eval $(call LAYER,static,ui-deps,.,release/)
-#
-# Once the above is configured, you can refer to any of the layers' docker images that
-# relate to the current state of your working tree by their name:
-#
-#   $(<layer-name>_IMAGE_NAME)
-#
-# e.g. for the "static" image above we refer to it as $(static_IMAGE_NAME). You can then
-# use this image for anything you like, usually for building release packages.
+# Because different combinations of source-include and source-exclude may have been
+# modified by the same commit, they may share the same source ID. Therefore, we also
+# calculate the LAYER_ID which takes into account not only the current layer's source
+# ID, but also its source include/exclude and the ID of its base layer. Thus any change
+# in any of the inputs of any base layer invalidates the cache of all subsequent layers.
 
 # Include config.mk relative to this file (this allows us to invoke this file
 # from different directories safely.
