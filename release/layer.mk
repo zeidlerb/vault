@@ -93,16 +93,16 @@ $(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(6)
 $(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(7)
 
 ifneq ($$($(1)_BASE),)
-$(1)_BASE_CACHE_ROOT = $(CACHE_ROOT)/layers/$$($(1)_BASE)
-$(1)_BASE_ID_FILE    = $$($(1)_BASE_CACHE_ROOT)/current-layer-id
-$(1)_BASE_LAYER_ID   = $$(shell cat $$($(1)_BASE_ID_FILE))
-$(1)_BASE_CACHE      = $$($(1)_BASE_CACHE_ROOT)/$$($(1)_BASE_LAYER_ID)
-$(1)_BASE_IMAGE      = $$($(1)_BASE_CACHE)/image.marker
-$(1)_BASE_IMAGE_NAME = $$(shell cat $$($(1)_BASE_IMAGE))
+$(1)_BASE_CACHE_ROOT := $(CACHE_ROOT)/layers/$$($(1)_BASE)
+$(1)_BASE_ID_FILE    := $$($(1)_BASE_CACHE_ROOT)/current-layer-id
+$(1)_BASE_LAYER_ID    = $$(shell cat $$($(1)_BASE_ID_FILE))
+$(1)_BASE_CACHE       = $$($(1)_BASE_CACHE_ROOT)/$$($(1)_BASE_LAYER_ID)
+$(1)_BASE_IMAGE       = $$($(1)_BASE_CACHE)/image.marker
+$(1)_BASE_IMAGE_NAME  = $$(shell cat $$($(1)_BASE_IMAGE))
 # For non-base images the LAYER_ID contains a hash of the previous layers.
-$(1)_LAYER_ID        = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-$$($(1)_BASE_LAYER_ID) | $(SUM))
+$(1)_LAYER_ID         = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-$$($(1)_BASE_LAYER_ID) | $(SUM))
 else
-$(1)_LAYER_ID        = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-base | $(SUM))
+$(1)_LAYER_ID         = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-base | $(SUM))
 endif
 
 $(1)_CACHE_ROOT     := $(CACHE_ROOT)/layers/$$($(1)_NAME)
