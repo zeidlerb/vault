@@ -50,6 +50,8 @@ jobs:
             if [ -f {{.archivefile}} ]; then
               echo "Exact match found in cache, skipping build."
               circleci-agent step halt
+            else
+              echo "No exact match found, proceeding with build."
             fi
       - run: BUILD_LAYER_ID={{.name}} make -C release load-builder-cache
       - run: make -f release/layer.mk {{.name}}-image
