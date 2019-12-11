@@ -7,10 +7,8 @@
 # Include config.mk relative to repo root.
 include $(shell git rev-parse --show-toplevel)/release/config.mk
 
-# Make sure we have all the necessary inputs.
-# Ensure all of these are set in packages.lock
 ifeq ($(PACKAGE_SPEC_ID),)
-$(error You must set PACKAGE_SPEC_ID, try invoking 'make build' instead.)
+$(error You must set PACKAGE_SPEC_ID; 'make build' does this for you.)
 endif
 
 ifneq ($(PRODUCT_VERSION),)
@@ -28,10 +26,10 @@ BY_ALIAS      := $(PACKAGES_ROOT)/by-alias
 # Include the layers driver.
 include $(RELEASE_DIR)/layer.mk
 
-# GET_IMAGE_MARKKER_FILE gets the name of the Docker image marker file
+# GET_IMAGE_MARKER_FILE gets the name of the Docker image marker file
 # for the named build layer.
 GET_IMAGE_MARKER_FILE = $($(1)_IMAGE)
-# GET_IMAGE_NAME gets the Doker image name of the build layer.
+# GET_IMAGE_NAME gets the Docker image name of the build layer.
 GET_IMAGE_NAME = $($(1)_IMAGE_NAME)
 
 # Determine the top-level build layer.
@@ -51,7 +49,7 @@ ifeq ($(BUILD_ENV),)
 $(error Unable to find build inputs for package spec ID $(PACKAGE_SPEC_ID))
 endif
 
-# We always write the actual package files addressed by their input hash.
+# Configure paths and filenames.
 OUTPUT_DIR := $(PACKAGE_STORE)
 _ := $(shell mkdir -p $(OUTPUT_DIR))
 # PACKAGE_NAME is the input-addressed name of the package.
@@ -80,8 +78,10 @@ DOCKER_RUN_FLAGS := $(DOCKER_RUN_ENV_FLAGS) --name $(BUILD_CONTAINER_NAME)
 # DOCKER_RUN_COMMAND ties everything together to build the final package as a
 # single docker run invocation.
 DOCKER_RUN_COMMAND = docker run $(DOCKER_RUN_FLAGS) $(BUILD_LAYER_IMAGE_NAME) $(DOCKER_SHELL) '$(FULL_BUILD_COMMAND)'
+# DOCKER_CP_COMMAND copies the built artefact from the build container.
 DOCKER_CP_COMMAND = docker cp $(BUILD_CONTAINER_NAME):$(CONTAINER_OUTPUT_DIR)/$(PACKAGE_ZIP_NAME) $(PACKAGE)
 
+# package builds the package according to the set PACKAGE_SPEC_ID and PRODUCT_REVISION.
 .PHONY: package
 package: $(ALIASES)
 	@echo $(PACKAGE)
@@ -110,6 +110,3 @@ $(ALIASES): $(PACKAGE)
 	@mkdir -p $(dir $@)
 	@$(LN) -rfs $(PACKAGE) $@
 	@echo "==> Package alias written: $@"
-
-source-id:
-	@echo $(PACKAGE_SOURCE_ID)
