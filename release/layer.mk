@@ -92,21 +92,16 @@ $(1)_SOURCE_EXCLUDE := $(sort $(5) $(ALWAYS_EXCLUDE_SOURCE))
 $(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(6)
 $(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(7)
 
+$(1)_CACHE_ROOT     := $(CACHE_ROOT)/layers/$$($(1)_NAME)
+
 ifneq ($$($(1)_BASE),)
 $(1)_BASE_CACHE_ROOT := $(CACHE_ROOT)/layers/$$($(1)_BASE)
 $(1)_BASE_ID_FILE    := $$($(1)_BASE_CACHE_ROOT)/current-layer-id
-$(1)_BASE_LAYER_ID    = $$(shell cat $$($(1)_BASE_ID_FILE))
-$(1)_BASE_CACHE       = $$($(1)_BASE_CACHE_ROOT)/$$($(1)_BASE_LAYER_ID)
-$(1)_BASE_IMAGE       = $$($(1)_BASE_CACHE)/image.marker
+$(1)_BASE_LAYER_ID   := $$(shell cat $$($(1)_BASE_ID_FILE))
+$(1)_BASE_CACHE      := $$($(1)_BASE_CACHE_ROOT)/$$($(1)_BASE_LAYER_ID)
+$(1)_BASE_IMAGE      := $$($(1)_BASE_CACHE)/image.marker
 $(1)_BASE_IMAGE_NAME  = $$(shell cat $$($(1)_BASE_IMAGE))
-# For non-base images the LAYER_ID contains a hash of the previous layers.
-$(1)_LAYER_ID         = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-$$($(1)_BASE_LAYER_ID) | $(SUM))
-else
-$(1)_LAYER_ID         = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-base | $(SUM))
 endif
-
-$(1)_CACHE_ROOT     := $(CACHE_ROOT)/layers/$$($(1)_NAME)
-$(1)_LAYER_ID_FILE  := $$($(1)_CACHE_ROOT)/current-layer-id
 
 $(1)_DOCKERFILE := $(DOCKERFILES_DIR)/$$($(1)_NAME).Dockerfile
 
@@ -152,20 +147,42 @@ $(1)_SOURCE_ID_NICE_NAME := $$($(1)_SOURCE_ID)
 # and we list files using git ls-tree.
 else
 
-$(1)_SOURCE_ID  := $$($(1)_SOURCE_COMMIT)
+$(1)_SOURCE_ID           := $$($(1)_SOURCE_COMMIT)
 $(1)_SOURCE_ID_NICE_NAME := $$($(1)_SOURCE_ID)
-$(1)_SOURCE_CMD := git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
+$(1)_SOURCE_CMD          := git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
 
 endif
 endif
 
-$(1)_SOURCE_ARCHIVE = $(CACHE_ROOT)/source-archives/$$($(1)_TYPE)-$$($(1)_LAYER_ID).tar
-$(1)_IMAGE_NAME = $(BUILDER_IMAGE_PREFIX)-$$($(1)_NAME):$$($(1)_LAYER_ID)
+# LAYER_ID_CONTENTS dictates all the fields that can cause cache invalidation
+# to propagate from the current layer to all dependent layers.
+define $(1)_LAYER_ID_CONTENTS
+BASE_LAYER_ID=$$($(1)_BASE_LAYER_ID);
+LAYER_NAME=$$($(1)_NAME);
+SOURCE_ID=$$($(1)_SOURCE_ID);
+SOURCE_INCLUDE=$$($(1)_SOURCE_INCLUDE);
+SOURCE_EXCLUDE=$$($(1)_SOURCE_EXCLUDE);
+endef
 
-$(1)_CACHE = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_LAYER_ID)
+$(1)_LAYER_ID_CONTENTS_FILE := $$($(1)_CACHE_ROOT)/current-layer-id-contents
+$(1)_LAYER_ID_FILE          := $$($(1)_CACHE_ROOT)/current-layer-id
 
-# Create cache dir and write LAYER_ID_FILE.
-_ := $$(shell mkdir -p $$($(1)_CACHE); echo $$($(1)_LAYER_ID) > $$($(1)_LAYER_ID_FILE))
+# Create cache root dir and write LAYER_ID_FILE_CONTENTS file.
+_ := $$(shell \
+	mkdir -p $$($(1)_CACHE_ROOT); \
+	echo "$$($(1)_LAYER_ID_CONTENTS)" > $$($(1)_LAYER_ID_CONTENTS_FILE); \
+)
+
+$(1)_LAYER_ID       := $$(shell cat $$($(1)_LAYER_ID_CONTENTS_FILE) | $(SUM))
+$(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_TYPE)-$$($(1)_LAYER_ID).tar
+$(1)_IMAGE_NAME     := $(BUILDER_IMAGE_PREFIX)-$$($(1)_NAME):$$($(1)_LAYER_ID)
+$(1)_CACHE          := $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_LAYER_ID)
+
+# Create cache dir and write Layer ID file.
+_ := $$(shell \
+	mkdir -p $$($(1)_CACHE); \
+	echo $$($(1)_LAYER_ID) > $$($(1)_LAYER_ID_FILE); \
+)
 
 $(1)_PHONY_TARGET_NAMES := debug id image save load
 
@@ -231,6 +248,8 @@ $(1)-write-cache-key:
 	@FILE=$$($(1)_CACHE_KEY_FILE); \
 		mkdir -p $$(dir $$($(1)_CACHE_KEY_FILE)); \
 		echo LAYER_NAME=$$($(1)_NAME) > $$$$FILE; \
+		echo BASE_LAYER_NAME=$$($(1)_BASE_LAYER_NAME) >> $$FILE; \
+		echo BASE_LAYER_ID=
 		echo SOURCE_ID=$$($(1)_SOURCE_ID) >> $$$$FILE; \
 		echo SOURCE_INCLUDE=$$($(1)_SOURCE_INCLUDE) >> $$$$FILE; \
 		echo SOURCE_EXCLUDE=$$($(1)_SOURCE_EXCLUDE) >> $$$$FILE; \
