@@ -72,7 +72,7 @@ QUERY_PACKAGESPEC = $(call QUERY_LOCK,$(YQ_PACKAGE_PATH) | $(1))
 # revision of their source, we always want to
 # honour either HEAD or the specified PRODUCT_REVISION for compiling the
 # final binaries, as this revision is the one picked by a human to form
-# the release.
+# the release, and may be baked into the binaries produced.
 ifeq ($(PRODUCT_REVISION),)
 # If PRODUCT_REVISION is empty (the default) we are concerned with building the
 # current work tree, regardless of whether it is dirty or not. For local builds
@@ -82,7 +82,7 @@ GIT_REF := HEAD
 ALLOW_DIRTY ?= YES
 PRODUCT_REVISION_NICE_NAME := <current-workdir>
 else
-# PRODUCT_REVISION is non-emtpy so treat it as a git commit ref and pull files
+# PRODUCT_REVISION is non-empty so treat it as a git commit ref and pull files
 # directly from git rather than the work tree.
 GIT_REF := $(PRODUCT_REVISION)
 ALLOW_DIRTY := NO
@@ -93,7 +93,8 @@ endif
 # Note we use the GIT_REF suffixed with '^{}' in order to traverse tags down
 # to individual commits, which is important in case the GIT_REF is an annotated tag.
 # Dirty package builds should never be cached because their PACKAGE_SOURCE_ID
-# is not unique to the code, it just reflects the last commit ID in the git log.
+# is not unique to the code, it just reflects the last commit ID in the git log
+# prefixed with dirty_.
 ifeq ($(ALLOW_DIRTY),YES)
 DIRTY := $(shell cd $(REPO_ROOT); git diff --exit-code $(GIT_REF) -- $(ALWAYS_EXCLUDE_SOURCE_GIT) > /dev/null 2>&1 || echo "dirty_")
 PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse $(GIT_REF)^{})
