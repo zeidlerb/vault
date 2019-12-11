@@ -27,10 +27,17 @@ RELEASE_DIR := release
 CACHE_ROOT ?= .buildcache
 
 # SPEC is the human-managed description of which packages we are able to build.
-SPEC := $(RELEASE_DIR)/packages.yml
+SPEC_FILE_PATTERN := packages*.yml
+SPEC := $(shell cd $(REPO_ROOT); find $(RELEASE_DIR) -name '$(SPEC_FILE_PATTERN)')
+ifneq ($(words $(SPEC)),1)
+$(error Found $(words $(SPEC)) $(SPEC_FILE_PATTERN) files in $(RELEASE_DIR)/, need exactly 1)
+endif
+
+SPEC_FILENAME := $(notdir $(SPEC))
+SPEC_MODIFIER := $(SPEC_FILENAME:packages%.yml=%)
 
 # LOCKDIR contains the lockfile and layer files.
-LOCKDIR := $(RELEASE_DIR)/packages.lock
+LOCKDIR := $(RELEASE_DIR)/packages$(SPEC_MODIFIER).lock
 
 # BUILDER_IMAGE_PREFIX is used in generating layers' docker image names.
 BUILDER_IMAGE_PREFIX := vault-builder
@@ -61,12 +68,16 @@ ALWAYS_EXCLUDE_SOURCE     := $(RELEASE_DIR)/ .circleci/
 # ALWAYS_EXCLUD_SOURCE_GIT is git path filter parlance for the above.
 ALWAYS_EXCLUDE_SOURCE_GIT := $(call GIT_EXCLUDE_LIST,$(ALWAYS_EXCLUDE_SOURCE))
 
+YQ_PACKAGE_BY_ID = .packages[] | select(.packagespecid == "$(1)")  
+
 # YQ_PACKAGE_PATH is a yq query fragment to select the package PACKAGE_SPEC_ID.
 # This may be invalid, check that PACKAGE_SPEC_ID is not empty before use.
-YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")  
+YQ_PACKAGE_PATH := $(call YQ_PACKAGE_BY_ID,$(PACKAGE_SPEC_ID))  
 
 QUERY_LOCK        = cd $(REPO_ROOT); yq -r '$(1)' < $(LOCK)
+# QUERY_PACKAGESPEC queries the package according to the current PACKAGE_SPEC_ID.
 QUERY_PACKAGESPEC = $(call QUERY_LOCK,$(YQ_PACKAGE_PATH) | $(1))
+QUERY_PACKAGESPEC_BY_ID = $(call QUERY_LOCK,$(call YQ_PACKAGE_PATH_BY_ID,$(1)) | $(2))
 
 # Even though layers may have different Git revisions, based on the latest
 # revision of their source, we always want to
