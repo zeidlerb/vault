@@ -94,13 +94,9 @@ $(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(7)
 
 $(1)_SOURCE_ID_FILE := $(CACHE_ROOT)/layers/$$($(1)_NAME)/current-source-id
 
-$(1)_CACHE                                             = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
-#$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$($($(1)_BASE)_SOURCE_ID)/image.marker)
-
+$(1)_CACHE = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
 $(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || \
 	echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$$$(cat $(CACHE_ROOT)/layers/$$($(1)_BASE)/current-source-id)/image.marker)
-
-LAYER_CACHES += $$($(1)_CACHE)
 
 $(1)_DOCKERFILE := $(DOCKERFILES_DIR)/$$($(1)_NAME).Dockerfile
 
@@ -320,23 +316,12 @@ _ := $(foreach L,$(LAYERS),$(shell $(call $(L)_UPDATE_MARKER_FILE)))
 # this list, we end up with a tarball that can pre-populate the docker
 # cache to avoid unnecessary rebuilds.
 DOCKER_LAYER_LIST := $(CACHE_ROOT)/docker-layer-list
-DOCKER_BUILDER_CACHE := $(CACHE_ROOT)/docker-builder-cache.tar.gz
 
 write-cache-keys: $(addsuffix -write-cache-key,$(LAYERS))
 	@echo "==> All cache keys written."
 
 build-all-layers: $(addsuffix -image,$(LAYERS))
 	@echo "==> All builder layers built."
-
-save-builder-cache: $(DOCKER_BUILDER_CACHE)
-	@ls -lh $<
-
-load-builder-cache:
-	docker load -i $(DOCKER_BUILDER_CACHE)
-
-$(DOCKER_BUILDER_CACHE): $(addsuffix -layer-refs,$(LAYERS))
-	@cat $(addsuffix /image.layer_refs,$(LAYER_CACHES)) | sort | uniq > $(DOCKER_LAYER_LIST)
-	@cat $(DOCKER_LAYER_LIST) | xargs docker save | gzip > $(DOCKER_BUILDER_CACHE)
 
 .PHONY: debug
 debug: $(addsuffix -debug,$(LAYERS))

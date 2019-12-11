@@ -1,13 +1,10 @@
-#/$(PACKAGE_ZIP_NAME) build.mk
-#
 # build.mk builds the packages defined in packages.lock, first building all necessary
 # builder images.
 #
 # NOTE: This file should always run as though it were in the repo root, so all paths
 # are relative to the repo root.
 
-# Include config.mk relative to this file (this allows us to invoke this file
-# from different directories safely.
+# Include config.mk relative to repo root.
 include $(shell git rev-parse --show-toplevel)/release/config.mk
 
 # Make sure we have all the necessary inputs.
@@ -31,8 +28,11 @@ BY_ALIAS      := $(PACKAGES_ROOT)/by-alias
 # Include the layers driver.
 include $(RELEASE_DIR)/layer.mk
 
-GET_IMAGE_MARKER_FILE = $(CACHE_ROOT)/layers/$(1)/$($(1)_SOURCE_ID)/image.marker
-GET_IMAGE_NAME        = $(BUILDER_IMAGE_PREFIX)-$(1):$($(1)_SOURCE_ID)
+# GET_IMAGE_MARKKER_FILE gets the name of the Docker image marker file
+# for the named build layer.
+GET_IMAGE_MARKER_FILE = $($(1)_IMAGE)
+# GET_IMAGE_NAME gets the Doker image name of the build layer.
+GET_IMAGE_NAME = $($(1)_IMAGE_NAME)
 
 # Determine the top-level build layer.
 BUILD_LAYER_NAME      := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.BUILD_LAYERS[0].name))

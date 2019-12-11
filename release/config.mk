@@ -30,7 +30,7 @@ CACHE_ROOT ?= .buildcache
 SPEC := $(RELEASE_DIR)/packages.yml
 
 # LOCKDIR contains the lockfile and layer files.
-LOCKDIR      := $(RELEASE_DIR)/packages.lock
+LOCKDIR := $(RELEASE_DIR)/packages.lock
 
 # BUILDER_IMAGE_PREFIX is used in generating layers' docker image names.
 BUILDER_IMAGE_PREFIX := vault-builder
@@ -65,8 +65,8 @@ ALWAYS_EXCLUDE_SOURCE_GIT := $(call GIT_EXCLUDE_LIST,$(ALWAYS_EXCLUDE_SOURCE))
 # This may be invalid, check that PACKAGE_SPEC_ID is not empty before use.
 YQ_PACKAGE_PATH := .packages[] | select(.packagespecid == "$(PACKAGE_SPEC_ID)")  
 
-QUERY_LOCK                = cd $(REPO_ROOT); yq -r '$(1)' < $(LOCK)
-QUERY_PACKAGESPEC         = $(call QUERY_LOCK,$(YQ_PACKAGE_PATH) | $(1))
+QUERY_LOCK        = cd $(REPO_ROOT); yq -r '$(1)' < $(LOCK)
+QUERY_PACKAGESPEC = $(call QUERY_LOCK,$(YQ_PACKAGE_PATH) | $(1))
 
 # Even though layers may have different Git revisions, based on the latest
 # revision of their source, we always want to
@@ -92,6 +92,8 @@ endif
 # Determine the PACKAGE_SOURCE_ID.
 # Note we use the GIT_REF suffixed with '^{}' in order to traverse tags down
 # to individual commits, which is important in case the GIT_REF is an annotated tag.
+# Dirty package builds should never be cached because their PACKAGE_SOURCE_ID
+# is not unique to the code, it just reflects the last commit ID in the git log.
 ifeq ($(ALLOW_DIRTY),YES)
 DIRTY := $(shell cd $(REPO_ROOT); git diff --exit-code $(GIT_REF) -- $(ALWAYS_EXCLUDE_SOURCE_GIT) > /dev/null 2>&1 || echo "dirty_")
 PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse $(GIT_REF)^{})
@@ -131,7 +133,7 @@ $$(info Failed to auto-install packages with command $$(INSTALL_COMMAND) $$(MISS
 $$(error $$(shell cat $$(TOOL_INSTALL_LOG)))
 else
 $$(info $$(TOOL_INSTALL_LOG))
-$$(info Installed tools successfully.)
+$$(info Installed $$(GROUP_NAME) tools successfully.)
 endif
 endif
 endif
@@ -141,13 +143,13 @@ ifeq ($(shell uname),Darwin)
 # On Mac, try to install things with homebrew.
 BREW_TOOLS := gln:coreutils gtouch:coreutils gstat:coreutils \
 	gtar:gnu-tar gfind:findutils jq:jq yq:python-yq
-$(eval $(call REQ_TOOLS,core,brew,brew install,$(BREW_TOOLS)))
+$(eval $(call REQ_TOOLS,brew,brew,brew install,$(BREW_TOOLS)))
 else
-# If not mac, assume debian and try to install using apt.
+# If not mac, try to install using apt.
 APT_TOOLS := pip3:python3-pip jq:jq column:bsdmainutils
-$(eval $(call REQ_TOOLS,apt-tools,apt-get,sudo apt-get update && sudo apt-get install -y,$(APT_TOOLS)))
+$(eval $(call REQ_TOOLS,apt,apt-get,sudo apt-get update && sudo apt-get install -y,$(APT_TOOLS)))
 PIP_TOOLS := yq:yq
-$(eval $(call REQ_TOOLS,pip-tools,pip3,pip3 install,$(PIP_TOOLS)))
+$(eval $(call REQ_TOOLS,pip,pip3,pip3 install,$(PIP_TOOLS)))
 
 endif
 

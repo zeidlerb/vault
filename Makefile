@@ -13,7 +13,7 @@ EXTERNAL_TOOLS=\
 	golang.org/x/tools/cmd/goimports \
 	github.com/elazarl/go-bindata-assetfs/... \
 	github.com/hashicorp/go-bindata/... \
-	github.com/hashicorp/packagespec/cmd/packagespec \
+	github.com/hairyhenderson/gomplate/cmd/gomplate \
 	github.com/mitchellh/gox \
 	github.com/kardianos/govendor \
 	github.com/client9/misspell/cmd/misspell \
@@ -310,6 +310,6 @@ build-ci:
 	@[ -d ../vault-release ] || { echo "You must clone git@github.com:hashicorp/vault-release.git into ../vault-release"; exit 1; }
 	@cd ../vault-release && make trigger-product-build
 
-.PHONY: bin default prep test vet bootstrap fmt fmtcheck mysql-database-plugin mysql-legacy-database-plugin cassandra-database-plugin influxdb-database-plugin postgresql-database-plugin mssql-database-plugin hana-database-plugin mongodb-database-plugin static-assets ember-dist ember-dist-dev static-dist static-dist-dev assetcheck check-vault-in-path check-browserstack-creds test-ui-browserstack stage-commit publish-commit packages build
+.PHONY: bin default prep test vet bootstrap fmt fmtcheck mysql-database-plugin mysql-legacy-database-plugin cassandra-database-plugin influxdb-database-plugin postgresql-database-plugin mssql-database-plugin hana-database-plugin mongodb-database-plugin static-assets ember-dist ember-dist-dev static-dist static-dist-dev assetcheck check-vault-in-path check-browserstack-creds test-ui-browserstack stage-commit publish-commit packages build build-ci
 
 .NOTPARALLEL: ember-dist ember-dist-dev static-assets

@@ -5,8 +5,8 @@ from the same source code (i.e. a single git commit).
 
 The build system allows the definition of *packages* which are near complete
 descriptions of the build environment and build command used to produce each package.
-This set of packages is used to generate CI configuration as well as a set of commands
-you can run locally to produce each package.
+This set of packages is used to generate CI configuration, and drives the building
+of builder images (via layer.mk) and final packages (build.mk).
 
 Packages include a set of *layers* which are individually cacheable stages of the
 build, expressed as Dockerfile templates and source definitions, and cached as Docker
@@ -23,48 +23,105 @@ iterative programs that directly output the various binaries, however this
 itself can be difficult to understand, and difficult to observe clearly.
 
 By separating the workflows of _defining_ packages and then _building_ them
-we end up with an easy to understand intermediate representation of the
-each package. Not only is it easy to understand, but also to
+we end up with an easy to understand intermediate representation of
+each package (packages.lock). Not only is it easy to understand, but also to
 consume for other purposes, such as generating CI pipelines, or
 programattically editing to further automation efforts.
+
+packages.lock essentially contains all the non-source inputs to each package
+along with pointers to the source itself. We cache all build layers/packages
+and intermediate files according to their spec + source (all the inputs).
+That is, each item in the cache, and the eventual packages we build are
+input-addressable, meaning we can fairly aggressively cache everything,
+with a simple invalidation rule: if any input changes, then invalidate the
+cache.
 
 ## Workflow
 
 The workflow is to edit `packages.yml` which is the human-editable description
 of all the packages and build layers, and then to run `make packages` which
-translates that definition into two artifacts: `packages.lock` and `layers.lock`.
+translates that definition into the `packages.lock` file tree.
 
-Once these are updated, you can run `make commands` to generate a set of commands
-that you can run locally to produce each package.
+Note: at present, only HashiCorp employees have access to the `packagespec` tool
+used by the Makefile to generate packages.lock, this may or may not change in future.
 
 The convenience command `make build` selects the first of these packages that
 matches your local GOOS and GOARCH and builds that one.
 
 ## Implementation
 
-There are two separate workflows: defining packages (implemented in packages.mk)
+There are two separate workflows: defining packages (in packages.yml)
 and building packages (build.mk). For conveninience the main Makefile exposes targets
 that invoke those files on your behalf, which you should always use unless debugging
-the system.
+the system. In CI there is another useful workflow: building the builder images
+themselves and saving them to an archive file for caching. This is implemented
+in layer.mk.
 
-### packages.mk
+### config.mk
 
-packages.mk reads packages.yml and outputs two artifacts:
-
-`packages.lock` is a YAML file containing the fully expanded definition of
-each package, as well as links to generated Dockerfiles in `layers.lock`.
-
-`layers.lock` is a directory containing Dockerfiles rendered from the definitions
-in `packages.yml`.
+config.mk is included by all the other make files, and contains global configuration
+as well as some utility macros and lists of required tools to install.
 
 ### build.mk
 
-build.mk assumes a set of environment variables defined in packages.lock and
-a set of dockerfiles defined in layers.lock, and from them produces package
-files for distribution. By reusing, or building, Docker containers in the
-relevant order for that package, and then using that generated builder
-image to compile the final packagees.
+build.mk produces package files for distribution by running the build command
+inside the relevant build container for that package.
 
 ### layer.mk
 
-layer.mk contains all the code for _building_ the layers defined in `layers.lock`.
+layer.mk contains all the code for building and caching the build layers,
+it is included by build.mk so that you don't need to separately build layers
+locally, but in CI you can invoke it directly to pre-cache layers.
+
+### packages.yml
+
+packages.yml is the human-editable defition of package specs.
+
+### packages.lock
+
+packages.lock contains the fully expanded version of packages.yml, including
+the rendered dockerfiles in packages.lock/layers. When packages.lock changes
+after running 'make packages' you should also re-generate CI config by running
+`make ci-config` in the root of the repo, and commit them both.
+
+## Build internals
+
+### 1. Build each builder image layer
+
+#### a. Build source archives, assign SOURCE_ID
+
+The build process uses the definitions in packages.lock to generate source
+archives (using the layers' source-include and source-exclude fields)
+from either the local filesystem, or direct from git if PRODUCT_REVISION is
+set. It assigns each set of source code a SOURCE_ID which is either the
+SHA of the latest git commit to affect any of that code, or else if the code
+is dirty (contains uncommitted changes), a SHA1 sum of the latest commit plus
+the output of 'git diff' in order to make it unique
+
+#### b. Build the docker image
+
+Using the Dockerfile from packages.lock, the source code from the source
+archive, and a reference to the base image (the one from the layer below)
+build a Docker image. Each layer in packagespec.lock is addressed (has an
+ID) which is a hash of its content, its source definition, and the ID of
+its parent layer. This layer ID is combined with the SOURCE_ID to produce
+the name of the Docker image (LAYER_ID:SOURCE_ID-PARENTHASH). We also append
+'PARENTHASH' Which is a cumulative hash of each build layer's ID up to that
+point. This ensures that if any base layer changes input-wise in any way,
+then all subsequent layers are invalidated.
+
+### 2. Build the package
+
+Using the top-most buider image, which must by now contain all the source code,
+execute the build command (passing in some externally calculated paths) to
+compile and package the software.
+
+Use `docker cp` to copy out the built artefact. We do this instead of using
+mounts, because that's more compatible with various remote Docker scenarios.
+
+### 3. Address the package.
+
+Each package is addressed by all its inputs (including source code), but this
+is not a human-readable name. We also add package aliases, in the form of
+symlinks in .buildcache/packages/by-alias which are human-readable names
+and names required by other systems involved in distribution.
