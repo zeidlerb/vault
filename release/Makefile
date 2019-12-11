@@ -11,9 +11,6 @@ GOARCH ?= $(shell go env GOARCH 2>/dev/null || echo amd64)
 DEFAULT_PACKAGE_YQ := .packages[] | select(.inputs.GOOS=="$(GOOS)" and .inputs.GOARCH=="$(GOARCH)") 
 QUERY_DEFAULT_PACKAGESPEC = $(call QUERY_LOCK,$(DEFAULT_PACKAGE_YQ) | $(1))
 
-PACKAGE_CACHE_KEY_FILE := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.PACKAGE_CACHE_KEY_FILE))
-ALL_PACKAGE_CACHE_KEYS := $(shell $(call QUERY_LOCK,.packages[].meta.builtin.PACKAGE_CACHE_KEY_FILE))
-
 # MK is shorthand for changing to repo root and selecting a make target
 # from a file in this directory. All *.mk files in this directory assume
 # the current working directory is the repo root. This Makefile exists
@@ -24,6 +21,8 @@ MK := $(MAKE) -C $(REPO_ROOT) -f $(RELEASE_DIR)/
 # available as an archive in the build cache.
 
 ifneq ($(PACKAGE_SPEC_ID),)
+
+PACKAGE_CACHE_KEY_FILE := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.PACKAGE_CACHE_KEY_FILE))
 
 # Loading the best available archive for a specific package build.
 
@@ -80,7 +79,7 @@ packages:
 		echo "Note: packagespec is only available to HashiCorp employees at present."; \
 		exit 1; \
 	}
-	@packagespec lock
+	@cd $(REPO_ROOT); packagespec lock -specfile $(SPEC) -lockdir $(LOCKDIR)
 
 commands:
 	@$(MAKE) -f packages.mk commands
@@ -106,11 +105,28 @@ write-builder-cache-keys:
 
 write-package-cache-key: $(PACKAGE_CACHE_KEY_FILE)
 	@if [ -z "$(PACKAGE_CACHE_KEY_FILE)" ]; then echo "Must set PACKAGE_SPEC_ID"; exit 1; fi
+	@$(WRITE_PACKAGE_CACHE_KEY)
 	@echo "==> Package cache key written: $(PACKAGE_CACHE_KEY_FILE)"
 
-write-all-package-cache-keys: $(ALL_PACKAGE_CACHE_KEYS)
-	@echo "==> All package cache keys written:"
-	@for F in $(ALL_PACKAGE_CACHE_KEYS); do echo $$F; done
+# WRITE_PACKAGE_CACHE_KEY writes the package cache key for PACKAGE_SPEC_ID.
+# We reference this as an environment variable, so you can set it in a
+# recipe rather than relying on the global setting.
+define WRITE_PACKAGE_CACHE_KEY
+KEY="PACKAGE_SPEC_ID=$$PACKAGE_SPEC_ID"$$'\n'"PACKAGE_SOURCE_ID=$(PACKAGE_SOURCE_ID)"; \
+FILE=$$(cd $(REPO_ROOT); yq -r ".packages[] | select(.packagespecid==\"$$PACKAGE_SPEC_ID\") \
+	| .meta.builtin.PACKAGE_CACHE_KEY_FILE" < $(LOCK)); \
+echo "$$FILE"; \
+echo "$$KEY"; \
+mkdir -p $$(dirname $$FILE); \
+echo "$$KEY" > "$$FILE"
+endef
+
+write-all-package-cache-keys:
+	@IDS="$$($(call QUERY_LOCK,.packages[].packagespecid))"; \
+	for PACKAGE_SPEC_ID in $$IDS; do \
+		$(WRITE_PACKAGE_CACHE_KEY); \
+	done; \
+	echo "==> All package cache keys written"
 
 clean-builder-images:
 	@IMAGES=$$(docker images --format '{{.Repository}}:{{.Tag}}' | grep '^$(BUILDER_IMAGE_PREFIX)' || true); \
@@ -123,8 +139,8 @@ clean:
 clean-all: clean clean-builder-images
 
 .PHONY: $(ALL_PACKAGE_CACHE_KEYS)
-$(ALL_PACKAGE_CACHE_KEYS):
+$(PACKAGE_CACHE_KEY_FILE):
 	@\
 		cd $(REPO_ROOT); mkdir -p $(dir $@); \
-		echo $(PACKAGE_SOURCE_ID) > $@
+		echo "$(PACKAGE_SOURCE_ID) > $@
 
