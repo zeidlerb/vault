@@ -95,7 +95,7 @@ $(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(7)
 $(1)_SOURCE_ID_FILE := $(CACHE_ROOT)/layers/$$($(1)_NAME)/current-source-id
 
 $(1)_CACHE = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
-$(1)_BASE_IMAGE = $$(shell [ -z $$($(1)_BASE) ] || \
+$(1)_BASE_IMAGE := $$(shell [ -z $$($(1)_BASE) ] || \
 	echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$$$(cat $(CACHE_ROOT)/layers/$$($(1)_BASE)/current-source-id)/image.marker)
 
 $(1)_DOCKERFILE := $(DOCKERFILES_DIR)/$$($(1)_NAME).Dockerfile
