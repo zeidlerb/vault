@@ -122,7 +122,7 @@ prep: fmtcheck
 
 CI_WORKFLOW_TPL     := .circleci/config/@build-release.yml.tpl
 CI_WORKFLOW         := .circleci/config/@build-release.yml
-PACKAGE_SPEC        := release/packages.lock/pkgs.yml
+PACKAGE_SPEC        := $(shell find release -mindepth 2 -maxdepth 2 -name pkgs.yml)
 
 .PHONY: ci-update-release-packages $(CI_WORKFLOW)
 ci-update-release-packages: $(CI_WORKFLOW)
