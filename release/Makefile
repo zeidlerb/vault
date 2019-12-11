@@ -2,8 +2,8 @@
 # from different directories safely).
 include $(shell git rev-parse --show-toplevel)/release/config.mk
 
-.PHONY: packages commands build package write-builder-cache-keys build-all-layers save-builder-cache load-builder-cache \
-	write-package-cache-keys build-all
+.PHONY: packages commands build package write-builder-cache-keys \
+	write-all-package-cache-keys build-all
 
 GOOS ?= $(shell go env GOOS 2>/dev/null || echo linux)
 GOARCH ?= $(shell go env GOARCH 2>/dev/null || echo amd64)
@@ -15,8 +15,9 @@ PACKAGE_CACHE_KEY_FILE := $(shell $(call QUERY_PACKAGESPEC,.meta.builtin.PACKAGE
 ALL_PACKAGE_CACHE_KEYS := $(shell $(call QUERY_LOCK,.packages[].meta.builtin.PACKAGE_CACHE_KEY_FILE))
 
 # MK is shorthand for changing to repo root and selecting a make target
-# from a file in this directory. All makefiles in this directory assume
-# the current working directory is the repo root.
+# from a file in this directory. All *.mk files in this directory assume
+# the current working directory is the repo root. This Makefile exists
+# to invoke those mk files correctly.
 MK := $(MAKE) -C $(REPO_ROOT) -f $(RELEASE_DIR)/
 
 # configure load-builder-cache target to load the most specific builder layer cache
@@ -65,11 +66,20 @@ load-builder-cache:
 
 endif
 
+else
+
+load-builder-cache:
+	@echo "You must set PACKAGE_SPEC_ID or BUILD_LAYER_ID so we know which caches to look for."
+
 endif
 
 
 packages:
-	@rm -rf packages.lock
+	@command -v packagespec > /dev/null 2>&1 || { \
+		echo "Please install packagespec: 'go get github.com/hashicorp/packagespec/cmd/packagespec'"; \
+		echo "Note: packagespec is only available to HashiCorp employees at present."; \
+		exit 1; \
+	}
 	@packagespec lock
 
 commands:
@@ -93,14 +103,6 @@ package:
 write-builder-cache-keys:
 	@echo "==> Writing build layer cache keys"
 	@$(MK)layer.mk write-cache-keys
-
-build-all-layers:
-	@echo "==> Building all builder layers"
-	@$(MK)layer.mk build-all-layers
-
-save-builder-cache:
-	@echo "==> Exporting Docker build cache"
-	@$(MK)layer.mk save-builder-cache
 
 write-package-cache-key: $(PACKAGE_CACHE_KEY_FILE)
 	@if [ -z "$(PACKAGE_CACHE_KEY_FILE)" ]; then echo "Must set PACKAGE_SPEC_ID"; exit 1; fi
