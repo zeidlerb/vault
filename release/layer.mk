@@ -92,11 +92,21 @@ $(1)_SOURCE_EXCLUDE := $(sort $(5) $(ALWAYS_EXCLUDE_SOURCE))
 $(1)_CACHE_KEY_FILE := $(REPO_ROOT)/$(6)
 $(1)_IMAGE_ARCHIVE  := $(REPO_ROOT)/$(7)
 
-$(1)_SOURCE_ID_FILE := $(CACHE_ROOT)/layers/$$($(1)_NAME)/current-source-id
+ifneq ($$($(1)_BASE),)
+$(1)_BASE_CACHE_ROOT = $(CACHE_ROOT)/layers/$$($(1)_BASE)
+$(1)_BASE_ID_FILE    = $$($(1)_BASE_CACHE_ROOT)/current-layer-id
+$(1)_BASE_LAYER_ID   = $$(shell cat $$($(1)_BASE_ID_FILE))
+$(1)_BASE_CACHE      = $$($(1)_BASE_CACHE_ROOT)/$$($(1)_BASE_LAYER_ID)
+$(1)_BASE_IMAGE      = $$($(1)_BASE_CACHE)/image.marker
+$(1)_BASE_IMAGE_NAME = $$(shell cat $$($(1)_BASE_IMAGE))
+# For non-base images the LAYER_ID contains a hash of the previous layers.
+$(1)_LAYER_ID        = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-$$($(1)_BASE_LAYER_ID) | $(SUM))
+else
+$(1)_LAYER_ID        = $$(shell echo $(1)-$$($(1)_SOURCE_ID)-base | $(SUM))
+endif
 
-$(1)_CACHE = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_SOURCE_ID)
-$(1)_BASE_IMAGE := $$(shell [ -z $$($(1)_BASE) ] || \
-	echo $(CACHE_ROOT)/layers/$$($(1)_BASE)/$$$$(cat $(CACHE_ROOT)/layers/$$($(1)_BASE)/current-source-id)/image.marker)
+$(1)_CACHE_ROOT     := $(CACHE_ROOT)/layers/$$($(1)_NAME)
+$(1)_LAYER_ID_FILE  := $$($(1)_CACHE_ROOT)/current-layer-id
 
 $(1)_DOCKERFILE := $(DOCKERFILES_DIR)/$$($(1)_NAME).Dockerfile
 
@@ -149,12 +159,13 @@ $(1)_SOURCE_CMD := git ls-tree -r --name-only $(GIT_REF) -- $$($(1)_SOURCE_GIT)
 endif
 endif
 
-$(1)_SOURCE_ARCHIVE := $(CACHE_ROOT)/source-archives/$$($(1)_TYPE)-$$($(1)_SOURCE_ID).tar
-$(1)_IMAGE_NAME := $(BUILDER_IMAGE_PREFIX)-$$($(1)_NAME):$$($(1)_SOURCE_ID)
+$(1)_SOURCE_ARCHIVE = $(CACHE_ROOT)/source-archives/$$($(1)_TYPE)-$$($(1)_LAYER_ID).tar
+$(1)_IMAGE_NAME = $(BUILDER_IMAGE_PREFIX)-$$($(1)_NAME):$$($(1)_LAYER_ID)
 
-# Ensure cache dir exists.
-_ := $$(shell mkdir -p $$($(1)_CACHE)) 
-_ := $$(shell echo $$($(1)_SOURCE_ID) > $$($(1)_SOURCE_ID_FILE))
+$(1)_CACHE = $(CACHE_ROOT)/layers/$$($(1)_NAME)/$$($(1)_LAYER_ID)
+
+# Create cache dir and write LAYER_ID_FILE.
+_ := $$(shell mkdir -p $$($(1)_CACHE); echo $$($(1)_LAYER_ID) > $$($(1)_LAYER_ID_FILE))
 
 $(1)_PHONY_TARGET_NAMES := debug id image save load
 
