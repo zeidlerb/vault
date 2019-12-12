@@ -288,25 +288,11 @@ publish-commit:
 packages:
 	@$(MAKE) -C release packages
 
-build-ci: PRODUCT_NAME ?= vault
-build-ci: PRODUCT_REVISION ?= $(shell git rev-parse HEAD)
-build-ci: PRODUCT_VERSION ?= 0.0.0-$(USER)-snapshot
-build-ci: PRODUCT_REPO ?= git@github.com:hashicorp/vault.git
-build-ci: PRODUCT_CIRCLECI_SLUG ?= gh/hashicorp/vault
-build-ci: PRODUCT_CIRCLECI_HOST ?= circleci.com
-build-ci: RELEASE_SYSTEM_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
-
-export PRODUCT_NAME PRODUCT_REVISION PRODUCT_VERSION PRODUCT_REPO PRODUCT_CIRCLECI_SLUG PRODUCT_CIRCLECI_HOST RELEASE_SYSTEM_BRANCH
-
 build:
 	@$(MAKE) -C release build
 
 build-ci:
-	@[ -n "$(PRODUCT_VERSION)" ] || { echo "You must set BUILD_PRODUCT_VERSION"; exit 1; }
-	@[ -n "$(PRODUCT_REVISION)" ] || { echo "You must set BUILD_PRODUCT_REVISION"; exit 1; }
-	@[ -n "$(PRODUCT_REPO)" ] || { echo "You must set BUILD_PRODUCT_REPO"; exit 1; }
-	@[ -d ../vault-release ] || { echo "You must clone git@github.com:hashicorp/vault-release.git into ../vault-release"; exit 1; }
-	@cd ../vault-release && make trigger-product-build
+	make -C release build-ci
 
 .PHONY: bin default prep test vet bootstrap fmt fmtcheck mysql-database-plugin mysql-legacy-database-plugin cassandra-database-plugin influxdb-database-plugin postgresql-database-plugin mssql-database-plugin hana-database-plugin mongodb-database-plugin static-assets ember-dist ember-dist-dev static-dist static-dist-dev assetcheck check-vault-in-path check-browserstack-creds test-ui-browserstack stage-commit publish-commit packages build build-ci
 
