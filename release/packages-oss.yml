@@ -24,9 +24,9 @@ inputs:
     # It is the name users will use on the CLI to invoke the product.
     BINARY_NAME: vault
 
-    # PRODUCT_EDITION is an additional differentiator for a given package. It should
+    # EDITION is an additional differentiator for a given package. It should
     # be used in the PACKAGE_NAME template.
-    PRODUCT_EDITION: ""
+    EDITION: ""
 
     # PRODUCT_VERSION is the version of this product. Usually, this should be left
     # as 0.0.0-snapshot. When we build a release candidate, this is overridden in
@@ -142,24 +142,16 @@ meta:
     # bundle, and are placed in the same directory on releases.hashicorp.com, as well
     # as sharing a SHASUMS file.
     BUNDLE_NAME: >-
-      {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end}}
+      {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .EDITION}}+{{.EDITION}}{{end}}
     # PACKAGE_NAME is the name of a specific package. Care must be taken to ensure this
     # is unique per package. The final zip file we produce per package uses this name.
     PUBLIC_PACKAGE_NAME: >-
-      {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end}}_{{.GOOS}}_{{.GOARCH}}
+      {{.PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .EDITION}}+{{.EDITION}}{{end}}_{{.GOOS}}_{{.GOARCH}}
     # BUILD_JOB_NAME is the name of a job to build this package in CI. Care must be
     # taken that it is both unique within this set of packages, as well as compatible
     # with the CI system's naming conventions.
     BUILD_JOB_NAME: >-
-      package_{{if .PRODUCT_EDITION}}{{.PRODUCT_EDITION}}_{{end}}{{.GOOS}}_{{.GOARCH}}
-    # PACKAGE_OUT_ROOT is the root directory we output the package to.
-    # It must be a relative path (relative to the root of the repo).
-    # We extend this with the calculated PACKAGE_SPEC_ID and PACKAGE_SOURCE_ID during
-    # the build.
-    PACKAGE_OUT_ROOT: >-
-      {{ "dist" -}}
-      /{{- if .PUBLIC}}public{{else}}private{{end -}}
-      /{{- .PRODUCT_NAME}}_{{.PRODUCT_VERSION}}{{if .PRODUCT_EDITION}}+{{.PRODUCT_EDITION}}{{end -}}
+      package_{{if .EDITION}}{{range (.EDITION | strings.SplitN "." 2)}}{{.}}_{{end}}{{end}}{{.GOOS}}_{{.GOARCH}}
 
 # package-aliases are a set of paths by which each package may be known, they are
 # templates which may refer to any input or meta field defined in this file.
