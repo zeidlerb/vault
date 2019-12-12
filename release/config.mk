@@ -89,28 +89,32 @@ ifeq ($(PRODUCT_REVISION),)
 # current work tree, regardless of whether it is dirty or not. For local builds
 # this is more convenient and more likely expected behaviour than having to commit
 # just to perform a new build.
-GIT_REF := HEAD
-ALLOW_DIRTY ?= YES
-PRODUCT_REVISION_NICE_NAME := <current-workdir>
-else
-# PRODUCT_REVISION is non-empty so treat it as a git commit ref and pull files
-# directly from git rather than the work tree.
-GIT_REF := $(PRODUCT_REVISION)
-ALLOW_DIRTY := NO
-PRODUCT_REVISION_NICE_NAME := $(PRODUCT_REVISION)
-endif
-
+#
 # Determine the PACKAGE_SOURCE_ID.
 # Note we use the GIT_REF suffixed with '^{}' in order to traverse tags down
 # to individual commits, which is important in case the GIT_REF is an annotated tag.
 # Dirty package builds should never be cached because their PACKAGE_SOURCE_ID
 # is not unique to the code, it just reflects the last commit ID in the git log
 # prefixed with dirty_.
-ifeq ($(ALLOW_DIRTY),YES)
+GIT_REF := HEAD
+ALLOW_DIRTY ?= YES
+PRODUCT_REVISION_NICE_NAME := <current-workdir>
 DIRTY := $(shell cd $(REPO_ROOT); git diff --exit-code $(GIT_REF) -- $(ALWAYS_EXCLUDE_SOURCE_GIT) > /dev/null 2>&1 || echo "dirty_")
-PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse $(GIT_REF)^{})
+PACKAGE_SOURCE_ID := $(DIRTY)$(shell git rev-parse --verify '$(GIT_REF)^{commit}')
+
 else
-PACKAGE_SOURCE_ID := $(shell git rev-parse $(GIT_REF)^{})
+
+# PRODUCT_REVISION is non-empty so treat it as a git commit ref and pull files
+# directly from git rather than the work tree.
+GIT_REF := $(PRODUCT_REVISION)
+ALLOW_DIRTY := NO
+PRODUCT_REVISION_NICE_NAME := $(PRODUCT_REVISION)
+PACKAGE_SOURCE_ID := $(shell if COMMIT=$$(git rev-parse --verify '$(PRODUCT_REVISION)^{commit}'); then echo $$COMMIT; else echo FAILED; fi)
+
+ifeq ($(PACKAGE_SOURCE_ID),FAILED)
+$(error Unable to find git ref "$(PRODUCT_REVISION)", do you need to 'git fetch' it?)
+endif
+
 endif
 
 # REQ_TOOLS detects availability of a set of tools, and optionally auto-installs them.
