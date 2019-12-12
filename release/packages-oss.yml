@@ -151,7 +151,7 @@ meta:
     # taken that it is both unique within this set of packages, as well as compatible
     # with the CI system's naming conventions.
     BUILD_JOB_NAME: >-
-      package_{{if .EDITION}}{{range (.EDITION | strings.SplitN "." 2)}}{{.}}_{{end}}{{end}}{{.GOOS}}_{{.GOARCH}}
+      {{if .EDITION}}{{range (.EDITION | strings.SplitN "." 2)}}{{.}}_{{end}}{{end}}{{.GOOS}}_{{.GOARCH}}_package
 
 # package-aliases are a set of paths by which each package may be known, they are
 # templates which may refer to any input or meta field defined in this file.
