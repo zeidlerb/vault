@@ -4,83 +4,6 @@
 ### ***
 version: 2
 jobs:
-  package_darwin_386:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 8f43aad500d95365a1ec411beaccf567a87fd471
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-8f43aad500d95365a1ec411beaccf567a87fd471-{{checksum ".buildcache/cache-keys/package-8f43aad500d95365a1ec411beaccf567a87fd471"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_darwin_386.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_386.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_d434_{{checksum ".buildcache/cache-keys/copy-source-d43490496eaff11363bd07848504cef97317b363"}}
-        - test8-v1-warm-go-build-vendor-cache_5eff_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-8f43aad500d95365a1ec411beaccf567a87fd471-{{checksum ".buildcache/cache-keys/package-8f43aad500d95365a1ec411beaccf567a87fd471"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_5eff_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz
   bundle-releases:
     docker:
     - image: circleci/buildpack-deps
@@ -135,14 +58,14 @@ jobs:
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
     - PRODUCT_REVISION: ''
-  package_linux_arm64:
+  darwin_amd64_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
     - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa
+    - PACKAGE_SPEC_ID: 34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc
     steps:
     - setup_remote_docker
     - checkout
@@ -150,7 +73,7 @@ jobs:
         command: make -C release write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test8-v1-package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa-{{checksum ".buildcache/cache-keys/package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa"}}
+        key: test8-v1-package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc-{{checksum ".buildcache/cache-keys/package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -159,7 +82,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_linux_arm64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_darwin_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -176,8 +99,8 @@ jobs:
         name: Write builder layer cache keys
     - restore_cache:
         keys:
-        - test8-v1-copy-source_ba87_{{checksum ".buildcache/cache-keys/copy-source-ba872dc84b8f628f777008f259d8931e87f08f57"}}
-        - test8-v1-warm-go-build-vendor-cache_0064_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7"}}
+        - test8-v1-copy-source_b48b_{{checksum ".buildcache/cache-keys/copy-source-b48b25b86f085fd7173562f2a1e0dbd0562ce317"}}
+        - test8-v1-warm-go-build-vendor-cache_a2e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0"}}
         - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
         - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
         - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
@@ -193,7 +116,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test8-v1-package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa-{{checksum ".buildcache/cache-keys/package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa"}}
+        key: test8-v1-package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc-{{checksum ".buildcache/cache-keys/package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -201,18 +124,18 @@ jobs:
         path: .buildcache/packages
     - run:
         command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz ]; then
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz ]; then
             echo "Builder image already cached, skipping cache step."
             circleci-agent step halt
           fi
         name: Check builder cache status
     - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7-save
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0-save
     - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_0064_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7"}}
+        key: test8-v1-warm-go-build-vendor-cache_a2e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0"}}
         paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz
-  package_windows_386:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz
+  windows_386_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
@@ -308,14 +231,14 @@ jobs:
         key: yarn-lock-v6-{{ checksum "ui/yarn.lock" }}
         paths:
         - ui/node_modules
-  package_netbsd_amd64:
+  linux_arm64_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
     - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: fbb76d5786a487e93413cc9fb67dfb77bb191eba
+    - PACKAGE_SPEC_ID: 87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa
     steps:
     - setup_remote_docker
     - checkout
@@ -323,7 +246,7 @@ jobs:
         command: make -C release write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test8-v1-package-fbb76d5786a487e93413cc9fb67dfb77bb191eba-{{checksum ".buildcache/cache-keys/package-fbb76d5786a487e93413cc9fb67dfb77bb191eba"}}
+        key: test8-v1-package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa-{{checksum ".buildcache/cache-keys/package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -332,7 +255,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_netbsd_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_linux_arm64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_arm64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -349,8 +272,8 @@ jobs:
         name: Write builder layer cache keys
     - restore_cache:
         keys:
-        - test8-v1-copy-source_7f9f_{{checksum ".buildcache/cache-keys/copy-source-7f9f65d96cfaeec0d7e3a9a73e28ecea25088ced"}}
-        - test8-v1-warm-go-build-vendor-cache_ce08_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e"}}
+        - test8-v1-copy-source_ba87_{{checksum ".buildcache/cache-keys/copy-source-ba872dc84b8f628f777008f259d8931e87f08f57"}}
+        - test8-v1-warm-go-build-vendor-cache_0064_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7"}}
         - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
         - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
         - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
@@ -366,7 +289,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test8-v1-package-fbb76d5786a487e93413cc9fb67dfb77bb191eba-{{checksum ".buildcache/cache-keys/package-fbb76d5786a487e93413cc9fb67dfb77bb191eba"}}
+        key: test8-v1-package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa-{{checksum ".buildcache/cache-keys/package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -374,18 +297,56 @@ jobs:
         path: .buildcache/packages
     - run:
         command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz ]; then
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz ]; then
             echo "Builder image already cached, skipping cache step."
             circleci-agent step halt
           fi
         name: Check builder cache status
     - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e-save
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7-save
     - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_ce08_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e"}}
+        key: test8-v1-warm-go-build-vendor-cache_0064_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7"}}
         paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz
-  package_linux_arm:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz
+  test-ui:
+    docker:
+    - image: node:10-buster
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: /go/src/github.com/hashicorp/vault
+    resource_class: medium+
+    steps:
+    - checkout
+    - restore_cache:
+        key: yarn-lock-v6-{{ checksum "ui/yarn.lock" }}
+    - attach_workspace:
+        at: .
+    - run:
+        command: |
+          set -x
+
+          # Install Chrome
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub \
+            | apt-key add -
+          echo "deb http://dl.google.com/linux/chrome/deb/ stable main" \
+            | tee /etc/apt/sources.list.d/google-chrome.list
+          apt-get update
+          apt-get -y install google-chrome-stable
+          rm /etc/apt/sources.list.d/google-chrome.list
+          rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+          # Add ./bin to the PATH so vault binary can be run by Ember tests
+          export PATH="${PWD}/bin:${PATH}"
+
+          # Run Ember tests
+          cd ui
+          mkdir -p test-results/qunit
+          yarn test:oss
+        name: Test UI
+    - store_artifacts:
+        path: ui/test-results
+    - store_test_results:
+        path: ui/test-results
+  linux_arm_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
@@ -462,121 +423,6 @@ jobs:
         key: test8-v1-warm-go-build-vendor-cache_2f72_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0"}}
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0.tar.gz
-  package_solaris_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea-{{checksum ".buildcache/cache-keys/package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_solaris_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_solaris_amd64.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_92a2_{{checksum ".buildcache/cache-keys/copy-source-92a2a92bd3e67ef7472f5c8d3517dd0266f38665"}}
-        - test8-v1-warm-go-build-vendor-cache_f938_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea-{{checksum ".buildcache/cache-keys/package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_f938_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz
-  test-ui:
-    docker:
-    - image: node:10-buster
-    shell: /usr/bin/env bash -euo pipefail -c
-    working_directory: /go/src/github.com/hashicorp/vault
-    resource_class: medium+
-    steps:
-    - checkout
-    - restore_cache:
-        key: yarn-lock-v6-{{ checksum "ui/yarn.lock" }}
-    - attach_workspace:
-        at: .
-    - run:
-        command: |
-          set -x
-
-          # Install Chrome
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub \
-            | apt-key add -
-          echo "deb http://dl.google.com/linux/chrome/deb/ stable main" \
-            | tee /etc/apt/sources.list.d/google-chrome.list
-          apt-get update
-          apt-get -y install google-chrome-stable
-          rm /etc/apt/sources.list.d/google-chrome.list
-          rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-          # Add ./bin to the PATH so vault binary can be run by Ember tests
-          export PATH="${PWD}/bin:${PATH}"
-
-          # Run Ember tests
-          cd ui
-          mkdir -p test-results/qunit
-          yarn test:oss
-        name: Test UI
-    - store_artifacts:
-        path: ui/test-results
-    - store_test_results:
-        path: ui/test-results
   test-ui-browserstack:
     docker:
     - image: node:10-buster
@@ -595,14 +441,14 @@ jobs:
           export PATH="${PWD}"/bin:${PATH}
           make test-ui-browserstack
         name: Run Browserstack Tests
-  package_freebsd_arm:
+  darwin_386_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
     - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: e4486984a60e88af7eb36adcca2c84dbae24ff59
+    - PACKAGE_SPEC_ID: 8f43aad500d95365a1ec411beaccf567a87fd471
     steps:
     - setup_remote_docker
     - checkout
@@ -610,7 +456,7 @@ jobs:
         command: make -C release write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test8-v1-package-e4486984a60e88af7eb36adcca2c84dbae24ff59-{{checksum ".buildcache/cache-keys/package-e4486984a60e88af7eb36adcca2c84dbae24ff59"}}
+        key: test8-v1-package-8f43aad500d95365a1ec411beaccf567a87fd471-{{checksum ".buildcache/cache-keys/package-8f43aad500d95365a1ec411beaccf567a87fd471"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -619,7 +465,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_freebsd_arm.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_arm.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_darwin_386.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_386.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -636,8 +482,8 @@ jobs:
         name: Write builder layer cache keys
     - restore_cache:
         keys:
-        - test8-v1-copy-source_f284_{{checksum ".buildcache/cache-keys/copy-source-f28438f494ace3c68f1f60085c60aa139c766677"}}
-        - test8-v1-warm-go-build-vendor-cache_7d53_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd"}}
+        - test8-v1-copy-source_d434_{{checksum ".buildcache/cache-keys/copy-source-d43490496eaff11363bd07848504cef97317b363"}}
+        - test8-v1-warm-go-build-vendor-cache_5eff_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d"}}
         - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
         - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
         - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
@@ -653,7 +499,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test8-v1-package-e4486984a60e88af7eb36adcca2c84dbae24ff59-{{checksum ".buildcache/cache-keys/package-e4486984a60e88af7eb36adcca2c84dbae24ff59"}}
+        key: test8-v1-package-8f43aad500d95365a1ec411beaccf567a87fd471-{{checksum ".buildcache/cache-keys/package-8f43aad500d95365a1ec411beaccf567a87fd471"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -661,17 +507,17 @@ jobs:
         path: .buildcache/packages
     - run:
         command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz ]; then
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz ]; then
             echo "Builder image already cached, skipping cache step."
             circleci-agent step halt
           fi
         name: Check builder cache status
     - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd-save
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d-save
     - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_7d53_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd"}}
+        key: test8-v1-warm-go-build-vendor-cache_5eff_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d"}}
         paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz
+        - .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz
   build-go-dev:
     machine: true
     shell: /usr/bin/env bash -euo pipefail -c
@@ -716,308 +562,7 @@ jobs:
     - GO_VERSION: 1.12.12
     - GO111MODULE: 'off'
     - GOTESTSUM_VERSION: 0.3.3
-  test-go-race:
-    machine: true
-    shell: /usr/bin/env bash -euo pipefail -c
-    working_directory: /go/src/github.com/hashicorp/vault
-    steps:
-    - run:
-        command: |
-          [ -n "$GO_VERSION" ] || { echo "You must set GO_VERSION"; exit 1; }
-          # Install Go
-          curl -sSLO "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
-          sudo rm -rf /usr/local/go
-          sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
-          rm -f "go${GO_VERSION}.linux-amd64.tar.gz"
-          GOPATH="/go"
-          mkdir $GOPATH 2>/dev/null || { sudo mkdir $GOPATH && sudo chmod 777 $GOPATH; }
-          echo "export GOPATH='$GOPATH'" >> "$BASH_ENV"
-          echo "export PATH='$PATH:$GOPATH/bin:/usr/local/go/bin'" >> "$BASH_ENV"
-
-          echo "$ go version"
-          go version
-        name: Setup Go
-        working_directory: ~/
-    - checkout
-    - run:
-        command: |
-          set -x
-
-          # Install CircleCI CLI
-          curl -sSL \
-              "https://github.com/CircleCI-Public/circleci-cli/releases/download/v${CIRCLECI_CLI_VERSION}/circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64.tar.gz" \
-            | sudo tar --overwrite -xz \
-              -C /usr/local/bin \
-              "circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64/circleci"
-
-          # Split Go tests by prior test times
-          package_names=$(go list \
-              -tags "${GO_TAGS}" \
-              ./... \
-            | grep -v /integ \
-            | grep -v /vendor/ \
-            | sort \
-            | circleci tests split --split-by=timings --timings-type=classname)
-
-          # Install gotestsum
-          curl -sSL "https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz" \
-            | sudo tar --overwrite -xz -C /usr/local/bin gotestsum
-
-          # Run tests
-          make prep
-          mkdir -p test-results/go-test
-          CGO_ENABLED= \
-            VAULT_ADDR= \
-            VAULT_TOKEN= \
-            VAULT_DEV_ROOT_TOKEN_ID= \
-            VAULT_ACC= \
-            gotestsum --format=short-verbose --junitfile test-results/go-test/results.xml -- \
-              -tags "${GO_TAGS}" \
-              -timeout=60m \
-              -parallel=20 \
-              -race \
-              ${package_names}
-        name: Run Go tests
-        no_output_timeout: 60m
-    - store_artifacts:
-        path: test-results
-    - store_test_results:
-        path: test-results
-    environment:
-    - CIRCLECI_CLI_VERSION: 0.1.5546
-    - GO_TAGS: ''
-    - GO_VERSION: 1.12.12
-    - GO111MODULE: 'off'
-    - GOTESTSUM_VERSION: 0.3.3
-  test-go:
-    machine: true
-    shell: /usr/bin/env bash -euo pipefail -c
-    working_directory: /go/src/github.com/hashicorp/vault
-    parallelism: 2
-    steps:
-    - run:
-        command: |
-          [ -n "$GO_VERSION" ] || { echo "You must set GO_VERSION"; exit 1; }
-          # Install Go
-          curl -sSLO "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
-          sudo rm -rf /usr/local/go
-          sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
-          rm -f "go${GO_VERSION}.linux-amd64.tar.gz"
-          GOPATH="/go"
-          mkdir $GOPATH 2>/dev/null || { sudo mkdir $GOPATH && sudo chmod 777 $GOPATH; }
-          echo "export GOPATH='$GOPATH'" >> "$BASH_ENV"
-          echo "export PATH='$PATH:$GOPATH/bin:/usr/local/go/bin'" >> "$BASH_ENV"
-
-          echo "$ go version"
-          go version
-        name: Setup Go
-        working_directory: ~/
-    - checkout
-    - run:
-        command: |
-          set -x
-
-          # Install CircleCI CLI
-          curl -sSL \
-              "https://github.com/CircleCI-Public/circleci-cli/releases/download/v${CIRCLECI_CLI_VERSION}/circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64.tar.gz" \
-            | sudo tar --overwrite -xz \
-              -C /usr/local/bin \
-              "circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64/circleci"
-
-          # Split Go tests by prior test times
-          package_names=$(go list \
-              -tags "${GO_TAGS}" \
-              ./... \
-            | grep -v /integ \
-            | grep -v /vendor/ \
-            | sort \
-            | circleci tests split --split-by=timings --timings-type=classname)
-
-          # Install gotestsum
-          curl -sSL "https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz" \
-            | sudo tar --overwrite -xz -C /usr/local/bin gotestsum
-
-          # Run tests
-          make prep
-          mkdir -p test-results/go-test
-          CGO_ENABLED= \
-            VAULT_ADDR= \
-            VAULT_TOKEN= \
-            VAULT_DEV_ROOT_TOKEN_ID= \
-            VAULT_ACC= \
-            gotestsum --format=short-verbose --junitfile test-results/go-test/results.xml -- \
-              -tags "${GO_TAGS}" \
-              -timeout=60m \
-              -parallel=20 \
-               \
-              ${package_names}
-        name: Run Go tests
-        no_output_timeout: 60m
-    - store_artifacts:
-        path: test-results
-    - store_test_results:
-        path: test-results
-    environment:
-    - CIRCLECI_CLI_VERSION: 0.1.5546
-    - GO_TAGS: ''
-    - GO_VERSION: 1.12.12
-    - GO111MODULE: 'off'
-    - GOTESTSUM_VERSION: 0.3.3
-  package_linux_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 89476435da6fa1b0261f9a4c01ded2ec121f5d06
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-89476435da6fa1b0261f9a4c01ded2ec121f5d06-{{checksum ".buildcache/cache-keys/package-89476435da6fa1b0261f9a4c01ded2ec121f5d06"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_linux_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_amd64.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_11b0_{{checksum ".buildcache/cache-keys/copy-source-11b0b277f5157870c3444cfbf3d3d54cc5730c6e"}}
-        - test8-v1-warm-go-build-vendor-cache_8f45_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-89476435da6fa1b0261f9a4c01ded2ec121f5d06-{{checksum ".buildcache/cache-keys/package-89476435da6fa1b0261f9a4c01ded2ec121f5d06"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_8f45_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
-  package_windows_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 4e219d8b6cc5b40d750e19fbd31ee33b905e53a0
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0-{{checksum ".buildcache/cache-keys/package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_windows_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_amd64.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_9904_{{checksum ".buildcache/cache-keys/copy-source-9904cad43a7696e22882e225ab21ce547f231ca2"}}
-        - test8-v1-warm-go-build-vendor-cache_e888_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0-{{checksum ".buildcache/cache-keys/package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_e888_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz
-  package_linux_386:
+  linux_386_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
@@ -1094,392 +639,7 @@ jobs:
         key: test8-v1-warm-go-build-vendor-cache_1737_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad"}}
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad.tar.gz
-  package_freebsd_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 1ac2b4bedbd9d8d045e0210c79275e16715193c7
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-1ac2b4bedbd9d8d045e0210c79275e16715193c7-{{checksum ".buildcache/cache-keys/package-1ac2b4bedbd9d8d045e0210c79275e16715193c7"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_freebsd_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_amd64.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_0f79_{{checksum ".buildcache/cache-keys/copy-source-0f79408e7f86dfe80c68daf69f1d16d16f1b27ee"}}
-        - test8-v1-warm-go-build-vendor-cache_17e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-1ac2b4bedbd9d8d045e0210c79275e16715193c7-{{checksum ".buildcache/cache-keys/package-1ac2b4bedbd9d8d045e0210c79275e16715193c7"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_17e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz
-  package_openbsd_386:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 3c208d913ee5e26d67674b02b70b045d9e07f5b3
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-3c208d913ee5e26d67674b02b70b045d9e07f5b3-{{checksum ".buildcache/cache-keys/package-3c208d913ee5e26d67674b02b70b045d9e07f5b3"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_openbsd_386.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_386.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_ed7b_{{checksum ".buildcache/cache-keys/copy-source-ed7b4907a7a48d643bac8c54afc2537334d6ba92"}}
-        - test8-v1-warm-go-build-vendor-cache_b54f_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-3c208d913ee5e26d67674b02b70b045d9e07f5b3-{{checksum ".buildcache/cache-keys/package-3c208d913ee5e26d67674b02b70b045d9e07f5b3"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_b54f_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz
-  package_openbsd_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 25c9ce330fde3a649b47f6bdc95f3adf6b317f9a
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a-{{checksum ".buildcache/cache-keys/package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_openbsd_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_amd64.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_78a0_{{checksum ".buildcache/cache-keys/copy-source-78a0f07ca37654f020eb057dc5d3d790da04fc3c"}}
-        - test8-v1-warm-go-build-vendor-cache_99ee_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a-{{checksum ".buildcache/cache-keys/package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_99ee_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz
-  package_netbsd_386:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 70bedda11d91561a127adca307d7de0ad02e8013
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-70bedda11d91561a127adca307d7de0ad02e8013-{{checksum ".buildcache/cache-keys/package-70bedda11d91561a127adca307d7de0ad02e8013"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_netbsd_386.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_386.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_44e9_{{checksum ".buildcache/cache-keys/copy-source-44e91311bbacaffb1267b8a5abb6f479a1d130bc"}}
-        - test8-v1-warm-go-build-vendor-cache_7a67_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-70bedda11d91561a127adca307d7de0ad02e8013-{{checksum ".buildcache/cache-keys/package-70bedda11d91561a127adca307d7de0ad02e8013"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_7a67_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz
-  package_darwin_amd64:
-    docker:
-    - image: circleci/buildpack-deps
-    shell: /usr/bin/env bash -euo pipefail -c
-    environment:
-    - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        command: make -C release write-package-cache-key
-        name: Write package cache key
-    - restore_cache:
-        key: test8-v1-package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc-{{checksum ".buildcache/cache-keys/package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc"}}
-    - run:
-        command: |
-          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
-            echo "No package found, continuing with build."
-            exit 0
-          fi
-          # Check the aliases are right, as they are metadata not included in
-          # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_darwin_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_darwin_amd64.zip ; do
-            echo "Checking alias: $ALIAS"
-            if ! readlink $ALIAS; then
-              echo "Missing alias: $ALIAS"
-              echo "Please increment the cache version to fix this issue."
-              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
-              exit 1
-            fi
-          done
-          echo "Package already cached, skipping build."
-          circleci-agent step halt
-        name: Check the cache status.
-    - run:
-        command: make -C release write-builder-cache-keys
-        name: Write builder layer cache keys
-    - restore_cache:
-        keys:
-        - test8-v1-copy-source_b48b_{{checksum ".buildcache/cache-keys/copy-source-b48b25b86f085fd7173562f2a1e0dbd0562ce317"}}
-        - test8-v1-warm-go-build-vendor-cache_a2e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0"}}
-        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
-        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
-        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
-        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
-        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
-        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
-        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
-        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
-    - run:
-        command: make -C release load-builder-cache
-    - run:
-        command: make -C release package
-    - run:
-        command: ls -lahR .buildcache/packages
-    - save_cache:
-        key: test8-v1-package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc-{{checksum ".buildcache/cache-keys/package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc"}}
-        paths:
-        - .buildcache/packages
-    - store_artifacts:
-        destination: packages
-        path: .buildcache/packages
-    - run:
-        command: |
-          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz ]; then
-            echo "Builder image already cached, skipping cache step."
-            circleci-agent step halt
-          fi
-        name: Check builder cache status
-    - run:
-        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0-save
-    - save_cache:
-        key: test8-v1-warm-go-build-vendor-cache_a2e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0"}}
-        paths:
-        - .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz
-  package_freebsd_386:
+  freebsd_386_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
@@ -1556,6 +716,846 @@ jobs:
         key: test8-v1-warm-go-build-vendor-cache_d41d_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2"}}
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2.tar.gz
+  test-go-race:
+    machine: true
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: /go/src/github.com/hashicorp/vault
+    steps:
+    - run:
+        command: |
+          [ -n "$GO_VERSION" ] || { echo "You must set GO_VERSION"; exit 1; }
+          # Install Go
+          curl -sSLO "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
+          sudo rm -rf /usr/local/go
+          sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
+          rm -f "go${GO_VERSION}.linux-amd64.tar.gz"
+          GOPATH="/go"
+          mkdir $GOPATH 2>/dev/null || { sudo mkdir $GOPATH && sudo chmod 777 $GOPATH; }
+          echo "export GOPATH='$GOPATH'" >> "$BASH_ENV"
+          echo "export PATH='$PATH:$GOPATH/bin:/usr/local/go/bin'" >> "$BASH_ENV"
+
+          echo "$ go version"
+          go version
+        name: Setup Go
+        working_directory: ~/
+    - checkout
+    - run:
+        command: |
+          set -x
+
+          # Install CircleCI CLI
+          curl -sSL \
+              "https://github.com/CircleCI-Public/circleci-cli/releases/download/v${CIRCLECI_CLI_VERSION}/circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz \
+              -C /usr/local/bin \
+              "circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64/circleci"
+
+          # Split Go tests by prior test times
+          package_names=$(go list \
+              -tags "${GO_TAGS}" \
+              ./... \
+            | grep -v /integ \
+            | grep -v /vendor/ \
+            | sort \
+            | circleci tests split --split-by=timings --timings-type=classname)
+
+          # Install gotestsum
+          curl -sSL "https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz -C /usr/local/bin gotestsum
+
+          # Run tests
+          make prep
+          mkdir -p test-results/go-test
+          CGO_ENABLED= \
+            VAULT_ADDR= \
+            VAULT_TOKEN= \
+            VAULT_DEV_ROOT_TOKEN_ID= \
+            VAULT_ACC= \
+            gotestsum --format=short-verbose --junitfile test-results/go-test/results.xml -- \
+              -tags "${GO_TAGS}" \
+              -timeout=60m \
+              -parallel=20 \
+              -race \
+              ${package_names}
+        name: Run Go tests
+        no_output_timeout: 60m
+    - store_artifacts:
+        path: test-results
+    - store_test_results:
+        path: test-results
+    environment:
+    - CIRCLECI_CLI_VERSION: 0.1.5546
+    - GO_TAGS: ''
+    - GO_VERSION: 1.12.12
+    - GO111MODULE: 'off'
+    - GOTESTSUM_VERSION: 0.3.3
+  freebsd_amd64_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: 1ac2b4bedbd9d8d045e0210c79275e16715193c7
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-1ac2b4bedbd9d8d045e0210c79275e16715193c7-{{checksum ".buildcache/cache-keys/package-1ac2b4bedbd9d8d045e0210c79275e16715193c7"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_freebsd_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_amd64.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_0f79_{{checksum ".buildcache/cache-keys/copy-source-0f79408e7f86dfe80c68daf69f1d16d16f1b27ee"}}
+        - test8-v1-warm-go-build-vendor-cache_17e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-1ac2b4bedbd9d8d045e0210c79275e16715193c7-{{checksum ".buildcache/cache-keys/package-1ac2b4bedbd9d8d045e0210c79275e16715193c7"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_17e1_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz
+  openbsd_386_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: 3c208d913ee5e26d67674b02b70b045d9e07f5b3
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-3c208d913ee5e26d67674b02b70b045d9e07f5b3-{{checksum ".buildcache/cache-keys/package-3c208d913ee5e26d67674b02b70b045d9e07f5b3"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_openbsd_386.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_386.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_ed7b_{{checksum ".buildcache/cache-keys/copy-source-ed7b4907a7a48d643bac8c54afc2537334d6ba92"}}
+        - test8-v1-warm-go-build-vendor-cache_b54f_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-3c208d913ee5e26d67674b02b70b045d9e07f5b3-{{checksum ".buildcache/cache-keys/package-3c208d913ee5e26d67674b02b70b045d9e07f5b3"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_b54f_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz
+  linux_amd64_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: 89476435da6fa1b0261f9a4c01ded2ec121f5d06
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-89476435da6fa1b0261f9a4c01ded2ec121f5d06-{{checksum ".buildcache/cache-keys/package-89476435da6fa1b0261f9a4c01ded2ec121f5d06"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_linux_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_linux_amd64.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_11b0_{{checksum ".buildcache/cache-keys/copy-source-11b0b277f5157870c3444cfbf3d3d54cc5730c6e"}}
+        - test8-v1-warm-go-build-vendor-cache_8f45_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-89476435da6fa1b0261f9a4c01ded2ec121f5d06-{{checksum ".buildcache/cache-keys/package-89476435da6fa1b0261f9a4c01ded2ec121f5d06"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_8f45_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
+  solaris_amd64_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: 0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea-{{checksum ".buildcache/cache-keys/package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_solaris_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_solaris_amd64.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_92a2_{{checksum ".buildcache/cache-keys/copy-source-92a2a92bd3e67ef7472f5c8d3517dd0266f38665"}}
+        - test8-v1-warm-go-build-vendor-cache_f938_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea-{{checksum ".buildcache/cache-keys/package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_f938_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz
+  test-go:
+    machine: true
+    shell: /usr/bin/env bash -euo pipefail -c
+    working_directory: /go/src/github.com/hashicorp/vault
+    parallelism: 2
+    steps:
+    - run:
+        command: |
+          [ -n "$GO_VERSION" ] || { echo "You must set GO_VERSION"; exit 1; }
+          # Install Go
+          curl -sSLO "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
+          sudo rm -rf /usr/local/go
+          sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
+          rm -f "go${GO_VERSION}.linux-amd64.tar.gz"
+          GOPATH="/go"
+          mkdir $GOPATH 2>/dev/null || { sudo mkdir $GOPATH && sudo chmod 777 $GOPATH; }
+          echo "export GOPATH='$GOPATH'" >> "$BASH_ENV"
+          echo "export PATH='$PATH:$GOPATH/bin:/usr/local/go/bin'" >> "$BASH_ENV"
+
+          echo "$ go version"
+          go version
+        name: Setup Go
+        working_directory: ~/
+    - checkout
+    - run:
+        command: |
+          set -x
+
+          # Install CircleCI CLI
+          curl -sSL \
+              "https://github.com/CircleCI-Public/circleci-cli/releases/download/v${CIRCLECI_CLI_VERSION}/circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz \
+              -C /usr/local/bin \
+              "circleci-cli_${CIRCLECI_CLI_VERSION}_linux_amd64/circleci"
+
+          # Split Go tests by prior test times
+          package_names=$(go list \
+              -tags "${GO_TAGS}" \
+              ./... \
+            | grep -v /integ \
+            | grep -v /vendor/ \
+            | sort \
+            | circleci tests split --split-by=timings --timings-type=classname)
+
+          # Install gotestsum
+          curl -sSL "https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar --overwrite -xz -C /usr/local/bin gotestsum
+
+          # Run tests
+          make prep
+          mkdir -p test-results/go-test
+          CGO_ENABLED= \
+            VAULT_ADDR= \
+            VAULT_TOKEN= \
+            VAULT_DEV_ROOT_TOKEN_ID= \
+            VAULT_ACC= \
+            gotestsum --format=short-verbose --junitfile test-results/go-test/results.xml -- \
+              -tags "${GO_TAGS}" \
+              -timeout=60m \
+              -parallel=20 \
+               \
+              ${package_names}
+        name: Run Go tests
+        no_output_timeout: 60m
+    - store_artifacts:
+        path: test-results
+    - store_test_results:
+        path: test-results
+    environment:
+    - CIRCLECI_CLI_VERSION: 0.1.5546
+    - GO_TAGS: ''
+    - GO_VERSION: 1.12.12
+    - GO111MODULE: 'off'
+    - GOTESTSUM_VERSION: 0.3.3
+  netbsd_amd64_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: fbb76d5786a487e93413cc9fb67dfb77bb191eba
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-fbb76d5786a487e93413cc9fb67dfb77bb191eba-{{checksum ".buildcache/cache-keys/package-fbb76d5786a487e93413cc9fb67dfb77bb191eba"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_netbsd_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_amd64.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_7f9f_{{checksum ".buildcache/cache-keys/copy-source-7f9f65d96cfaeec0d7e3a9a73e28ecea25088ced"}}
+        - test8-v1-warm-go-build-vendor-cache_ce08_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-fbb76d5786a487e93413cc9fb67dfb77bb191eba-{{checksum ".buildcache/cache-keys/package-fbb76d5786a487e93413cc9fb67dfb77bb191eba"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_ce08_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz
+  openbsd_amd64_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: 25c9ce330fde3a649b47f6bdc95f3adf6b317f9a
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a-{{checksum ".buildcache/cache-keys/package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_openbsd_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_openbsd_amd64.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_78a0_{{checksum ".buildcache/cache-keys/copy-source-78a0f07ca37654f020eb057dc5d3d790da04fc3c"}}
+        - test8-v1-warm-go-build-vendor-cache_99ee_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a-{{checksum ".buildcache/cache-keys/package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_99ee_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz
+  netbsd_386_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: 70bedda11d91561a127adca307d7de0ad02e8013
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-70bedda11d91561a127adca307d7de0ad02e8013-{{checksum ".buildcache/cache-keys/package-70bedda11d91561a127adca307d7de0ad02e8013"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_netbsd_386.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_netbsd_386.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_44e9_{{checksum ".buildcache/cache-keys/copy-source-44e91311bbacaffb1267b8a5abb6f479a1d130bc"}}
+        - test8-v1-warm-go-build-vendor-cache_7a67_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-70bedda11d91561a127adca307d7de0ad02e8013-{{checksum ".buildcache/cache-keys/package-70bedda11d91561a127adca307d7de0ad02e8013"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_7a67_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz
+  freebsd_arm_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: e4486984a60e88af7eb36adcca2c84dbae24ff59
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-e4486984a60e88af7eb36adcca2c84dbae24ff59-{{checksum ".buildcache/cache-keys/package-e4486984a60e88af7eb36adcca2c84dbae24ff59"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_freebsd_arm.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_freebsd_arm.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_f284_{{checksum ".buildcache/cache-keys/copy-source-f28438f494ace3c68f1f60085c60aa139c766677"}}
+        - test8-v1-warm-go-build-vendor-cache_7d53_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-e4486984a60e88af7eb36adcca2c84dbae24ff59-{{checksum ".buildcache/cache-keys/package-e4486984a60e88af7eb36adcca2c84dbae24ff59"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_7d53_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz
+  windows_amd64_package:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    environment:
+    - AUTO_INSTALL_TOOLS: 'YES'
+    - PRODUCT_REVISION: ''
+    - PACKAGE_SPEC_ID: 4e219d8b6cc5b40d750e19fbd31ee33b905e53a0
+    steps:
+    - setup_remote_docker
+    - checkout
+    - run:
+        command: make -C release write-package-cache-key
+        name: Write package cache key
+    - restore_cache:
+        key: test8-v1-package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0-{{checksum ".buildcache/cache-keys/package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0"}}
+    - run:
+        command: |
+          if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
+            echo "No package found, continuing with build."
+            exit 0
+          fi
+          # Check the aliases are right, as they are metadata not included in
+          # the cache key. If they're wrong, it's time to bust cache.
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot_windows_amd64.zip .buildcache/packages/by-alias/hc-releases-bundle/public/vault_0.0.0-snapshot/vault_0.0.0-snapshot_windows_amd64.zip ; do
+            echo "Checking alias: $ALIAS"
+            if ! readlink $ALIAS; then
+              echo "Missing alias: $ALIAS"
+              echo "Please increment the cache version to fix this issue."
+              { { apt-get update && apt-get install -y tree; } > /dev/null 2>&1 && tree .buildcache/packages; } || true
+              exit 1
+            fi
+          done
+          echo "Package already cached, skipping build."
+          circleci-agent step halt
+        name: Check the cache status.
+    - run:
+        command: make -C release write-builder-cache-keys
+        name: Write builder layer cache keys
+    - restore_cache:
+        keys:
+        - test8-v1-copy-source_9904_{{checksum ".buildcache/cache-keys/copy-source-9904cad43a7696e22882e225ab21ce547f231ca2"}}
+        - test8-v1-warm-go-build-vendor-cache_e888_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba"}}
+        - test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
+        - test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+        - test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+        - test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+        - test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+        - test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+        - test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+        - test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+    - run:
+        command: make -C release load-builder-cache
+    - run:
+        command: make -C release package
+    - run:
+        command: ls -lahR .buildcache/packages
+    - save_cache:
+        key: test8-v1-package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0-{{checksum ".buildcache/cache-keys/package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0"}}
+        paths:
+        - .buildcache/packages
+    - store_artifacts:
+        destination: packages
+        path: .buildcache/packages
+    - run:
+        command: |
+          if [ -f .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz ]; then
+            echo "Builder image already cached, skipping cache step."
+            circleci-agent step halt
+          fi
+        name: Check builder cache status
+    - run:
+        command: make -f release/layer.mk 08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba-save
+    - save_cache:
+        key: test8-v1-warm-go-build-vendor-cache_e888_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba"}}
+        paths:
+        - .buildcache/archives/08-warm-go-build-vendor-cache-e8885176b9418169deb6580d1af33bfaa756e3ba.tar.gz
   pre-flight-checks:
     docker:
     - image: circleci/buildpack-deps
@@ -1680,72 +1680,72 @@ workflows:
             only:
             - /build-.*/
             - /ci.*/
-    - package_darwin_386:
+    - darwin_386_package:
         requires:
         - cache-builder-images
-    - package_darwin_amd64:
+    - darwin_amd64_package:
         requires:
         - cache-builder-images
-    - package_freebsd_386:
+    - freebsd_386_package:
         requires:
         - cache-builder-images
-    - package_freebsd_amd64:
+    - freebsd_amd64_package:
         requires:
         - cache-builder-images
-    - package_freebsd_arm:
+    - freebsd_arm_package:
         requires:
         - cache-builder-images
-    - package_linux_386:
+    - linux_386_package:
         requires:
         - cache-builder-images
-    - package_linux_amd64:
+    - linux_amd64_package:
         requires:
         - cache-builder-images
-    - package_linux_arm:
+    - linux_arm_package:
         requires:
         - cache-builder-images
-    - package_linux_arm64:
+    - linux_arm64_package:
         requires:
         - cache-builder-images
-    - package_netbsd_386:
+    - netbsd_386_package:
         requires:
         - cache-builder-images
-    - package_netbsd_amd64:
+    - netbsd_amd64_package:
         requires:
         - cache-builder-images
-    - package_openbsd_386:
+    - openbsd_386_package:
         requires:
         - cache-builder-images
-    - package_openbsd_amd64:
+    - openbsd_amd64_package:
         requires:
         - cache-builder-images
-    - package_solaris_amd64:
+    - solaris_amd64_package:
         requires:
         - cache-builder-images
-    - package_windows_386:
+    - windows_386_package:
         requires:
         - cache-builder-images
-    - package_windows_amd64:
+    - windows_amd64_package:
         requires:
         - cache-builder-images
     - bundle-releases:
         requires:
-        - package_darwin_386
-        - package_darwin_amd64
-        - package_freebsd_386
-        - package_freebsd_amd64
-        - package_freebsd_arm
-        - package_linux_386
-        - package_linux_amd64
-        - package_linux_arm
-        - package_linux_arm64
-        - package_netbsd_386
-        - package_netbsd_amd64
-        - package_openbsd_386
-        - package_openbsd_amd64
-        - package_solaris_amd64
-        - package_windows_386
-        - package_windows_amd64
+        - darwin_386_package
+        - darwin_amd64_package
+        - freebsd_386_package
+        - freebsd_amd64_package
+        - freebsd_arm_package
+        - linux_386_package
+        - linux_amd64_package
+        - linux_arm_package
+        - linux_arm64_package
+        - netbsd_386_package
+        - netbsd_amd64_package
+        - openbsd_386_package
+        - openbsd_amd64_package
+        - solaris_amd64_package
+        - windows_386_package
+        - windows_amd64_package
   ci:
     jobs:
     - pre-flight-checks

@@ -20,40 +20,40 @@ workflows:
               only:
                 - /build-.*/
                 - /ci.*/
-      - package_darwin_386: { requires: [ cache-builder-images ] }
-      - package_darwin_amd64: { requires: [ cache-builder-images ] }
-      - package_freebsd_386: { requires: [ cache-builder-images ] }
-      - package_freebsd_amd64: { requires: [ cache-builder-images ] }
-      - package_freebsd_arm: { requires: [ cache-builder-images ] }
-      - package_linux_386: { requires: [ cache-builder-images ] }
-      - package_linux_amd64: { requires: [ cache-builder-images ] }
-      - package_linux_arm: { requires: [ cache-builder-images ] }
-      - package_linux_arm64: { requires: [ cache-builder-images ] }
-      - package_netbsd_386: { requires: [ cache-builder-images ] }
-      - package_netbsd_amd64: { requires: [ cache-builder-images ] }
-      - package_openbsd_386: { requires: [ cache-builder-images ] }
-      - package_openbsd_amd64: { requires: [ cache-builder-images ] }
-      - package_solaris_amd64: { requires: [ cache-builder-images ] }
-      - package_windows_386: { requires: [ cache-builder-images ] }
-      - package_windows_amd64: { requires: [ cache-builder-images ] }
+      - darwin_386_package: { requires: [ cache-builder-images ] }
+      - darwin_amd64_package: { requires: [ cache-builder-images ] }
+      - freebsd_386_package: { requires: [ cache-builder-images ] }
+      - freebsd_amd64_package: { requires: [ cache-builder-images ] }
+      - freebsd_arm_package: { requires: [ cache-builder-images ] }
+      - linux_386_package: { requires: [ cache-builder-images ] }
+      - linux_amd64_package: { requires: [ cache-builder-images ] }
+      - linux_arm_package: { requires: [ cache-builder-images ] }
+      - linux_arm64_package: { requires: [ cache-builder-images ] }
+      - netbsd_386_package: { requires: [ cache-builder-images ] }
+      - netbsd_amd64_package: { requires: [ cache-builder-images ] }
+      - openbsd_386_package: { requires: [ cache-builder-images ] }
+      - openbsd_amd64_package: { requires: [ cache-builder-images ] }
+      - solaris_amd64_package: { requires: [ cache-builder-images ] }
+      - windows_386_package: { requires: [ cache-builder-images ] }
+      - windows_amd64_package: { requires: [ cache-builder-images ] }
       - bundle-releases:
           requires:
-            - package_darwin_386
-            - package_darwin_amd64
-            - package_freebsd_386
-            - package_freebsd_amd64
-            - package_freebsd_arm
-            - package_linux_386
-            - package_linux_amd64
-            - package_linux_arm
-            - package_linux_arm64
-            - package_netbsd_386
-            - package_netbsd_amd64
-            - package_openbsd_386
-            - package_openbsd_amd64
-            - package_solaris_amd64
-            - package_windows_386
-            - package_windows_amd64
+            - darwin_386_package
+            - darwin_amd64_package
+            - freebsd_386_package
+            - freebsd_amd64_package
+            - freebsd_arm_package
+            - linux_386_package
+            - linux_amd64_package
+            - linux_arm_package
+            - linux_arm64_package
+            - netbsd_386_package
+            - netbsd_amd64_package
+            - openbsd_386_package
+            - openbsd_amd64_package
+            - solaris_amd64_package
+            - windows_386_package
+            - windows_amd64_package
 jobs:
   cache-builder-images:
     executor: releaser
@@ -131,7 +131,7 @@ jobs:
           key: test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
           paths:
             - .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
-  package_darwin_386:
+  darwin_386_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 8f43aad500d95365a1ec411beaccf567a87fd471
@@ -204,7 +204,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-5effee4fdf8ef3ae9c1e32e0e2975c86bd09936d.tar.gz
 
-  package_darwin_amd64:
+  darwin_amd64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc
@@ -277,7 +277,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-a2e19bac2fc07bf23c697f2d0a3a7cdd3d3e4cf0.tar.gz
 
-  package_freebsd_386:
+  freebsd_386_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 6caa11eb7844e4c3c4c9c5b88d0409c0ac6ca575
@@ -350,7 +350,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-d41d6bfb9f3d473bf4dc1f1d1b8530407f1782a2.tar.gz
 
-  package_freebsd_amd64:
+  freebsd_amd64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 1ac2b4bedbd9d8d045e0210c79275e16715193c7
@@ -423,7 +423,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-17e100f02fa578a8f0fffff408c6fadd2a1a27fb.tar.gz
 
-  package_freebsd_arm:
+  freebsd_arm_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: e4486984a60e88af7eb36adcca2c84dbae24ff59
@@ -496,7 +496,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-7d53bea16c391c795ae559e210b9d5dd3982b5dd.tar.gz
 
-  package_linux_386:
+  linux_386_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 384a3042ec59f546cd35b3024161ce71d1ab0ed5
@@ -569,7 +569,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-173739c0dd81bfc3f9d12060219df84d6e6128ad.tar.gz
 
-  package_linux_amd64:
+  linux_amd64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 89476435da6fa1b0261f9a4c01ded2ec121f5d06
@@ -642,7 +642,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
 
-  package_linux_arm:
+  linux_arm_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 53d8d7dfd9fd2f136ef80e50370c4cfab03d31b4
@@ -715,7 +715,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-2f7236c51939355aa259ba3b7ec287e10a2c19f0.tar.gz
 
-  package_linux_arm64:
+  linux_arm64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa
@@ -788,7 +788,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-0064f335e9f77809d4308220f82f61bc47173ac7.tar.gz
 
-  package_netbsd_386:
+  netbsd_386_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 70bedda11d91561a127adca307d7de0ad02e8013
@@ -861,7 +861,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-7a6701446ad62d5c8ba98cc56a7235df82990cc4.tar.gz
 
-  package_netbsd_amd64:
+  netbsd_amd64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: fbb76d5786a487e93413cc9fb67dfb77bb191eba
@@ -934,7 +934,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-ce0827c5dfb61d687df88c30441ea52aaba0c86e.tar.gz
 
-  package_openbsd_386:
+  openbsd_386_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 3c208d913ee5e26d67674b02b70b045d9e07f5b3
@@ -1007,7 +1007,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-b54f47022408cac8c1b2db8fd96e541421cfe1c4.tar.gz
 
-  package_openbsd_amd64:
+  openbsd_amd64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 25c9ce330fde3a649b47f6bdc95f3adf6b317f9a
@@ -1080,7 +1080,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-99ee811109e8fd69320b800e34dd6be421e1267e.tar.gz
 
-  package_solaris_amd64:
+  solaris_amd64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea
@@ -1153,7 +1153,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-f93842ba2fbff4619d233a42b61b97394c6bb3cb.tar.gz
 
-  package_windows_386:
+  windows_386_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 468a788368403913972cb4dc5276d30d32fc74e0
@@ -1226,7 +1226,7 @@ jobs:
           paths:
             - .buildcache/archives/08-warm-go-build-vendor-cache-ba7026485cd7b9d3d58c59e8e807aa89018aa8b5.tar.gz
 
-  package_windows_amd64:
+  windows_amd64_package:
     executor: releaser
     environment:
       - PACKAGE_SPEC_ID: 4e219d8b6cc5b40d750e19fbd31ee33b905e53a0
@@ -1305,22 +1305,22 @@ jobs:
     steps:
       - checkout
       - write-all-package-cache-keys
-      - load-package_darwin_386
-      - load-package_darwin_amd64
-      - load-package_freebsd_386
-      - load-package_freebsd_amd64
-      - load-package_freebsd_arm
-      - load-package_linux_386
-      - load-package_linux_amd64
-      - load-package_linux_arm
-      - load-package_linux_arm64
-      - load-package_netbsd_386
-      - load-package_netbsd_amd64
-      - load-package_openbsd_386
-      - load-package_openbsd_amd64
-      - load-package_solaris_amd64
-      - load-package_windows_386
-      - load-package_windows_amd64
+      - load-darwin_386_package
+      - load-darwin_amd64_package
+      - load-freebsd_386_package
+      - load-freebsd_amd64_package
+      - load-freebsd_arm_package
+      - load-linux_386_package
+      - load-linux_amd64_package
+      - load-linux_arm_package
+      - load-linux_arm64_package
+      - load-netbsd_386_package
+      - load-netbsd_amd64_package
+      - load-openbsd_386_package
+      - load-openbsd_amd64_package
+      - load-solaris_amd64_package
+      - load-windows_386_package
+      - load-windows_amd64_package
       - run: ls -lahR .buildcache/packages
       - store_artifacts:
           path: .buildcache/packages
@@ -1331,82 +1331,82 @@ jobs:
           destination: packages.tar.gz
 
 commands:
-  load-package_darwin_386:
+  load-darwin_386_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-8f43aad500d95365a1ec411beaccf567a87fd471-{{checksum ".buildcache/cache-keys/package-8f43aad500d95365a1ec411beaccf567a87fd471"}}'
   
-  load-package_darwin_amd64:
+  load-darwin_amd64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc-{{checksum ".buildcache/cache-keys/package-34bb7d4d2a8a8f2b581241d40967ddaf0fbea5dc"}}'
   
-  load-package_freebsd_386:
+  load-freebsd_386_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-6caa11eb7844e4c3c4c9c5b88d0409c0ac6ca575-{{checksum ".buildcache/cache-keys/package-6caa11eb7844e4c3c4c9c5b88d0409c0ac6ca575"}}'
   
-  load-package_freebsd_amd64:
+  load-freebsd_amd64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-1ac2b4bedbd9d8d045e0210c79275e16715193c7-{{checksum ".buildcache/cache-keys/package-1ac2b4bedbd9d8d045e0210c79275e16715193c7"}}'
   
-  load-package_freebsd_arm:
+  load-freebsd_arm_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-e4486984a60e88af7eb36adcca2c84dbae24ff59-{{checksum ".buildcache/cache-keys/package-e4486984a60e88af7eb36adcca2c84dbae24ff59"}}'
   
-  load-package_linux_386:
+  load-linux_386_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-384a3042ec59f546cd35b3024161ce71d1ab0ed5-{{checksum ".buildcache/cache-keys/package-384a3042ec59f546cd35b3024161ce71d1ab0ed5"}}'
   
-  load-package_linux_amd64:
+  load-linux_amd64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-89476435da6fa1b0261f9a4c01ded2ec121f5d06-{{checksum ".buildcache/cache-keys/package-89476435da6fa1b0261f9a4c01ded2ec121f5d06"}}'
   
-  load-package_linux_arm:
+  load-linux_arm_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-53d8d7dfd9fd2f136ef80e50370c4cfab03d31b4-{{checksum ".buildcache/cache-keys/package-53d8d7dfd9fd2f136ef80e50370c4cfab03d31b4"}}'
   
-  load-package_linux_arm64:
+  load-linux_arm64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa-{{checksum ".buildcache/cache-keys/package-87a4ec11f7edc0d4f1d5fde8f6a7265f7adf27fa"}}'
   
-  load-package_netbsd_386:
+  load-netbsd_386_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-70bedda11d91561a127adca307d7de0ad02e8013-{{checksum ".buildcache/cache-keys/package-70bedda11d91561a127adca307d7de0ad02e8013"}}'
   
-  load-package_netbsd_amd64:
+  load-netbsd_amd64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-fbb76d5786a487e93413cc9fb67dfb77bb191eba-{{checksum ".buildcache/cache-keys/package-fbb76d5786a487e93413cc9fb67dfb77bb191eba"}}'
   
-  load-package_openbsd_386:
+  load-openbsd_386_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-3c208d913ee5e26d67674b02b70b045d9e07f5b3-{{checksum ".buildcache/cache-keys/package-3c208d913ee5e26d67674b02b70b045d9e07f5b3"}}'
   
-  load-package_openbsd_amd64:
+  load-openbsd_amd64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a-{{checksum ".buildcache/cache-keys/package-25c9ce330fde3a649b47f6bdc95f3adf6b317f9a"}}'
   
-  load-package_solaris_amd64:
+  load-solaris_amd64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea-{{checksum ".buildcache/cache-keys/package-0fb8acbae8ceeb1e0a503e59dfeb420f59e509ea"}}'
   
-  load-package_windows_386:
+  load-windows_386_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-468a788368403913972cb4dc5276d30d32fc74e0-{{checksum ".buildcache/cache-keys/package-468a788368403913972cb4dc5276d30d32fc74e0"}}'
   
-  load-package_windows_amd64:
+  load-windows_amd64_package:
     steps:
       - restore_cache:
           key: 'test8-v1-package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0-{{checksum ".buildcache/cache-keys/package-4e219d8b6cc5b40d750e19fbd31ee33b905e53a0"}}'

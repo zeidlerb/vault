@@ -15,7 +15,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_darwin_386
+    BUILD_JOB_NAME: darwin_386_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -91,7 +91,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_darwin_amd64
+    BUILD_JOB_NAME: darwin_amd64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -167,7 +167,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_freebsd_386
+    BUILD_JOB_NAME: freebsd_386_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -243,7 +243,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_freebsd_amd64
+    BUILD_JOB_NAME: freebsd_amd64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -319,7 +319,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_freebsd_arm
+    BUILD_JOB_NAME: freebsd_arm_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -395,7 +395,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_linux_386
+    BUILD_JOB_NAME: linux_386_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -471,7 +471,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_linux_amd64
+    BUILD_JOB_NAME: linux_amd64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -547,7 +547,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_linux_arm
+    BUILD_JOB_NAME: linux_arm_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -623,7 +623,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_linux_arm64
+    BUILD_JOB_NAME: linux_arm64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -699,7 +699,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_netbsd_386
+    BUILD_JOB_NAME: netbsd_386_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -775,7 +775,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_netbsd_amd64
+    BUILD_JOB_NAME: netbsd_amd64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -851,7 +851,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_openbsd_386
+    BUILD_JOB_NAME: openbsd_386_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -927,7 +927,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_openbsd_amd64
+    BUILD_JOB_NAME: openbsd_amd64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -1003,7 +1003,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_solaris_amd64
+    BUILD_JOB_NAME: solaris_amd64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -1079,7 +1079,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_windows_386
+    BUILD_JOB_NAME: windows_386_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
@@ -1155,7 +1155,7 @@ packages:
     PRODUCT_VERSION_PRE: snapshot
     YARN_VERSION: 1.19.1-1
   meta:
-    BUILD_JOB_NAME: package_windows_amd64
+    BUILD_JOB_NAME: windows_amd64_package
     BUNDLE_NAME: vault_0.0.0-snapshot
     PRODUCT_NAME: vault
     PUBLIC: "YES"
