@@ -138,6 +138,10 @@ clean:
 
 clean-all: clean clean-builder-images
 
+clean-all-prune: clean-all
+	docker container prune
+	docker image prune
+
 .PHONY: $(ALL_PACKAGE_CACHE_KEYS)
 $(PACKAGE_CACHE_KEY_FILE):
 	@\

@@ -267,6 +267,12 @@ $(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE := $$($(1)_CACHE)/source-archive.tar
 # committed do not cause problems. This should be OK for dirty builds.
 #
 # For non-dirty builds, ask Git directly for a source archive.
+#
+# We explicitly set the TAR format to ustar because this seems more compatible
+# with Docker than any other format. In future we should change this to POSIX
+# once Docker supports that properly, because ustar only supports filenames
+# < 256 chars which could eventually be an issue.
+TAR_FORMAT := --format=ustar
 $(1)_FULL_DOCKER_BUILD_COMMAND = docker build -t $$($(1)_IMAGE_NAME) $$($(1)_DOCKER_BUILD_ARGS) \
 	-f $$($(1)_DOCKERFILE) - < $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)
 $$($(1)_IMAGE): $$($(1)_BASE_IMAGE)
@@ -280,7 +286,7 @@ $$($(1)_IMAGE): $$($(1)_BASE_IMAGE)
 	if [ ! -f "$$($(1)_SOURCE_ARCHIVE)" ]; then \
 		if [ "$(ALLOW_DIRTY)" = "YES" ]; then \
 			echo "==> Building source archive from working directory: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
-			$$($(1)_SOURCE_CMD) | $(TAR) --create --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T -; \
+			$$($(1)_SOURCE_CMD) | $(TAR) --create $(TAR_FORMAT) --file $$($(1)_SOURCE_ARCHIVE) --ignore-failed-read -T -; \
 		else \
 			echo "==> Building source archive from git: $$($(1)_SOURCE_ARCHIVE)" 1>&2; \
 			git archive --format=tar $(GIT_REF) $$($(1)_SOURCE_GIT) > $$($(1)_SOURCE_ARCHIVE); \
@@ -289,7 +295,7 @@ $$($(1)_IMAGE): $$($(1)_BASE_IMAGE)
 	if [ ! -f "$$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" ]; then \
 		echo "==> Appending Dockerfile to source archive: $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE)" 1>&2; \
 		cp $$($(1)_SOURCE_ARCHIVE) $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
-		$(TAR) --append $$($(1)_DOCKERFILE) --file $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
+		$(TAR) --append $(TAR_FORMAT) $$($(1)_DOCKERFILE) --file $$($(1)_SOURCE_ARCHIVE_WITH_DOCKERFILE); \
 	fi; \
 	echo $$($(1)_FULL_DOCKER_BUILD_COMMAND); \
 	$$($(1)_FULL_DOCKER_BUILD_COMMAND); \
