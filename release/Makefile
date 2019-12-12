@@ -112,13 +112,16 @@ write-package-cache-key:
 # We reference this as an environment variable, so you can set it in a
 # recipe rather than relying on the global setting.
 define WRITE_PACKAGE_CACHE_KEY
-KEY="PACKAGE_SPEC_ID=$$PACKAGE_SPEC_ID"$$'\n'"PACKAGE_SOURCE_ID=$(PACKAGE_SOURCE_ID)"; \
-FILE=$$(cd $(REPO_ROOT); yq -r ".packages[] | select(.packagespecid==\"$$PACKAGE_SPEC_ID\") \
-	| .meta.builtin.PACKAGE_CACHE_KEY_FILE" < $(LOCK)); \
-echo "$$FILE"; \
-echo "$$KEY"; \
-mkdir -p $$(dirname $$FILE); \
-echo "$$KEY" > "$$FILE"
+( \
+	cd $(REPO_ROOT); \
+	KEY="PACKAGE_SPEC_ID=$$PACKAGE_SPEC_ID"$$'\n'"PACKAGE_SOURCE_ID=$(PACKAGE_SOURCE_ID)"; \
+	FILE=$$(yq -r ".packages[] | select(.packagespecid==\"$$PACKAGE_SPEC_ID\") \
+		| .meta.builtin.PACKAGE_CACHE_KEY_FILE" < $(LOCK)); \
+	echo "$$FILE"; \
+	echo "$$KEY"; \
+	mkdir -p $$(dirname $$FILE); \
+	echo "$$KEY" > "$$FILE";\
+)
 endef
 
 write-all-package-cache-keys:
