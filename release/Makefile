@@ -141,10 +141,3 @@ clean-all: clean clean-builder-images
 clean-all-prune: clean-all
 	docker container prune
 	docker image prune
-
-.PHONY: $(ALL_PACKAGE_CACHE_KEYS)
-$(PACKAGE_CACHE_KEY_FILE):
-	@\
-		cd $(REPO_ROOT); mkdir -p $(dir $@); \
-		echo "$(PACKAGE_SOURCE_ID) > $@
-
