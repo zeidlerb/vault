@@ -59,8 +59,10 @@ jobs:
       {{- $lastArchive := .archivefile}}
       {{- $layer := .}}
       {{- range $i, $l := .meta.builtin.LAYER_LIST}}
-      {{$currentArchive := $l.archive}}
+      {{- $currentArchive := $l.archive}}
+      {{- if ne $currentArchive $lastArchive }}
       - run: mv {{$lastArchive}} {{$currentArchive}}
+      {{- end}}
       - save_cache:
           key: {{template "cache-key" (index $layer.meta.circleci.CACHE_KEY_PREFIX_LIST $i)}}
           paths:
