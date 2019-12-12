@@ -83,10 +83,54 @@ jobs:
       - run: BUILD_LAYER_ID=07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59 make -C release load-builder-cache
       - run: make -f release/layer.mk 07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59-image
       - run: make -f release/layer.mk 07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59-save
+      
+      - run: mv .buildcache/archives/07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59.tar.gz .buildcache/archives/07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59.tar.gz
       - save_cache:
           key: test8-v1-build-static-assets_8a6a_{{checksum ".buildcache/cache-keys/build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59"}}
           paths:
             - .buildcache/archives/07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59.tar.gz
+      
+      - run: mv .buildcache/archives/07-build-static-assets-8a6a39479ac2b0a68efc1116cc309ab4ebf44f59.tar.gz .buildcache/archives/06-build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4.tar.gz
+      - save_cache:
+          key: test8-v1-build-ui_cc32_{{checksum ".buildcache/cache-keys/build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4"}}
+          paths:
+            - .buildcache/archives/06-build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4.tar.gz
+      
+      - run: mv .buildcache/archives/06-build-ui-cc32d978ba63215f35a4cc6d199750e6134a51a4.tar.gz .buildcache/archives/05-ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83.tar.gz
+      - save_cache:
+          key: test8-v1-ui-dependencies_f757_{{checksum ".buildcache/cache-keys/ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83"}}
+          paths:
+            - .buildcache/archives/05-ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83.tar.gz
+      
+      - run: mv .buildcache/archives/05-ui-dependencies-f7572cf365fa287729ae3dbd838d54c1d4a4ad83.tar.gz .buildcache/archives/04-install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5.tar.gz
+      - save_cache:
+          key: test8-v1-install-yarn_2924_{{checksum ".buildcache/cache-keys/install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5"}}
+          paths:
+            - .buildcache/archives/04-install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5.tar.gz
+      
+      - run: mv .buildcache/archives/04-install-yarn-2924ca2287eec8fe0c29c98a3547069f7ef7d1d5.tar.gz .buildcache/archives/03-set-workdir-c5be062002c2f7353a51633272712da6a3921778.tar.gz
+      - save_cache:
+          key: test8-v1-set-workdir_c5be_{{checksum ".buildcache/cache-keys/set-workdir-c5be062002c2f7353a51633272712da6a3921778"}}
+          paths:
+            - .buildcache/archives/03-set-workdir-c5be062002c2f7353a51633272712da6a3921778.tar.gz
+      
+      - run: mv .buildcache/archives/03-set-workdir-c5be062002c2f7353a51633272712da6a3921778.tar.gz .buildcache/archives/02-install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc.tar.gz
+      - save_cache:
+          key: test8-v1-install-go-tools_8d9e_{{checksum ".buildcache/cache-keys/install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc"}}
+          paths:
+            - .buildcache/archives/02-install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc.tar.gz
+      
+      - run: mv .buildcache/archives/02-install-go-tools-8d9e08b9a8b96f566137b8ca24c8030c2c191ebc.tar.gz .buildcache/archives/01-install-go-6ead8440d181605ee9c56300e887068d085ba102.tar.gz
+      - save_cache:
+          key: test8-v1-install-go_6ead_{{checksum ".buildcache/cache-keys/install-go-6ead8440d181605ee9c56300e887068d085ba102"}}
+          paths:
+            - .buildcache/archives/01-install-go-6ead8440d181605ee9c56300e887068d085ba102.tar.gz
+      
+      - run: mv .buildcache/archives/01-install-go-6ead8440d181605ee9c56300e887068d085ba102.tar.gz .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
+      - save_cache:
+          key: test8-v1-base_36f0_{{checksum ".buildcache/cache-keys/base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3"}}
+          paths:
+            - .buildcache/archives/00-base-36f009b1b46f02370dfb42b19ed6156a52a7f5c3.tar.gz
   package_darwin_386:
     executor: releaser
     environment:

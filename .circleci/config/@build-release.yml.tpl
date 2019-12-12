@@ -56,10 +56,17 @@ jobs:
       - run: BUILD_LAYER_ID={{.name}} make -C release load-builder-cache
       - run: make -f release/layer.mk {{.name}}-image
       - run: make -f release/layer.mk {{.name}}-save
+      {{- $lastArchive := .archivefile}}
+      {{- $layer := .}}
+      {{- range $i, $l := .meta.builtin.LAYER_LIST}}
+      {{$currentArchive := $l.archive}}
+      - run: mv {{$lastArchive}} {{$currentArchive}}
       - save_cache:
-          key: {{template "cache-key" (index .meta.circleci.CACHE_KEY_PREFIX_LIST 0)}}
+          key: {{template "cache-key" (index $layer.meta.circleci.CACHE_KEY_PREFIX_LIST $i)}}
           paths:
-            - {{.archivefile}}
+            - {{$currentArchive}}
+      {{- $lastArchive = $currentArchive }}
+      {{- end}}
       {{- end}}{{end}}
 
 {{- range $packages}}
