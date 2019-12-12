@@ -26,8 +26,6 @@ RELEASE_DIR := release
 # CACHE_ROOT is the build cache directory.
 CACHE_ROOT ?= .buildcache
 
-include $(REPO_ROOT)/$(RELEASE_DIR)/config-*.mk
-
 # SPEC is the human-managed description of which packages we are able to build.
 SPEC_FILE_PATTERN := packages*.yml
 SPEC := $(shell cd $(REPO_ROOT); find $(RELEASE_DIR) -name '$(SPEC_FILE_PATTERN)')
@@ -186,6 +184,9 @@ LN := ln
 STAT := stat
 FIND := find
 endif
+
+# Include any additional config files.
+include $(REPO_ROOT)/$(RELEASE_DIR)/config-*.mk
 
 # End including config once only.
 endif
