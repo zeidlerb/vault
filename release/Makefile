@@ -96,6 +96,15 @@ build:
 		echo "$$COMMAND"; \
 		$(SHELL) "$$COMMAND"
 
+RELEASER_REPO := $(REPO_ROOT)/../vault-release
+
+build-ci:
+	@[ -n "$(PRODUCT_VERSION)" ] || { echo "You must set BUILD_PRODUCT_VERSION"; exit 1; }
+	@[ -n "$(PRODUCT_REVISION)" ] || { echo "You must set BUILD_PRODUCT_REVISION"; exit 1; }
+	@[ -n "$(PRODUCT_REPO)" ] || { echo "You must set BUILD_PRODUCT_REPO"; exit 1; }
+	@[ -d ../vault-release ] || { echo "You must clone git@github.com:hashicorp/vault-release.git into $(RELEASER_REPO)"; exit 1; }
+	@cd $(RELEASER_REPO) && make trigger-product-build
+
 package:
 	@$(MK)build.mk package
 
