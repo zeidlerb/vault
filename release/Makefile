@@ -96,15 +96,6 @@ build:
 		echo "$$COMMAND"; \
 		$(SHELL) "$$COMMAND"
 
-RELEASER_REPO := $(REPO_ROOT)/../vault-release
-
-build-ci:
-	@[ -n "$(PRODUCT_VERSION)" ] || { echo "You must set BUILD_PRODUCT_VERSION"; exit 1; }
-	@[ -n "$(PRODUCT_REVISION)" ] || { echo "You must set BUILD_PRODUCT_REVISION"; exit 1; }
-	@[ -n "$(PRODUCT_REPO)" ] || { echo "You must set BUILD_PRODUCT_REPO"; exit 1; }
-	@[ -d $(RELEASER_REPO) ] || { echo "You must clone git@github.com:hashicorp/vault-release.git into $(RELEASER_REPO)"; exit 1; }
-	@cd $(RELEASER_REPO) && make trigger-product-build
-
 package:
 	@$(MK)build.mk package
 
@@ -118,7 +109,7 @@ write-package-cache-key:
 	@echo "==> Package cache key written: $(PACKAGE_CACHE_KEY_FILE)"
 
 # WRITE_PACKAGE_CACHE_KEY writes the package cache key for PACKAGE_SPEC_ID.
-# We reference this as an environment variable, so you can set it in a
+# We reference this as an environment variable, so you can override it in a
 # recipe rather than relying on the global setting.
 define WRITE_PACKAGE_CACHE_KEY
 ( \
@@ -153,3 +144,58 @@ clean-all: clean clean-builder-images
 clean-all-prune: clean-all
 	docker container prune
 	docker image prune
+
+# Configure the releaser repo. If you are developing that repo, you may want
+# to clone it adjacent to this one in ../vault-release, otherwise it will
+# be cloned into .releaser, if you have access to it.
+RELEASER_REPO  := git@github.com:hashicorp/vault-release.git
+RELEASER_DIR   := $(REPO_ROOT)/../vault-release
+RELEASER_CLONE := NO
+RELEASER_PULL  := NO
+ifeq ($(shell if [ -d $(RELEASER_DIR) ]; then echo OK; else echo NO; fi),NO)
+RELEASER_DIR   := $(REPO_ROOT)/.releaser
+RELEASER_CLONE := YES
+RELEASER_PULL  := YES
+endif
+
+# REQUIRE_EXPORT requires a set of make variables to be nonempty,
+# exits 1 if any are not, and exports each one otherwise.
+# To be used in recipe bodies.
+define REQUIRE_EXPORT
+$(foreach VAR,$(1),[ -n "$($(VAR))" ] || { echo "Must set $(VAR)"; exit 1; }; export $(VAR)='$($(VAR))';)
+endef
+
+# build-ci triggers a CI build. Note: PRODUCT_REVISION and PRODUCT_VERSION
+# must not be set by default for any other target. build-ci is special because
+# it calls out to another repo to trigger the build.
+# Note: At present, that other repo is only available to HashiCorp employees.
+build-ci: PRODUCT_REVISION ?= $(shell git rev-parse HEAD)
+build-ci: PRODUCT_VERSION ?= 0.0.0-$(USER)-snapshot
+build-ci: RELEASE_SYSTEM_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
+build-ci:
+	@$(call REQUIRE_EXPORT, \
+		PRODUCT_REPO           PRODUCT_PATH           PRODUCT_REVISION \
+		PRODUCT_VERSION        PRODUCT_CIRCLECI_SLUG  PRODUCT_CIRCLECI_HOST \
+		RELEASE_SYSTEM_BRANCH  SPEC                   LOCKDIR \
+	) \
+	[ -d "$(RELEASER_DIR)" ] || { \
+		[ $(RELEASER_CLONE) = YES ] || { \
+			echo "You must clone $(RELEASER_REPO) into $(RELEASER_DIR)"; exit 1; \
+		}; \
+		echo "==> Attempting to clone $(RELEASER_REPO) into $(RELEASER_DIR)"; \
+		echo "==> NOTE: The above repo is only available to HashiCorp employees at this time."; \
+		mkdir -p $(RELEASER_DIR); \
+		if ! git clone -q "$(RELEASER_REPO)" "$(RELEASER_DIR)"; then \
+			echo "==> ERROR: Failed to clone $(RELEASER_REPO)"; \
+		fi; \
+	}; \
+	( \
+		cd $(RELEASER_DIR); \
+		if [ $(RELEASER_PULL) = YES ]; then \
+			git checkout -q master; \
+			git pull -q origin master; \
+			git clean -qf; \
+			git reset -q --hard HEAD; \
+		fi; \
+		$(MAKE) trigger-product-build; \
+	)
