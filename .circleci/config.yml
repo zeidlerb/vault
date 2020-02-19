@@ -559,7 +559,7 @@ jobs:
     environment:
     - CIRCLECI_CLI_VERSION: 0.1.5546
     - GO_TAGS: ''
-    - GO_VERSION: 1.12.12
+    - GO_VERSION: 1.13.8
     - GO111MODULE: 'off'
     - GOTESTSUM_VERSION: 0.3.3
   linux_386_package:
@@ -786,7 +786,7 @@ jobs:
     environment:
     - CIRCLECI_CLI_VERSION: 0.1.5546
     - GO_TAGS: ''
-    - GO_VERSION: 1.12.12
+    - GO_VERSION: 1.13.8
     - GO111MODULE: 'off'
     - GOTESTSUM_VERSION: 0.3.3
   freebsd_amd64_package:
@@ -1020,6 +1020,39 @@ jobs:
         key: test8-v1-warm-go-build-vendor-cache_8f45_{{checksum ".buildcache/cache-keys/warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1"}}
         paths:
         - .buildcache/archives/08-warm-go-build-vendor-cache-8f45f536d99f723b911b9d19098ae0b6004b87b1.tar.gz
+  website-docker-image:
+    docker:
+    - image: circleci/buildpack-deps
+    shell: /usr/bin/env bash -euo pipefail -c
+    steps:
+    - checkout
+    - setup_remote_docker
+    - run:
+        command: |
+          # BUILD_FROM_REPO should ALWAYS be the main OSS Vault repo URL.
+          BUILD_FROM_REPO=git@github.com:hashicorp/vault.git
+          [ "$CIRCLE_REPOSITORY_URL" = "$BUILD_FROM_REPO" ] || {
+            echo "Not building website docker image for repo '$CIRCLE_REPOSITORY_URL' - we only build it for $BUILD_FROM_REPO."
+            exit 0
+          }
+          [ "$CIRCLE_BRANCH" = "master" ] || {
+            echo "Not building website docker image for branch '$CIRCLE_BRANCH' - we only build it for master."
+            exit 0
+          }
+          PACKAGE_LOCK_CHANGED="$( \
+            git diff --name-only $(git log --pretty=format:'%h' -n1 HEAD~1)...HEAD | \
+            grep -c website/package-lock.json; \
+          )" || true
+          [ $PACKAGE_LOCK_CHANGED -gt 0 ] || {
+            echo "Not building a new website docker image - dependencies have not changed."
+            exit 0
+          }
+          cd website/
+          docker build -t hashicorp/vault-website:$CIRCLE_SHA1 .
+          docker tag hashicorp/vault-website:$CIRCLE_SHA1 hashicorp/vault-website:latest
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push hashicorp/vault-website
+        name: Build Docker Image if Necessary
   solaris_amd64_package:
     docker:
     - image: circleci/buildpack-deps
@@ -1168,7 +1201,7 @@ jobs:
     environment:
     - CIRCLECI_CLI_VERSION: 0.1.5546
     - GO_TAGS: ''
-    - GO_VERSION: 1.12.12
+    - GO_VERSION: 1.13.8
     - GO111MODULE: 'off'
     - GOTESTSUM_VERSION: 0.3.3
   netbsd_amd64_package:
