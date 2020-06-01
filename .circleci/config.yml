@@ -15,37 +15,37 @@ jobs:
         command: make -C packages*.lock write-all-package-cache-keys
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-7be0cb5096e6837586f7d3d72ada26ec6602912a-{{checksum ".buildcache/cache-keys/package-7be0cb5096e6837586f7d3d72ada26ec6602912a"}}
+        key: test9-v1-package-692867c2861081c6d99b4169938f84ac844fc777-{{checksum ".buildcache/cache-keys/package-692867c2861081c6d99b4169938f84ac844fc777"}}
     - restore_cache:
-        key: test9-v1-package-6d5dedb2365057bf329e41fa1e003050623f6e63-{{checksum ".buildcache/cache-keys/package-6d5dedb2365057bf329e41fa1e003050623f6e63"}}
+        key: test9-v1-package-71e4379bb037ae01db374ffd39975acff25e3cb5-{{checksum ".buildcache/cache-keys/package-71e4379bb037ae01db374ffd39975acff25e3cb5"}}
     - restore_cache:
-        key: test9-v1-package-e1d8b36fd0798b25979193f63e1e74d91c811ea0-{{checksum ".buildcache/cache-keys/package-e1d8b36fd0798b25979193f63e1e74d91c811ea0"}}
+        key: test9-v1-package-4de83b2986ede6e8e227bd2e7ce4c272da5dadfa-{{checksum ".buildcache/cache-keys/package-4de83b2986ede6e8e227bd2e7ce4c272da5dadfa"}}
     - restore_cache:
-        key: test9-v1-package-bd9edf363edaf475d35b1486d84562b963e5f021-{{checksum ".buildcache/cache-keys/package-bd9edf363edaf475d35b1486d84562b963e5f021"}}
+        key: test9-v1-package-e21c6281b16a08c65daa97423800f1e89a6ae50f-{{checksum ".buildcache/cache-keys/package-e21c6281b16a08c65daa97423800f1e89a6ae50f"}}
     - restore_cache:
-        key: test9-v1-package-5bbb2fb38c69f6f6fd89bee56ecbd59977b13f67-{{checksum ".buildcache/cache-keys/package-5bbb2fb38c69f6f6fd89bee56ecbd59977b13f67"}}
+        key: test9-v1-package-ed489dd7aef98604400b3644efbe3e59235e316a-{{checksum ".buildcache/cache-keys/package-ed489dd7aef98604400b3644efbe3e59235e316a"}}
     - restore_cache:
-        key: test9-v1-package-f8c9461eb0716dc1f7ef964ee38e75d920ab4407-{{checksum ".buildcache/cache-keys/package-f8c9461eb0716dc1f7ef964ee38e75d920ab4407"}}
+        key: test9-v1-package-075cefc7ef9841d2f4f08e00928bc2550d8c7188-{{checksum ".buildcache/cache-keys/package-075cefc7ef9841d2f4f08e00928bc2550d8c7188"}}
     - restore_cache:
-        key: test9-v1-package-973acf219bb01602ef081f11b4f5334ddf85630e-{{checksum ".buildcache/cache-keys/package-973acf219bb01602ef081f11b4f5334ddf85630e"}}
+        key: test9-v1-package-466384e4ae47004a81c1cd872e8c91857ffa0411-{{checksum ".buildcache/cache-keys/package-466384e4ae47004a81c1cd872e8c91857ffa0411"}}
     - restore_cache:
-        key: test9-v1-package-323dbfeda971185715ce54f69ca33812576ad02e-{{checksum ".buildcache/cache-keys/package-323dbfeda971185715ce54f69ca33812576ad02e"}}
+        key: test9-v1-package-448ca16a1227b2ced74950e954fb0927dfee335a-{{checksum ".buildcache/cache-keys/package-448ca16a1227b2ced74950e954fb0927dfee335a"}}
     - restore_cache:
-        key: test9-v1-package-2fb4618edad7a94036e563fafb8539bf580995bb-{{checksum ".buildcache/cache-keys/package-2fb4618edad7a94036e563fafb8539bf580995bb"}}
+        key: test9-v1-package-32f4da0c230805100f7394ab76387a63677cf529-{{checksum ".buildcache/cache-keys/package-32f4da0c230805100f7394ab76387a63677cf529"}}
     - restore_cache:
-        key: test9-v1-package-06c3256601a13c8dca0cd5017e9cbf632c45e250-{{checksum ".buildcache/cache-keys/package-06c3256601a13c8dca0cd5017e9cbf632c45e250"}}
+        key: test9-v1-package-bf9012e2b13ba191215664e23f468131e4ac4fbe-{{checksum ".buildcache/cache-keys/package-bf9012e2b13ba191215664e23f468131e4ac4fbe"}}
     - restore_cache:
-        key: test9-v1-package-a66d31290c635f3c00faad8f51a0d34ea35479d5-{{checksum ".buildcache/cache-keys/package-a66d31290c635f3c00faad8f51a0d34ea35479d5"}}
+        key: test9-v1-package-c7dc77f5d8945ff6c682e3f724890e2db4bc56c1-{{checksum ".buildcache/cache-keys/package-c7dc77f5d8945ff6c682e3f724890e2db4bc56c1"}}
     - restore_cache:
-        key: test9-v1-package-44cb78682bd4bae4601067bef6dbdf8e9564e1ed-{{checksum ".buildcache/cache-keys/package-44cb78682bd4bae4601067bef6dbdf8e9564e1ed"}}
+        key: test9-v1-package-7d826e8294bbd7b1fe4b83b6246a9da06ac71d94-{{checksum ".buildcache/cache-keys/package-7d826e8294bbd7b1fe4b83b6246a9da06ac71d94"}}
     - restore_cache:
-        key: test9-v1-package-0440328bd0c4f4bdf8116742d01905c1f228fda5-{{checksum ".buildcache/cache-keys/package-0440328bd0c4f4bdf8116742d01905c1f228fda5"}}
+        key: test9-v1-package-113e656ee47285bd347cf325c61711d1a21ad921-{{checksum ".buildcache/cache-keys/package-113e656ee47285bd347cf325c61711d1a21ad921"}}
     - restore_cache:
-        key: test9-v1-package-b5054c51fe4b50c218c9d0e79682fcad6b33ed17-{{checksum ".buildcache/cache-keys/package-b5054c51fe4b50c218c9d0e79682fcad6b33ed17"}}
+        key: test9-v1-package-11716b8cf9c5e5788a3e861c7f887ea0af9e18fa-{{checksum ".buildcache/cache-keys/package-11716b8cf9c5e5788a3e861c7f887ea0af9e18fa"}}
     - restore_cache:
-        key: test9-v1-package-7776d723d05efb78461df20f522adb349e4e2a68-{{checksum ".buildcache/cache-keys/package-7776d723d05efb78461df20f522adb349e4e2a68"}}
+        key: test9-v1-package-52eff43bff9e2a499288dc2dcf9698532d21a735-{{checksum ".buildcache/cache-keys/package-52eff43bff9e2a499288dc2dcf9698532d21a735"}}
     - restore_cache:
-        key: test9-v1-package-6e7516d1674ac957851e588d82b8a6eec75b48a3-{{checksum ".buildcache/cache-keys/package-6e7516d1674ac957851e588d82b8a6eec75b48a3"}}
+        key: test9-v1-package-a4f05b7cea7a34fc3066b6ee8869c09f84557e58-{{checksum ".buildcache/cache-keys/package-a4f05b7cea7a34fc3066b6ee8869c09f84557e58"}}
     - run:
         command: ls -lahR .buildcache/packages
     - store_artifacts:
@@ -58,15 +58,15 @@ jobs:
         path: packages.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
   darwin_amd64_package:
     docker:
     - image: circleci/buildpack-deps
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 6d5dedb2365057bf329e41fa1e003050623f6e63
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 71e4379bb037ae01db374ffd39975acff25e3cb5
     steps:
     - setup_remote_docker
     - checkout
@@ -74,7 +74,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-6d5dedb2365057bf329e41fa1e003050623f6e63-{{checksum ".buildcache/cache-keys/package-6d5dedb2365057bf329e41fa1e003050623f6e63"}}
+        key: test9-v1-package-71e4379bb037ae01db374ffd39975acff25e3cb5-{{checksum ".buildcache/cache-keys/package-71e4379bb037ae01db374ffd39975acff25e3cb5"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -83,7 +83,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_darwin_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_darwin_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_darwin_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_darwin_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -117,7 +117,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-6d5dedb2365057bf329e41fa1e003050623f6e63-{{checksum ".buildcache/cache-keys/package-6d5dedb2365057bf329e41fa1e003050623f6e63"}}
+        key: test9-v1-package-71e4379bb037ae01db374ffd39975acff25e3cb5-{{checksum ".buildcache/cache-keys/package-71e4379bb037ae01db374ffd39975acff25e3cb5"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -142,8 +142,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 7776d723d05efb78461df20f522adb349e4e2a68
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 52eff43bff9e2a499288dc2dcf9698532d21a735
     steps:
     - setup_remote_docker
     - checkout
@@ -151,7 +151,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-7776d723d05efb78461df20f522adb349e4e2a68-{{checksum ".buildcache/cache-keys/package-7776d723d05efb78461df20f522adb349e4e2a68"}}
+        key: test9-v1-package-52eff43bff9e2a499288dc2dcf9698532d21a735-{{checksum ".buildcache/cache-keys/package-52eff43bff9e2a499288dc2dcf9698532d21a735"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -160,7 +160,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_windows_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_windows_386.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_windows_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_windows_386.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -194,7 +194,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-7776d723d05efb78461df20f522adb349e4e2a68-{{checksum ".buildcache/cache-keys/package-7776d723d05efb78461df20f522adb349e4e2a68"}}
+        key: test9-v1-package-52eff43bff9e2a499288dc2dcf9698532d21a735-{{checksum ".buildcache/cache-keys/package-52eff43bff9e2a499288dc2dcf9698532d21a735"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -238,8 +238,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 2fb4618edad7a94036e563fafb8539bf580995bb
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 32f4da0c230805100f7394ab76387a63677cf529
     steps:
     - setup_remote_docker
     - checkout
@@ -247,7 +247,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-2fb4618edad7a94036e563fafb8539bf580995bb-{{checksum ".buildcache/cache-keys/package-2fb4618edad7a94036e563fafb8539bf580995bb"}}
+        key: test9-v1-package-32f4da0c230805100f7394ab76387a63677cf529-{{checksum ".buildcache/cache-keys/package-32f4da0c230805100f7394ab76387a63677cf529"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -256,7 +256,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_linux_arm64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_linux_arm64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_linux_arm64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_linux_arm64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -290,7 +290,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-2fb4618edad7a94036e563fafb8539bf580995bb-{{checksum ".buildcache/cache-keys/package-2fb4618edad7a94036e563fafb8539bf580995bb"}}
+        key: test9-v1-package-32f4da0c230805100f7394ab76387a63677cf529-{{checksum ".buildcache/cache-keys/package-32f4da0c230805100f7394ab76387a63677cf529"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -353,8 +353,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 323dbfeda971185715ce54f69ca33812576ad02e
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 448ca16a1227b2ced74950e954fb0927dfee335a
     steps:
     - setup_remote_docker
     - checkout
@@ -362,7 +362,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-323dbfeda971185715ce54f69ca33812576ad02e-{{checksum ".buildcache/cache-keys/package-323dbfeda971185715ce54f69ca33812576ad02e"}}
+        key: test9-v1-package-448ca16a1227b2ced74950e954fb0927dfee335a-{{checksum ".buildcache/cache-keys/package-448ca16a1227b2ced74950e954fb0927dfee335a"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -371,7 +371,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_linux_arm.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_linux_arm.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_linux_arm.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_linux_arm.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -405,7 +405,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-323dbfeda971185715ce54f69ca33812576ad02e-{{checksum ".buildcache/cache-keys/package-323dbfeda971185715ce54f69ca33812576ad02e"}}
+        key: test9-v1-package-448ca16a1227b2ced74950e954fb0927dfee335a-{{checksum ".buildcache/cache-keys/package-448ca16a1227b2ced74950e954fb0927dfee335a"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -448,8 +448,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 7be0cb5096e6837586f7d3d72ada26ec6602912a
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 692867c2861081c6d99b4169938f84ac844fc777
     steps:
     - setup_remote_docker
     - checkout
@@ -457,7 +457,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-7be0cb5096e6837586f7d3d72ada26ec6602912a-{{checksum ".buildcache/cache-keys/package-7be0cb5096e6837586f7d3d72ada26ec6602912a"}}
+        key: test9-v1-package-692867c2861081c6d99b4169938f84ac844fc777-{{checksum ".buildcache/cache-keys/package-692867c2861081c6d99b4169938f84ac844fc777"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -466,7 +466,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_darwin_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_darwin_386.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_darwin_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_darwin_386.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -500,7 +500,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-7be0cb5096e6837586f7d3d72ada26ec6602912a-{{checksum ".buildcache/cache-keys/package-7be0cb5096e6837586f7d3d72ada26ec6602912a"}}
+        key: test9-v1-package-692867c2861081c6d99b4169938f84ac844fc777-{{checksum ".buildcache/cache-keys/package-692867c2861081c6d99b4169938f84ac844fc777"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -569,8 +569,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: f8c9461eb0716dc1f7ef964ee38e75d920ab4407
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 075cefc7ef9841d2f4f08e00928bc2550d8c7188
     steps:
     - setup_remote_docker
     - checkout
@@ -578,7 +578,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-f8c9461eb0716dc1f7ef964ee38e75d920ab4407-{{checksum ".buildcache/cache-keys/package-f8c9461eb0716dc1f7ef964ee38e75d920ab4407"}}
+        key: test9-v1-package-075cefc7ef9841d2f4f08e00928bc2550d8c7188-{{checksum ".buildcache/cache-keys/package-075cefc7ef9841d2f4f08e00928bc2550d8c7188"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -587,7 +587,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_linux_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_linux_386.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_linux_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_linux_386.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -621,7 +621,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-f8c9461eb0716dc1f7ef964ee38e75d920ab4407-{{checksum ".buildcache/cache-keys/package-f8c9461eb0716dc1f7ef964ee38e75d920ab4407"}}
+        key: test9-v1-package-075cefc7ef9841d2f4f08e00928bc2550d8c7188-{{checksum ".buildcache/cache-keys/package-075cefc7ef9841d2f4f08e00928bc2550d8c7188"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -646,8 +646,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: e1d8b36fd0798b25979193f63e1e74d91c811ea0
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 4de83b2986ede6e8e227bd2e7ce4c272da5dadfa
     steps:
     - setup_remote_docker
     - checkout
@@ -655,7 +655,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-e1d8b36fd0798b25979193f63e1e74d91c811ea0-{{checksum ".buildcache/cache-keys/package-e1d8b36fd0798b25979193f63e1e74d91c811ea0"}}
+        key: test9-v1-package-4de83b2986ede6e8e227bd2e7ce4c272da5dadfa-{{checksum ".buildcache/cache-keys/package-4de83b2986ede6e8e227bd2e7ce4c272da5dadfa"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -664,7 +664,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_freebsd_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_freebsd_386.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_freebsd_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_freebsd_386.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -698,7 +698,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-e1d8b36fd0798b25979193f63e1e74d91c811ea0-{{checksum ".buildcache/cache-keys/package-e1d8b36fd0798b25979193f63e1e74d91c811ea0"}}
+        key: test9-v1-package-4de83b2986ede6e8e227bd2e7ce4c272da5dadfa-{{checksum ".buildcache/cache-keys/package-4de83b2986ede6e8e227bd2e7ce4c272da5dadfa"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -799,8 +799,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: bd9edf363edaf475d35b1486d84562b963e5f021
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: e21c6281b16a08c65daa97423800f1e89a6ae50f
     steps:
     - setup_remote_docker
     - checkout
@@ -808,7 +808,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-bd9edf363edaf475d35b1486d84562b963e5f021-{{checksum ".buildcache/cache-keys/package-bd9edf363edaf475d35b1486d84562b963e5f021"}}
+        key: test9-v1-package-e21c6281b16a08c65daa97423800f1e89a6ae50f-{{checksum ".buildcache/cache-keys/package-e21c6281b16a08c65daa97423800f1e89a6ae50f"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -817,7 +817,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_freebsd_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_freebsd_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_freebsd_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_freebsd_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -851,7 +851,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-bd9edf363edaf475d35b1486d84562b963e5f021-{{checksum ".buildcache/cache-keys/package-bd9edf363edaf475d35b1486d84562b963e5f021"}}
+        key: test9-v1-package-e21c6281b16a08c65daa97423800f1e89a6ae50f-{{checksum ".buildcache/cache-keys/package-e21c6281b16a08c65daa97423800f1e89a6ae50f"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -876,8 +876,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 44cb78682bd4bae4601067bef6dbdf8e9564e1ed
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 7d826e8294bbd7b1fe4b83b6246a9da06ac71d94
     steps:
     - setup_remote_docker
     - checkout
@@ -885,7 +885,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-44cb78682bd4bae4601067bef6dbdf8e9564e1ed-{{checksum ".buildcache/cache-keys/package-44cb78682bd4bae4601067bef6dbdf8e9564e1ed"}}
+        key: test9-v1-package-7d826e8294bbd7b1fe4b83b6246a9da06ac71d94-{{checksum ".buildcache/cache-keys/package-7d826e8294bbd7b1fe4b83b6246a9da06ac71d94"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -894,7 +894,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_openbsd_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_openbsd_386.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_openbsd_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_openbsd_386.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -928,7 +928,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-44cb78682bd4bae4601067bef6dbdf8e9564e1ed-{{checksum ".buildcache/cache-keys/package-44cb78682bd4bae4601067bef6dbdf8e9564e1ed"}}
+        key: test9-v1-package-7d826e8294bbd7b1fe4b83b6246a9da06ac71d94-{{checksum ".buildcache/cache-keys/package-7d826e8294bbd7b1fe4b83b6246a9da06ac71d94"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -953,8 +953,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 973acf219bb01602ef081f11b4f5334ddf85630e
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 466384e4ae47004a81c1cd872e8c91857ffa0411
     steps:
     - setup_remote_docker
     - checkout
@@ -962,7 +962,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-973acf219bb01602ef081f11b4f5334ddf85630e-{{checksum ".buildcache/cache-keys/package-973acf219bb01602ef081f11b4f5334ddf85630e"}}
+        key: test9-v1-package-466384e4ae47004a81c1cd872e8c91857ffa0411-{{checksum ".buildcache/cache-keys/package-466384e4ae47004a81c1cd872e8c91857ffa0411"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -971,7 +971,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_linux_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_linux_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_linux_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_linux_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -1005,7 +1005,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-973acf219bb01602ef081f11b4f5334ddf85630e-{{checksum ".buildcache/cache-keys/package-973acf219bb01602ef081f11b4f5334ddf85630e"}}
+        key: test9-v1-package-466384e4ae47004a81c1cd872e8c91857ffa0411-{{checksum ".buildcache/cache-keys/package-466384e4ae47004a81c1cd872e8c91857ffa0411"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -1053,8 +1053,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: b5054c51fe4b50c218c9d0e79682fcad6b33ed17
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 11716b8cf9c5e5788a3e861c7f887ea0af9e18fa
     steps:
     - setup_remote_docker
     - checkout
@@ -1062,7 +1062,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-b5054c51fe4b50c218c9d0e79682fcad6b33ed17-{{checksum ".buildcache/cache-keys/package-b5054c51fe4b50c218c9d0e79682fcad6b33ed17"}}
+        key: test9-v1-package-11716b8cf9c5e5788a3e861c7f887ea0af9e18fa-{{checksum ".buildcache/cache-keys/package-11716b8cf9c5e5788a3e861c7f887ea0af9e18fa"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -1071,7 +1071,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_solaris_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_solaris_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_solaris_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_solaris_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -1105,7 +1105,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-b5054c51fe4b50c218c9d0e79682fcad6b33ed17-{{checksum ".buildcache/cache-keys/package-b5054c51fe4b50c218c9d0e79682fcad6b33ed17"}}
+        key: test9-v1-package-11716b8cf9c5e5788a3e861c7f887ea0af9e18fa-{{checksum ".buildcache/cache-keys/package-11716b8cf9c5e5788a3e861c7f887ea0af9e18fa"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -1218,8 +1218,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: a66d31290c635f3c00faad8f51a0d34ea35479d5
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: c7dc77f5d8945ff6c682e3f724890e2db4bc56c1
     steps:
     - setup_remote_docker
     - checkout
@@ -1227,7 +1227,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-a66d31290c635f3c00faad8f51a0d34ea35479d5-{{checksum ".buildcache/cache-keys/package-a66d31290c635f3c00faad8f51a0d34ea35479d5"}}
+        key: test9-v1-package-c7dc77f5d8945ff6c682e3f724890e2db4bc56c1-{{checksum ".buildcache/cache-keys/package-c7dc77f5d8945ff6c682e3f724890e2db4bc56c1"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -1236,7 +1236,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_netbsd_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_netbsd_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_netbsd_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_netbsd_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -1270,7 +1270,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-a66d31290c635f3c00faad8f51a0d34ea35479d5-{{checksum ".buildcache/cache-keys/package-a66d31290c635f3c00faad8f51a0d34ea35479d5"}}
+        key: test9-v1-package-c7dc77f5d8945ff6c682e3f724890e2db4bc56c1-{{checksum ".buildcache/cache-keys/package-c7dc77f5d8945ff6c682e3f724890e2db4bc56c1"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -1295,8 +1295,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 0440328bd0c4f4bdf8116742d01905c1f228fda5
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: 113e656ee47285bd347cf325c61711d1a21ad921
     steps:
     - setup_remote_docker
     - checkout
@@ -1304,7 +1304,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-0440328bd0c4f4bdf8116742d01905c1f228fda5-{{checksum ".buildcache/cache-keys/package-0440328bd0c4f4bdf8116742d01905c1f228fda5"}}
+        key: test9-v1-package-113e656ee47285bd347cf325c61711d1a21ad921-{{checksum ".buildcache/cache-keys/package-113e656ee47285bd347cf325c61711d1a21ad921"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -1313,7 +1313,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_openbsd_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_openbsd_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_openbsd_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_openbsd_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -1347,7 +1347,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-0440328bd0c4f4bdf8116742d01905c1f228fda5-{{checksum ".buildcache/cache-keys/package-0440328bd0c4f4bdf8116742d01905c1f228fda5"}}
+        key: test9-v1-package-113e656ee47285bd347cf325c61711d1a21ad921-{{checksum ".buildcache/cache-keys/package-113e656ee47285bd347cf325c61711d1a21ad921"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -1372,8 +1372,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 06c3256601a13c8dca0cd5017e9cbf632c45e250
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: bf9012e2b13ba191215664e23f468131e4ac4fbe
     steps:
     - setup_remote_docker
     - checkout
@@ -1381,7 +1381,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-06c3256601a13c8dca0cd5017e9cbf632c45e250-{{checksum ".buildcache/cache-keys/package-06c3256601a13c8dca0cd5017e9cbf632c45e250"}}
+        key: test9-v1-package-bf9012e2b13ba191215664e23f468131e4ac4fbe-{{checksum ".buildcache/cache-keys/package-bf9012e2b13ba191215664e23f468131e4ac4fbe"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -1390,7 +1390,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_netbsd_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_netbsd_386.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_netbsd_386.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_netbsd_386.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -1424,7 +1424,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-06c3256601a13c8dca0cd5017e9cbf632c45e250-{{checksum ".buildcache/cache-keys/package-06c3256601a13c8dca0cd5017e9cbf632c45e250"}}
+        key: test9-v1-package-bf9012e2b13ba191215664e23f468131e4ac4fbe-{{checksum ".buildcache/cache-keys/package-bf9012e2b13ba191215664e23f468131e4ac4fbe"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -1449,8 +1449,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 5bbb2fb38c69f6f6fd89bee56ecbd59977b13f67
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: ed489dd7aef98604400b3644efbe3e59235e316a
     steps:
     - setup_remote_docker
     - checkout
@@ -1458,7 +1458,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-5bbb2fb38c69f6f6fd89bee56ecbd59977b13f67-{{checksum ".buildcache/cache-keys/package-5bbb2fb38c69f6f6fd89bee56ecbd59977b13f67"}}
+        key: test9-v1-package-ed489dd7aef98604400b3644efbe3e59235e316a-{{checksum ".buildcache/cache-keys/package-ed489dd7aef98604400b3644efbe3e59235e316a"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -1467,7 +1467,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_freebsd_arm.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_freebsd_arm.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_freebsd_arm.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_freebsd_arm.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -1501,7 +1501,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-5bbb2fb38c69f6f6fd89bee56ecbd59977b13f67-{{checksum ".buildcache/cache-keys/package-5bbb2fb38c69f6f6fd89bee56ecbd59977b13f67"}}
+        key: test9-v1-package-ed489dd7aef98604400b3644efbe3e59235e316a-{{checksum ".buildcache/cache-keys/package-ed489dd7aef98604400b3644efbe3e59235e316a"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -1526,8 +1526,8 @@ jobs:
     shell: /usr/bin/env bash -euo pipefail -c
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
-    - PACKAGE_SPEC_ID: 6e7516d1674ac957851e588d82b8a6eec75b48a3
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
+    - PACKAGE_SPEC_ID: a4f05b7cea7a34fc3066b6ee8869c09f84557e58
     steps:
     - setup_remote_docker
     - checkout
@@ -1535,7 +1535,7 @@ jobs:
         command: make -C packages*.lock write-package-cache-key
         name: Write package cache key
     - restore_cache:
-        key: test9-v1-package-6e7516d1674ac957851e588d82b8a6eec75b48a3-{{checksum ".buildcache/cache-keys/package-6e7516d1674ac957851e588d82b8a6eec75b48a3"}}
+        key: test9-v1-package-a4f05b7cea7a34fc3066b6ee8869c09f84557e58-{{checksum ".buildcache/cache-keys/package-a4f05b7cea7a34fc3066b6ee8869c09f84557e58"}}
     - run:
         command: |
           if ! { PKG=$(find .buildcache/packages/store -maxdepth 1 -mindepth 1 -name '*.zip' 2> /dev/null) && [ -n "$PKG" ]; }; then
@@ -1544,7 +1544,7 @@ jobs:
           fi
           # Check the aliases are right, as they are metadata not included in
           # the cache key. If they're wrong, it's time to bust cache.
-          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-snapshot+_windows_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-snapshot+/vault_0.0.0-snapshot+_windows_amd64.zip ; do
+          for ALIAS in .buildcache/packages/by-alias/local/vault_0.0.0-sam-snapshot+_windows_amd64.zip .buildcache/packages/by-alias/public-hc-releases/vault/vault_0.0.0-sam-snapshot+/vault_0.0.0-sam-snapshot+_windows_amd64.zip ; do
             echo "Checking alias: $ALIAS"
             if ! readlink $ALIAS; then
               echo "Missing alias: $ALIAS"
@@ -1578,7 +1578,7 @@ jobs:
     - run:
         command: ls -lahR .buildcache/packages
     - save_cache:
-        key: test9-v1-package-6e7516d1674ac957851e588d82b8a6eec75b48a3-{{checksum ".buildcache/cache-keys/package-6e7516d1674ac957851e588d82b8a6eec75b48a3"}}
+        key: test9-v1-package-a4f05b7cea7a34fc3066b6ee8869c09f84557e58-{{checksum ".buildcache/cache-keys/package-a4f05b7cea7a34fc3066b6ee8869c09f84557e58"}}
         paths:
         - .buildcache/packages
     - store_artifacts:
@@ -1723,9 +1723,9 @@ jobs:
         - .buildcache/archives/00-base-1a0eebdb7c8e017a66a042afd9f319a57d761a4c.tar.gz
     environment:
     - AUTO_INSTALL_TOOLS: 'YES'
-    - PRODUCT_REVISION: ''
+    - PRODUCT_REVISION: 8eb793506cb2f0505f70ee9c25f42b569820d993
 workflows:
-  build-release:
+  build-8eb793506cb2f0505f70ee9c25f42b569820d993-4b2921158da39097:
     jobs:
     - cache-builder-images:
         filters:
