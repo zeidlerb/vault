@@ -21,9 +21,12 @@ func TestInit_clientTLS(t *testing.T) {
 	//	"https://support.circleci.com/hc/en-us/articles/360007324514-How-can-I-mount-volumes-to-docker-containers-")
 
 	// Set up temp directory so we can mount it to the docker container
+	t.Logf("Creating temp dir for config")
 	confDir := makeTempDir(t)
-	defer os.RemoveAll(confDir)
+	// defer os.RemoveAll(confDir)
+	t.Logf("Config dir: %s", confDir)
 
+	t.Logf("Creating certificates...")
 	// Create certificates for MySQL authentication
 	caCert := certhelpers.NewCert(t,
 		certhelpers.CommonName("test certificate authority"),
@@ -41,6 +44,7 @@ func TestInit_clientTLS(t *testing.T) {
 		certhelpers.Parent(caCert),
 	)
 
+	t.Logf("Writing certs to files...")
 	certhelpers.WriteFile(t, paths.Join(confDir, "ca.pem"), caCert.CombinedPEM(), 0644)
 	certhelpers.WriteFile(t, paths.Join(confDir, "server-cert.pem"), serverCert.Pem, 0644)
 	certhelpers.WriteFile(t, paths.Join(confDir, "server-key.pem"), serverCert.PrivateKeyPEM(), 0644)
@@ -48,9 +52,14 @@ func TestInit_clientTLS(t *testing.T) {
 
 	// //////////////////////////////////////////////////////
 	// Set up MySQL config file
+	// 	rawConf := `
+	// [mysqld]
+	// ssl
+	// ssl-ca=/etc/mysql/ca.pem
+	// ssl-cert=/etc/mysql/server-cert.pem
+	// ssl-key=/etc/mysql/server-key.pem`
 	rawConf := `
 [mysqld]
-ssl
 ssl-ca=/etc/mysql/ca.pem
 ssl-cert=/etc/mysql/server-cert.pem
 ssl-key=/etc/mysql/server-key.pem`
@@ -59,8 +68,11 @@ ssl-key=/etc/mysql/server-key.pem`
 
 	// //////////////////////////////////////////////////////
 	// Start MySQL container
-	retURL, cleanup := startMySQLWithTLS(t, "5.7", confDir)
-	defer cleanup()
+	t.Logf("Starting MySQL container")
+	// retURL, cleanup := startMySQLWithTLS(t, "5.7", confDir)
+	retURL, _ := startMySQLWithTLS(t, "5.7", confDir)
+	t.Logf("Done setting up MySQL container")
+	// defer cleanup()
 
 	// //////////////////////////////////////////////////////
 	// Set up x509 user
@@ -74,8 +86,8 @@ ssl-key=/etc/mysql/server-key.pem`
 
 	conf := map[string]interface{}{
 		"connection_url":      retURL,
-		//"tls_certificate_key": clientCert.CombinedPEM(),
-		//"tls_ca":              caCert.Pem,
+		"tls_certificate_key": clientCert.CombinedPEM(),
+		"tls_ca":              caCert.Pem,
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -85,6 +97,11 @@ ssl-key=/etc/mysql/server-key.pem`
 	if err != nil {
 		t.Fatalf("Unable to initialize mysql engine: %s", err)
 	}
+
+	// t.Logf("Waiting several seconds before shutting down...")
+	// time.Sleep(5 * time.Second)
+	// t.Logf("stopping test here")
+	// return
 
 	// Initialization complete. The connection was established, but we need to ensure
 	// that we're connected as the right user
@@ -171,7 +188,7 @@ func startMySQLWithTLS(t *testing.T, version string, confDir string) (retURL str
 		Repository: "mysql",
 		Tag:        version,
 		Cmd:        []string{"--defaults-extra-file=/etc/mysql/my.cnf", "--auto-generate-certs=OFF"},
-		Env:				[]string{"MYSQL_ROOT_PASSWORD=x509test"},
+		Env:        []string{"MYSQL_ROOT_PASSWORD=x509test"},
 		// Mount the directory from local filesystem into the container
 		Mounts: []string{
 			fmt.Sprintf("%s:/etc/mysql", confDir),
@@ -197,7 +214,7 @@ func startMySQLWithTLS(t *testing.T, version string, confDir string) (retURL str
 	err = pool.Retry(func() error {
 		var err error
 
-		t.Logf("dsn: %s", dsn)
+		t.Logf("Trying connection: dsn: %s", dsn)
 		db, err := sql.Open("mysql", dsn)
 		if err != nil {
 			t.Logf("err: %s", err)
@@ -229,6 +246,8 @@ func connect(t *testing.T, dsn string) (db *sql.DB) {
 }
 
 func setUpX509User(t *testing.T, db *sql.DB, cert certhelpers.Certificate) {
+	t.Logf("Setting up user...")
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -236,6 +255,7 @@ func setUpX509User(t *testing.T, db *sql.DB, cert certhelpers.Certificate) {
 
 	cmd := fmt.Sprintf("CREATE USER %s REQUIRE X509", username)
 
+	t.Logf("SQL command: %s", cmd)
 	stmt, err := db.PrepareContext(ctx, cmd)
 	if err != nil {
 		t.Fatalf("Failed to prepare query: %s", err)
@@ -249,6 +269,8 @@ func setUpX509User(t *testing.T, db *sql.DB, cert certhelpers.Certificate) {
 	if err != nil {
 		t.Fatalf("Failed to close prepared statement: %s", err)
 	}
+
+	t.Logf("User created")
 }
 
 type connStatus struct {
