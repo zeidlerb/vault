@@ -201,7 +201,8 @@ RELEASER_DIR   := $(REPO_ROOT)/../packagespec-release
 RELEASER_CLONE := NO
 RELEASER_PULL  := NO
 ifeq ($(shell if [ -d $(RELEASER_DIR) ]; then echo OK; else echo NO; fi),NO)
-RELEASER_DIR   := $(REPO_ROOT)/.releaser
+RELEASER_DIR   := $(REPO_ROOT)/.tmp/.releaser
+$(shell echo '*' > $(RELEASER_DIR)/../.gitignore)
 RELEASER_CLONE := YES
 RELEASER_PULL  := YES
 endif
